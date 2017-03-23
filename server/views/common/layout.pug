@@ -1,0 +1,86 @@
+//- ////////////////////////////////////////////////////////////
+//- ////////////////////////////////////////////////////////////
+//- //  File: layout.pug
+//- ////////////////////////////////////////////////////////////
+doctype html
+
+
+
+//- ////////////////////////////////////////////////////////////
+//- //  variables
+//- ////////////////////////////////////////////////////////////
+block vars
+
+
+
+html(lang='en')
+  //- //////////////////////////////////////////////////////////
+  //- //  html head
+  //- //////////////////////////////////////////////////////////
+  head
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(charset='utf-8')
+
+    block title
+      title #{title}
+
+    link(rel='stylesheet', href='/lib/bootstrap337.css')
+    link(rel='stylesheet', href='/lib/font-awesome470.css')
+    link(rel='stylesheet', href='/css/dynapps.css')
+    block css
+
+    script(src='/lib/jquery311.js')
+    script(src='/lib/bootstrap337.js')
+    block scriptBeforeBody
+
+
+
+  //- //////////////////////////////////////////////////////////
+  //- //  html body
+  //- //////////////////////////////////////////////////////////
+  body
+    //- ========================================================
+    //- =   block header
+    //- ========================================================
+    block header
+      include ./nav.pug
+
+    //- ========================================================
+    //- =   block content
+    //- ========================================================
+    .bg-content(style=background?background:'')
+      .container
+
+        br
+        br
+        br
+
+        if(greeting)
+          p.alert.alert-info #{greeting}
+            a.close(href='#',data-dismiss='alert',aria-label='close') &times;
+
+        if(lasterror)
+          p.alert.alert-danger #{lasterror}
+            a.close(href='#',data-dismiss='alert',aria-label='close') &times;
+
+        if(flashmessage && flashmessage!=='')
+          p.alert.alert-danger #{flashmessage}
+            a.close(href='#',data-dismiss='alert',aria-label='close') &times;
+
+        block content
+
+
+    //- ========================================================
+    //- =   block footer
+    //- ========================================================
+    block footer
+      .bg-invert.text-center(style='color:#ccc')
+        div
+          a(href="/") DynApps
+        div GitHub repository:&nbsp;
+          a(href='https://github.com/ikarus512/fcc1') github.com/ikarus512/fcc1
+        div Author:&nbsp;
+          a(href='http://freecodecamp.com/ikarus512') ikarus512
+        .bg-footer-hands
+
+  block scriptAfterBody

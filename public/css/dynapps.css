@@ -1,0 +1,25 @@
+.my-opacity-08{
+  opacity: 0.8;
+}
+
+.bg-invert {
+  background-color: #101010;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.bg-footer-hands {
+  height: 50px;
+  background-image: url(/img/pixabay_com_hands.jpg);
+}
+
+.bg-world {
+  background-image: url(/img/pixabay_com_world.jpg);
+  background-attachment: fixed;
+}
+
+.bg-content {
+  background-attachment: fixed;
+}
