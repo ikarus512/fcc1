@@ -1,6 +1,18 @@
 'use strict';
 
-var app=angular.module("myApp1Poll", []);
+var app=angular.module("myApp1Poll", ["chart.js"]);
+
+// app.config(['ChartJsProvider', function (ChartJsProvider) {
+//   // Configure all charts
+//   ChartJsProvider.setOptions({
+//     chartColors: ['#FF5252', '#FF8A80'],
+//     responsive: false
+//   });
+//   // Configure all line charts
+//   // ChartJsProvider.setOptions('line', {
+//   //   showLines: false
+//   // });
+// }]);
 
 app.controller('myApp1PollController',
   ['$scope', '$location', '$window', 'pollOptStorage',
@@ -10,10 +22,43 @@ app.controller('myApp1PollController',
     $scope.newOptionTitle = '';
 
     $scope.poll = null;
+    $scope.poll_id = undefined;
+    $scope.chartLabels = [];
+    $scope.chartData = [];
+    $scope.chartOptions = {
+      title: { display: true, text: undefined },
+      legend: { display: true, position: 'bottom', },
+    };
+    // $scope.chartColors = [{
+    //   fillColor: '#b3e7fb',
+    //   backgroundColor: '#b3e7fb',
+    //   borderColor: '#b3e7fb',
+    //   hoverBackgroundColor: '#b3e7fb',
+    //   hoverBorderColor: '#b3e7fb'
+    // }];
+
+    function reloadPoll() {
+      pollOptStorage.get($scope.poll_id)
+      .then(function(res){
+        $scope.poll = res.data;
+
+        $scope.chartOptions.title.text = $scope.poll.title;
+
+        $scope.chartLabels = [];
+        $scope.chartData = [];
+
+        $scope.poll.options.forEach(function(option){
+          $scope.chartLabels.push(option.title);
+          $scope.chartData.push(option.votes.length);
+        });
+
+      });
+    }
 
     $scope.init = function(logintype, poll_id) {
       $scope.logintype = logintype==='undefined' ? '' : logintype;
-      pollOptStorage.get(poll_id).then(function(res){ $scope.poll=res.data; });
+      $scope.poll_id = poll_id;
+      reloadPoll();
     };
 
     $scope.pollDelete = function() {
@@ -45,8 +90,7 @@ app.controller('myApp1PollController',
       if (title) {
         pollOptStorage.post($scope.poll._id, title)
         .then(function onOk(res){
-          //$scope.poll = res.data;
-          pollOptStorage.get($scope.poll._id).then(function(res){ $scope.poll=res.data; });
+          reloadPoll();
 
           $scope.newOptionTitle = '';
           $scope.view = 'poll';
@@ -61,7 +105,7 @@ app.controller('myApp1PollController',
     $scope.optionVote = function(option) {
       pollOptStorage.put($scope.poll._id, option._id)
       .then(function onOk(res){
-        pollOptStorage.get($scope.poll._id).then(function(res){ $scope.poll=res.data; });
+        reloadPoll();
       },function onErr(res){
         // Report error during poll creation
         alert(res.data.message);

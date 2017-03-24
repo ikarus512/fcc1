@@ -2,6 +2,10 @@
   opacity: 0.8;
 }
 
+.my-opacity-1{
+  opacity: 1.0;
+}
+
 .bg-invert {
   background-color: #101010;
 }

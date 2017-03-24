@@ -6,6 +6,9 @@ block vars
 
 block scriptBeforeBody
   script(src='/lib/angular.min.js')
+  script(src='/lib/Chart.bundle.min.js')
+  script(src='/lib/angular-chart.min.js')
+  //- script(src='/lib/tc-angular-chartjs.min.js')
   script(src='/js/app1_poll.js')
 
 block content
@@ -15,7 +18,7 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  view poll
     //- //////////////////////////////////////////////////////////
-    #viewPoll.well.my-opacity-08(ng-show="view=='poll'" ng-cloak)
+    #viewPoll.well(ng-show="view=='poll'" ng-cloak)
       h3 {{poll.title}}
 
       .row
@@ -59,7 +62,8 @@ block content
           //- ----------------------------------------------------
           //- --  chart
           //- ----------------------------------------------------
-          label oiejoq oi n
+          canvas.chart.chart-doughnut.my-opacity-1(chart-data="chartData" chart-labels="chartLabels" chart-options="chartOptions")
+          //- chart-colors="chartColors")
 
       //- ========================================================
       //- ==  close/delete poll buttons
@@ -73,7 +77,7 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  add new option
     //- //////////////////////////////////////////////////////////
-    #newOption.well.my-opacity-08(ng-show="view=='newOption'")
+    #newOption.well(ng-show="view=='newOption'")
       h3 Creating New Option...
       label New Option Title: &nbsp;
       input.form-control(placeholder="New Option Title" ng-model="newOptionTitle" my-escape="newOptionCancel()" my-enter="newOptionCreate()" my-focus="view=='newOption'")

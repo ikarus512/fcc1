@@ -5,9 +5,10 @@ block vars
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_crowd.png);';
 
 block content
-  .well
-    h1 Dynamic Web Application Projects
-    p Here are several applications according to FreeCodeCamp.com tasks, within one Heroku application.
+  .row
+    .well
+      h1 Dynamic Web Application Projects
+      p Here are several applications according to FreeCodeCamp.com tasks, within one Heroku application.
 
   .row
     .col-sm-6.col-md-4: .thumbnail: .caption
@@ -44,3 +45,24 @@ block content
       p Following user stories:
         a(href='https://www.freecodecamp.com/challenges/build-a-pinterest-clone')  fcc user stories
       p: a.btn.btn-primary(href="/app5") Go
+
+  .row
+    //- ----------------------------------------------------
+    //- --  share buttons
+    //- ----------------------------------------------------
+    if(shareit_facebook||shareit_twitter||shareit_odnoklassniki||shareit_vk)
+      .well
+        label Share with:
+        | &nbsp;
+        if(shareit_facebook)
+          a.btn.btn-primary.btn-xs(href=shareit_facebook target='_blank' title='Facebook' aria-label='Facebook'): .fa.fa-2x.fa-facebook(aria-hidden='true')
+          | 
+        if(shareit_twitter)
+          a.btn.btn-primary.btn-xs(href=shareit_twitter target='_blank' title='Twitter' aria-label='Twitter'): .fa.fa-2x.fa-twitter(aria-hidden='true')
+          | 
+        if(shareit_odnoklassniki)
+          a.btn.btn-primary.btn-xs(href=shareit_odnoklassniki target='_blank' title='Odnoklassniki' aria-label='Odnoklassniki'): .fa.fa-2x.fa-odnoklassniki(aria-hidden='true')
+          | 
+        if(shareit_vk)
+          a.btn.btn-primary.btn-xs(href=shareit_vk target='_blank' title='VKontakte' aria-label='VKontakte'): .fa.fa-2x.fa-vk(aria-hidden='true')
+          | 

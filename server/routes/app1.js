@@ -38,18 +38,40 @@ router.get('/polls', function(req, res){
 });
 
 // GET /app1/polls/:id - view poll details
-router.get('/polls/:id', function(req, res){
-  res.render('app1_poll', greet(
-    req,
-    {poll_id: req.params.id},
-    shareit({
-      title: 'tweet test',
-      text: 'tweet test',
-      img: req.protocol+'://'+req.hostname+'img/pixabay_com_world.jpg',
-      url: req.protocol+'://'+req.hostname+req.originalUrl,
+router.get('/polls/:id',
+  function pollTitleMiddleware(req, res, next) {
+    // Find poll title (needed for sharing)
+    Poll.findOne({_id:req.params.id}).exec()
+
+    .then(function(poll) {
+      if (!poll) { // if found, add to req
+        throw new Error('Poll not found.');
+      } else { // if found, add to req
+        req.poll_title = poll.title;
+        next();
+      }
     })
-  ));
-});
+
+    // In case of error
+    .then(null, function(err){
+      req.pol_title = '';
+      next();
+    });
+
+  },
+  function(req, res, next) {
+    res.render('app1_poll', greet(
+      req,
+      {poll_id: req.params.id},
+      shareit({
+        title: req.poll_title + ' (DynApps Poll)',
+        text: req.poll_title + ' (DynApps Poll)',
+        img: req.protocol+'://'+req.hostname+'img/pixabay_com_world.jpg',
+        url: req.protocol+'://'+req.hostname+req.originalUrl,
+      })
+    ));
+  }
+);
 
 
 // RESTAPI GET    /app1/api/polls - get polls
