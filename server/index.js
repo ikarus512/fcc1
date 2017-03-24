@@ -1,4 +1,4 @@
-'mode strict';
+'use strict';
 
 var herokuAppUrl = 'https://ikarus512-fcc1.herokuapp.com/';
 
@@ -15,12 +15,13 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   herokuSslRedirect = require('./utils/heroku-ssl-redirect.js'),
   mongoose = require('mongoose'),
+  Promise = require('bluebird'),
   greet = require(path.join(__dirname, 'utils/greet.js')),
-  app1_voting    = require('./routes/app1_voting/server.js'),
-  app2_nightlife = require('./routes/app2_nightlife/server.js'),
-  app3_stock     = require('./routes/app3_stock/server.js'),
-  app4_books     = require('./routes/app4_books/server.js'),
-  app5_pinter    = require('./routes/app5_pinter/server.js'),
+  app1_voting    = require('./routes/app1.js'),
+  app2_nightlife = require('./routes/app2.js'),
+  app3_stock     = require('./routes/app3.js'),
+  app4_books     = require('./routes/app4.js'),
+  app5_pinter    = require('./routes/app5.js'),
   https_options = {};
 
 var passport = require('passport');
@@ -37,9 +38,11 @@ if (process.env.APP_URL !== herokuAppUrl) {
 }
 
 mongoose.connect(process.env.APP_MONGODB_URI);
-mongoose.Promise = require('bluebird');
+mongoose.Promise = Promise;
 
 app.set('port', (process.env.PORT || 5000));
+
+app.enable('trust proxy'); // to get req.ip
 
 app.set('view engine', 'pug');
 app.set('views',__dirname+'/views');
@@ -61,20 +64,21 @@ app.use(passport.session());
 //  Routes
 ////////////////////////////////////////////////////////////////
 
-// app.all('*', function (req, res, next) {
-//   console.log('\n\n\n');
-//   console.log('----------------------------------------------------');
-//   console.log(req.method+' '+req.protocol+'://'+req.hostname+req.originalUrl);
-//   console.log('session=',req.session);
-//   console.log('cookies=',req.cookies);
-//   console.log('signedCookies=',req.signedCookies);
-//   console.log('user=',req.user);
-//   console.log('params=',req.params);
-//   // console.log('query=',req.query);
-//   console.log('body=',req.body);
-//   // console.log('headers=',req.headers);
-//   next();
-// });
+app.all('*', function (req, res, next) {
+  console.log('\n\n\n');
+  console.log('----------------------------------------------------');
+  console.log(req.method+' '+req.protocol+'://'+req.hostname+req.originalUrl);
+  console.log('session=',req.session);
+  console.log('cookies=',req.cookies);
+  console.log('signedCookies=',req.signedCookies);
+  console.log('user=',req.user);
+  console.log('unauthorized_user=',req.unauthorized_user);
+  console.log('params=',req.params);
+  // console.log('query=',req.query);
+  console.log('body=',req.body);
+  // console.log('headers=',req.headers);
+  next();
+});
 
 // passport login-related routes, unprotected
 require('./routes/passport-login.js')(app, passport);
@@ -92,9 +96,9 @@ app.use('/app3', isLoggedIn, app3_stock);
 app.use('/app4', isLoggedIn, app4_books);
 app.use('/app5', isLoggedIn, app5_pinter);
 
-// *
+// ALL * - json respond with error
 app.all('*', function (req, res) {
-  res.send("Error: cannot " + req.method + " " + req.url);
+  res.status(400).json({message: "Error: cannot "+req.method+" "+req.originalUrl});
 });
 
 

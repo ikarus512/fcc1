@@ -1,6 +1,6 @@
 var extend = require('extend');
 
-function greet(req,msg){
+function greet(req,o2,o3){
   var o={};
 
   if(req.user) {
@@ -13,7 +13,7 @@ function greet(req,msg){
     //o.greeting='(Not logged in.)';
   }
 
-  extend(o,msg);
+  extend(o,o2,o3);
 
   return o;
 }

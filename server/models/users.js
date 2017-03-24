@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var User = new Schema({
   username: String,
-  type: String, // local/github/twitter
+  type: String, // local/github/twitter/unauthorized
   local: {
     username: String,
     password: String
@@ -22,6 +22,11 @@ var User = new Schema({
     username: String,
     publicRepos: Number
   },
-});
+  unauthorized: {
+    ip: String
+  },
+},
+{ versionKey: false } // do not use __v property
+);
 
 module.exports = mongoose.model('User', User);
