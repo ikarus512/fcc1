@@ -5,8 +5,8 @@ function greet(req,o2,o3){
 
   if(req.user) {
     extend(o,{
-      //greeting : 'Hi, '+req.user[req.user.type].username+' ('+req.user.type+')!',
-      username : req.user[req.user.type].username,
+      //greeting : 'Hi, '+req.user.name+' ('+req.user.type+')!',
+      username : req.user.name,
       logintype: req.user.type,
     });
   } else {

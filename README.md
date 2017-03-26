@@ -7,7 +7,6 @@ Accessible via 'Voting' menu.
 
 ### Task
 Build a Voting App similar to [this](https://fcc-voting-arthow4n.herokuapp.com)
-([github](https://github.com/arthow4n/fcc-voting.git))
 
 + User Story: As an authenticated user, I can keep my polls and come back later to access them.
 + User Story: As an authenticated user, I can share my polls with my friends.
@@ -26,15 +25,14 @@ Accessible via 'Nightlife' menu.
 ### Task
 Build a Nightlife Coordination App
 similar to [this](http://whatsgoinontonight.herokuapp.com)
-([github](https://github.com/clnhll/whatstonight.git))
 
-User Story: As an unauthenticated user, I can view all bars in my area.
-User Story: As an authenticated user, I can add myself to a bar to indicate I am going there tonight.
-User Story: As an authenticated user, I can remove myself from a bar if I no longer want to go there.
-User Story: As an unauthenticated user, when I login I should not have to search again.
-Hint: Try using the Yelp API to find venues in the cities your users search for.
-https://www.yelp.com/developers/documentation/v2/overview
-If you use Yelp's API, be sure to mention so in your app.
+- User Story: As an unauthenticated user, I can view all bars in my area.
+- User Story: As an authenticated user, I can add myself to a bar to indicate I am going there tonight.
+- User Story: As an authenticated user, I can remove myself from a bar if I no longer want to go there.
+- User Story: As an unauthenticated user, when I login I should not have to search again.
+- Hint: Try using the Yelp API to find venues in the cities your users search for.
+  https://www.yelp.com/developers/documentation/v2/overview
+  If you use Yelp's API, be sure to mention so in your app.
 
 ## app3: Chart the Stock Market
 Accessible via 'Stock' menu.
@@ -42,12 +40,11 @@ Accessible via 'Stock' menu.
 ### Task
 Chart the Stock Market
 similar to [this](http://watchstocks.herokuapp.com)
-([github](https://github.com/VadimDez/watchstocks.git))
 
-User Story: I can view a graph displaying the recent trend lines for each added stock.
-User Story: I can add new stocks by their symbol name.
-User Story: I can remove stocks.
-User Story: I can see changes in real-time when any other user adds or removes a stock. For this you will need to use Web Sockets.
+- User Story: I can view a graph displaying the recent trend lines for each added stock.
+- User Story: I can add new stocks by their symbol name.
+- User Story: I can remove stocks.
+- User Story: I can see changes in real-time when any other user adds or removes a stock. For this you will need to use Web Sockets.
 
 
 
@@ -58,10 +55,10 @@ Accessible via 'Books' menu.
 Manage a Book Trading Club
 similar to [this](http://bookjump.herokuapp.com)
 
-User Story: I can view all books posted by every user.
-User Story: I can add a new book.
-User Story: I can update my settings to store my full name, city, and state.
-User Story: I can propose a trade and wait for the other user to accept the trade.
+- User Story: I can view all books posted by every user.
+- User Story: I can add a new book.
+- User Story: I can update my settings to store my full name, city, and state.
+- User Story: I can propose a trade and wait for the other user to accept the trade.
 
 
 
@@ -72,10 +69,10 @@ Accessible via 'Pinter' menu.
 Build a Pinterest Clone
 similar to [this](https://midnight-dust.hyperdev.space)
 
-User Story: As an unauthenticated user, I can login with Twitter.
-User Story: As an authenticated user, I can link to images.
-User Story: As an authenticated user, I can delete images that I've linked to.
-User Story: As an authenticated user, I can see a Pinterest-style wall of all the images I've linked to.
-User Story: As an unauthenticated user, I can browse other users' walls of images.
-User Story: As an authenticated user, if I upload an image that is broken, it will be replaced by a placeholder image. (can use jQuery broken image detection)
-Hint: Masonry.js is a library that allows for Pinterest-style image grids.
+- User Story: As an unauthenticated user, I can login with Twitter.
+- User Story: As an authenticated user, I can link to images.
+- User Story: As an authenticated user, I can delete images that I've linked to.
+- User Story: As an authenticated user, I can see a Pinterest-style wall of all the images I've linked to.
+- User Story: As an unauthenticated user, I can browse other users' walls of images.
+- User Story: As an authenticated user, if I upload an image that is broken, it will be replaced by a placeholder image. (can use jQuery broken image detection)
+- Hint: Masonry.js is a library that allows for Pinterest-style image grids.

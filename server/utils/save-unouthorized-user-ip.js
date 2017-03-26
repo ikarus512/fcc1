@@ -15,7 +15,6 @@ module.exports = function(req, res, next) {
       return user;
     } else { // if not found, create
       var user = new User();
-      user.type = 'unauthorized';
       user.unauthorized.ip = req.ip;
       return user.save();
     }

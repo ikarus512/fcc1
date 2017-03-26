@@ -66,8 +66,8 @@ router.get('/polls/:id',
       shareit({
         title: req.poll_title + ' (DynApps Poll)',
         text: req.poll_title + ' (DynApps Poll)',
-        img: req.protocol+'://'+req.hostname+'img/pixabay_com_world.jpg',
-        url: req.protocol+'://'+req.hostname+req.originalUrl,
+        img: req.protocol+'://'+req.headers.host+'img/pixabay_com_world.jpg',
+        url: req.protocol+'://'+req.headers.host+req.originalUrl,
       })
     ));
   }
@@ -102,7 +102,9 @@ router.post('/api/polls', function(req, res, next){
   }
 
   // Find poll with same title
-  Poll.findOne({title:req.body.title}).populate('createdBy').exec()
+  Poll.findOne({title:req.body.title})
+  // .populate('createdBy')
+  .exec()
 
   .then(function(poll) {
     if (poll) { // if found
@@ -152,10 +154,18 @@ router.delete('/api/polls/:id', function(req, res, next){
 
   // Remove the new poll
   .then(function(poll){
-    if (req.user && req.user._id.equals(poll.createdBy)) {
+    if (
+      req.user && // user logged in
+      (
+        req.user._id.equals(poll.createdBy) ||  // poll creator
+          req.user.type === 'local' &&
+          req.user.name === 'admin'             // local admin
+      )
+    )
+    {
       return poll.remove();
     } else {
-      throw new Error('Only poll creator can remove the poll.');
+      throw new Error('Only poll creator and local admin can remove the poll.');
     }
   })
 

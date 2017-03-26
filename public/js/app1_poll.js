@@ -65,9 +65,7 @@ app.controller('myApp1PollController',
       if (confirm("Do you really want to delete the poll?")) {
         pollOptStorage.delete($scope.poll._id)
         .then(function onOk(res){ // Poll successfully deleted on server
-          $window.location.reload(true); // reload page (true==not from cache)
-          // $window.location.href = '/app1/polls'; // go to page (like refresh)
-          // $window.history.back(); // unused because does not refresh page
+          $window.location.href = '/app1/polls'; // return to polls page
         },function onErr(res){
           // Report error during poll deletion
           alert(res.data.message);
@@ -168,6 +166,14 @@ app.factory('pollOptStorage', ['$http', function ($http) {
     get: function (poll_id) {
       return $http({
         method: 'GET',
+        data: {},
+        url: '/app1/api/polls/'+poll_id
+      });
+    },
+
+    delete: function (poll_id) { // delete poll
+      return $http({
+        method: 'DELETE',
         data: {},
         url: '/app1/api/polls/'+poll_id
       });

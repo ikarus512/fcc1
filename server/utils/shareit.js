@@ -9,14 +9,22 @@ function shareit(opt){
      )
   {
     return {
-      // shareit_facebook: '' +
-      //   'http://www.facebook.com/sharer.php' +
-      //   '?s=100' +
-      //   '&p[title]='     + encodeURIComponent(opt.title) +
-      //   '&p[summary]='   + encodeURIComponent(opt.text) +
-      //   '&p[url]='       + encodeURIComponent(opt.url) +
-      //   '&p[images][0]=' + encodeURIComponent(opt.img) +
-      //   '',
+      //https://plus.google.com/share?url=qwerfqw
+      //https://twitter.com/home?status=127q3eq3%20
+      //https://www.linkedin.com/shareArticle?mini=true&url=wefwe&title=mytitle&summary=mysummary&source=mysource
+      //https://pinterest.com/pin/create/button/?url=mysource&media=myimage&description=mydescription
+
+      shareit_facebook: '' +
+        'https://www.facebook.com/sharer/sharer.php' +
+        '?u=' + encodeURIComponent(opt.url) +
+
+        // 'https://www.facebook.com/sharer.php' +
+        // '?s=100' +
+        // '&p[title]='     + encodeURIComponent(opt.title) +
+        // '&p[summary]='   + encodeURIComponent(opt.text) +
+        // '&p[url]='       + encodeURIComponent(opt.url) +
+        // '&p[images][0]=' + encodeURIComponent(opt.img) +
+        '',
 
 
       shareit_twitter: '' +

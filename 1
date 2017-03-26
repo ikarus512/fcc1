@@ -1,10 +1,13 @@
 Developement settings:
- mongo.exe 127.0.0.1:27017/dbname
-APP_URL=https://127.0.0.1:5000/
+ mkdir _tmpdb && start /MIN bin/mongod.exe --dbpath %CD%\_tmpdb
+ start bin/mongo.exe 127.0.0.1:27017/dbname   |rem db.users.find({})
+APP_URL=https://localhost:5000
 APP_MONGODB_URI=mongodb://localhost:27017/dbname
+APP_FACEBOOK_KEY=your-client-id-here            (developers.facebook.com)
+APP_FACEBOOK_SECRET=your-client-secret-here
 APP_GITHUB_KEY=your-client-id-here
 APP_GITHUB_SECRET=your-client-secret-here
-APP_TWITTER_KEY=your-client-id-here
+APP_TWITTER_KEY=your-client-id-here             (dev.twitter.com,   localhost-->127.0.0.1)
 APP_TWITTER_SECRET=your-client-secret-here
 
 
@@ -16,8 +19,10 @@ git add -A & git commit -m "First version" & git push origin master
 
  heroku login
 heroku create ikarus512-fcc1
-heroku config:set APP_URL=https://ikarus512-fcc1.herokuapp.com/
+heroku config:set APP_URL=https://ikarus512-fcc1.herokuapp.com
 heroku config:set APP_MONGODB_URI=mongodb://user:password@mongo.com:port/dbname
+heroku config:set APP_FACEBOOK_KEY=your-client-id-here
+heroku config:set APP_FACEBOOK_SECRET=your-client-secret-here
 heroku config:set APP_GITHUB_KEY=your-client-id-here
 heroku config:set APP_GITHUB_SECRET=your-client-secret-here
 heroku config:set APP_TWITTER_KEY=your-client-id-here

@@ -16,29 +16,39 @@ var express = require('express'),
   herokuSslRedirect = require('./utils/heroku-ssl-redirect.js'),
   mongoose = require('mongoose'),
   Promise = require('bluebird'),
-  greet = require(path.join(__dirname, 'utils/greet.js')),
+  greet = require('./utils/greet.js'),
   app1_voting    = require('./routes/app1.js'),
   app2_nightlife = require('./routes/app2.js'),
   app3_stock     = require('./routes/app3.js'),
   app4_books     = require('./routes/app4.js'),
   app5_pinter    = require('./routes/app5.js'),
-  https_options = {};
+  https_options = {},
 
-var passport = require('passport');
-var isLoggedIn = require('./config/passport')(passport);
+  morgan = require('morgan'),
+  rfs = require('rotating-file-stream'),
+  logDir = path.join(__dirname, '../logs/'),
 
+  myLogFile = path.join(logDir, 'my.log'),
+  myLogger = require('./utils/my-logger.js'),
+
+  passport = require('passport'),
+  isLoggedIn = require('./config/passport')(passport);
+
+
+////////////////////////////////////////////////////////////////
+//  Settings
+////////////////////////////////////////////////////////////////
 
 if (process.env.APP_URL !== herokuAppUrl) {
   https_options = {
-    cert : fs.readFileSync(__dirname+'/config/cert/certificate.pem'),
-    key  : fs.readFileSync(__dirname+'/config/cert/key.pem')
+    cert : fs.readFileSync(__dirname+'/../_certificate/certificate.pem'),
+    key  : fs.readFileSync(__dirname+'/../_certificate/key.pem')
   };
-} else {
-  app.use(herokuSslRedirect());
 }
 
 mongoose.connect(process.env.APP_MONGODB_URI);
 mongoose.Promise = Promise;
+require('./utils/auto-create-local-admin.js')();
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -47,7 +57,32 @@ app.enable('trust proxy'); // to get req.ip
 app.set('view engine', 'pug');
 app.set('views',__dirname+'/views');
 
+
+
+////////////////////////////////////////////////////////////////
+//  Middlewares
+////////////////////////////////////////////////////////////////
+
+// Logs before all middlewares
+if (process.env.APP_URL !== herokuAppUrl) {
+  fs.existsSync(logDir) || fs.mkdirSync(logDir);
+  var logStream = rfs('access.log', { interval: '1h', path: logDir });
+  app_http.use(morgan('combined', {stream: logStream, immeduate:true})); // log requests to file
+  app.use     (morgan('combined', {stream: logStream, immeduate:true})); // log requests to file
+}
+
+// Redirect http to https
+if (process.env.APP_URL !== herokuAppUrl) {
+  app_http.all('*', function(req, res, next){
+    res.redirect('https://'+req.hostname+':'+app.get('port'));
+  });
+} else {
+  app.use(herokuSslRedirect());
+}
+
+// Static
 app.use(express.static(path.join(__dirname, '../public')));
+
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
@@ -57,28 +92,16 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Logs, detaled
+if (process.env.APP_URL !== herokuAppUrl) {
+  app.use(myLogger({file: myLogFile, immediate: true}));
+}
 
 
 
 ////////////////////////////////////////////////////////////////
 //  Routes
 ////////////////////////////////////////////////////////////////
-
-app.all('*', function (req, res, next) {
-  console.log('\n\n\n');
-  console.log('----------------------------------------------------');
-  console.log(req.method+' '+req.protocol+'://'+req.hostname+req.originalUrl);
-  console.log('session=',req.session);
-  console.log('cookies=',req.cookies);
-  console.log('signedCookies=',req.signedCookies);
-  console.log('user=',req.user);
-  console.log('unauthorized_user=',req.unauthorized_user);
-  console.log('params=',req.params);
-  // console.log('query=',req.query);
-  console.log('body=',req.body);
-  // console.log('headers=',req.headers);
-  next();
-});
 
 // passport login-related routes, unprotected
 require('./routes/passport-login.js')(app, passport);
@@ -114,11 +137,6 @@ if (process.env.APP_URL !== herokuAppUrl) {
 
   https.createServer(https_options, app).listen(app.get('port'), function () {
       console.log('Started https.');
-  });
-
-  // Redirect http to https
-  app_http.all('*', function(req, res, next){
-      res.redirect('https://'+req.hostname+':'+app.get('port'));
   });
 
   http.createServer(app_http).listen(80, function () {

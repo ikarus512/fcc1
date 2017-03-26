@@ -3,6 +3,7 @@
 // Example: https://gist.github.com/joshbirk/1732068
 
 var TwitterStrategy = require('passport-twitter').Strategy,
+  FacebookStrategy = require('passport-facebook').Strategy,
   GitHubStrategy = require('passport-github').Strategy,
   LocalStrategy = require('passport-local').Strategy;
 
@@ -25,7 +26,9 @@ module.exports = function (passport) {
   });
 
 
-  passport.use(new LocalStrategy({
+  passport.use('local-login', new LocalStrategy({
+      usernameField : 'username',
+      passwordField : 'password',
       passReqToCallback: true
     },
     function verify(req, username, password, done) {
@@ -34,7 +37,7 @@ module.exports = function (passport) {
         if (!user) {
           return done(null, false, req.flash( 'message', 'Error: incorrect local user name.' ));
         }
-        if (user.local.password !== password) {
+        if (!user.validPassword(password)) {
           return done(null, false, req.flash( 'message', 'Error: incorrect local user\'s password.' ));
         }
         return done(null, user);
@@ -43,13 +46,39 @@ module.exports = function (passport) {
   ));
 
 
+  passport.use(new FacebookStrategy({
+      clientID: process.env.APP_FACEBOOK_KEY,
+      clientSecret: process.env.APP_FACEBOOK_SECRET,
+      callbackURL: process.env.APP_URL + '/auth/facebook/callback'
+    },
+    function(/*access*/ token, refreshToken, profile, done) {
+      process.nextTick(function () {
+        User.findOne({ 'facebook.id': profile.id }, function (err, user) {
+          if (err)  { return done(err, false, req.flash( 'message', 'Internal error e0000004.' )); }
+          if (user) { return done(null, user); }
+
+          var newUser = new User();
+          newUser.facebook.id          = profile.id;
+          // newUser.facebook.token       = profile.token;
+          newUser.facebook.displayName = profile.displayName;
+          newUser.facebook.username = profile.username;
+
+          newUser.save(function (err) {
+            if (err) { return done(err, false, req.flash( 'message', 'Internal error e0000006.' )); }
+            return done(null, newUser);
+          });
+        });
+      });
+    }
+  ));
+
   // Twitter
   // Docs: https://dev.twitter.com/docs --> my apps / create app
   // My apps: https://apps.twitter.com/app
   passport.use(new TwitterStrategy({
     consumerKey: process.env.APP_TWITTER_KEY,
     consumerSecret: process.env.APP_TWITTER_SECRET,
-    callbackURL: process.env.APP_URL + 'auth/twitter/callback'
+    callbackURL: process.env.APP_URL + '/auth/twitter/callback'
     },
     function(token, tokenSecret, profile, done) {
       process.nextTick(function () {
@@ -58,9 +87,8 @@ module.exports = function (passport) {
           if (user) { return done(null, user); }
 
           var newUser = new User();
-          newUser.type = 'twitter';
           newUser.twitter.id          = profile.id;
-          newUser.twitter.token       = token;
+          //newUser.twitter.token       = token;
           newUser.twitter.username    = profile.username;
           newUser.twitter.displayName = profile.displayName;
 
@@ -77,7 +105,7 @@ module.exports = function (passport) {
   passport.use(new GitHubStrategy({
       clientID: process.env.APP_GITHUB_KEY,
       clientSecret: process.env.APP_GITHUB_SECRET,
-      callbackURL: process.env.APP_URL + 'auth/github/callback'
+      callbackURL: process.env.APP_URL + '/auth/github/callback'
     },
     function (token, refreshToken, profile, done) {
       process.nextTick(function () {
@@ -86,11 +114,10 @@ module.exports = function (passport) {
           if (user) { return done(null, user); }
 
           var newUser = new User();
-          newUser.type = 'github';
           newUser.github.id = profile.id;
           newUser.github.username = profile.username;
           newUser.github.displayName = profile.displayName;
-          newUser.github.publicRepos = profile._json.public_repos;
+          //newUser.github.publicRepos = profile._json.public_repos;
 
           newUser.save(function (err) {
             if (err) { return done(err, false, req.flash( 'message', 'Internal error e0000007.' )); }

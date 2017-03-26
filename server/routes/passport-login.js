@@ -30,7 +30,7 @@ module.exports = function (app, passport) {
   //  Local Basic
   //
   app.route('/auth/local')
-  .post( passport.authenticate('local', {
+  .post( passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
@@ -84,9 +84,8 @@ module.exports = function (app, passport) {
 
       // Local user not found. Create it.
       var newUser = new User();
-      newUser.type = 'local';
       newUser.local.username = req.body.username;
-      newUser.local.password = req.body.password;
+      newUser.local.password = newUser.generateHash(req.body.password);
 
       newUser.save(function (err) {
         if (err) {
@@ -117,6 +116,19 @@ module.exports = function (app, passport) {
 
   app.route('/auth/twitter/callback')
   .get(passport.authenticate('twitter', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+  }));
+
+  //
+  //  Facebook
+  //
+  app.route('/auth/facebook')
+  .get(passport.authenticate('facebook'));
+
+  app.route('/auth/facebook/callback')
+  .get(passport.authenticate('facebook', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true

@@ -3,6 +3,9 @@ logs
 *.log
 npm-debug.log*
 
+# SSL/TLS certificate/key files
+_certificate
+
 # Runtime data
 pids
 *.pid
