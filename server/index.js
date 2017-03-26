@@ -1,6 +1,6 @@
 'use strict';
 
-var herokuAppUrl = 'https://ikarus512-fcc1.herokuapp.com/';
+var herokuAppUrl = 'https://ikarus512-fcc1.herokuapp.com';
 
 var express = require('express'),
   app = express(),
