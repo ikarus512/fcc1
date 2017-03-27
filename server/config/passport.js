@@ -37,10 +37,11 @@ module.exports = function (passport) {
         if (!user) {
           return done(null, false, req.flash( 'message', 'Error: incorrect local user name.' ));
         }
-        if (!user.validPassword(password)) {
-          return done(null, false, req.flash( 'message', 'Error: incorrect local user\'s password.' ));
-        }
-        return done(null, user);
+        user.validatePassword(password, function(err, result) {
+          if(err)     return done(null, false, req.flash( 'message', 'Internal error e0000008.' ));
+          if(!result) return done(null, false, req.flash( 'message', 'Error: incorrect local user\'s password.' ));
+          return done(null, user);
+        });
       });
     }
   ));
@@ -51,7 +52,7 @@ module.exports = function (passport) {
       clientSecret: process.env.APP_FACEBOOK_SECRET,
       callbackURL: process.env.APP_URL + '/auth/facebook/callback'
     },
-    function(/*access*/ token, refreshToken, profile, done) {
+    function(token, refreshToken, profile, done) {
       process.nextTick(function () {
         User.findOne({ 'facebook.id': profile.id }, function (err, user) {
           if (err)  { return done(err, false, req.flash( 'message', 'Internal error e0000004.' )); }

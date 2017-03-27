@@ -3,7 +3,8 @@
 var mongoose = require('mongoose'),
   Promise = require('bluebird'),
   Schema = mongoose.Schema,
-  bcrypt   = require('bcrypt-nodejs');
+  bcrypt = require('bcrypt-nodejs');
+  // credential = require('credential');
 
 mongoose.Promise = Promise;
 
@@ -56,17 +57,35 @@ User.virtual('name').get(function () {
 });
 
 ////////////////////////////////////////////////////////////////
-//  methods
+//  methods/statics
 ////////////////////////////////////////////////////////////////
 
 // generating a hash
-User.methods.generateHash = function(password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+// - no synchronous version available
+// - callback version available, where callback is function(err,result_hash)
+// - promise version available
+User.statics.generateHash = function(password, callback) {
+  if (callback) { // callback version
+    bcrypt.hash(password, bcrypt.genSaltSync(8), null, callback);
+  } else { // promise version
+    return new Promise(function(resolve, reject) {
+      resolve(bcrypt.hashSync(password, bcrypt.genSaltSync(8)));
+    });
+  }
 };
 
 // checking if password is valid
-User.methods.validPassword = function(password) {
-  return bcrypt.compareSync(password, this.local.password);
+// - no synchronous version available
+// - callback version available, where callback is function(err,res), res==true|false
+// - promise version available
+User.methods.validatePassword = function(password, callback) {
+  if (callback) { // callback version
+    bcrypt.compare(password, this.local.password, callback);
+  } else { // promise version
+    return new Promise(function(resolve, reject) {
+      resolve(bcrypt.compareSync(password, this.local.password));
+    });
+  }
 };
 
 module.exports = mongoose.model('User', User);

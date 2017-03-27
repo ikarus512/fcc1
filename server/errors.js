@@ -1,4 +1,6 @@
 var internalErrors = {
+  'e0000009': 'Error during generating local user\'s password hash.',
+  'e0000008': 'Error during local user\'s password validation.',
   'e0000007': 'During GitHub login verification, cannot add new GitHub user to users database.',
   'e0000006': 'During Twitter login verification, cannot add new Twitter user to users database.',
   'e0000005': 'During GitHub login verification, cannot connect users database.',

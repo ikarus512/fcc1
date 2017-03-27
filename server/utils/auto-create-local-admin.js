@@ -2,6 +2,8 @@
 
 var User = require('../models/users');
 
+var admin_password = 'admin'; // Unsecure to keep it here:) Just for education purpose.
+
 module.exports = function () {
 
   User.findOne({ 'local.username': 'admin' }).exec()
@@ -9,16 +11,22 @@ module.exports = function () {
   .then(function(user) {
     if (user) { // if found
       throw new Error('Local admin user alredy exists.');
-    } else { // if not found, create
-      var user = new User();
-      user.local.username = 'admin';
-      user.local.password = user.generateHash('admin'); // Unsecure to keep it here:) Just for education purpose.
-      return user;
     }
+    // if not found, create it
+    // but first, generate password hash
+    return User.generateHash(admin_password);
+  })
+
+  .then(function(pwd_hash){
+    // create admin
+    var user = new User();
+    user.local.username = 'admin';
+    user.local.password = pwd_hash;
+    return user;
   })
 
   .then(function(user){
-    return user.save()
+    return user.save();
   })
 
   .catch(function(err){

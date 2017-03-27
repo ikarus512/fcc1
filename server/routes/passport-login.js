@@ -53,7 +53,7 @@ module.exports = function (app, passport) {
       });
     }
 
-    // Check if all parameters present and are correct
+    // Check if all other parameters present and are correct
     if (!req.body.password || !req.body.password2) {
       return res.render('signup', {
         lasterror: 'Error: please fill in all fields: username, password, password2.',
@@ -83,28 +83,38 @@ module.exports = function (app, passport) {
       }
 
       // Local user not found. Create it.
-      var newUser = new User();
-      newUser.local.username = req.body.username;
-      newUser.local.password = newUser.generateHash(req.body.password);
 
-      newUser.save(function (err) {
+      // First, generate password hash
+      User.generateHash(req.body.password, function(err, pwd_hash) {
         if (err) {
-          return res.render('signup', {
-            lasterror: 'Internal error e000001.',
-            username: req.body.username
-          });
+          return res.render('signup', { lasterror: 'Internal error e0000009.' });
         }
 
-        // Login as new user
-        req.login(newUser, function(err) {
+        var newUser = new User();
+        newUser.local.username = req.body.username;
+        newUser.local.password = pwd_hash;
+
+        newUser.save(function (err) {
           if (err) {
-            return res.render('signup', { lasterror: 'Internal error e0000002.' });
+            return res.render('signup', {
+              lasterror: 'Internal error e000001.',
+              username: req.body.username
+            });
           }
 
-          return res.redirect('/');
+          // Login as new user
+          req.login(newUser, function(err) {
+            if (err) {
+              return res.render('signup', { lasterror: 'Internal error e0000002.' });
+            }
 
+            return res.redirect('/');
+
+          });
         });
+
       });
+
     });
   });
 
