@@ -2,7 +2,8 @@
 
 // Example: https://gist.github.com/joshbirk/1732068
 
-var User = require('../models/users');
+var User = require('../models/users'),
+  Promise = require('bluebird');
 
 module.exports = function (app, passport) {
 
@@ -40,82 +41,63 @@ module.exports = function (app, passport) {
   app.route('/auth/local/signup')
   .post( function(req, res, next) {
 
-    // Check if username present
-    if (!req.body.username) {
-      return res.render('signup', { lasterror: 'Error: please fill in username.' });
-    }
+    new Promise(function(resolve, reject) {
 
-    // Check if username is correct
-    if (typeof(req.body.username)!=='string' || !req.body.username.match(/^(\w|\d)*$/)) {
-      return res.render('signup', {
-        lasterror: "Error: username can only contain _alphanumeric characters.",
-        username: req.body.username
+      if (!req.body.username) // if username absent
+        throw new Error('Please fill in username.');
+
+      if (typeof(req.body.username)!=='string'
+      || !req.body.username.match(/^(\w|\d|\-)+$/))
+        throw new Error('Username can only contain -_alphanumeric characters.');
+
+      if (typeof(req.body.password)!=='string'
+      || typeof(req.body.password2)!=='string'
+      || !req.body.password || !req.body.password2)
+        throw new Error('Please fill in all fields as strings: username, password, password2.');
+
+      resolve();
+    })
+
+    // try to create new local user
+    .then(function() {
+      // first, check if user already exists.
+      return User.findOne({ 'local.username': req.body.username }).exec();
+    })
+
+    .then(function(user) {
+      if (user) // if user found in DB
+        throw new Error('Such user already exists!');
+
+      // local user not found, we can try to create it
+
+      if (req.body.password !== req.body.password2)
+        throw new Error('Passwords do not match!');
+
+      // first, generate password hash
+      return User.generateHash(req.body.password);
+    })
+
+    .then(function(pwd_hash) {
+      // create new user with this password hash
+      var newUser = new User();
+      newUser.local.username = req.body.username;
+      newUser.local.password = pwd_hash;
+      return newUser.save();
+    })
+
+    .then(function(newUser) {
+      // login as new user
+      req.login(newUser, function(err) {
+        if (err) throw new Error('Internal error e0000002.');
+        res.redirect('/');
       });
-    }
+    })
 
-    // Check if all other parameters present and are correct
-    if (!req.body.password || !req.body.password2) {
-      return res.render('signup', {
-        lasterror: 'Error: please fill in all fields: username, password, password2.',
-        username: req.body.username
-      });
-    }
-
-    // Check if user already exists
-    User.findOne({ 'local.username': req.body.username }, function (err, user) {
-
-      if (err) {
-        return res.render('signup', {lasterror:'Internal error e0000000.'});
-      }
-
-      if (user) {
-        return res.render('signup', {
-          lasterror: 'Error: user already exists!',
-          username: req.body.username
-        });
-      }
-
-      if (req.body.password !== req.body.password2) {
-        return res.render('signup', {
-          lasterror: 'Error: passwords do not match!',
-          username: req.body.username
-        });
-      }
-
-      // Local user not found. Create it.
-
-      // First, generate password hash
-      User.generateHash(req.body.password, function(err, pwd_hash) {
-        if (err) {
-          return res.render('signup', { lasterror: 'Internal error e0000009.' });
-        }
-
-        var newUser = new User();
-        newUser.local.username = req.body.username;
-        newUser.local.password = pwd_hash;
-
-        newUser.save(function (err) {
-          if (err) {
-            return res.render('signup', {
-              lasterror: 'Internal error e000001.',
-              username: req.body.username
-            });
-          }
-
-          // Login as new user
-          req.login(newUser, function(err) {
-            if (err) {
-              return res.render('signup', { lasterror: 'Internal error e0000002.' });
-            }
-
-            return res.redirect('/');
-
-          });
-        });
-
-      });
-
+    // On any error, return back to signup page
+    .catch(function(err){
+      return res.render('signup', {lasterror: err.toString(), username: req.body.username});
     });
+
   });
 
   //
