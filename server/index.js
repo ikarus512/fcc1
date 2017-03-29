@@ -1,7 +1,5 @@
 'use strict';
 
-var herokuAppUrl = 'https://ikarus512-fcc1.herokuapp.com';
-
 var express = require('express'),
   app = express(),
   session = require('express-session'),
@@ -22,6 +20,7 @@ var express = require('express'),
   app4_books     = require('./routes/app4.js'),
   app5_pinter    = require('./routes/app5.js'),
   https_options = {},
+  isHeroku = require('./utils/is-heroku.js'),
 
   morganLogger = require('morgan'),
   rfs = require('rotating-file-stream'),
@@ -38,7 +37,7 @@ var express = require('express'),
 //  Settings
 ////////////////////////////////////////////////////////////////
 
-if (process.env.APP_URL !== herokuAppUrl) {
+if (!isHeroku()) {
   https_options = {
     cert : fs.readFileSync(__dirname+'/../_certificate/certificate.pem'),
     key  : fs.readFileSync(__dirname+'/../_certificate/key.pem')
@@ -61,7 +60,7 @@ app.set('views',__dirname+'/views');
 ////////////////////////////////////////////////////////////////
 
 // Logs before all middlewares
-if (process.env.APP_URL !== herokuAppUrl) {
+if (!isHeroku()) {
   fs.existsSync(logDir) || fs.mkdirSync(logDir);
   var logStream = rfs('access.log', { interval: '1d', path: logDir });
   app_http.use(morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
@@ -69,7 +68,7 @@ if (process.env.APP_URL !== herokuAppUrl) {
 }
 
 // Redirect http to https
-if (process.env.APP_URL !== herokuAppUrl) {
+if (!isHeroku()) {
   app_http.all('*', function(req, res, next){
     res.redirect('https://'+req.hostname+':'+app.get('port'));
   });
@@ -90,7 +89,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Logs, detaled
-if (process.env.APP_URL !== herokuAppUrl) {
+if (!isHeroku()) {
   app.use(myHttpsLogger({file: myLogFile, immediate: true}));
 }
 
@@ -129,7 +128,7 @@ app.all('*', function (req, res) {
 //  Start server
 ////////////////////////////////////////////////////////////////
 
-if (process.env.APP_URL !== herokuAppUrl) {
+if (!isHeroku()) {
   // Here if run on local host
 
   https.createServer(https_options, app).listen(app.get('port'), function () {
@@ -144,7 +143,7 @@ if (process.env.APP_URL !== herokuAppUrl) {
   // Here if run on Heroku
 
   app.listen(app.get('port'), function () {
-    console.log('App listening on port '+app.get('port')+'.');
+    console.log('Heroku app listening on port '+app.get('port')+'.');
   });
 
 }
