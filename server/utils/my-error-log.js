@@ -32,6 +32,9 @@ module.exports = function(req, err) {
         req.unauthorized_user.ip + '\n';
   }
 
-  fs.appendFile(LOG_FILE_NAME, txt);
+  try {
+    fs.appendFile(LOG_FILE_NAME, txt); // fails on heroku
+  } catch(err) {
+  }
 
 };
