@@ -10,12 +10,11 @@ var express = require('express'),
   fs = require('fs'),
   http = require('http'),
   https = require('https'),
+  mongooseConnect = require('./db/mongoose-connect.js'),
   flash = require('connect-flash'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
   herokuSslRedirect = require('./utils/heroku-ssl-redirect.js'),
-  mongoose = require('mongoose'),
-  Promise = require('bluebird'),
   greet = require('./utils/greet.js'),
   app1_voting    = require('./routes/app1.js'),
   app2_nightlife = require('./routes/app2.js'),
@@ -24,12 +23,12 @@ var express = require('express'),
   app5_pinter    = require('./routes/app5.js'),
   https_options = {},
 
-  morgan = require('morgan'),
+  morganLogger = require('morgan'),
   rfs = require('rotating-file-stream'),
   logDir = path.join(__dirname, '../logs/'),
 
   myLogFile = path.join(logDir, 'my.log'),
-  myLogger = require('./utils/my-logger.js'),
+  myHttpsLogger = require('./utils/my-https-logger.js'),
 
   passport = require('passport'),
   isLoggedIn = require('./config/passport')(passport);
@@ -46,9 +45,7 @@ if (process.env.APP_URL !== herokuAppUrl) {
   };
 }
 
-mongoose.connect(process.env.APP_MONGODB_URI);
-mongoose.Promise = Promise;
-require('./utils/auto-create-local-admin.js')();
+mongooseConnect();
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -66,9 +63,9 @@ app.set('views',__dirname+'/views');
 // Logs before all middlewares
 if (process.env.APP_URL !== herokuAppUrl) {
   fs.existsSync(logDir) || fs.mkdirSync(logDir);
-  var logStream = rfs('access.log', { interval: '1h', path: logDir });
-  app_http.use(morgan('combined', {stream: logStream, immeduate:true})); // log requests to file
-  app.use     (morgan('combined', {stream: logStream, immeduate:true})); // log requests to file
+  var logStream = rfs('access.log', { interval: '1d', path: logDir });
+  app_http.use(morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
+  app.use     (morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
 }
 
 // Redirect http to https
@@ -94,7 +91,7 @@ app.use(passport.session());
 
 // Logs, detaled
 if (process.env.APP_URL !== herokuAppUrl) {
-  app.use(myLogger({file: myLogFile, immediate: true}));
+  app.use(myHttpsLogger({file: myLogFile, immediate: true}));
 }
 
 

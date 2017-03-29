@@ -1,12 +1,13 @@
 'use strict';
 
-var User = require('../models/users');
-
-var admin_password = 'admin'; // Unsecure to keep it here:) Just for education purpose.
+var
+  ADMIN_PASSWORD = 'admin', // Unsecure to keep it here:) Just for education purpose.
+  User = require('../models/users'),
+  myErrorLog = require('../utils/my-error-log.js');
 
 module.exports = function () {
 
-  User.findOne({ 'local.username': 'admin' }).exec()
+  User.findOneMy({ 'local.username': 'admin' })
 
   .then(function(user) {
     if (user) { // if found
@@ -14,7 +15,7 @@ module.exports = function () {
     }
     // if not found, create it
     // but first, generate password hash
-    return User.generateHash(admin_password);
+    return User.generateHash(ADMIN_PASSWORD);
   })
 
   .then(function(pwd_hash){
@@ -30,7 +31,7 @@ module.exports = function () {
   })
 
   .catch(function(err){
-    // Do not treat as error.
+    myErrorLog(null, err);
     return;
   });
 

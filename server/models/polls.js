@@ -11,7 +11,9 @@ var Poll = new Schema({
     votes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   }],
 },
-{ versionKey: false } // do not use __v property
-);
+{ // options
+  versionKey: false, // do not use __v property
+  // bufferCommands: false,
+});
 
 module.exports = mongoose.model('Poll', Poll);

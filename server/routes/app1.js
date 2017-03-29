@@ -18,7 +18,7 @@ var express = require('express'),
   path = require('path'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
   shareit = require(path.join(__dirname, '../utils/shareit.js')),
-  saveUnouthorizedUserIp = require('../utils/save-unouthorized-user-ip.js'),
+  createUnauthorizedUser = require('../db/create-unauthorized-user.js'),
   Promise = require('bluebird');
 
 var User = require('../models/users');
@@ -248,7 +248,7 @@ router.post('/api/polls/:id/options', function(req, res, next){
 
 // RESTAPI PUT    /app1/api/polls/:id/options/:oid/vote - vote for poll option
 router.put('/api/polls/:id/options/:oid/vote',
-  saveUnouthorizedUserIp,
+  createUnauthorizedUser,
   function(req, res, next)
 {
 

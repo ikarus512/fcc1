@@ -8,20 +8,19 @@ module.exports = function(req, res, next) {
     return next();
   }
 
-  User.findOne({'unauthorized.ip': req.ip}).exec()
+  User.findOneMy({'unauthorized.ip': req.ip})
 
-  .then(function(user) {
-    if (user) { // if found
-      return user;
-    } else { // if not found, create
-      var user = new User();
-      user.unauthorized.ip = req.ip;
-      return user.save();
-    }
+  .then( function(user) {
+    if (user) return user; // if found
+
+    // if not found, create
+    var user = new User();
+    user.unauthorized.ip = req.ip;
+    return user.save();
   })
 
   // Save user to req.unauthorized_user
-  .then(function(user){
+  .then( function(user) {
     if (!req.unauthorized_user) {
       req.unauthorized_user = {};
       req.unauthorized_user._id = user._id;
@@ -31,7 +30,7 @@ module.exports = function(req, res, next) {
   })
 
   // Ignore errors
-  .catch(function(err){
+  .catch( function(err) {
     return next();
   });
 

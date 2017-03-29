@@ -3,7 +3,9 @@
 // Example: https://gist.github.com/joshbirk/1732068
 
 var User = require('../models/users'),
-  Promise = require('bluebird');
+  Promise = require('bluebird'),
+  PublicError = require('../utils/public-error.js'),
+  myErrorLog = require('../utils/my-error-log.js');
 
 module.exports = function (app, passport) {
 
@@ -44,34 +46,33 @@ module.exports = function (app, passport) {
     new Promise(function(resolve, reject) {
 
       if (!req.body.username) // if username absent
-        throw new Error('Please fill in username.');
+        throw new PublicError('Please fill in username.');
 
       if (typeof(req.body.username)!=='string'
       || !req.body.username.match(/^(\w|\d|\-)+$/))
-        throw new Error('Username can only contain -_alphanumeric characters.');
+        throw new PublicError('Username can only contain -_alphanumeric characters.');
 
       if (typeof(req.body.password)!=='string'
       || typeof(req.body.password2)!=='string'
       || !req.body.password || !req.body.password2)
-        throw new Error('Please fill in all fields as strings: username, password, password2.');
+        throw new PublicError('Please fill in all fields as strings: username, password, password2.');
 
-      resolve();
+      return resolve();
     })
 
-    // try to create new local user
     .then(function() {
       // first, check if user already exists.
-      return User.findOne({ 'local.username': req.body.username }).exec();
+      return User.findOneMy({ 'local.username': req.body.username });
     })
 
     .then(function(user) {
-      if (user) // if user found in DB
-        throw new Error('Such user already exists!');
+      if (user) // if user exists
+        throw new PublicError('Such user already exists!');
 
       // local user not found, we can try to create it
 
       if (req.body.password !== req.body.password2)
-        throw new Error('Passwords do not match!');
+        throw new PublicError('Passwords do not match!');
 
       // first, generate password hash
       return User.generateHash(req.body.password);
@@ -87,15 +88,20 @@ module.exports = function (app, passport) {
 
     .then(function(newUser) {
       // login as new user
-      req.login(newUser, function(err) {
-        if (err) throw new Error('Internal error e0000002.');
-        res.redirect('/');
+      return req.login(newUser, function(err) {
+        if (err) throw new Error('Internal error e0000000.');
+        return res.redirect('/');
       });
     })
 
     // On any error, return back to signup page
-    .catch(function(err){
-      return res.render('signup', {lasterror: err.toString(), username: req.body.username});
+    .catch( PublicError, function(err) {
+      return res.render('signup', {lasterror: err.message, username: req.body.username});
+    })
+
+    .catch( function(err) {
+      myErrorLog(req, err);
+      return res.render('signup', {lasterror: 'Internal error e0000006.', username: req.body.username});
     });
 
   });
