@@ -3,6 +3,7 @@
 var express = require('express'),
   app = express(),
   session = require('express-session'),
+  MongoStore = require('connect-mongo')(session),
   path = require('path'),
   app_http = express(),
   fs = require('fs'),
@@ -83,7 +84,12 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(session({secret: "Yoursecret key7651894", resave: false, saveUninitialized: true}));
+app.use(session({
+  secret: "Yoursecret key7651894",
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({ url: process.env.APP_MONGODB_URI }),
+}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());

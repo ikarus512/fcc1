@@ -14,7 +14,7 @@ mongoose.Promise = Promise;
 
 module.exports = function () {
 
-  mongoose.connect(process.env.APP_MONGODB_URI, function(){
+  return mongoose.connect(process.env.APP_MONGODB_URI, function(){
     createAdmin();
   });
 

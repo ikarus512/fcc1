@@ -1,6 +1,7 @@
 Developement settings:
  mkdir _tmpdb && start /MIN bin/mongod.exe --dbpath %CD%\_tmpdb
  start bin/mongo.exe 127.0.0.1:27017/dbname   |rem db.users.find({})
+NODE_ENV=production
 APP_URL=https://localhost:5000
 APP_MONGODB_URI=mongodb://localhost:27017/dbname
 APP_FACEBOOK_KEY=your-client-id-here            (developers.facebook.com)
