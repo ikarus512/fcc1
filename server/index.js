@@ -9,6 +9,7 @@ var express = require('express'),
   fs = require('fs'),
   http = require('http'),
   https = require('https'),
+  ExpressStatusMonitor = require('express-status-monitor'),
   mongooseConnect = require('./db/mongoose-connect.js'),
   flash = require('connect-flash'),
   cookieParser = require('cookie-parser'),
@@ -22,6 +23,7 @@ var express = require('express'),
   app5_pinter    = require('./routes/app5.js'),
   https_options = {},
   isHeroku = require('./utils/is-heroku.js'),
+  isAdmin = require('./utils/is-admin.js'),
 
   morganLogger = require('morgan'),
   rfs = require('rotating-file-stream'),
@@ -54,11 +56,26 @@ app.enable('trust proxy'); // to get req.ip
 app.set('view engine', 'pug');
 app.set('views',__dirname+'/views');
 
-
+var expressStatusMonitor = ExpressStatusMonitor({
+  title: 'Express Status Monitor',
+  path: '/statmon',
+  spans: [{
+      interval: 60,           // Every minute
+      retention: 100           // Keep 60 datapoints in memory (60 minutes)
+    }, {
+      interval: 60*60,        // Every hour
+      retention: 24           // (24 hours)
+    }, {
+      interval: 24*60*60,     // Every day
+      retention: 28           // (28 days)
+  }]
+});
 
 ////////////////////////////////////////////////////////////////
 //  Middlewares
 ////////////////////////////////////////////////////////////////
+
+app.use(expressStatusMonitor);
 
 // Logs before all middlewares
 if (!isHeroku()) {
@@ -99,11 +116,11 @@ if (!isHeroku()) {
   app.use(myHttpsLogger({file: myLogFile, immediate: true}));
 }
 
-
-
 ////////////////////////////////////////////////////////////////
 //  Routes
 ////////////////////////////////////////////////////////////////
+
+app.get('/statmon', isAdmin, expressStatusMonitor.pageRoute);
 
 // passport login-related routes, unprotected
 require('./routes/passport-login.js')(app, passport);

@@ -29,5 +29,7 @@
             ul.dropdown-menu
               li(class=title=='Settings'    ?'active':'')
                 a(href="/settings") Settings
+              if(logintype=='local' && username=='admin')
+                li: a(href="/statmon") StatMon
               li
                 a(href="/logout")   Log Out

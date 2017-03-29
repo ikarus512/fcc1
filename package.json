@@ -26,6 +26,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "express-session": "^1.15.1",
+    "express-status-monitor": "^0.1.9",
     "extend": "^3.0.0",
     "mongoose": "^4.9.0",
     "morgan": "^1.8.1",
