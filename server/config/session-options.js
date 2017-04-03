@@ -1,8 +1,8 @@
 'use strict';
 
-var dbUrl = require('./../config/db-url.js');
-
 module.exports = function(session) {
+  var dbUrl = require('./../config/db-url.js');
+
   var MongoStore = require('connect-mongo')(session);
 
   var sessionOptions = {
