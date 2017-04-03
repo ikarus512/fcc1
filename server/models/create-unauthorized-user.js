@@ -8,16 +8,7 @@ module.exports = function(req, res, next) {
     return next();
   }
 
-  User.findOneMy({'unauthorized.ip': req.ip})
-
-  .then( function(user) {
-    if (user) return user; // if found
-
-    // if not found, create
-    var user = new User();
-    user.unauthorized.ip = req.ip;
-    return user.save();
-  })
+  User.createUnauthorizedUser(req.ip)
 
   // Save user to req.unauthorized_user
   .then( function(user) {

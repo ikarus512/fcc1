@@ -7,15 +7,16 @@
 var
   mongoose = require('mongoose'),
   Promise = require('bluebird'),
-  createAdmin = require('./create-admin.js'),
-  MANUAL_RECONNECT_INTERVAL = 30; // seconds
+  createAdmin = require('./../models/create-admin.js'),
+  MANUAL_RECONNECT_INTERVAL = 30, // seconds
+  dbUrl = require('./../config/db-url.js');
 
 mongoose.Promise = Promise;
 
 
 
 function connect() {
-  mongoose.connect(process.env.APP_MONGODB_URI, {
+  mongoose.connect(dbUrl, {
     server: {
       auto_reconnect: true,
       reconnectTries: 3,
@@ -37,12 +38,12 @@ module.exports = function () {
   mongoose.connection.on('error', function(){});
 
   mongoose.connection.on('disconnected', function(){
-    console.log('DB disconnected '+ new Date() +': absent or lost MongoDB connection...');
+    console.log('DB disconnected '+ new Date().toISOString() +': absent or lost MongoDB connection...');
     setTimeout(function(){ connect(); }, MANUAL_RECONNECT_INTERVAL*1000);
   });
 
   mongoose.connection.on('connected', function() {
-    console.log('DB connected '+ new Date() +': Connection established to MongoDB');
+    console.log('DB connected '+ new Date().toISOString() +': Connection established to MongoDB');
     createAdmin();
   });
 

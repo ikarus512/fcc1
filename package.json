@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha test/**/*.js --reporter dot --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -37,5 +37,14 @@
     "passport-twitter": "^1.0.4",
     "pug": "^2.0.0-beta11",
     "rotating-file-stream": "^1.2.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^3.2.0",
+    "mocha.parallel": "^0.15.0",
+    "mockgoose": "^7.0.7",
+    "mongodb": "^2.2.25",
+    "superagent": "^3.5.2"
   }
 }

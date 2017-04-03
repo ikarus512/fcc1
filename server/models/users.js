@@ -3,11 +3,12 @@
 var mongoose = require('mongoose'),
   Promise = require('bluebird'),
   Schema = mongoose.Schema,
-  bcrypt = require('bcrypt-nodejs');
+  bcrypt = require('bcrypt-nodejs'),
+  PublicError = require('../utils/public-error.js');
 
 mongoose.Promise = Promise;
 
-var User = new Schema({
+var UserSchema = new Schema({
   // Virtual properties:
   // -type
   // -name
@@ -25,14 +26,14 @@ var User = new Schema({
 },
 { // options
   versionKey: false, // do not use __v property
-  bufferCommands: false, // well do connection check manually
+  bufferCommands: false, // we'll do connection check manually
 });
 
 ////////////////////////////////////////////////////////////////
 //  virtuals
 ////////////////////////////////////////////////////////////////
 
-User.virtual('type').get(function () {
+UserSchema.virtual('type').get(function () {
   var type = 'unknown';
   try {
     if(this.facebook.id)     type = 'facebook';
@@ -46,7 +47,7 @@ User.virtual('type').get(function () {
   return type;
 });
 
-User.virtual('name').get(function () {
+UserSchema.virtual('name').get(function () {
   var name = 'unonimous';
   try {
     name = this[this.type].displayName;
@@ -62,7 +63,7 @@ User.virtual('name').get(function () {
 ////////////////////////////////////////////////////////////////
 
 // findOne with connection check
-User.statics.findOneMy = function(filter) {
+UserSchema.statics.findOneMy = function(filter) {
 
   return new Promise(function(resolve, reject) {
 
@@ -70,14 +71,79 @@ User.statics.findOneMy = function(filter) {
       throw new Error('No connection to users database.');
     }
 
-    return resolve(mongoose.model('User', User).findOne(filter).exec());
+    return resolve(mongoose.model('User', UserSchema).findOne(filter).exec());
 
   });
 
 };
 
+// createLocalUser
+UserSchema.statics.createLocalUser = function(aUser) {
+
+  return new Promise(function(resolve, reject) {
+
+    if (!aUser.username) // username absent
+      throw new PublicError('Please fill in username.');
+
+    if (typeof(aUser.username)!=='string'
+    || !aUser.username.match(/^(\w|\d|\-)+$/))
+      throw new PublicError('Username can only contain -_alphanumeric characters.');
+
+    if (typeof(aUser.password)!=='string'
+    || typeof(aUser.password2)!=='string'
+    || !aUser.password || !aUser.password2)
+      throw new PublicError('Please fill in all fields as non-empty strings: ' +
+        'username, password, password2.');
+
+    if (aUser.password !== aUser.password2)
+      throw new PublicError('Passwords do not match.');
+
+    return resolve();
+  })
+
+  .then( function() {
+    // first, check if user already exists.
+    return UserModel().findOneMy({ 'local.username': aUser.username });
+  })
+
+  .then( function(foundUser) {
+    if (foundUser) // if user exists
+      throw new PublicError('User '+foundUser.local.username+' already exists.');
+
+    // local user not found, we can try to create it
+
+    // first, generate password hash
+    return UserModel().generateHash(aUser.password);
+  })
+
+  .then( function(pwdHash) {
+    // create new user with this password hash
+    var newUser = new UserModel()();
+    newUser.local.username = aUser.username;
+    newUser.local.password = pwdHash;
+    return newUser.save();
+  })
+
+};
+
+// createUnauthorizedUser
+UserSchema.statics.createUnauthorizedUser = function(ip) {
+
+  return UserModel().findOneMy({'unauthorized.ip': ip})
+
+  .then( function(user) {
+    if (user) return user; // if found
+
+    // if not found, create
+    var user = new UserModel()();
+    user.unauthorized.ip = ip;
+    return user.save();
+  })
+
+};
+
 // generating a hash
-User.statics.generateHash = function(password) {
+UserSchema.statics.generateHash = function(password) {
 
   var self = this;
 
@@ -94,7 +160,7 @@ User.statics.generateHash = function(password) {
 };
 
 // checking if password is valid
-User.methods.validatePassword = function(password, callback) {
+UserSchema.methods.validatePassword = function(password, callback) {
 
   var self = this;
 
@@ -167,4 +233,10 @@ function myValidate(str, hash) {
 //  exports
 ////////////////////////////////////////////////////////////////
 
-module.exports = mongoose.model('User', User);
+function UserModel() {
+  return mongoose.model('User', UserSchema);
+}
+
+// module.exports = UserModel();
+// module.exports = UserModel;
+module.exports = mongoose.model('User', UserSchema);

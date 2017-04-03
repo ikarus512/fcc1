@@ -11,9 +11,7 @@ module.exports = function(req, err) {
     var txt = '';
 
     txt += '\n\n\n';
-    txt += '----------------------------------------------------' + '\n';
-    txt += 'Internal error' + '\n';
-    txt += 'date: ' + new Date() + '\n';
+    txt += '--- ' + new Date().toISOString() + ' ---' + '\n';
     txt += 'name: ' + err.name + '\n';
     txt += 'message: ' + err.message + '\n';
     txt += 'stack:' + '\n';

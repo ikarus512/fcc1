@@ -43,65 +43,30 @@ module.exports = function (app, passport) {
   app.route('/auth/local/signup')
   .post( function(req, res, next) {
 
-    new Promise(function(resolve, reject) {
-
-      if (!req.body.username) // if username absent
-        throw new PublicError('Please fill in username.');
-
-      if (typeof(req.body.username)!=='string'
-      || !req.body.username.match(/^(\w|\d|\-)+$/))
-        throw new PublicError('Username can only contain -_alphanumeric characters.');
-
-      if (typeof(req.body.password)!=='string'
-      || typeof(req.body.password2)!=='string'
-      || !req.body.password || !req.body.password2)
-        throw new PublicError('Please fill in all fields as strings: username, password, password2.');
-
-      return resolve();
+    User.createLocalUser({
+      username: req.body.username,
+      password: req.body.password,
+      password2: req.body.password2,
     })
 
-    .then(function() {
-      // first, check if user already exists.
-      return User.findOneMy({ 'local.username': req.body.username });
-    })
-
-    .then(function(user) {
-      if (user) // if user exists
-        throw new PublicError('Such user already exists!');
-
-      // local user not found, we can try to create it
-
-      if (req.body.password !== req.body.password2)
-        throw new PublicError('Passwords do not match!');
-
-      // first, generate password hash
-      return User.generateHash(req.body.password);
-    })
-
-    .then(function(pwd_hash) {
-      // create new user with this password hash
-      var newUser = new User();
-      newUser.local.username = req.body.username;
-      newUser.local.password = pwd_hash;
-      return newUser.save();
-    })
-
-    .then(function(newUser) {
+    .then( function(newUser) {
       // login as new user
-      return req.login(newUser, function(err) {
-        if (err) throw new Error('Internal error e0000000.');
-        return res.redirect('/');
+      return new Promise(function(resolve, reject) {
+        req.login(newUser, function(err) {
+          if (err) throw new Error('Internal error e0000000.');
+          return resolve(res.redirect('/'));
+        });
       });
     })
 
     // On any error, return back to signup page
     .catch( PublicError, function(err) {
-      return res.render('signup', {lasterror: err.message, username: req.body.username});
+      return res.status(400).render('signup', {lasterror: err.message, username: req.body.username});
     })
 
     .catch( function(err) {
       myErrorLog(req, err);
-      return res.render('signup', {lasterror: 'Internal error e0000006.', username: req.body.username});
+      return res.status(500).render('signup', {lasterror: 'Internal error e0000006.', username: req.body.username});
     });
 
   });

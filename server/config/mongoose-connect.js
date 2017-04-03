@@ -6,7 +6,8 @@
 var
   mongoose = require('mongoose'),
   Promise = require('bluebird'),
-  createAdmin = require('./create-admin.js');
+  createAdmin = require('./../models/create-admin.js'),
+  dbUrl = require('./../config/db-url.js');
 
 mongoose.Promise = Promise;
 
@@ -14,7 +15,7 @@ mongoose.Promise = Promise;
 
 module.exports = function () {
 
-  return mongoose.connect(process.env.APP_MONGODB_URI, function(){
+  mongoose.connect(dbUrl, function(){
     createAdmin();
   });
 

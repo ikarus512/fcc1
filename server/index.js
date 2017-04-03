@@ -2,15 +2,13 @@
 
 var express = require('express'),
   app = express(),
+  appHttp = express(),
   session = require('express-session'),
-  MongoStore = require('connect-mongo')(session),
   path = require('path'),
-  app_http = express(),
   fs = require('fs'),
   http = require('http'),
   https = require('https'),
   ExpressStatusMonitor = require('express-status-monitor'),
-  mongooseConnect = require('./db/mongoose-connect.js'),
   flash = require('connect-flash'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
@@ -21,7 +19,6 @@ var express = require('express'),
   app3_stock     = require('./routes/app3.js'),
   app4_books     = require('./routes/app4.js'),
   app5_pinter    = require('./routes/app5.js'),
-  https_options = {},
   isHeroku = require('./utils/is-heroku.js'),
   isAdmin = require('./utils/is-admin.js'),
 
@@ -29,8 +26,8 @@ var express = require('express'),
   rfs = require('rotating-file-stream'),
   logDir = path.join(__dirname, '../logs/'),
 
-  myLogFile = path.join(logDir, 'my.log'),
-  myHttpsLogger = require('./utils/my-https-logger.js'),
+  myLogFile = path.join(logDir, 'my-request.log'),
+  myRequestLogger = require('./utils/my-request-logger.js'),
 
   passport = require('passport'),
   isLoggedIn = require('./config/passport')(passport);
@@ -40,15 +37,6 @@ var express = require('express'),
 //  Settings
 ////////////////////////////////////////////////////////////////
 
-if (!isHeroku()) {
-  https_options = {
-    cert : fs.readFileSync(__dirname+'/../_certificate/certificate.pem'),
-    key  : fs.readFileSync(__dirname+'/../_certificate/key.pem')
-  };
-}
-
-mongooseConnect();
-
 app.set('port', (process.env.PORT || 5000));
 
 app.enable('trust proxy'); // to get req.ip
@@ -56,70 +44,62 @@ app.enable('trust proxy'); // to get req.ip
 app.set('view engine', 'pug');
 app.set('views',__dirname+'/views');
 
-var expressStatusMonitor = ExpressStatusMonitor({
-  title: 'Express Status Monitor',
-  path: '/statmon',
-  spans: [{
-      interval: 60,           // Every minute
-      retention: 100           // Keep 60 datapoints in memory (60 minutes)
-    }, {
-      interval: 60*60,        // Every hour
-      retention: 24           // (24 hours)
-    }, {
-      interval: 24*60*60,     // Every day
-      retention: 28           // (28 days)
-  }]
-});
+require('./config/mongoose-connect.js')();
+
+var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-options.js'));
 
 ////////////////////////////////////////////////////////////////
 //  Middlewares
 ////////////////////////////////////////////////////////////////
 
-app.use(expressStatusMonitor);
-
 // Logs before all middlewares
 if (!isHeroku()) {
   fs.existsSync(logDir) || fs.mkdirSync(logDir);
   var logStream = rfs('access.log', { interval: '1d', path: logDir });
-  app_http.use(morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
-  app.use     (morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
+  appHttp.use(morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
+  app.use    (morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
+
+  appHttp.use(myRequestLogger({file: myLogFile, immediate: true, short: true}));
 }
 
-// Redirect http to https
+// Redirect http GET to https
 if (!isHeroku()) {
-  app_http.all('*', function(req, res, next){
+  appHttp.get('*', function(req, res, next){
     res.redirect('https://'+req.hostname+':'+app.get('port'));
+  });
+
+  appHttp.all('*', function (req, res) {
+    res.status(400).json({message: "Error: cannot "+req.method+" "+
+      req.protocol+'://'+req.headers.host+req.originalUrl+". Use https."
+    });
   });
 } else {
   app.use(herokuSslRedirect());
 }
 
+app.use(expressStatusMonitor);
+
 // Static
 app.use(express.static(path.join(__dirname, '../public')));
-
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(session({
-  secret: "Yoursecret key7651894",
-  resave: false,
-  saveUninitialized: true,
-  store: new MongoStore({ url: process.env.APP_MONGODB_URI }),
-}));
+app.use(session(require('./config/session-options.js')(session)));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Logs, detaled
 if (!isHeroku()) {
-  app.use(myHttpsLogger({file: myLogFile, immediate: true}));
+  app.use(myRequestLogger({file: myLogFile, immediate: true}));
 }
 
 ////////////////////////////////////////////////////////////////
 //  Routes
 ////////////////////////////////////////////////////////////////
 
+// status monitor
 app.get('/statmon', isAdmin, expressStatusMonitor.pageRoute);
 
 // passport login-related routes, unprotected
@@ -151,22 +131,56 @@ app.all('*', function (req, res) {
 //  Start server
 ////////////////////////////////////////////////////////////////
 
+var server, server2, boot, shutdown;
+
 if (!isHeroku()) {
   // Here if run on local host
 
-  https.createServer(https_options, app).listen(app.get('port'), function () {
-      console.log('Started https.');
-  });
+  server = https.createServer(require('./config/https-options.js'), app);
+  server2 = http.createServer(appHttp);
 
-  http.createServer(app_http).listen(80, function () {
-      console.log('Started http.');
-  });
+  boot = function(callback) {
+
+    server.listen(app.get('port'), function () {
+      console.log('Started https.');
+
+      server2.listen(80, function () {
+        console.log('Started http.');
+        if (callback) return callback();
+      });
+
+    });
+  }
+
+  shutdown = function() {
+    server.close();
+    server2.close();
+  }
 
 } else {
   // Here if run on Heroku
 
-  app.listen(app.get('port'), function () {
-    console.log('Heroku app listening on port '+app.get('port')+'.');
-  });
+  server = app;
 
+  boot = function() {
+    server.listen(app.get('port'), function () {
+      console.log('Heroku app listening on port '+app.get('port')+'.');
+    });
+  }
+
+  shutdown = function() {
+    server.close();
+  }
+
+}
+
+
+
+if (require.main === module) {
+  boot();
+} else {
+  console.info('Running application as a module');
+  exports.boot = boot;
+  exports.shutdown = shutdown;
+  exports.port = app.get('port');
 }

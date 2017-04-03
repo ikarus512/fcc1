@@ -1,0 +1,135 @@
+'use strict';
+
+require('./../test-utils.js');
+
+var
+  request = require('superagent'),
+  chai = require('chai'),
+  expect = chai.expect,
+  should = chai.should,
+  parallel = require('mocha.parallel'),
+  // parallel = describe,
+  appUrl = require('./../../../server/config/app-url.js'),
+  testLog = require('./../my-test-log.js');
+
+
+
+parallel('login', function () {
+
+  it('/login should allow GET',function(done){
+
+    request
+    .agent() // to make authenticated requests
+    .get(appUrl+'/login')
+    .end(function(err, res){
+
+      expect(err).to.not.exist;
+      expect(res.status).to.equal(200);
+
+      var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
+      expect(message).to.equal(null);
+
+      expect(res.text).to.contain('DynApps');
+      expect(res.text).to.not.contain('local / admin');
+      expect(res.text).to.contain('Log In');
+      expect(res.text).to.contain('Sign Up');
+
+      // and should not redirect
+      expect(res.request.url).to.equal(appUrl+'/login');
+      expect(res.redirects).to.have.lengthOf(0);
+
+      done();
+
+    });
+
+  });
+
+  it('/login should not allow POST',function(done){
+
+    request
+    .agent() // to make authenticated requests
+    .post(appUrl+'/login')
+    .end(function(err, res){
+
+      expect(err).to.exist;
+      expect(res.status).to.not.equal(200);
+
+      done();
+
+    });
+
+  });
+
+
+  it('/auth/local should allow correct login',function(done){
+
+    request
+    .agent() // to make authenticated requests
+    .post(appUrl+'/auth/local')
+    .send({username:'admin', password:'1234'})
+    .end(function(err, res){
+
+      expect(err).to.not.exist;
+      expect(res.status).to.equal(200);
+
+      var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
+      expect(message).to.equal(null);
+
+      expect(res.text).to.contain('DynApps');
+      expect(res.text).to.contain('local / admin');
+      expect(res.text).to.not.contain('Log In');
+      expect(res.text).to.not.contain('Sign Up');
+
+      // and should redirect to home
+      expect(res.request.url).to.equal(appUrl+'/');
+      expect(res.redirects).to.have.lengthOf(1);
+      expect(res.redirects[0]).to.equal(appUrl+'/');
+
+      done();
+
+    });
+
+  });
+
+  var wrongData = [
+    {username:'admi-', password:'1234', msg:'Incorrect local user name.'},
+    {username:'admin', password:'123-', msg:'Incorrect local user\'s password.'},
+  ];
+
+  wrongData.forEach( function(data, idx) {
+
+    it('/auth/local should not allow incorrect login (idx='+idx+')',function(done){
+
+      request
+      .agent() // to make authenticated requests
+      .post(appUrl+'/auth/local')
+
+      .send({username:data.username, password:data.password})
+      .end(function(err, res){
+
+        expect(err).to.not.exist;
+        expect(res.status).to.equal(200);
+
+        var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
+        expect(message).to.not.equal(null);
+        expect(message[0]).to.contain(data.msg);
+
+        expect(res.text).to.contain('DynApps');
+        expect(res.text).to.not.contain('local / admin');
+        expect(res.text).to.contain('Log In');
+        expect(res.text).to.contain('Sign Up');
+
+        // and should redirect to /login page
+        expect(res.request.url).to.equal(appUrl+'/login');
+        expect(res.redirects).to.have.lengthOf(1);
+        expect(res.redirects[0]).to.equal(appUrl+'/login');
+
+        done();
+
+      });
+
+    });
+
+  });
+
+});

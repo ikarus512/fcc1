@@ -18,7 +18,7 @@ var express = require('express'),
   path = require('path'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
   shareit = require(path.join(__dirname, '../utils/shareit.js')),
-  createUnauthorizedUser = require('../db/create-unauthorized-user.js'),
+  createUnauthorizedUser = require('./../models/create-unauthorized-user.js'),
   Promise = require('bluebird');
 
 var User = require('../models/users');
@@ -53,7 +53,7 @@ router.get('/polls/:id',
     })
 
     // In case of error
-    .then(null, function(err){
+    .catch( function(err){
       req.pol_title = '';
       next();
     });
@@ -83,12 +83,12 @@ router.get('/api/polls', function(req, res, next){
   .exec()
 
   // Respond all polls
-  .then(function(polls) {
+  .then( function(polls) {
     res.status(200).json(polls);
   })
 
   // Catch all errors and respond with error message
-  .then(null, function(err){
+  .catch( function(err) {
     return res.status(400).json({message:err.toString()});
   });
 
@@ -183,7 +183,6 @@ router.delete('/api/polls/:id', function(req, res, next){
 
 // RESTAPI GET    /app1/api/polls/:id - get poll
 router.get('/api/polls/:id', function(req, res, next){
-
   // Find poll by id
   Poll.findOne({_id:req.params.id}).exec()
 
