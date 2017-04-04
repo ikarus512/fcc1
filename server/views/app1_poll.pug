@@ -1,3 +1,18 @@
+//-
+  /* file: app1_poll.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: App1 Poll View
+   * AUTHOR: ikarus512
+   * CREATED: 2017/03/13
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/04, ikarus512. Added copyright header.
+   *
+   */
+
 extend ./common/layout.pug
 
 block vars
@@ -13,7 +28,7 @@ block scriptBeforeBody
 
 block content
 
-  div(ng-app="myApp1Poll" ng-controller="myApp1PollController" ng-init="init('"+logintype+"','"+poll_id+"')" ng-cloak)
+  div(class="ng-app" ng-app="myApp1Poll" ng-controller="myApp1PollController" ng-init="init('"+logintype+"','"+poll_id+"')" ng-cloak)
 
     //- //////////////////////////////////////////////////////////
     //- //  view poll

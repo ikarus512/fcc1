@@ -1,6 +1,22 @@
+/* file:  */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: 
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-require('./../test-utils.js');
+require('./../../test-utils.js');
 
 var
   request = require('superagent'),
@@ -24,7 +40,7 @@ parallel('login', function () {
     .get(appUrl+'/login')
     .end(function(err, res){
 
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
 
       var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
@@ -52,7 +68,7 @@ parallel('login', function () {
     .post(appUrl+'/login')
     .end(function(err, res){
 
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.not.equal(200);
 
       done();
@@ -70,7 +86,7 @@ parallel('login', function () {
     .send({username:'admin', password:'1234'})
     .end(function(err, res){
 
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
 
       var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
@@ -108,7 +124,7 @@ parallel('login', function () {
       .send({username:data.username, password:data.password})
       .end(function(err, res){
 
-        expect(err).to.not.exist;
+        expect(err).to.equal(null);
         expect(res.status).to.equal(200);
 
         var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);

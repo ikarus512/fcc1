@@ -1,3 +1,9 @@
+/* file: removeFacebookAppendedHash.js */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ */
+
 $(document).ready(function(){
   if (window.location.hash && window.location.hash == '#_=_') {
     if (window.history && history.pushState) {

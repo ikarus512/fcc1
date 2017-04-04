@@ -1,0 +1,4 @@
+_certificate/
+coverage/
+node_modules/
+public/lib/

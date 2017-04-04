@@ -1,3 +1,18 @@
+/* file: mongoose-connect-autoreconnect.js */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: Mongoose Connect
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
 'use strict';
 
 // Mongoose connect with automatic reconnection to DB.
@@ -23,7 +38,7 @@ function connect() {
       reconnectInterval: 1*1000,
     }
   });
-};
+}
 
 
 function exitHandler(options, err) {

@@ -1,3 +1,18 @@
+//-
+  /* file: app1_polls.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: App1 Polls View
+   * AUTHOR: ikarus512
+   * CREATED: 2017/03/13
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/04, ikarus512. Added copyright header.
+   *
+   */
+
 extend ./common/layout.pug
 
 block vars
@@ -12,7 +27,7 @@ block content
   .well.my-opacity-08
     h3 Voting App
 
-  div(ng-app="myApp1Voting" ng-controller="myApp1Controller" ng-init="init('"+logintype+"')" ng-cloak)
+  div(class="ng-app" ng-app="myApp1Voting" ng-controller="myApp1Controller" ng-init="init('"+logintype+"')" ng-cloak)
 
     //- //////////////////////////////////////////////////////////
     //- //  polls list
@@ -29,8 +44,8 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  creating new poll
     //- //////////////////////////////////////////////////////////
-    #newPollButton.well.my-opacity-08(ng-show="view=='polls' && logintype")
-      button.btn.btn-primary(ng-click='newPollMode()') Create New Poll
+    #newPollButtonDiv.well.my-opacity-08(ng-show="view=='polls' && logintype")
+      button#createNewPollButton.btn.btn-primary(ng-click='newPollMode()') Create New Poll
 
     #newPoll.well.my-opacity-08(ng-show="view=='newPoll'")
       h3 Creating New Poll...
@@ -41,5 +56,5 @@ block content
         br
         button.btn.btn-primary(ng-click='newPollCancel()') Cancel
         | &nbsp;
-        button.btn.btn-primary(ng-click='newPollCreate()') Create
+        button#newPollCreate.btn.btn-primary(ng-click='newPollCreate()') Create
         br

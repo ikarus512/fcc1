@@ -1,3 +1,18 @@
+//-
+  /* file: login.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: Log In Page View
+   * AUTHOR: ikarus512
+   * CREATED: 2017/03/13
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/04, ikarus512. Added copyright header.
+   *
+   */
+
 extend ./common/layout.pug
 
 block vars
@@ -24,7 +39,7 @@ block content
             .form-group
               label.sr-only(for='loginPassword') Password
               input#loginPassword.form-control(name='password' type='password' placeholder='Password' tabindex='2' required)
-            button.btn.btn-primary.form-control(type='submit' tabindex='3') Log In
+            button#loginButton.btn.btn-primary.form-control(type='submit' tabindex='3') Log In
 
     .col-sm-6.col-md-4
       .panel.panel-default

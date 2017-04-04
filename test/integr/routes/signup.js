@@ -1,6 +1,22 @@
+/* file:  */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: 
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-require('./../test-utils.js');
+require('./../../test-utils.js');
 
 var
   request = require('superagent'),
@@ -20,8 +36,8 @@ parallel('signup', function () {
     .agent() // to make authenticated requests
     .get(appUrl+'/signup')
     .end(function(err, res){
-      expect(err).to.not.exist;
-      expect(res).to.exist;
+      expect(err).to.equal(null);
+      expect(res).to.not.equal(null);
       expect(res.status).to.equal(200);
       expect(res.text).to.contain('DynApps');
       expect(res.redirects).to.have.lengthOf(0); // no redirects
@@ -34,8 +50,8 @@ parallel('signup', function () {
     .agent() // to make authenticated requests
     .post(appUrl+'/signup')
     .end(function(err, res){
-      expect(err).to.exist;
-      expect(res).to.exist;
+      expect(err).to.not.equal(null);
+      expect(res).to.not.equal(null);
       expect(res.status).to.equal(400);
       expect(res.text).to.equal('{"message":"Error: cannot POST /signup"}');
       expect(res.redirects).to.have.lengthOf(0); // no redirects
@@ -53,7 +69,7 @@ parallel('signup', function () {
     .end(function(err, res){
       // testLog(res);
 
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
 
       var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
@@ -96,7 +112,7 @@ parallel('signup', function () {
       .agent() // to make authenticated requests
       .post(appUrl+'/auth/local/signup').send(data)
       .end(function(err, res){
-        expect(err).to.exist;
+        expect(err).to.not.equal(null);
         expect(res.status).to.equal(400);
 
         var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);

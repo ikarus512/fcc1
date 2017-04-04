@@ -1,6 +1,22 @@
+/* file:  */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: 
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-require('./../test-utils.js');
+require('./../../test-utils.js');
 
 var
   request = require('superagent'),
@@ -28,7 +44,7 @@ before( function () {
   .then( function(poll) {
     if (!poll) throw Error('Poll 1 not found.');
     poll0 = poll;
-    return Poll.findOne({title: 'Poll 2'}).exec()
+    return Poll.findOne({title: 'Poll 2'}).exec();
   })
   .then( function(poll) {
     if (!poll) throw Error('Poll 2 not found.');
@@ -49,7 +65,7 @@ before( function(done) {
   .end(function(err, res){
     userACookies = res.request.cookies;
 
-    expect(err).to.not.exist;
+    expect(err).to.equal(null);
     expect(res.status).to.equal(200);
 
     expect(res.text).to.contain('local / a');
@@ -71,7 +87,7 @@ parallel('app1 api', function () {
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/api/polls')
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
       expect(res.body.length).to.be.above(1); // at least 2 polls
       expect(res.body[0].title).to.equal(poll0.title); // Poll 1
@@ -86,7 +102,7 @@ parallel('app1 api', function () {
     .post(appUrl+'/app1/api/polls')
     .send({title: 'Poll 3'})
     .end(function(err, res){
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(401);
       expect(res.text).to.contain('Error: Only authorized person can create new poll.');
       done();
@@ -99,7 +115,7 @@ parallel('app1 api', function () {
     .delete(appUrl+'/app1/api/polls/'+poll0._id)
     .send({})
     .end(function(err, res){
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(401);
       expect(res.text).to.contain('Error: Only authorized person can delete the poll.');
       done();
@@ -112,7 +128,7 @@ parallel('app1 api', function () {
     .get(appUrl+'/app1/api/polls/'+poll0._id)
     .send({})
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
       expect(res.body.title).to.equal('Poll 1');
       done();
@@ -125,7 +141,7 @@ parallel('app1 api', function () {
     .post(appUrl+'/app1/api/polls/'+poll0._id+'/options')
     .send({title: 'Option 3'})
     .end(function(err, res){
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(401);
       expect(res.text).to.contain('Error: Only authorized person can add poll options.');
       done();
@@ -138,7 +154,7 @@ parallel('app1 api', function () {
     .post(appUrl+'/app1/api/polls/'+poll0._id+'/options')
     .send({title: 'Option 1'})
     .end(function(err, res){
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(401);
       expect(res.text).to.contain('Error: Only authorized person can add poll options.');
       done();
@@ -152,7 +168,7 @@ parallel('app1 api', function () {
     .send({})
     .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
       done();
     });
@@ -165,7 +181,7 @@ parallel('app1 api', function () {
     .send({})
     .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
     .end(function(err, res){
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(400);
       expect(res.text).to.contain('Error: You already voted in this poll for Option 2.');
       done();
@@ -182,7 +198,7 @@ parallel('app1 api', function () {
     .get(appUrl+'/app1/api/polls')
     .set('Cookie', userACookies) // authorize user a
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
       expect(res.body.length).to.be.above(1); // at least 2 polls
       expect(res.body[0].title).to.equal(poll0.title); // Poll 1
@@ -198,7 +214,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({title: 'Poll 3'})
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
       done();
     });
@@ -211,7 +227,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({title: 'Poll 1'})
     .end(function(err, res){
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(400);
       expect(res.text).to.contain('Error: Poll with this title alredy exists.');
       done();
@@ -226,7 +242,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({title: 'Poll 4'})
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
 
       var poll4 = res.body;
@@ -238,7 +254,7 @@ parallel('app1 api', function () {
       .set('Cookie', userACookies) // authorize user a
       .send({})
       .end(function(err, res){
-        expect(err).to.not.exist;
+        expect(err).to.equal(null);
         expect(res.status).to.equal(200);
         done();
       });
@@ -253,7 +269,7 @@ parallel('app1 api', function () {
     .send({})
     .end(function(err, res){
       // testLog(res);
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(400);
       expect(res.text).to.contain('Error: Only poll creator and local admin can remove the poll.');
       done();
@@ -267,7 +283,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({})
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
       expect(res.body.title).to.equal('Poll 1');
       done();
@@ -281,7 +297,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({title: 'Option 3'})
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
       done();
     });
@@ -294,7 +310,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({title: 'Option 1'})
     .end(function(err, res){
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(400);
       expect(res.text).to.contain('Error: Option with this title already exists.');
       done();
@@ -308,7 +324,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({})
     .end(function(err, res){
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
       done();
     });
@@ -321,7 +337,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({})
     .end(function(err, res){
-      expect(err).to.exist;
+      expect(err).to.not.equal(null);
       expect(res.status).to.equal(400);
       expect(res.text).to.contain('Error: You already voted in this poll for Option 1.');
       done();

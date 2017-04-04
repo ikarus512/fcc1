@@ -1,3 +1,18 @@
+/* file: users.js */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: User Model
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
 'use strict';
 
 var mongoose = require('mongoose'),
@@ -85,15 +100,21 @@ UserSchema.statics.createLocalUser = function(aUser) {
     if (!aUser.username) // username absent
       throw new PublicError('Please fill in username.');
 
-    if (typeof(aUser.username)!=='string'
-    || !aUser.username.match(/^(\w|\d|\-)+$/))
+    if (typeof(aUser.username)!=='string' ||
+      !aUser.username.match(/^(\w|\d|\-)+$/)
+    )
+    {
       throw new PublicError('Username can only contain -_alphanumeric characters.');
+    }
 
-    if (typeof(aUser.password)!=='string'
-    || typeof(aUser.password2)!=='string'
-    || !aUser.password || !aUser.password2)
+    if (typeof(aUser.password)!=='string' ||
+      typeof(aUser.password2)!=='string' ||
+      !aUser.password || !aUser.password2
+    )
+    {
       throw new PublicError('Please fill in all fields as non-empty strings: ' +
         'username, password, password2.');
+    }
 
     if (aUser.password !== aUser.password2)
       throw new PublicError('Passwords do not match.');
@@ -122,7 +143,7 @@ UserSchema.statics.createLocalUser = function(aUser) {
     newUser.local.username = aUser.username;
     newUser.local.password = pwdHash;
     return newUser.save();
-  })
+  });
 
 };
 
@@ -131,14 +152,14 @@ UserSchema.statics.createUnauthorizedUser = function(ip) {
 
   return UserModel().findOneMy({'unauthorized.ip': ip})
 
-  .then( function(user) {
-    if (user) return user; // if found
+  .then( function(foundUser) {
+    if (foundUser) return foundUser; // if found
 
     // if not found, create
     var user = new UserModel()();
     user.unauthorized.ip = ip;
     return user.save();
-  })
+  });
 
 };
 
@@ -201,8 +222,9 @@ function myHashEncode(str) {
   // Now intermix symbols of hash1, hash2, roundsD so that we can later
   // decode hash1 and rounds.
 
-  var i, res = rounds;
-  for(var i=0; i<hash1.length; i++) {
+  var i,
+    res = rounds;
+  for(i=0; i<hash1.length; i++) {
     res += hash2[i] + hash1[i];
   }
 
@@ -216,8 +238,9 @@ function myHashDecode(h) {
   var rounds = String(8 + (h.charCodeAt(0) % 10));
   rounds = (rounds.length<2) ? ('0'+rounds) : (rounds);
 
-  var i, hash1='';
-  for(var i=2; i<h.length; i+=2) hash1 += h[i];
+  var i,
+    hash1='';
+  for(i=2; i<h.length; i+=2) hash1 += h[i];
 
   var res = '$2a$' + rounds + '$' + hash1;
 

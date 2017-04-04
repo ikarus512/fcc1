@@ -1,3 +1,18 @@
+/* file: app1.js */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: App1 Routes
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
 'use strict';
 
 // GET /app1 - redirected to /app1/polls
@@ -106,8 +121,8 @@ router.post('/api/polls', function(req, res, next){
   // .populate('createdBy')
   .exec()
 
-  .then(function(poll) {
-    if (poll) { // if found
+  .then(function(foundPoll) {
+    if (foundPoll) { // if found
       throw new Error('Poll with this title alredy exists.');
     } else { // if not found, create
       var poll = new Poll();
@@ -281,7 +296,7 @@ router.put('/api/polls/:id/options/:oid/vote',
         return option.votes.some(function(vote){
           votedOption = option;
           return user_id.equals(vote);
-        })
+        });
       })
     )
     {

@@ -1,3 +1,18 @@
+/* file: index.js */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: Node Server
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
 'use strict';
 
 var express = require('express'),
@@ -54,7 +69,7 @@ var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-option
 
 // Logs before all middlewares
 if (!isHeroku()) {
-  fs.existsSync(logDir) || fs.mkdirSync(logDir);
+  if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
   var logStream = rfs('access.log', { interval: '1d', path: logDir });
   appHttp.use(morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
   app.use    (morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
@@ -141,21 +156,28 @@ if (!isHeroku()) {
 
   boot = function(callback) {
 
-    server.listen(app.get('port'), function () {
-      console.log('Started https.');
+    server.listen(app.get('port'), function (err) {
+      if (err) console.log('Error starting https: '+err.message);
+      else console.log('Started https.');
 
       server2.listen(80, function () {
-        console.log('Started http.');
+        if (err) console.log('Error starting http: '+err.message);
+        else console.log('Started http.');
         if (callback) return callback();
       });
 
     });
-  }
+  };
 
-  shutdown = function() {
-    server.close();
-    server2.close();
-  }
+  shutdown = function(callback) {
+    server.close( function() {
+      // console.log('Stopped https.');
+      server2.close( function() {
+        // console.log('Stopped http.');
+        if (callback) return callback();
+      });
+    });
+  };
 
 } else {
   // Here if run on Heroku
@@ -166,11 +188,11 @@ if (!isHeroku()) {
     server.listen(app.get('port'), function () {
       console.log('Heroku app listening on port '+app.get('port')+'.');
     });
-  }
+  };
 
   shutdown = function() {
     server.close();
-  }
+  };
 
 }
 

@@ -1,6 +1,22 @@
+/* file:  */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: 
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-require('./../test-utils.js');
+require('./../../test-utils.js');
 
 var
   request = require('superagent'),
@@ -27,7 +43,7 @@ before( function(done) {
     // testLog(res);
     userACookies = res.request.cookies;
 
-    expect(err).to.not.exist;
+    expect(err).to.equal(null);
     expect(res.status).to.equal(200);
 
     expect(res.text).to.contain('local / a');
@@ -49,7 +65,7 @@ parallel('/logout', function () {
     .set('Cookie', userACookies) // authorize user a
     .end(function(err, res){
 
-      expect(err).to.not.exist;
+      expect(err).to.equal(null);
       expect(res.status).to.equal(200);
 
       expect(res.text).to.not.contain('local / a');

@@ -1,3 +1,18 @@
+/* file: my-request-logger.js */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: Request Log
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
 'use strict';
 
 var fs = require('fs');
@@ -12,10 +27,18 @@ module.exports = function(options) {
     for(var i=0; i<arguments.length; i++) {
       var el = arguments[i];
       switch (typeof(el)) {
-        case 'object':    logStream.write(JSON.stringify(el)); break;
-        case 'undefined': logStream.write('undefined'); break
-        case 'null':      logStream.write('null'); break
-        default:          logStream.write(String(el)); break;
+        case 'object':
+          logStream.write(JSON.stringify(el));
+          break;
+        case 'undefined':
+          logStream.write('undefined');
+          break;
+        case 'null':
+          logStream.write('null');
+          break;
+        default:
+          logStream.write(String(el));
+          break;
       }
     }
     logStream.write('\n');

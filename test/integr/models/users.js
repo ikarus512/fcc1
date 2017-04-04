@@ -1,6 +1,22 @@
+/* file:  */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: 
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-require('./../test-utils.js');
+require('./../../test-utils.js');
 
 var
   request = require('superagent'),
@@ -23,11 +39,11 @@ parallel('model User', function () {
     User.findOneMy({'local.username': 'admin'})
 
     .then(function(user){
-      expect(user).to.exist;
-      expect(user.local).to.exist;
+      expect(user).to.not.equal(null);
+      expect(user.local).to.not.equal(null);
       expect(user.local.username).to.equal('admin');
-      expect(user.local.password).to.exist;
-      return user.validatePassword('1234')
+      expect(user.local.password).to.not.equal(null);
+      return user.validatePassword('1234');
     })
 
     .then(function(validated){
@@ -49,11 +65,11 @@ parallel('model User', function () {
       return u.save();
     })
     .then(function(user){
-      expect(user).to.exist;
-      expect(user.local).to.exist;
+      expect(user).to.not.equal(null);
+      expect(user.local).to.not.equal(null);
       expect(user.local.username).to.equal('model_user_me');
-      expect(user.local.password).to.exist;
-      return user.validatePassword('pass')
+      expect(user.local.password).to.not.equal(null);
+      return user.validatePassword('pass');
     })
     .then(function(validated){
       expect(validated).to.equal(true);

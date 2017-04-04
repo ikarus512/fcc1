@@ -1,6 +1,22 @@
+/* file:  */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: 
+ * AUTHOR: ikarus512
+ * CREATED: 2017/03/13
+ *
+ * MODIFICATION HISTORY
+ *  2017/04/04, ikarus512. Added copyright header.
+ *
+ */
+
+/*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-require('./../test-utils.js');
+require('./../../test-utils.js');
 
 var
   request = require('superagent'),
@@ -13,17 +29,19 @@ var
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js');
 
+var
+  appHttpUrl = 'http:'+appUrl.replace(/https:/,'').replace(/\:.*$/,'');
 
 
-parallel('home', function(){
+parallel('http', function(){
 
-  it('http should redirect to https homepage',function(done){
+  it('should redirect to https homepage',function(done){
     request
     .agent() // to make authenticated requests
-    .get('http://localhost')
+    .get(appHttpUrl)
     .end(function(err, res){
-      expect(err).to.not.exist;
-      expect(res).to.exist;
+      expect(err).to.equal(null);
+      expect(res).to.not.equal(null);
       expect(res.status).to.equal(200);
       expect(res.text).to.contain('DynApps');
       expect(res.request.url).to.equal(appUrl+'/');
@@ -37,10 +55,10 @@ parallel('home', function(){
   it('anypage should redirect to https homepage',function(done){
     request
     .agent() // to make authenticated requests
-    .get('http://localhost/login')
+    .get(appHttpUrl+'/login')
     .end(function(err, res){
-      expect(err).to.not.exist;
-      expect(res).to.exist;
+      expect(err).to.equal(null);
+      expect(res).to.not.equal(null);
       expect(res.status).to.equal(200);
       expect(res.text).to.contain('DynApps');
       expect(res.request.url).to.equal(appUrl+'/');
@@ -53,13 +71,13 @@ parallel('home', function(){
   it('anypage should respond to POST with error',function(done){
     request
     .agent() // to make authenticated requests
-    .post('http://localhost/login')
+    .post(appHttpUrl+'/login')
     .end(function(err, res){
-      expect(err).to.exist;
-      expect(res).to.exist;
+      expect(err).to.not.equal(null);
+      expect(res).to.not.equal(null);
       expect(res.status).to.equal(400);
       expect(res.redirects).to.have.lengthOf(0); // no redirects
-      expect(res.text).to.equal('{"message":"Error: cannot POST http://localhost/login. Use https."}');
+      expect(res.text).to.equal('{"message":"Error: cannot POST '+appHttpUrl+'/login. Use https."}');
       done();
     });
   });
