@@ -16,9 +16,10 @@
 'use strict';
 
 var appUrls = {
-  production:   process.env.APP_URL,
-  development:  process.env.APP_URL,
-  test:         process.env.APP_URL,
+  production:     process.env.APP_URL,
+  'test-int':     "https://127.0.0.1:5000",
+  'test-int-cov': "https://127.0.0.1:5000",
+  'test-e2e':     "https://127.0.0.1:5000",
 };
 
 module.exports = appUrls[process.env.NODE_ENV];

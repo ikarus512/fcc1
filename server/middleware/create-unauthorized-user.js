@@ -3,7 +3,7 @@
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: Function to Create Unauthorized User
+ * DESCRIPTION: Create Unauthorized User
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *

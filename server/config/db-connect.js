@@ -1,4 +1,4 @@
-/* file: mongoose-connect.js */
+/* file: db-connect.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -21,7 +21,6 @@
 var
   mongoose = require('mongoose'),
   Promise = require('bluebird'),
-  createAdmin = require('./../models/create-admin.js'),
   dbUrl = require('./../config/db-url.js');
 
 mongoose.Promise = Promise;
@@ -30,8 +29,6 @@ mongoose.Promise = Promise;
 
 module.exports = function () {
 
-  mongoose.connect(dbUrl, function(){
-    createAdmin();
-  });
+  mongoose.connect(dbUrl, function(){});
 
 };

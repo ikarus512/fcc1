@@ -1,4 +1,4 @@
-/* file:  */
+/* file: protractor-conf.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -22,6 +22,7 @@ exports.config = {
   seleniumServerJar: "./../../node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar",
   seleniumPort: 4444,
   seleniumArgs: '',
+  directConnect: true,
 
   // getPageTimeout: 10000,
   // allScriptsTimeout: 10000,
@@ -46,7 +47,7 @@ exports.config = {
   multiCapabilities: [{
     browserName: 'chrome', // needs to run:   webdriver-manager update
     // shardTestFiles: true, //each spec file in different browser instance
-    // maxInstances: 1       //number of instances
+    // maxInstances: 2       //number of instances
   // }, {
   //   browserName: 'firefox'
   // }, {
@@ -56,8 +57,9 @@ exports.config = {
     // platform: 'ANY',
     // version: '11'
   }],
+  // maxSessions: 4,
 
-  localSeleniumStandaloneOpts : {
-    jvmArgs : ["-Dwebdriver.ie.driver=node_modules/protractor/node_modules/webdriver-manager/selenium/IEDriverServer.exe"]
-  },
+  // localSeleniumStandaloneOpts : {
+  //   jvmArgs : ["-Dwebdriver.ie.driver=node_modules/protractor/node_modules/webdriver-manager/selenium/IEDriverServer.exe"]
+  // },
 };

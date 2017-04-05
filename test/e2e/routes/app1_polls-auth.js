@@ -1,4 +1,4 @@
-/* file:  */
+/* file: app1_polls-auth.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -12,7 +12,12 @@
  *
  */
 
-require('./../../test-utils.js');
+/*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
+/*global by, browser, element */
+'use strict';
+
+require('../utils.js');
 
 var
   chai = require('chai').use(require('chai-as-promised')),
@@ -21,8 +26,6 @@ var
 
 
 describe('app1 auth user', function() {
-
-  var initialPolls;
 
   beforeEach(function() {
     // Log In
@@ -33,22 +36,27 @@ describe('app1 auth user', function() {
     element(by.id('loginPassword')).sendKeys('a');
     element(by.id('loginButton')).click();
     expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl+'/');
+  });
 
+  it('should view polls', function() {
     // Go to app1 page
     browser.driver.get(appUrl+'/app1');
     expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl+'/app1/polls');
 
     // Save initially visible polls
-    initialPolls = element.all(by.repeater('poll in polls'));
-  });
+    var initialPolls = element.all(by.repeater('poll in polls'));
 
-  it('should view polls', function() {
     expect(initialPolls.count()).to.eventually.be.above(1);
     expect(initialPolls.get(0).getText()).to.eventually.equal('Poll 1');
     expect(initialPolls.get(1).getText()).to.eventually.equal('Poll 2');
   });
 
   it('should add polls', function() {
+    // Go to app1 page
+    browser.driver.get(appUrl+'/app1');
+    expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl+'/app1/polls');
+
+    // Press createNewPollButton, enter new poll title, press 'create'
     var createNewPollButton = element(by.id('createNewPollButton'));
     expect(createNewPollButton.isDisplayed()).to.eventually.equal(true);
     createNewPollButton.click();

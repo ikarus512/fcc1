@@ -33,7 +33,7 @@ var express = require('express'),
   path = require('path'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
   shareit = require(path.join(__dirname, '../utils/shareit.js')),
-  createUnauthorizedUser = require('./../models/create-unauthorized-user.js'),
+  createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
   Promise = require('bluebird');
 
 var User = require('../models/users');

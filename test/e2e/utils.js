@@ -1,9 +1,9 @@
-/* file:  */
+/* file: utils.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: 
+ * DESCRIPTION: E2E Test Utils
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *
@@ -13,14 +13,10 @@
  */
 
 /*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-process.env.NODE_ENV = 'test';
+if (!process.env.NODE_ENV.match(/^test-e2e/)) {
+  throw Error('Incorrect NODE_ENV for test: '+process.env.NODE_ENV);
+}
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // Ignore 'self-signed certificate' error
-
-var server = require('./../server/index.js');
-
-
-require('./hooks-main.js')(server.boot, server.shutdown);
-require('./hooks-users.js')();
-require('./hooks-app1.js')();

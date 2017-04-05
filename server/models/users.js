@@ -9,6 +9,7 @@
  *
  * MODIFICATION HISTORY
  *  2017/04/04, ikarus512. Added copyright header.
+ *  2017/04/05, ikarus512. Added createAdmin() static.
  *
  */
 
@@ -19,9 +20,13 @@ var mongoose = require('mongoose'),
   Promise = require('bluebird'),
   Schema = mongoose.Schema,
   bcrypt = require('bcrypt-nodejs'),
-  PublicError = require('../utils/public-error.js');
+  PublicError = require('./../utils/public-error.js'),
+  myErrorLog = require('./../utils/my-error-log.js'),
+  ADMIN_PASSWORD = require('./../config/admin-password.js');
 
 mongoose.Promise = Promise;
+
+
 
 var UserSchema = new Schema({
   // Virtual properties:
@@ -41,7 +46,7 @@ var UserSchema = new Schema({
 },
 { // options
   versionKey: false, // do not use __v property
-  bufferCommands: false, // we'll do connection check manually
+  //bufferCommands: false, // we'll do connection check manually
 });
 
 ////////////////////////////////////////////////////////////////
@@ -143,6 +148,34 @@ UserSchema.statics.createLocalUser = function(aUser) {
     newUser.local.username = aUser.username;
     newUser.local.password = pwdHash;
     return newUser.save();
+  });
+
+};
+
+// createAdmin
+UserSchema.statics.createAdmin = function(callback) {
+
+  return UserModel().createLocalUser({
+    username: 'admin',
+    password: ADMIN_PASSWORD,
+    password2: ADMIN_PASSWORD,
+  })
+
+  .then( function() {
+    if (callback) {
+      if (typeof(callback) !== 'function') {
+        throw Error('User.createAdmin() argument can only be callback function.');
+      }
+      return callback();
+    }
+    return;
+  })
+
+  .catch( function(err) {
+    // no throw err, as we ignore errors here
+    myErrorLog(null, err); // log error
+    if (callback) return callback(err);
+    return;
   });
 
 };
