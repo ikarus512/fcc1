@@ -25,19 +25,19 @@ var User = require('../models/users'),
 module.exports = function (app, passport) {
 
   app.route('/login')
-  .get(function (req, res) {
+  .get( function(req, res) {
     res.render('login', {
       flashmessage: req.flash('message')[0] // Display flash messages if any
     });
   });
 
   app.route('/signup')
-  .get(function (req, res) {
+  .get( function(req, res) {
     res.render('signup', {});
   });
 
   app.route('/logout')
-  .get(function (req, res) {
+  .get( function(req, res) {
     req.logout();
     res.redirect('/');
   });
@@ -66,7 +66,7 @@ module.exports = function (app, passport) {
 
     .then( function(newUser) {
       // login as new user
-      return new Promise(function(resolve, reject) {
+      return new Promise( function(resolve, reject) {
         req.login(newUser, function(err) {
           if (err) throw new Error('Internal error e0000000.');
           return resolve(res.redirect('/'));

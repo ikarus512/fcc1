@@ -38,7 +38,7 @@ parallel('model User', function () {
 
     User.findOneMy({'local.username': 'admin'})
 
-    .then(function(user){
+    .then( function(user) {
       expect(user).to.not.equal(null);
       expect(user.local).to.not.equal(null);
       expect(user.local.username).to.equal('admin');
@@ -46,12 +46,12 @@ parallel('model User', function () {
       return user.validatePassword('1234');
     })
 
-    .then(function(validated){
+    .then( function(validated) {
       expect(validated).to.equal(true);
       return done();
     })
 
-    .catch(function(err){
+    .catch( function(err) {
       return done(err);
     });
 
@@ -59,23 +59,23 @@ parallel('model User', function () {
 
   it('#save() should create a new User', function (done) {
     User.generateHash('pass')
-    .then(function(pwdHash){
+    .then( function(pwdHash) {
       var u = new User();
       u.local = { username: 'model_user_me', password: pwdHash };
       return u.save();
     })
-    .then(function(user){
+    .then( function(user) {
       expect(user).to.not.equal(null);
       expect(user.local).to.not.equal(null);
       expect(user.local.username).to.equal('model_user_me');
       expect(user.local.password).to.not.equal(null);
       return user.validatePassword('pass');
     })
-    .then(function(validated){
+    .then( function(validated) {
       expect(validated).to.equal(true);
       return done();
     })
-    .catch(function(err){
+    .catch( function(err) {
       return done(err);
     });
   });

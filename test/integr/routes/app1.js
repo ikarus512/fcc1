@@ -36,7 +36,7 @@ var
 
 before( function () {
   return Poll.findOne({}).exec()
-  .then(function(poll){
+  .then( function(poll) {
     if (!poll) throw Error('Polls not found.');
     poll_id = poll._id;
   });
@@ -51,7 +51,7 @@ before( function(done) {
   .agent() // to make authenticated requests
   .post(appUrl+'/auth/local')
   .send({username:'a', password:'a'})
-  .end(function(err, res){
+  .end( function(err, res) {
     // testLog(res);
     userACookies = res.request.cookies;
 
@@ -74,7 +74,7 @@ parallel('app1', function () {
     .agent() // to make authenticated requests
     .get(appUrl+'/app1')
     .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
-    .end(function(err, res){
+    .end( function(err, res) {
 
       expect(err).to.equal(null);
       expect(res.status).to.equal(200);
@@ -96,7 +96,7 @@ parallel('app1', function () {
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/polls/'+poll_id)
     .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
-    .end(function(err, res){
+    .end( function(err, res) {
 
       expect(err).to.equal(null);
       expect(res.status).to.equal(200);
@@ -123,7 +123,7 @@ parallel('app1', function () {
     .agent() // to make authenticated requests
     .get(appUrl+'/app1')
     .set('Cookie', userACookies) // authorize user a
-    .end(function(err, res){
+    .end( function(err, res) {
 
       expect(err).to.equal(null);
       expect(res.status).to.equal(200);
@@ -146,7 +146,7 @@ parallel('app1', function () {
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/polls/'+poll_id)
     .set('Cookie', userACookies) // authorize user a
-    .end(function(err, res){
+    .end( function(err, res) {
 
       expect(err).to.equal(null);
       expect(res.status).to.equal(200);

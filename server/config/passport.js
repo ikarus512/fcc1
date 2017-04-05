@@ -29,11 +29,11 @@ var TwitterStrategy = require('passport-twitter').Strategy,
 
 module.exports = function (passport) {
 
-  passport.serializeUser(function (req, user, done) {
+  passport.serializeUser( function(req, user, done) {
     done(null, user.id);
   });
 
-  passport.deserializeUser(function (req, id, done) {
+  passport.deserializeUser( function(req, id, done) {
 
     User.findOneMy({ '_id': id })
 
@@ -91,7 +91,7 @@ module.exports = function (passport) {
       passReqToCallback: true
     },
     function facebookVerify(req, token, refreshToken, profile, done) {
-      process.nextTick(function () {
+      process.nextTick( function() {
 
         User.findOneMy({ 'facebook.id': profile.id })
 
@@ -131,7 +131,7 @@ module.exports = function (passport) {
       passReqToCallback: true
     },
     function twitterVerify(req, token, tokenSecret, profile, done) {
-      process.nextTick(function () {
+      process.nextTick( function() {
 
         User.findOneMy({ 'twitter.id': profile.id })
 
@@ -170,7 +170,7 @@ module.exports = function (passport) {
       passReqToCallback: true
     },
     function githubVerify(req, token, refreshToken, profile, done) {
-      process.nextTick(function () {
+      process.nextTick( function() {
 
         User.findOneMy({ 'github.id': profile.id })
 

@@ -53,7 +53,7 @@ var UserSchema = new Schema({
 //  virtuals
 ////////////////////////////////////////////////////////////////
 
-UserSchema.virtual('type').get(function () {
+UserSchema.virtual('type').get( function() {
   var type = 'unknown';
   try {
     if(this.facebook.id)     type = 'facebook';
@@ -67,7 +67,7 @@ UserSchema.virtual('type').get(function () {
   return type;
 });
 
-UserSchema.virtual('name').get(function () {
+UserSchema.virtual('name').get( function() {
   var name = 'unonimous';
   try {
     name = this[this.type].displayName;
@@ -85,7 +85,7 @@ UserSchema.virtual('name').get(function () {
 // findOne with connection check
 UserSchema.statics.findOneMy = function(filter) {
 
-  return new Promise(function(resolve, reject) {
+  return new Promise( function(resolve, reject) {
 
     if(!mongoose.connection.readyState) {
       throw new Error('No connection to users database.');
@@ -100,7 +100,7 @@ UserSchema.statics.findOneMy = function(filter) {
 // createLocalUser
 UserSchema.statics.createLocalUser = function(aUser) {
 
-  return new Promise(function(resolve, reject) {
+  return new Promise( function(resolve, reject) {
 
     if (!aUser.username) // username absent
       throw new PublicError('Please fill in username.');
@@ -201,7 +201,7 @@ UserSchema.statics.generateHash = function(password) {
 
   var self = this;
 
-  return new Promise(function(resolve, reject) {
+  return new Promise( function(resolve, reject) {
 
     if (!self) {
       throw new Error('this undefined. User.generateHash() returns promise, but not result (rewrite program)!');
@@ -218,7 +218,7 @@ UserSchema.methods.validatePassword = function(password, callback) {
 
   var self = this;
 
-  return new Promise(function(resolve, reject) {
+  return new Promise( function(resolve, reject) {
 
     if (!self) {
       throw new Error('this undefined. User.validatePassword() returns promise, but not result (rewrite program)!');

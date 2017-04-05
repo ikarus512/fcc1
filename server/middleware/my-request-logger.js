@@ -72,7 +72,7 @@ module.exports = function(options) {
       logWriteLn('req.user=',req.user);
     }
 
-    if (!immediate) process.nextTick(function(){ logStream.uncork(); }); // flush stream
+    if (!immediate) process.nextTick( function() { logStream.uncork(); } ); // flush stream
 
     return next();
   };

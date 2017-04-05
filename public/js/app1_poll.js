@@ -4,7 +4,7 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;(function(){
+;( function() {
   'use strict';
 
   var app=angular.module("myApp1Poll", ["chart.js"]);
@@ -46,7 +46,7 @@
 
       function reloadPoll() {
         pollOptStorage.get($scope.poll_id)
-        .then(function(res){
+        .then( function(res) {
           $scope.poll = res.data;
 
           $scope.chartOptions.title.text = $scope.poll.title;
@@ -54,7 +54,7 @@
           $scope.chartLabels = [];
           $scope.chartData = [];
 
-          $scope.poll.options.forEach(function(option){
+          $scope.poll.options.forEach( function(option) {
             $scope.chartLabels.push(option.title);
             $scope.chartData.push(option.votes.length);
           });
@@ -71,9 +71,9 @@
       $scope.pollDelete = function() {
         if (confirm("Do you really want to delete the poll?")) {
           pollOptStorage.delete($scope.poll._id)
-          .then(function onOk(res){ // Poll successfully deleted on server
+          .then( function onOk(res) { // Poll successfully deleted on server
             $window.location.href = '/app1/polls'; // return to polls page
-          },function onErr(res){
+          }, function onErr(res) {
             // Report error during poll deletion
             alert(res.data.message);
           });
@@ -94,12 +94,12 @@
 
         if (title) {
           pollOptStorage.post($scope.poll._id, title)
-          .then(function onOk(res){
+          .then( function onOk(res) {
             reloadPoll();
 
             $scope.newOptionTitle = '';
             $scope.view = 'poll';
-          },function onErr(res){
+          }, function onErr(res) {
             // Report error during poll creation
             alert(res.data.message);
           });
@@ -109,9 +109,9 @@
 
       $scope.optionVote = function(option) {
         pollOptStorage.put($scope.poll._id, option._id)
-        .then(function onOk(res){
+        .then( function onOk(res) {
           reloadPoll();
-        },function onErr(res){
+        }, function onErr(res) {
           // Report error during poll creation
           alert(res.data.message);
         });
@@ -155,12 +155,12 @@
 
   });
 
-  app.directive('myFocus', ['$timeout',function($timeout) {
+  app.directive('myFocus', ['$timeout', function($timeout) {
 
     return function (scope, elem, attrs) {
       scope.$watch(attrs.myFocus, function (newVal) {
         if (newVal) {
-          $timeout(function () {
+          $timeout( function() {
             elem[0].focus();
           }, 0, false);
         }

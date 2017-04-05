@@ -33,12 +33,12 @@ var
 
 parallel('login', function () {
 
-  it('/login should allow GET',function(done){
+  it('/login should allow GET', function(done) {
 
     request
     .agent() // to make authenticated requests
     .get(appUrl+'/login')
-    .end(function(err, res){
+    .end( function(err, res) {
 
       expect(err).to.equal(null);
       expect(res.status).to.equal(200);
@@ -61,12 +61,12 @@ parallel('login', function () {
 
   });
 
-  it('/login should not allow POST',function(done){
+  it('/login should not allow POST', function(done) {
 
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/login')
-    .end(function(err, res){
+    .end( function(err, res) {
 
       expect(err).to.not.equal(null);
       expect(res.status).to.not.equal(200);
@@ -78,13 +78,13 @@ parallel('login', function () {
   });
 
 
-  it('/auth/local should allow correct login',function(done){
+  it('/auth/local should allow correct login', function(done) {
 
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/auth/local')
     .send({username:'admin', password:'1234'})
-    .end(function(err, res){
+    .end( function(err, res) {
 
       expect(err).to.equal(null);
       expect(res.status).to.equal(200);
@@ -115,14 +115,14 @@ parallel('login', function () {
 
   wrongData.forEach( function(data, idx) {
 
-    it('/auth/local should not allow incorrect login (idx='+idx+')',function(done){
+    it('/auth/local should not allow incorrect login (idx='+idx+')', function(done) {
 
       request
       .agent() // to make authenticated requests
       .post(appUrl+'/auth/local')
 
       .send({username:data.username, password:data.password})
-      .end(function(err, res){
+      .end( function(err, res) {
 
         expect(err).to.equal(null);
         expect(res.status).to.equal(200);

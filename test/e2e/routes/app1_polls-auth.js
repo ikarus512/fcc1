@@ -27,7 +27,7 @@ var
 
 describe('app1 auth user', function() {
 
-  beforeEach(function() {
+  beforeEach( function() {
     // Log In
     browser.ignoreSynchronization = true; // Do not wait for Angular on this page
     browser.driver.get(appUrl+'/logout');

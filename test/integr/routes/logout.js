@@ -39,7 +39,7 @@ before( function(done) {
   .agent() // to make authenticated requests
   .post(appUrl+'/auth/local')
   .send({username:'a', password:'a'})
-  .end(function(err, res){
+  .end( function(err, res) {
     // testLog(res);
     userACookies = res.request.cookies;
 
@@ -57,13 +57,13 @@ before( function(done) {
 
 parallel('/logout', function () {
 
-  it('should work',function(done){
+  it('should work', function(done) {
 
     request
     .agent() // to make authenticated requests
     .get(appUrl+'/logout')
     .set('Cookie', userACookies) // authorize user a
-    .end(function(err, res){
+    .end( function(err, res) {
 
       expect(err).to.equal(null);
       expect(res.status).to.equal(200);

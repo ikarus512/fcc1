@@ -35,11 +35,11 @@ var
 
 parallel('http', function(){
 
-  it('should redirect to https homepage',function(done){
+  it('should redirect to https homepage', function(done) {
     request
     .agent() // to make authenticated requests
     .get(appHttpUrl)
-    .end(function(err, res){
+    .end( function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.not.equal(null);
       expect(res.status).to.equal(200);
@@ -52,11 +52,11 @@ parallel('http', function(){
   });
 
 
-  it('anypage should redirect to https homepage',function(done){
+  it('anypage should redirect to https homepage', function(done) {
     request
     .agent() // to make authenticated requests
     .get(appHttpUrl+'/login')
-    .end(function(err, res){
+    .end( function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.not.equal(null);
       expect(res.status).to.equal(200);
@@ -68,11 +68,11 @@ parallel('http', function(){
     });
   });
 
-  it('anypage should respond to POST with error',function(done){
+  it('anypage should respond to POST with error', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appHttpUrl+'/login')
-    .end(function(err, res){
+    .end( function(err, res) {
       expect(err).to.not.equal(null);
       expect(res).to.not.equal(null);
       expect(res.status).to.equal(400);

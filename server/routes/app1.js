@@ -58,7 +58,7 @@ router.get('/polls/:id',
     // Find poll title (needed for sharing)
     Poll.findOne({_id:req.params.id}).exec()
 
-    .then(function(poll) {
+    .then( function(poll) {
       if (!poll) { // if found, add to req
         throw new Error('Poll not found.');
       } else { // if found, add to req
@@ -93,9 +93,7 @@ router.get('/polls/:id',
 router.get('/api/polls', function(req, res, next){
 
   // Find all polls
-  Poll.find({})
-  //.populate('createdBy')
-  .exec()
+  Poll.find({}).exec()
 
   // Respond all polls
   .then( function(polls) {
@@ -117,11 +115,9 @@ router.post('/api/polls', function(req, res, next){
   }
 
   // Find poll with same title
-  Poll.findOne({title:req.body.title})
-  // .populate('createdBy')
-  .exec()
+  Poll.findOne({title:req.body.title}).exec()
 
-  .then(function(foundPoll) {
+  .then( function(foundPoll) {
     if (foundPoll) { // if found
       throw new Error('Poll with this title alredy exists.');
     } else { // if not found, create
@@ -133,17 +129,17 @@ router.post('/api/polls', function(req, res, next){
   })
 
   // Save the new poll
-  .then(function(poll){
+  .then( function(poll) {
     return poll.save();
   })
 
   // Send the response back
-  .then(function(poll){
+  .then( function(poll) {
     return res.status(200).json(poll);
   })
 
   // Catch all errors and respond with error message
-  .catch(function(err){
+  .catch( function(err) {
     return res.status(400).json({message:err.toString()});
   });
 
@@ -159,7 +155,7 @@ router.delete('/api/polls/:id', function(req, res, next){
   // Find poll by id
   Poll.findOne({_id:req.params.id}).exec()
 
-  .then(function(poll) {
+  .then( function(poll) {
     if (poll) { // if found
       return poll;
     } else { // if not found, report error
@@ -168,7 +164,7 @@ router.delete('/api/polls/:id', function(req, res, next){
   })
 
   // Remove the new poll
-  .then(function(poll){
+  .then( function(poll) {
     if (
       req.user && // user logged in
       (
@@ -185,12 +181,12 @@ router.delete('/api/polls/:id', function(req, res, next){
   })
 
   // Send the response back
-  .then(function(poll){
+  .then( function(poll) {
     return res.status(200).json();
   })
 
   // Catch all errors and respond with error message
-  .catch(function(err){
+  .catch( function(err) {
     return res.status(400).json({message:err.toString()});
   });
 
@@ -201,7 +197,7 @@ router.get('/api/polls/:id', function(req, res, next){
   // Find poll by id
   Poll.findOne({_id:req.params.id}).exec()
 
-  .then(function(poll) {
+  .then( function(poll) {
     if (poll) { // if found
       return poll;
     } else { // if not found, report error
@@ -210,12 +206,12 @@ router.get('/api/polls/:id', function(req, res, next){
   })
 
   // Send the response back
-  .then(function(poll){
+  .then( function(poll) {
     return res.status(200).json(poll);
   })
 
   // Catch all errors and respond with error message
-  .catch(function(err){
+  .catch( function(err) {
     return res.status(400).json({message:err.toString()});
   });
 
@@ -231,7 +227,7 @@ router.post('/api/polls/:id/options', function(req, res, next){
   // Find poll by id
   Poll.findOne({_id:req.params.id}).exec()
 
-  .then(function(poll) {
+  .then( function(poll) {
     if (poll) { // if found
       return poll;
     } else { // if not found, report error
@@ -240,8 +236,8 @@ router.post('/api/polls/:id/options', function(req, res, next){
   })
 
   // If poll option does not exist, add it to poll
-  .then(function(poll){
-    if (poll.options.some(function(el){return el.title===req.body.title;})) {
+  .then( function(poll) {
+    if (poll.options.some( function(el) {return el.title===req.body.title;} )) {
       throw new Error('Option with this title already exists.');
     }
     poll.options.push({title: req.body.title});
@@ -249,12 +245,12 @@ router.post('/api/polls/:id/options', function(req, res, next){
   })
 
   // Send the response back
-  .then(function(poll){
-    return res.status(200).json();
+  .then( function(poll) {
+    return res.status(200).json(poll);
   })
 
   // Catch all errors and respond with error message
-  .catch(function(err){
+  .catch( function(err) {
     return res.status(400).json({message:err.toString()});
   });
 
@@ -269,7 +265,7 @@ router.put('/api/polls/:id/options/:oid/vote',
   // Find poll by id
   Poll.findOne({_id:req.params.id}).exec()
 
-  .then(function(poll) {
+  .then( function(poll) {
     if (poll) { // if found
       return poll;
     } else { // if not found, report error
@@ -278,7 +274,7 @@ router.put('/api/polls/:id/options/:oid/vote',
   })
 
   // Find poll option by option id, add vote for it
-  .then(function(poll){
+  .then( function(poll) {
 
     var user_id =
       req.isAuthenticated() ? req.user._id :
@@ -292,8 +288,8 @@ router.put('/api/polls/:id/options/:oid/vote',
     // Check if user already voted in this poll
     var votedOption={title:''};
     if (
-      poll.options.some(function(option){
-        return option.votes.some(function(vote){
+      poll.options.some( function(option) {
+        return option.votes.some( function(vote) {
           votedOption = option;
           return user_id.equals(vote);
         });
@@ -304,7 +300,7 @@ router.put('/api/polls/:id/options/:oid/vote',
     }
 
     var idx;
-    if (!poll.options.some(function(option,i){idx=i; return option.id===req.params.oid;})) {
+    if (!poll.options.some( function(option,i) {idx=i; return option.id===req.params.oid;} )) {
       throw new Error('Option with this title does not exist.');
     }
 
@@ -314,12 +310,12 @@ router.put('/api/polls/:id/options/:oid/vote',
   })
 
   // Send the response back
-  .then(function(poll){
-    return res.status(200).json();
+  .then( function(poll) {
+    return res.status(200).json(poll);
   })
 
   // Catch all errors and respond with error message
-  .catch(function(err){
+  .catch( function(err) {
     return res.status(400).json({message:err.toString()});
   });
 

@@ -4,7 +4,7 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;(function(){
+;( function() {
   'use strict';
 
   var app=angular.module("myApp1Voting", []);
@@ -18,7 +18,7 @@
       $scope.editedPoll = null;
 
       $scope.polls = [];
-      pollStorage.get().then(function(res){ $scope.polls=res.data; });
+      pollStorage.get().then( function(res) { $scope.polls=res.data; } );
 
       $scope.init = function(logintype) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
@@ -37,14 +37,14 @@
 
         if (title) {
           pollStorage.post({title: title})
-          .then(function onOk(res){
+          .then( function onOk(res) {
             var poll = res.data;
 
             $scope.polls.push(poll);
 
             $scope.newPollTitle = '';
             $scope.view = 'polls';
-          },function onErr(res){
+          }, function onErr(res) {
             // Report error during poll creation
             alert(res.data.message);
           });
@@ -90,12 +90,12 @@
 
   });
 
-  app.directive('myFocus', ['$timeout',function($timeout) {
+  app.directive('myFocus', ['$timeout', function($timeout) {
 
     return function (scope, elem, attrs) {
       scope.$watch(attrs.myFocus, function (newVal) {
         if (newVal) {
-          $timeout(function () {
+          $timeout( function() {
             elem[0].focus();
           }, 0, false);
         }

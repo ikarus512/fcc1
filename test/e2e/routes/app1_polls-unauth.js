@@ -29,7 +29,7 @@ describe('app1 unauth user', function() {
 
   var initialPolls;
 
-  beforeEach(function() {
+  beforeEach( function() {
     // Log Out if any
     browser.ignoreSynchronization = true; // Do not wait for Angular on this page
     browser.driver.get(appUrl+'/logout');

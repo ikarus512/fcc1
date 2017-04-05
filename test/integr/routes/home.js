@@ -38,11 +38,11 @@ parallel('route', function () {
   //==========================================================
   describe('home', function(){
 
-    it('should respond to GET',function(done){
+    it('should respond to GET', function(done) {
       request
       .agent() // to make authenticated requests
       .get(appUrl)
-      .end(function(err, res){
+      .end( function(err, res) {
         expect(err).to.equal(null);
         expect(res).to.not.equal(null);
         expect(res.status).to.equal(200);
@@ -52,11 +52,11 @@ parallel('route', function () {
       });
     });
 
-    it('should respond to POST with error',function(done){
+    it('should respond to POST with error', function(done) {
       request
       .agent() // to make authenticated requests
       .post(appUrl)
-      .end(function(err, res){
+      .end( function(err, res) {
         expect(err).to.not.equal(null);
         expect(res).to.not.equal(null);
         expect(res.status).to.equal(400);

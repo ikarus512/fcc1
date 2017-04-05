@@ -28,7 +28,7 @@ var
 describe('app1', function() {
   // https://github.com/sakshisingla/Protractor-Non-Angular-Tests/wiki/Creating-test-scripts-using-Protractor-for-non-angular-application
 
-  beforeEach(function() {
+  beforeEach( function() {
     //browser().navigateTo('/services')
     browser.ignoreSynchronization = true; // Do not wait for Angular on this page
   });

@@ -103,7 +103,7 @@ function clearSessionsCollection(callback) {
   var MongoClient = require('mongodb').MongoClient;
   MongoClient.connect(dbUrl, function(err, db) {
     if (err) throw err;
-    db.collection('sessions').remove({},function(err, result) {
+    db.collection('sessions').remove({}, function(err, result) {
       if (err) throw err;
       db.close(callback);
     });

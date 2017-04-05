@@ -31,11 +31,11 @@ var
 
 parallel('signup', function () {
 
-  it('/signup should respond to GET',function(done){
+  it('/signup should respond to GET', function(done) {
     request
     .agent() // to make authenticated requests
     .get(appUrl+'/signup')
-    .end(function(err, res){
+    .end( function(err, res) {
       expect(err).to.equal(null);
       expect(res).to.not.equal(null);
       expect(res.status).to.equal(200);
@@ -45,11 +45,11 @@ parallel('signup', function () {
     });
   });
 
-  it('/signup should respond to POST with error',function(done){
+  it('/signup should respond to POST with error', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/signup')
-    .end(function(err, res){
+    .end( function(err, res) {
       expect(err).to.not.equal(null);
       expect(res).to.not.equal(null);
       expect(res.status).to.equal(400);
@@ -61,12 +61,12 @@ parallel('signup', function () {
 
 
 
-  it('/auth/local/signup good data should create new user',function(done){
+  it('/auth/local/signup good data should create new user', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/auth/local/signup')
     .send({username:'signup_a', password:'a', password2:'a'})
-    .end(function(err, res){
+    .end( function(err, res) {
       // testLog(res);
 
       expect(err).to.equal(null);
@@ -107,11 +107,11 @@ parallel('signup', function () {
 
   wrongData.forEach( function(data, idx) {
 
-    it('/auth/local/signup wrong data should not be ok (idx='+idx+')',function(done){
+    it('/auth/local/signup wrong data should not be ok (idx='+idx+')', function(done) {
       request
       .agent() // to make authenticated requests
       .post(appUrl+'/auth/local/signup').send(data)
-      .end(function(err, res){
+      .end( function(err, res) {
         expect(err).to.not.equal(null);
         expect(res.status).to.equal(400);
 

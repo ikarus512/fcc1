@@ -22,7 +22,7 @@ describe('todo angular view', function() {
   // Set up the module
   beforeEach(module('myApp1Poll'));
 
-  beforeEach(inject(function($injector) {
+  beforeEach(inject( function($injector) {
     // Set up the mock http service responses
     $httpBackend = $injector.get('$httpBackend');
     // backend definition common for all tests
@@ -48,7 +48,7 @@ describe('todo angular view', function() {
     };
   }));
 
-  afterEach(function() {
+  afterEach( function() {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
