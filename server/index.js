@@ -27,6 +27,7 @@ var express = require('express'),
   flash = require('connect-flash'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
+  helmet = require('helmet'),
   herokuSslRedirect = require('./middleware/heroku-ssl-redirect.js'),
   greet = require('./utils/greet.js'),
   app1_voting    = require('./routes/app1.js'),
@@ -70,6 +71,8 @@ var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-option
 //  Middlewares
 ////////////////////////////////////////////////////////////////
 
+// appHttp.use(helmet); // Node.js Security Tutorial
+
 // Logs before all middlewares
 if (!isHeroku()) {
   if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
@@ -100,7 +103,7 @@ app.use(expressStatusMonitor);
 // Static
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session(require('./config/session-options.js')(session)));
