@@ -1,4 +1,4 @@
-/* file:  */
+/* file: app1_polls-unauth.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -12,7 +12,12 @@
  *
  */
 
-require('./../../test-utils.js');
+/*jshint node: true*/
+/*global describe, it, before, beforeEach, after, afterEach */
+/*global by, browser, element */
+'use strict';
+
+require('../utils.js');
 
 var
   chai = require('chai').use(require('chai-as-promised')),

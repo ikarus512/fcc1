@@ -27,7 +27,7 @@ var express = require('express'),
   flash = require('connect-flash'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
-  herokuSslRedirect = require('./utils/heroku-ssl-redirect.js'),
+  herokuSslRedirect = require('./middleware/heroku-ssl-redirect.js'),
   greet = require('./utils/greet.js'),
   app1_voting    = require('./routes/app1.js'),
   app2_nightlife = require('./routes/app2.js'),
@@ -35,14 +35,17 @@ var express = require('express'),
   app4_books     = require('./routes/app4.js'),
   app5_pinter    = require('./routes/app5.js'),
   isHeroku = require('./utils/is-heroku.js'),
-  isAdmin = require('./utils/is-admin.js'),
+  isAdmin = require('./middleware/is-admin.js'),
+
+  dbConnect = require('./config/db-connect.js'),
+  dbInit = require('./config/db-init.js'),
 
   morganLogger = require('morgan'),
   rfs = require('rotating-file-stream'),
   logDir = path.join(__dirname, '../logs/'),
 
   myLogFile = path.join(logDir, 'my-request.log'),
-  myRequestLogger = require('./utils/my-request-logger.js'),
+  myRequestLogger = require('./middleware/my-request-logger.js'),
 
   passport = require('passport'),
   isLoggedIn = require('./config/passport')(passport);
@@ -59,7 +62,7 @@ app.enable('trust proxy'); // to get req.ip
 app.set('view engine', 'pug');
 app.set('views',__dirname+'/views');
 
-require('./config/mongoose-connect.js')();
+dbConnect();
 
 var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-options.js'));
 
@@ -154,27 +157,53 @@ if (!isHeroku()) {
   server = https.createServer(require('./config/https-options.js'), app);
   server2 = http.createServer(appHttp);
 
-  boot = function(callback) {
+  boot = function(done) {
 
     server.listen(app.get('port'), function (err) {
-      if (err) console.log('Error starting https: '+err.message);
+      console.log('NODE_ENV = '+process.env.NODE_ENV);
+
+      if (err) throw err;
       else console.log('Started https.');
 
-      server2.listen(80, function () {
-        if (err) console.log('Error starting http: '+err.message);
+      server2.listen(80, function (err) {
+        if (err) throw err;
         else console.log('Started http.');
-        if (callback) return callback();
+
+        dbInit( function() {
+
+          console.log('DB initialized.');
+
+          // Using socket.io to:
+          // 1) stop server in response to the npmStop signal,
+          // 2) answer to client in response to npmServerRequest signal.
+          var io = require('socket.io')(server);
+          io.on('connection', function(socketServer) { // Here if new client connected
+            socketServer.on('npmStop', function() {
+              console.log('Server received npmStop.');
+              process.exit(0); // Stop server
+            });
+            socketServer.on('npmServerRequest', function(data) {
+              console.log('Server received request: ',data);
+              socketServer.emit('new message', 'Server is ready.'); // Answer to client
+            });
+          });
+
+         if (done) return done();
+
+        });
+
       });
 
     });
+
   };
 
-  shutdown = function(callback) {
+  shutdown = function(done) {
     server.close( function() {
       // console.log('Stopped https.');
       server2.close( function() {
         // console.log('Stopped http.');
-        if (callback) return callback();
+        if (done) return done();
       });
     });
   };
@@ -186,7 +215,9 @@ if (!isHeroku()) {
 
   boot = function() {
     server.listen(app.get('port'), function () {
-      console.log('Heroku app listening on port '+app.get('port')+'.');
+      dbInit( function() {
+        console.log('Heroku app listening on port '+app.get('port')+'.');
+      });
     });
   };
 

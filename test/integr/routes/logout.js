@@ -1,4 +1,4 @@
-/* file:  */
+/* file: logout.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -16,7 +16,7 @@
 /*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-require('./../../test-utils.js');
+require('./../test-utils.js');
 
 var
   request = require('superagent'),

@@ -2,6 +2,8 @@
 logs
 *.log
 npm-debug.log*
+debug.log
+1.1
 
 # SSL/TLS certificate/key files
 _certificate
