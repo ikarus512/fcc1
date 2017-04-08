@@ -67,7 +67,7 @@ parallel('signup', function () {
     .post(appUrl+'/auth/local/signup')
     .send({username:'signup_a', password:'a', password2:'a'})
     .end( function(err, res) {
-      // testLog(res);
+      // testLog({res:res,err:err});
 
       expect(err).to.equal(null);
       expect(res.status).to.equal(200);

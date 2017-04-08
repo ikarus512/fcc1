@@ -29,7 +29,7 @@ var
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js'),
 
-  Poll = require('../../../server/models/polls'),
+  Poll = require('../../../server/models/app1-polls.js'),
   poll_id;
 
 
@@ -52,7 +52,7 @@ before( function(done) {
   .post(appUrl+'/auth/local')
   .send({username:'a', password:'a'})
   .end( function(err, res) {
-    // testLog(res);
+    // testLog({res:res,err:err});
     userACookies = res.request.cookies;
 
     expect(err).to.equal(null);

@@ -15,7 +15,7 @@
 /*jshint node: true*/
 'use strict';
 
-var User = require('../models/users'),
+var User = require('../models/users.js'),
   path = require('path'),
   shareit = require(path.join(__dirname, '../utils/shareit.js'));
 

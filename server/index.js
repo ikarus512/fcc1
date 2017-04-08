@@ -71,10 +71,10 @@ var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-option
 //  Middlewares
 ////////////////////////////////////////////////////////////////
 
-// appHttp.use(helmet); // Node.js Security Tutorial
-
 // Logs before all middlewares
 if (!isHeroku()) {
+  // appHttp.use(helmet); // Node.js Security Tutorial
+
   if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
   var logStream = rfs('access.log', { interval: '1d', path: logDir });
   appHttp.use(morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
@@ -123,18 +123,18 @@ if (!isHeroku()) {
 // status monitor
 app.get('/statmon', isAdmin, expressStatusMonitor.pageRoute);
 
-// passport login-related routes, unprotected
+// passport login-related routes
 require('./routes/passport-login.js')(app, passport);
 
-// / route (home, unprotected)
+// / home route
 require('./routes/home.js')(app, passport, isLoggedIn, greet);
 
-// /settings route (protected)
+// /settings route
 require('./routes/settings.js')(app, passport, isLoggedIn, greet);
 
 // applications-related routes
-app.use('/app1', /*isLoggedIn,*/ app1_voting);
-app.use('/app2', isLoggedIn, app2_nightlife);
+app.use('/app1', app1_voting);
+app.use('/app2', app2_nightlife);
 app.use('/app3', isLoggedIn, app3_stock);
 app.use('/app4', isLoggedIn, app4_books);
 app.use('/app5', isLoggedIn, app5_pinter);

@@ -36,8 +36,8 @@ var express = require('express'),
   createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
   Promise = require('bluebird');
 
-var User = require('../models/users');
-var Poll = require('../models/polls');
+var User = require('../models/users.js');
+var Poll = require('../models/app1-polls.js');
 
 
 

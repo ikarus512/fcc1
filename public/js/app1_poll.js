@@ -7,7 +7,7 @@
 ;( function() {
   'use strict';
 
-  var app=angular.module("myApp1Poll", ["chart.js"]);
+  var app = angular.module("myApp1Poll", ["chart.js"]);
 
   // app.config(['ChartJsProvider', function (ChartJsProvider) {
   //   // Configure all charts

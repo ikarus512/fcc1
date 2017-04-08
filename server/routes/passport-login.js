@@ -17,7 +17,7 @@
 
 // Example: https://gist.github.com/joshbirk/1732068
 
-var User = require('../models/users'),
+var User = require('../models/users.js'),
   Promise = require('bluebird'),
   PublicError = require('../utils/public-error.js'),
   myErrorLog = require('../utils/my-error-log.js');

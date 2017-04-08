@@ -29,7 +29,7 @@ var
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js'),
 
-  Poll = require('../../../server/models/polls');
+  Poll = require('../../../server/models/app1-polls.js');
 
 
 describe('model Poll', function () {

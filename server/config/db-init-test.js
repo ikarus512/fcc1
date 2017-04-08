@@ -16,8 +16,8 @@
 'use strict';
 
 var
-  User = require('../models/users'),
-  Poll = require('../models/polls'),
+  User = require('../models/users.js'),
+  Poll = require('../models/app1-polls.js'),
   Promise = require('bluebird'),
   dbUrl = require('./../../server/config/db-url.js'),
   mongoose = require('mongoose');

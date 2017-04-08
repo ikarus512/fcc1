@@ -7,11 +7,11 @@
 ;( function() {
   'use strict';
 
-  var app=angular.module("myApp1Voting", []);
+  var app = angular.module('myApp1Voting', []);
 
   app.controller('myApp1Controller',
-    ['$scope', '$location', 'pollStorage',
-    function ($scope, $location, pollStorage) {
+    ['$scope', 'pollStorage',
+    function ($scope, pollStorage) {
 
       $scope.view = 'polls'; // polls/newPoll
       $scope.newPollTitle = '';
@@ -52,7 +52,7 @@
         }
       };
 
-  }]);
+  }]); // app.controller('myApp1Controller', ...
 
   app.directive('myEscape', function () {
 
@@ -70,7 +70,7 @@
       });
     };
 
-  });
+  }); // app.directive('myEscape', ...
 
   app.directive('myEnter', function () {
 
@@ -88,7 +88,7 @@
       });
     };
 
-  });
+  }); // app.directive('myEnter', ...
 
   app.directive('myFocus', ['$timeout', function($timeout) {
 
@@ -101,7 +101,8 @@
         }
       });
     };
-  }]);
+
+  }]); // app.directive('myFocus', ...
 
   app.factory('pollStorage', ['$http', function ($http) {
     return {
@@ -123,6 +124,6 @@
 
     };
 
-  }]);
+  }]); // app.factory('pollStorage', ...
 
 })();

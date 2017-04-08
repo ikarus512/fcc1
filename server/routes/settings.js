@@ -15,7 +15,7 @@
 /*jshint node: true*/
 'use strict';
 
-var User = require('../models/users');
+var User = require('../models/users.js');
 
 module.exports = function (app, passport, isLoggedIn, greet) {
 

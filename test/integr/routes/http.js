@@ -40,6 +40,7 @@ parallel('http', function(){
     .agent() // to make authenticated requests
     .get(appHttpUrl)
     .end( function(err, res) {
+      testLog({res:res,err:err});
       expect(err).to.equal(null);
       expect(res).to.not.equal(null);
       expect(res.status).to.equal(200);
@@ -57,6 +58,7 @@ parallel('http', function(){
     .agent() // to make authenticated requests
     .get(appHttpUrl+'/login')
     .end( function(err, res) {
+      testLog({res:res,err:err});
       expect(err).to.equal(null);
       expect(res).to.not.equal(null);
       expect(res.status).to.equal(200);
@@ -73,6 +75,7 @@ parallel('http', function(){
     .agent() // to make authenticated requests
     .post(appHttpUrl+'/login')
     .end( function(err, res) {
+      testLog({res:res,err:err});
       expect(err).to.not.equal(null);
       expect(res).to.not.equal(null);
       expect(res.status).to.equal(400);

@@ -29,8 +29,8 @@ var
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js'),
 
-  Poll = require('../../../server/models/polls'),
-  User = require('../../../server/models/users'),
+  Poll = require('../../../server/models/app1-polls.js'),
+  User = require('../../../server/models/users.js'),
   user,
   user2,
   unonimous;
@@ -268,7 +268,7 @@ parallel('app1 api', function () {
     .set('Cookie', userACookies) // authorize user a
     .send({})
     .end( function(err, res) {
-      // testLog(res);
+      // testLog({res:res,err:err});
       expect(err).to.not.equal(null);
       expect(res.status).to.equal(400);
       expect(res.text).to.contain('Error: Only poll creator and local admin can remove the poll.');

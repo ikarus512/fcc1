@@ -29,7 +29,7 @@ var
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js'),
 
-  User = require('../../../server/models/users');
+  User = require('../../../server/models/users.js');
 
 
 parallel('model User', function () {

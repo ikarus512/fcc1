@@ -23,7 +23,7 @@ var TwitterStrategy = require('passport-twitter').Strategy,
   LocalStrategy = require('passport-local').Strategy,
   PublicError = require('../utils/public-error.js'),
   myErrorLog = require('../utils/my-error-log.js'),
-  User = require('../models/users');
+  User = require('../models/users.js');
 
 
 
