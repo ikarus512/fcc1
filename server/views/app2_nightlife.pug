@@ -33,7 +33,7 @@ block content
   .well
     h3 Nightlife Coordination App
 
-  div(class="ng-app" ng-app="myApp2Cafes" ng-controller="myApp2ControllerMain" ng-cloak)
+  div(class="ng-app" ng-app="myApp2Cafes" ng-controller="myApp2ControllerMain" ng-init="init('"+app2session_lat+"','"+app2session_lng+"','"+app2session_zoom+"','"+app2session_radius+"')" ng-cloak)
 
     .row
       //- //////////////////////////////////////////////////////////
@@ -57,10 +57,29 @@ block content
             .media(style='border: 1px solid grey')
               .media-left
                 a(href="#")
-                  img.media-object(src='{{cafe.icon}}' alt='{{cafe.name}}')
+                  img.media-object(src='{{cafe.photo}}' alt='{{cafe.name}}')
               .media-body
                 h4.media-heading {{cafe.name}}
                 | {{cafe.text}}
                 p
                   a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') attend today
                   a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') do not attend
+
+    .row
+      //- //////////////////////////////////////////////////////////
+      //- //  Notes
+      //- //////////////////////////////////////////////////////////
+      .col-md-7
+        .well
+          - var SEARCH_LIMIT = 15;
+          p
+            b Note 1:
+            |  There is internal restriction to show not more than
+            |  #{SEARCH_LIMIT} cafes/bars/restaurant places simultaneously.
+            |  So, some of them can be hidden, despite more ones available in database.
+            |  To be sure to view all ones, please zoom up so that
+            |  not more than #{SEARCH_LIMIT} ones are visible.
+          p
+            b Note 2:
+            |  We use free account for Google search API. Hence it is
+            |  a bit slow. Please be patient.

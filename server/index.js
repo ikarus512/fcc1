@@ -27,6 +27,7 @@ var express = require('express'),
   flash = require('connect-flash'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
+  expressLess = require('express-less'),
   helmet = require('helmet'),
   herokuSslRedirect = require('./middleware/heroku-ssl-redirect.js'),
   greet = require('./utils/greet.js'),
@@ -62,6 +63,7 @@ app.enable('trust proxy'); // to get req.ip
 
 app.set('view engine', 'pug');
 app.set('views',__dirname+'/views');
+
 
 dbConnect();
 
@@ -102,6 +104,13 @@ app.use(expressStatusMonitor);
 
 // Static
 app.use(express.static(path.join(__dirname, '../public')));
+// Less
+app.use('/less', expressLess(__dirname + '/less', {
+  // compress: true,
+  // cache: true,
+  debug: true,
+  // debug: process.env.NODE_ENV !== 'production',
+}));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

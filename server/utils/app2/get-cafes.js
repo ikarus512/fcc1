@@ -16,42 +16,37 @@
 'use strict';
 
 var
-  request = require('request'),
-  Promise = require('bluebird'),
-  cafeFilter = require('./cafe-filter.js');
+  Cafe = require('./../../models/app2-cafes.js'),
+  myErrorLog = require('../../utils/my-error-log.js'),
+  refreshCafesGoogle = require('./refresh-cafes-google.js');
 
-// Using Google Place Search API
-function getCafes(lat, lng, r){
 
-  return new Promise( function(resolve, reject) {
+function getCafes(obj){
 
-    request.get(
-      'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
-      '?key=' + process.env.APP_GOOGLE_MAPS_API_KEY +
-      '&location=' + lat + ',' + lng +
-      '&radius=' + r +
-      '&types=cafe|bar|restaurant' +
-      '',
+  // Default search parameters
+  var radius = 188.796, lat = 56.312956, lng = 43.989955; // Nizhny
+  if (obj && obj.lat)     lat = obj.lat;
+  if (obj && obj.lng)     lng = obj.lng;
+  if (obj && obj.radius)  radius = obj.radius;
 
-      function(err, response, data) {
 
-        if (err) throw err;
+  // Refresh cafes DB (in background)
+  refreshCafesGoogle(lat, lng, radius);
 
-        if (response.statusCode !== 200)
-          throw Error('Google Maps API response statusCode='+response.statusCode+'.');
+  // Request cafes DB
+  return Cafe.findNearbyCafes(lat, lng, radius)
 
-        return resolve(JSON.parse(data));
-      }
-
-    );
-
+  // If not found, refresh DB from Google
+  .then( function(cafes) {
+    // if (cafes.length === 0) {
+    //   return refreshCafesGoogle(lat, lng, radius); // Try refresh DB again
+    // }
+    return cafes;
   })
 
-  .then( function(data) {
-    // data.next_page_token
-    // can be used to return next 20 search results
-    // in next request
-    return cafeFilter(data);
+  .catch( function(err) {
+    myErrorLog(null, err);
+    return [];
   });
 
 }

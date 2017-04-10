@@ -70,6 +70,7 @@ module.exports = function(options) {
       logWriteLn('req.signedCookies=',req.signedCookies);
       logWriteLn('req.unauthorized_user=',req.unauthorized_user);
       logWriteLn('req.user=',req.user);
+      logWriteLn('req=',require('util').inspect(req,{depth:0}));
     }
 
     if (!immediate) process.nextTick( function() { logStream.uncork(); } ); // flush stream

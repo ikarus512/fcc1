@@ -13,32 +13,35 @@
     '$scope', 'cafeStorage',
     function($scope, cafeStorage) {
 
-      $scope.cafes = [
-        // { lat: 51.508515, lng: -0.125487, name: 'London',    text: 'Just some content'},
-        // { lat: 52.370216, lng:  4.895168, name: 'Amsterdam', text: 'More content' },
-      ];
+      $scope.cafes = [];
       $scope.zoom = 16;
       $scope.center = { lat: 56.312956, lng: 43.989955 }; // Nizhny
-      $scope.radius = 500; //{ x1:56.31, y1:43.98, x2:56.31, y2:43.99};
+      $scope.radius = 188.796;
 
-      $scope.cafes = [];
-      cafesRefresh();
+      $scope.init = function(lat,lng,zoom,radius) {
+        lat=Number(lat); lng=Number(lng); zoom=Number(zoom); radius=Number(radius);
+        if (isFinite(lat)) $scope.center.lat = lat;
+        if (isFinite(lng)) $scope.center.lng = lng;
+        if (isFinite(zoom)) $scope.zoom = zoom;
+        if (isFinite(radius)) $scope.radius = radius;
+        cafesRefresh();
+      };
 
       function cafesRefresh() {
-        cafeStorage.get($scope.center, $scope.radius)
-        .then( function(res) {
-          $scope.cafes = [];
-          $scope.cafes = res.data;
-          console.log($scope.cafes);
-        })
-        .catch( function(err) {
-          console.log(err);
-          $scope.cafes = [];
-        });
+        setTimeout( function() {
+          cafeStorage.get($scope.center, $scope.radius, $scope.zoom)
+          .then( function(res) {
+            $scope.cafes = [];
+            $scope.cafes = res.data;
+          })
+          .catch( function(err) {
+            $scope.cafes = [];
+          });
+        },0);
       }
 
       $scope.mapMoved = function(newOpts) {
-        $scope.center = newOpts.newCenter;
+        if (newOpts.newCenter) $scope.center = newOpts.newCenter;
         $scope.zoom   = newOpts.newZoom;
         $scope.radius = newOpts.newRadius;
         cafesRefresh();

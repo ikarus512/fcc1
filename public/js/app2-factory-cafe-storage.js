@@ -11,15 +11,14 @@
 
   app.factory('cafeStorage', ['$http', function ($http) {
     return {
-      get: function (location, radius) {
+      get: function (location, radius, zoom) {
         return $http({
           method: 'GET',
-          data: {
-            lat: location.lat,
-            lng: location.lng,
-            r: radius,
-          },
-          url: '/app2/api/cafes'
+          url: '/app2/api/cafes' +
+            '?lat='     + encodeURIComponent(location.lat) +
+            '&lng='     + encodeURIComponent(location.lng) +
+            '&zoom='    + encodeURIComponent(zoom) +
+            '&radius='  + encodeURIComponent(radius)
         });
       },
 

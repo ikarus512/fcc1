@@ -23,29 +23,38 @@ var express = require('express'),
   myErrorLog = require('../utils/my-error-log.js');
 
 // GET /app2 - redirected to /app2/cafes
-router.get('/', function(req, res){
+router.get('/', function(req, res) {
   res.redirect('/app2/cafes');
 });
 
+
+
 // GET /app2/cafes - view cafes
-router.get('/cafes', function(req, res){
-  res.render('app2_nightlife', greet(req));
+router.get('/cafes', function(req, res) {
+  var app2session = req.session.app2session;
+  if (req.session.app2session) {
+    app2session.app2session_lat = req.session.app2session.lat;
+    app2session.app2session_lng = req.session.app2session.lng;
+    app2session.app2session_zoom = req.session.app2session.zoom;
+    app2session.app2session_radius = req.session.app2session.radius;
+  };
+  res.render('app2_nightlife', greet(req, app2session));
 });
 
-// RESTAPI GET    /app2/api/cafes - get cafes
-router.get('/api/cafes', function(req, res, next){
 
-  // Default search parameters
-  var
-    lat = 56.312956, // Nizhny
-    lng = 43.989955,
-    r = 500;
 
-  if (req.body.lat) lat = req.body.lat;
-  if (req.body.lng) lng = req.body.lng;
-  if (req.body.r) r = req.body.r;
+// RESTAPI GET    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - get cafes
+router.get('/api/cafes', function(req, res, next) {
 
-  getCafes(lat,lng,r)
+  var radius = 188.796, lat = 56.312956, lng = 43.989955, zoom = 16; // Nizhny
+  if (isFinite(Number(req.query.lat)))     lat = Number(req.query.lat);
+  if (isFinite(Number(req.query.lng)))     lng = Number(req.query.lng);
+  if (isFinite(Number(req.query.zoom)))    radius = Number(req.query.zoom);
+  if (isFinite(Number(req.query.radius)))  radius = Number(req.query.radius);
+
+  req.session.app2session = req.query;
+
+  getCafes({lat:lat, lng:lng, radius:radius})
 
   .then( function(cafes) {
     res.status(200).json(cafes);

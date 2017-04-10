@@ -293,6 +293,4 @@ function UserModel() {
   return mongoose.model('User', UserSchema);
 }
 
-// module.exports = UserModel();
-// module.exports = UserModel;
 module.exports = mongoose.model('User', UserSchema);
