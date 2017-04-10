@@ -46,7 +46,7 @@ var CafeSchema = new Schema({
 
   // createdAt: { type: Date, required:true, expires: '1m', default: Date.now }, //db.cafes.getIndexes(); db.cafes.dropIndex('createdAt_1')
 
-  visits: [{
+  visitPlan: [{
     // createdAt: { type: Date, required:true, expires: '1m', default: Date.now },
     plannedBy: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   }],

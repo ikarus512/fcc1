@@ -41,29 +41,36 @@ block content
       //- //////////////////////////////////////////////////////////
       .col-md-7
         .well
-          my-google-map(map-cafes='cafes' map-center='center' map-zoom='zoom' style='width:100%;height:300px;' map-moved="mapMoved(newOpts)")
+          my-google-map(map-cafes='cafes' map-center='center' map-zoom='zoom' style='width:100%;height:300px;' map-moved='mapMoved(newOpts)' cafe-selected='cafeSelected(cafeId)' cafe-unselected='cafeUnselected()')
 
       //- //////////////////////////////////////////////////////////
       //- //  cafesList
       //- //////////////////////////////////////////////////////////
       .col-md-5
-        #noCafes.well(ng-show="!cafes.length" ng-cloak)
+        #noCafes.well(ng-show='!cafes.length' ng-cloak)
           label No restaurants/cafes/bars found.
-        #cafesList.well(ng-show="cafes.length" ng-cloak)
-          div(ng-repeat="cafe in cafes" ng-cloak)
+        #cafesList.well(ng-show='cafes.length' ng-cloak)
+          div(ng-repeat='cafe in cafes' ng-cloak)
             //- --------------------
             //- --  cafe
             //- --------------------
-            .media(style='border: 1px solid grey')
+            .media(ng-show='cafe.show' style='border: 1px solid grey')
               .media-left
-                a(href="#")
+                a(href='#')
                   img.media-object(src='{{cafe.photo}}' alt='{{cafe.name}}')
               .media-body
                 h4.media-heading {{cafe.name}}
                 | {{cafe.text}}
-                p
-                  a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') attend today
-                  a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') do not attend
+
+                //- --------------------
+                //- --  cafe visit plan
+                //- --------------------
+                p(ng-show='cafe.select')
+                  b Visit Plan: &nbsp;
+                  p
+                    a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}' title='Clear visit plans') clear
+                    a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') attend today
+                    a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') do not attend
 
     .row
       //- //////////////////////////////////////////////////////////

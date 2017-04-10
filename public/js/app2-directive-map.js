@@ -16,11 +16,14 @@
       center: '=mapCenter',
       zoom: '=mapZoom',
       mapMoved: '&',
+      cafeSelected: '&',
+      cafeUnelected: '&',
     };
 
     // directive link function
     function directiveLinkFunction(scope, element, attrs) {
-      var map, infoWindow, circle, mapReady = true;
+      var map, infoWindow, infoWindowListenerHandle,
+        circle, mapReady = true;
 
       var mapOptions = {
         center: scope.center,
@@ -93,7 +96,7 @@
             } else {
               r = 500;
             }
-            scope.$apply(function() {
+            scope.$apply( function() {
               var newParams = {
                 newZoom: z,
                 newRadius: r,
@@ -154,14 +157,27 @@
         marker.myMarkerListenerHandle = google.maps.event.addListener(
           marker, 'click', function () {
             // close window if exists
-            if (infoWindow) infoWindow.close();
+            if (infoWindow) {
+              google.maps.event.removeListener(infoWindowListenerHandle);
+              infoWindow.close();
+            }
 
             // create new window
             var infoWindowOptions = {
-                content: cafe.text
+                content: cafe.name
             };
             infoWindow = new google.maps.InfoWindow(infoWindowOptions);
             infoWindow.open(map, marker);
+
+            infoWindowListenerHandle = google.maps.event.addListener(infoWindow,'closeclick',function(){
+              scope.$apply( function() {
+                scope.cafeUnselected();
+              });
+            }); // Caution: the even not cleared, sorry...
+
+            scope.$apply( function() {
+              scope.cafeSelected(cafe._id);
+            });
           }
         );
 

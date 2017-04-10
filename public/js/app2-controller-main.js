@@ -27,11 +27,25 @@
         cafesRefresh();
       };
 
+      $scope.cafeUnselected = function() {
+        $scope.cafes.forEach( function(cafe) { cafe.show = true; cafe.select = false; });
+      }
+
+      $scope.cafeSelected = function(_id) {
+        $scope.cafes.forEach( function(cafe) {
+          cafe.show = cafe.select = false;
+          if (cafe._id === _id) {
+            cafe.show = cafe.select = true;
+          }
+        });
+      }
+
       function cafesRefresh() {
         setTimeout( function() {
           cafeStorage.get($scope.center, $scope.radius, $scope.zoom)
           .then( function(res) {
             $scope.cafes = [];
+            res.data.forEach( function(cafe) { cafe.show = true; cafe.select = false; });
             $scope.cafes = res.data;
           })
           .catch( function(err) {
