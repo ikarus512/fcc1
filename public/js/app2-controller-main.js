@@ -42,11 +42,36 @@
 
       function cafesRefresh() {
         setTimeout( function() {
+          // Find selected cafe
+          var oldSelectedCafeId;
+          $scope.cafes.forEach( function(cafe) {
+            if (cafe.selected) oldSelectedCafeId = cafe._id;
+          });
+
           cafeStorage.get($scope.center, $scope.radius, $scope.zoom)
           .then( function(res) {
             $scope.cafes = [];
-            res.data.forEach( function(cafe) { cafe.show = true; cafe.selected = false; });
-            $scope.cafes = res.data;
+            var newCafes = res.data;
+
+            // Check if selected cafe still present among newCafes
+            var found = newCafes.some( function(cafe) {
+              return (cafe._id === oldSelectedCafeId);
+            });
+
+            if (found) {
+              newCafes.forEach( function(cafe) {
+                // Show only selected cafe
+                if (cafe._id === oldSelectedCafeId) {
+                  cafe.show = cafe.selected = true;
+                } else {
+                  cafe.show = cafe.selected = false;
+                }
+              });
+            } else {
+              newCafes.forEach( function(cafe) { cafe.show = true; cafe.selected = false; });
+            }
+
+            $scope.cafes = newCafes;
           })
           .catch( function(err) {
             $scope.cafes = [];

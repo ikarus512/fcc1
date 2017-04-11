@@ -53,6 +53,7 @@ var CafeSchema = new Schema({
 },
 { // options
   versionKey: false, // do not use __v property
+  capped: 100000,
   // timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 });
 

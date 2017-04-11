@@ -23,7 +23,7 @@
     // directive link function
     function directiveLinkFunction(scope, element, attrs) {
 
-      var map, selectedMarker, circle, mapReady = true;
+      var map, selectedMarker, circle, mapReady = true, markers = {};
 
       var mapOptions = {
         center: scope.center,
@@ -79,13 +79,13 @@
           selectedMarker.setIcon('https://maps.google.com/mapfiles/ms/icons/blue-dot.png');
           selectedMarker = null;
         }
-        scope.$apply( function() {
-          scope.cafesUnselect();
-        });
       } // function selectedMarkerDeselect(...)
 
       function onClick(MouseEvent) {
         selectedMarkerDeselect();
+        scope.$apply( function() {
+          scope.cafesUnselect();
+        });
       }
 
       function onDblClick(MouseEvent) {
@@ -141,14 +141,21 @@
 
             mapReady = true;
 
-          },100);
+          }, 500); // Slow down map refresh (and hence
+                   // lower server load by refresh requests)
         }
-      }
+      } // function onMapChangeRefreshScope(...)
 
       function removeMarker(cafe) {
-        google.maps.event.removeListener(cafe.marker.myMarkerListenerHandle);
-        cafe.marker.setMap(null);
-        delete cafe.marker;
+        var marker = markers[cafe._id];
+
+        if (marker === selectedMarker) {
+          selectedMarkerDeselect();
+        }
+
+        google.maps.event.removeListener(marker.myMarkerListenerHandle);
+        marker.setMap(null);
+        delete markers[cafe._id]; marker = null;
       } // function removeMarker(...)
 
       function shiftMarker(position) {
@@ -166,15 +173,17 @@
 
         // Shift position of new marker if it is too close to another marker
         scope.cafes.forEach( function(c) { try {
-          if (c.marker && c._id !== cafe._id) {
+          var marker = markers[c._id]; // Marker corresponding to cafe c
+          if (marker && c._id !== cafe._id) {
             var d = google.maps.geometry.spherical.computeDistanceBetween(
-              c.marker.position,
+              marker.position,
               new google.maps.LatLng(position.lat, position.lng)
             );
             if (d<20) { // too close?
               position = shiftMarker(position);
             }
           }
+          marker = null;
         } catch(err) {} });
 
         var markerOptions = {
@@ -185,16 +194,15 @@
         };
 
         marker = new google.maps.Marker(markerOptions);
-        cafe.marker = marker;
-
 
         marker.myMarkerListenerHandle = google.maps.event.addListener(
-          marker, 'click', function () {
-
+          marker, 'click', function markerOnClick() {
+            var marker = markers[cafe._id];
             markerSelect(marker,cafe._id);
-
           }
         );
+
+        markers[cafe._id] = marker;
 
       } // function addMarker()
       
@@ -203,16 +211,22 @@
       scope.$watchCollection('cafes', function(newCafes, oldCafes) {
 
         // Remove old markers
-        oldCafes.forEach( function(cafe) {
-          if (newCafes.indexOf(cafe)<0) {
-            removeMarker(cafe);
+        oldCafes.forEach( function(oldCafe) {
+          var found = newCafes.some( function(newCafe) {
+            return (newCafe._id === oldCafe._id);
+          });
+          if (!found) {
+            removeMarker(oldCafe);
           }
         });
 
         // Add new markers
-        newCafes.forEach( function(cafe) {
-          if (oldCafes.indexOf(cafe)<0) {
-            addMarker(cafe);
+        newCafes.forEach( function(newCafe) {
+          var found = oldCafes.some( function(oldCafe) {
+            return (newCafe._id === oldCafe._id);
+          });
+          if (!found) {
+            addMarker(newCafe);
           }
         });
 

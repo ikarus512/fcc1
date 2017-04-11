@@ -75,17 +75,31 @@ block content
       //- //////////////////////////////////////////////////////////
       //- //  Notes
       //- //////////////////////////////////////////////////////////
-      .col-md-7
-        .well
-          - var SEARCH_LIMIT = 15;
-          p
-            b Note 1:
-            |  There is internal restriction to show not more than
-            |  #{SEARCH_LIMIT} cafes/bars/restaurant places simultaneously.
-            |  So, some of them can be hidden, despite more ones available in database.
-            |  To be sure to view all ones, please zoom up so that
-            |  not more than #{SEARCH_LIMIT} ones are visible.
-          p
-            b Note 2:
-            |  We use free account for Google search API. Hence it is
-            |  a bit slow. Please be patient.
+      .well
+        - var SEARCH_LIMIT = 15;
+        p
+          b Note 1:
+          |  This is just educational project. Hence there are a couple of
+          |  limitations and restrictions, described below. Please be patient when
+          |  encountering some of them.
+        p
+          b Note 2:
+          |  There is internal restriction to show not more than
+          |  #{SEARCH_LIMIT} cafes/bars/restaurant places simultaneously.
+          |  So, some of them can be hidden, despite more ones available in database.
+          |  To be sure to view all ones, please zoom up so that
+          |  not more than #{SEARCH_LIMIT} ones are visible.
+        p
+          b Note 3:
+          |  Map interface is intentionally slowed down
+          |  to not overload server with update requests.
+        p
+          b Note 4:
+          |  We use Google API under free non-commercial account,
+          |  and this can be reason of additional slowdown.
+          |  Please be patient.
+        p
+          b Note 5:
+          |  We use free DB service with limited DB size.
+          |  To not overcome this size, cafes collection is limited to
+          |  100000 cafes, newly found cafes remove old ones.
