@@ -33,20 +33,20 @@ block content
   .well
     h3 Nightlife Coordination App
 
-  div(class="ng-app" ng-app="myApp2Cafes" ng-controller="myApp2ControllerMain" ng-init="init('"+app2session_lat+"','"+app2session_lng+"','"+app2session_zoom+"','"+app2session_radius+"')" ng-cloak)
+  div(class="ng-app" ng-app="myApp2Cafes" ng-controller="myApp2ControllerMain" ng-init="init('"+app2state_lat+"','"+app2state_lng+"','"+app2state_zoom+"','"+app2state_radius+"')" ng-cloak)
 
     .row
       //- //////////////////////////////////////////////////////////
       //- //  map
       //- //////////////////////////////////////////////////////////
-      .col-md-7
+      .col-md-5
         .well
-          my-google-map(map-cafes='cafes' map-center='center' map-zoom='zoom' style='width:100%;height:300px;' map-moved='mapMoved(newOpts)' cafe-selected='cafeSelected(cafeId)' cafe-unselected='cafeUnselected()')
+          my-google-map(map-cafes='cafes' map-center='center' map-zoom='zoom' style='width:100%;height:300px;' map-moved='mapMoved(newOpts)' cafe-select='cafeSelect(cafeId)' cafes-unselect='cafesUnselect()')
 
       //- //////////////////////////////////////////////////////////
       //- //  cafesList
       //- //////////////////////////////////////////////////////////
-      .col-md-5
+      .col-md-7
         #noCafes.well(ng-show='!cafes.length' ng-cloak)
           label No restaurants/cafes/bars found.
         #cafesList.well(ng-show='cafes.length' ng-cloak)
@@ -62,15 +62,14 @@ block content
                 h4.media-heading {{cafe.name}}
                 | {{cafe.text}}
 
-                //- --------------------
-                //- --  cafe visit plan
-                //- --------------------
-                p(ng-show='cafe.select')
-                  b Visit Plan: &nbsp;
-                  p
-                    a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}' title='Clear visit plans') clear
-                    a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') attend today
-                    a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') do not attend
+            //- --------------------
+            //- --  cafe visit plan
+            //- --------------------
+            div(ng-show='cafe.selected')
+              p: b Visit Plan: &nbsp;
+              a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}' title='Clear visit plans') clear
+              a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') attend today
+              a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') do not attend
 
     .row
       //- //////////////////////////////////////////////////////////

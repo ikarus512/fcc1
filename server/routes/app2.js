@@ -31,14 +31,18 @@ router.get('/', function(req, res) {
 
 // GET /app2/cafes - view cafes
 router.get('/cafes', function(req, res) {
-  var app2session = req.session.app2session;
-  if (req.session.app2session) {
-    app2session.app2session_lat = req.session.app2session.lat;
-    app2session.app2session_lng = req.session.app2session.lng;
-    app2session.app2session_zoom = req.session.app2session.zoom;
-    app2session.app2session_radius = req.session.app2session.radius;
-  };
-  res.render('app2_nightlife', greet(req, app2session));
+
+  // Get user state from session, if any
+  var app2state = req.session.app2state;
+  if (req.session.app2state) {
+    app2state.app2state_lat = req.session.app2state.lat;
+    app2state.app2state_lng = req.session.app2state.lng;
+    app2state.app2state_zoom = req.session.app2state.zoom;
+    app2state.app2state_radius = req.session.app2state.radius;
+  }
+
+  res.render('app2_nightlife', greet(req, app2state));
+
 });
 
 
@@ -52,7 +56,8 @@ router.get('/api/cafes', function(req, res, next) {
   if (isFinite(Number(req.query.zoom)))    radius = Number(req.query.zoom);
   if (isFinite(Number(req.query.radius)))  radius = Number(req.query.radius);
 
-  req.session.app2session = req.query;
+  // Save user state to session
+  req.session.app2state = req.query;
 
   getCafes({lat:lat, lng:lng, radius:radius})
 
