@@ -74,7 +74,8 @@
             $scope.cafes = newCafes;
           })
           .catch( function(err) {
-            $scope.cafes = [];
+            // No connection. Do not remove cafes downloaded earlier.
+            //$scope.cafes = [];
           });
         },0);
       }
