@@ -12,13 +12,17 @@
  *
  */
 
-.my-opacity-08{
-  opacity: 0.8;
-}
-
-.my-opacity-1{
-  opacity: 1.0;
-}
+.my-opacity-00{ opacity: 0.0; }
+.my-opacity-01{ opacity: 0.1; }
+.my-opacity-02{ opacity: 0.2; }
+.my-opacity-03{ opacity: 0.3; }
+.my-opacity-04{ opacity: 0.4; }
+.my-opacity-05{ opacity: 0.5; }
+.my-opacity-06{ opacity: 0.6; }
+.my-opacity-07{ opacity: 0.7; }
+.my-opacity-08{ opacity: 0.8; }
+.my-opacity-09{ opacity: 0.9; }
+.my-opacity-1 { opacity: 1.0; }
 
 .bg-invert {
   background-color: #101010;

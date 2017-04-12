@@ -16,7 +16,7 @@
 'use strict';
 
 var
-  GOOGLE_SEARCH_ENABLED = false,//true,//
+  GOOGLE_SEARCH_ENABLED = true,
   request = require('request'),
   Promise = require('bluebird'),
   Cafe = require('./../../models/app2-cafes.js'),

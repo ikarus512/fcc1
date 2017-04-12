@@ -28,13 +28,13 @@ function getCafes(obj){
   if (obj && obj.lat)     lat = obj.lat;
   if (obj && obj.lng)     lng = obj.lng;
   if (obj && obj.radius)  radius = obj.radius;
-
+  var userId; if (obj) userId = obj.userId;
 
   // Refresh cafes DB (in background)
   refreshCafesGoogle(lat, lng, radius);
 
   // Request cafes DB
-  return Cafe.findNearbyCafes(lat, lng, radius)
+  return Cafe.findNearbyCafes(userId, lat, lng, radius)
 
   // If not found, refresh DB from Google
   .then( function(cafes) {

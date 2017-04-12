@@ -108,8 +108,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/less', expressLess(__dirname + '/less', {
   // compress: true,
   // cache: true,
-  debug: true,
-  // debug: process.env.NODE_ENV !== 'production',
+  // debug: true,
+  debug: process.env.NODE_ENV !== 'production',
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -33,24 +33,24 @@ block content
   .well
     h3 Nightlife Coordination App
 
-  div(class="ng-app" ng-app="myApp2Cafes" ng-controller="myApp2ControllerMain" ng-init="init('"+app2state_lat+"','"+app2state_lng+"','"+app2state_zoom+"','"+app2state_radius+"')" ng-cloak)
+  div(class="ng-app" ng-app="myApp2Cafes" ng-controller="myApp2ControllerMain" ng-init="init('"+logintype+"','"+username+"','"+app2state_lat+"','"+app2state_lng+"','"+app2state_zoom+"','"+app2state_radius+"')" ng-cloak)
 
     .row
       //- //////////////////////////////////////////////////////////
       //- //  map
       //- //////////////////////////////////////////////////////////
-      .col-md-5
+      .col-sm-5
         .well
           my-google-map(map-cafes='cafes' map-center='center' map-zoom='zoom' style='width:100%;height:300px;' map-moved='mapMoved(newOpts)' cafe-select='cafeSelect(cafeId)' cafes-unselect='cafesUnselect()')
 
       //- //////////////////////////////////////////////////////////
       //- //  cafesList
       //- //////////////////////////////////////////////////////////
-      .col-md-7
-        #noCafes.well(ng-show='!cafes.length' ng-cloak)
+      .col-sm-7
+        #noCafes.well(ng-show='!cafes.length')
           label No restaurants/cafes/bars found.
         #cafesList.well(ng-show='cafes.length' ng-cloak)
-          div(ng-repeat='cafe in cafes' ng-cloak)
+          div(ng-repeat='cafe in cafes')
             //- --------------------
             //- --  cafe
             //- --------------------
@@ -65,11 +65,27 @@ block content
             //- --------------------
             //- --  cafe visit plan
             //- --------------------
-            div(ng-show='cafe.selected')
+            div(ng-show='cafe.selected && cafe._id')
               p: b Visit Plan: &nbsp;
-              a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}' title='Clear visit plans') clear
-              a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') attend today
-              a.btn.btn-primary(href='/app2/cafes/{{cafe._id}}') do not attend
+              .timeslots(ng-repeat='timeslot in cafe.timeslots')
+                //- --------------------
+                //- --  timeslot
+                //- --------------------
+                .timeslot(style='border: 1px solid green')
+                  b {{timeslot.strDate}}:
+                    |  {{timeslot.strHoursStart}}:{{timeslot.strMinutesStart}} -
+                    |  {{timeslot.strHoursEnd}}:{{timeslot.strMinutesEnd}}
+                  div(style='margin-left:20px;')
+                    div
+                      span(ng-show='!timeslot.planned') Not planned by you. &nbsp;
+                      span(ng-show='timeslot.planned') Planned by you. &nbsp;
+                      button.btn.btn-primary.btn-xs(ng-show='!timeslot.planned' ng-click='onPlan(cafe, timeslot)')  plan
+                      button.btn.btn-danger.btn-xs(ng-show='timeslot.planned' ng-click='onUnplan(cafe, timeslot)')  unplan
+                    div.cafe-no-visitors-msg(ng-show='!timeslot.users.length') Planned by nobody.
+                    div(ng-show='timeslot.users.length') Planned by:
+                      span(ng-repeat='user in timeslot.users')
+                        span.cafe-visitor-name  {{user}}
+                        span {{$last ? '.' : ','}}
 
     .row
       //- //////////////////////////////////////////////////////////

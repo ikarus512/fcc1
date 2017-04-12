@@ -19,8 +19,12 @@ var express = require('express'),
   router = express.Router(),
   path = require('path'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
+  Cafe = require('./../models/app2-cafes.js'),
+  PublicError = require('../utils/public-error.js'),
   getCafes = require('../utils/app2/get-cafes.js'),
   myErrorLog = require('../utils/my-error-log.js');
+
+
 
 // GET /app2 - redirected to /app2/cafes
 router.get('/', function(req, res) {
@@ -59,7 +63,9 @@ router.get('/api/cafes', function(req, res, next) {
   // Save user state to session
   req.session.app2state = req.query;
 
-  getCafes({lat:lat, lng:lng, radius:radius})
+  var userId; if (req.user) userId = req.user.id;
+
+  getCafes({userId: userId, lat:lat, lng:lng, radius:radius})
 
   .then( function(cafes) {
     res.status(200).json(cafes);
@@ -68,6 +74,72 @@ router.get('/api/cafes', function(req, res, next) {
   .catch( function(err) {
     myErrorLog(null, err);
     res.status(400).json([]);
+  });
+
+});
+
+// RESTAPI PUT    /app2/api/cafes/:cafeId/timeslots/:startTime/plan - plan cafe timeslot
+router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, next) {
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({message:'Error: Only authorized person can plan cafe timeslot.'});
+  }
+
+  Cafe.planTimeslot({
+    userId: req.user._id,
+    cafeId: req.params.cafeId,
+    startTime: new Date(decodeURIComponent(req.params.startTime)),
+  })
+
+  // On success, send the response back
+  .then( function() {
+    return res.status(200).json();
+  })
+
+  // On fail, send error response
+  .catch( PublicError, function(err) {
+    return res.status(400).json({message:err.toString()});
+  })
+
+  // Internal error
+  .catch( function(err) {
+    myErrorLog(req, err);
+    return res.status(400).json({message:'Internal error e0000007.'});
+  });
+
+});
+
+// RESTAPI PUT    /app2/api/cafes/:cafeId/timeslots/:startTime/unplan - unplan cafe timeslot
+router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, next) {
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({message:'Error: Only authorized person can unplan cafe timeslot.'});
+  }
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({message:'Error: Only authorized person can plan cafe timeslot.'});
+  }
+
+  Cafe.unplanTimeslot({
+    userId: req.user._id,
+    cafeId: req.params.cafeId,
+    startTime: new Date(decodeURIComponent(req.params.startTime)),
+  })
+
+  // On success, send the response back
+  .then( function() {
+    return res.status(200).json();
+  })
+
+  // On fail, send error response
+  .catch( PublicError, function(err) {
+    return res.status(400).json({message:err.toString()});
+  })
+
+  // Internal error
+  .catch( function(err) {
+    myErrorLog(req, err);
+    return res.status(400).json({message:'Internal error e0000008.'});
   });
 
 });

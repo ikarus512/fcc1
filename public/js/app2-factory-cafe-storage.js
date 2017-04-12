@@ -11,7 +11,7 @@
 
   app.factory('cafeStorage', ['$http', function ($http) {
     return {
-      get: function (location, radius, zoom) {
+      get: function(location, radius, zoom) {
         return $http({
           method: 'GET',
           url: '/app2/api/cafes' +
@@ -22,11 +22,19 @@
         });
       },
 
-      post: function (poll) {
+      planCafeTimeslot: function(cafeId, timeslotStart) {
         return $http({
-          method: 'POST',
-          data:poll,
-          url: '/app2/api/cafes'
+          method: 'PUT',
+          data: {},
+          url: '/app2/api/cafes/'+cafeId+'/timeslots/'+encodeURIComponent(timeslotStart.toUTCString())+'/plan'
+        });
+      },
+
+      unplanCafeTimeslot: function(cafeId, timeslotStart) {
+        return $http({
+          method: 'PUT',
+          data: {},
+          url: '/app2/api/cafes/'+cafeId+'/timeslots/'+encodeURIComponent(timeslotStart.toUTCString())+'/unplan'
         });
       },
 
