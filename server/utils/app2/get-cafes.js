@@ -21,7 +21,7 @@ var
   refreshCafesGoogle = require('./refresh-cafes-google.js');
 
 
-function getCafes(obj){
+function getCafes(obj) {
 
   // Default search parameters
   var radius = 188.796, lat = 56.312956, lng = 43.989955; // Nizhny

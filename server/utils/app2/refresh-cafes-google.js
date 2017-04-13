@@ -146,7 +146,7 @@ function googleRequestLoop(lat, lng, radius, dataIn) {
 
 } // function googleRequestLoop(...)
 
-function cafeFilterAndSave(cafes){
+function cafeFilterAndSave(cafes) {
 
   //
   //  1) Filter cafes useful data

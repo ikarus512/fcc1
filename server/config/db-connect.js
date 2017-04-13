@@ -29,6 +29,6 @@ mongoose.Promise = Promise;
 
 module.exports = function () {
 
-  mongoose.connect(dbUrl, function(){});
+  mongoose.connect(dbUrl, function() {});
 
 };

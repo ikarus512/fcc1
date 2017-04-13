@@ -17,7 +17,7 @@
 
 var extend = require('extend');
 
-function shareit(opt){
+function shareit(opt) {
   if (  opt &&
         opt.title &&
         opt.text &&

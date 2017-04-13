@@ -56,11 +56,11 @@ var UserSchema = new Schema({
 UserSchema.virtual('type').get( function() {
   var type = 'unknown';
   try {
-    if(this.facebook.id)     type = 'facebook';
-    if(this.github.id)       type = 'github';
-    if(this.local.username)  type = 'local';
-    if(this.twitter.id)      type = 'twitter';
-    if(this.unauthorized.ip) type = 'unauthorized';
+    if (this.facebook.id)     type = 'facebook';
+    if (this.github.id)       type = 'github';
+    if (this.local.username)  type = 'local';
+    if (this.twitter.id)      type = 'twitter';
+    if (this.unauthorized.ip) type = 'unauthorized';
   } catch(err) {
   }
 
@@ -87,7 +87,7 @@ UserSchema.statics.findOneMy = function(filter) {
 
   return new Promise( function(resolve, reject) {
 
-    if(!mongoose.connection.readyState) {
+    if (!mongoose.connection.readyState) {
       throw new Error('No connection to users database.');
     }
 

@@ -22,7 +22,7 @@ var express = require('express'),
 
 
 // /app5
-router.get('/', function(req, res){
+router.get('/', function(req, res) {
   res.render('app5_pinter', greet(req));
 });
 

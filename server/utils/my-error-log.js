@@ -43,12 +43,12 @@ module.exports = function(req, err) {
   if (req) {
     txt += '\n';
     txt += req.method+' '+req.protocol+'://'+req.headers.host+req.originalUrl + '\n';
-    if(req.user)
+    if (req.user)
       txt += 'user=' +
         req.user._id + ' ' +
         req.user.type + '/' +
         req.user.name + '\n';
-    if(req.unauthorized_user)
+    if (req.unauthorized_user)
       txt += 'unauthorized_user=' +
         req.unauthorized_user._id + ' ' +
         req.unauthorized_user.type + '/' +

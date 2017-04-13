@@ -71,7 +71,7 @@ var CafeSchema = new Schema({
 CafeSchema.virtual('origin').get( function() {
   var origin = 'N/A';
   try {
-    if(this.google.id)     origin = 'google';
+    if (this.google.id) origin = 'google';
   } catch(err) {
   }
 

@@ -87,7 +87,7 @@ if (!isHeroku()) {
 
 // Redirect http GET to https
 if (!isHeroku()) {
-  appHttp.get('*', function(req, res, next){
+  appHttp.get('*', function(req, res, next) {
     res.redirect('https://'+req.hostname+':'+app.get('port'));
   });
 
@@ -144,7 +144,7 @@ require('./routes/settings.js')(app, passport, isLoggedIn, greet);
 // applications-related routes
 app.use('/app1', app1_voting);
 app.use('/app2', app2_nightlife);
-app.use('/app3', isLoggedIn, app3_stock);
+app.use('/app3', app3_stock);
 app.use('/app4', isLoggedIn, app4_books);
 app.use('/app5', isLoggedIn, app5_pinter);
 
@@ -161,13 +161,13 @@ app.all('*', function (req, res) {
 //  Start server
 ////////////////////////////////////////////////////////////////
 
-var server, server2, boot, shutdown;
+var server, serverHttp, boot, shutdown;
 
 if (!isHeroku()) {
   // Here if run on local host
 
   server = https.createServer(require('./config/https-options.js'), app);
-  server2 = http.createServer(appHttp);
+  serverHttp = http.createServer(appHttp);
 
   boot = function(done) {
 
@@ -177,7 +177,7 @@ if (!isHeroku()) {
       if (err) throw err;
       else console.log('Started https.');
 
-      server2.listen(80, function (err) {
+      serverHttp.listen(80, function (err) {
         if (err) throw err;
         else console.log('Started http.');
 
@@ -185,22 +185,24 @@ if (!isHeroku()) {
 
           console.log('DB initialized.');
 
-          // Using socket.io to:
-          // 1) stop server in response to the npmStop signal,
-          // 2) answer to client in response to npmServerRequest signal.
-          var io = require('socket.io')(server);
-          io.on('connection', function(socketServer) { // Here if new client connected
-            socketServer.on('npmStop', function() {
-              console.log('Server received npmStop.');
-              process.exit(0); // Stop server
+          if (process.env.NODE_ENV !== 'production') {
+            // Using socket.io during tests to:
+            // 1) stop server in response to the npmStop signal,
+            // 2) answer to client in response to npmServerRequest signal.
+            var io = require('socket.io')(server);
+            io.on('connection', function(socketServer) { // Here if new client connected
+              socketServer.on('npmStop', function() {
+                console.log('Server received npmStop.');
+                process.exit(0); // Stop server
+              });
+              socketServer.on('npmServerRequest', function(data) {
+                console.log('Server received request: ',data);
+                socketServer.emit('new message', 'Server is ready.'); // Answer to client
+              });
             });
-            socketServer.on('npmServerRequest', function(data) {
-              console.log('Server received request: ',data);
-              socketServer.emit('new message', 'Server is ready.'); // Answer to client
-            });
-          });
+          }
 
-         if (done) return done();
+          if (done) return done();
 
         });
 
@@ -213,7 +215,7 @@ if (!isHeroku()) {
   shutdown = function(done) {
     server.close( function() {
       // console.log('Stopped https.');
-      server2.close( function() {
+      serverHttp.close( function() {
         // console.log('Stopped http.');
         if (done) return done();
       });
@@ -224,6 +226,7 @@ if (!isHeroku()) {
   // Here if run on Heroku
 
   server = app;
+  serverHttp = app;
 
   boot = function() {
     server.listen(app.get('port'), function () {
@@ -238,6 +241,8 @@ if (!isHeroku()) {
   };
 
 }
+
+require('./utils/app3/web-sockets.js')(server);
 
 
 

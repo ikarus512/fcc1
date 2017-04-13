@@ -46,11 +46,11 @@ module.exports = function(options) {
 
   return function(req, res, next) {
 
-    if(req.originalUrl.match(/^\/img/)) return next();
-    if(req.originalUrl.match(/^\/lib/)) return next();
-    if(req.originalUrl.match(/^\/css/)) return next();
-    if(req.originalUrl.match(/^\/fonts/)) return next();
-    if(req.originalUrl.match(/^\/js\/removeFacebookAppendedHash\.js/)) return next();
+    if (req.originalUrl.match(/^\/img/)) return next();
+    if (req.originalUrl.match(/^\/lib/)) return next();
+    if (req.originalUrl.match(/^\/css/)) return next();
+    if (req.originalUrl.match(/^\/fonts/)) return next();
+    if (req.originalUrl.match(/^\/js\/removeFacebookAppendedHash\.js/)) return next();
 
 
 

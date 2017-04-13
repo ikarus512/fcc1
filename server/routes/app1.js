@@ -43,12 +43,12 @@ var Poll = require('../models/app1-polls.js');
 
 
 // GET /app1 - redirected to /app1/polls
-router.get('/', function(req, res){
+router.get('/', function(req, res) {
   res.redirect('/app1/polls');
 });
 
 // GET /app1/polls - view polls
-router.get('/polls', function(req, res){
+router.get('/polls', function(req, res) {
   res.render('app1_polls', greet(req));
 });
 
@@ -68,7 +68,7 @@ router.get('/polls/:id',
     })
 
     // In case of error
-    .catch( function(err){
+    .catch( function(err) {
       req.pol_title = '';
       next();
     });
@@ -90,7 +90,7 @@ router.get('/polls/:id',
 
 
 // RESTAPI GET    /app1/api/polls - get polls
-router.get('/api/polls', function(req, res, next){
+router.get('/api/polls', function(req, res, next) {
 
   // Find all polls
   Poll.find({}).exec()
@@ -108,7 +108,7 @@ router.get('/api/polls', function(req, res, next){
 });
 
 // RESTAPI POST   /app1/api/polls {title} - create new poll with title (authorized only)
-router.post('/api/polls', function(req, res, next){
+router.post('/api/polls', function(req, res, next) {
 
   if (!req.isAuthenticated()) {
     return res.status(401).json({message:'Error: Only authorized person can create new poll.'});
@@ -146,7 +146,7 @@ router.post('/api/polls', function(req, res, next){
 });
 
 // RESTAPI DELETE /app1/api/polls/:id - remove poll (authorized only)
-router.delete('/api/polls/:id', function(req, res, next){
+router.delete('/api/polls/:id', function(req, res, next) {
 
   if (!req.isAuthenticated()) {
     return res.status(401).json({message:'Error: Only authorized person can delete the poll.'});
@@ -193,7 +193,7 @@ router.delete('/api/polls/:id', function(req, res, next){
 });
 
 // RESTAPI GET    /app1/api/polls/:id - get poll
-router.get('/api/polls/:id', function(req, res, next){
+router.get('/api/polls/:id', function(req, res, next) {
   // Find poll by id
   Poll.findOne({_id:req.params.id}).exec()
 
@@ -218,7 +218,7 @@ router.get('/api/polls/:id', function(req, res, next){
 });
 
 // RESTAPI POST   /app1/api/polls/:id/options {title} - create new option with title (authorized only)
-router.post('/api/polls/:id/options', function(req, res, next){
+router.post('/api/polls/:id/options', function(req, res, next) {
 
   if (!req.isAuthenticated()) {
     return res.status(401).json({message:'Error: Only authorized person can add poll options.'});

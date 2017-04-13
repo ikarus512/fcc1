@@ -20,7 +20,7 @@ var
   Promise = require('bluebird');
 
 // Using Google Place Photos API
-function getCafePhoto(googlePhotoRef){
+function getCafePhoto(googlePhotoRef) {
 
   // return new Promise( function(resolve, reject) {
 

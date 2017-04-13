@@ -22,7 +22,7 @@ var express = require('express'),
 
 
 // /app4
-router.get('/', function(req, res){
+router.get('/', function(req, res) {
   res.render('app4_books', greet(req));
 });
 

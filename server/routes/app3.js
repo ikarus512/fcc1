@@ -22,7 +22,7 @@ var express = require('express'),
 
 
 // /app3
-router.get('/', function(req, res){
+router.get('/', function(req, res) {
   res.render('app3_stock', greet(req));
 });
 

@@ -17,11 +17,11 @@
 
 var extend = require('extend');
 
-function greet(req,o2,o3){
+function greet(req,o2,o3) {
   var o={};
 
-  if(req.user) {
-    extend(o,{
+  if (req.user) {
+    extend(o, {
       //greeting : 'Hi, '+req.user.name+' ('+req.user.type+')!',
       username : req.user.name,
       logintype: req.user.type,

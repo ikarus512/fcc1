@@ -17,7 +17,7 @@
       var APP2_TIMESLOT_LENGTH = 30; // timeslot length in minutes (must divide 60)
 
       $scope.cafes = [];
-      $scope.selectedCafeId;
+      $scope.selectedCafeId = undefined;
       $scope.zoom = 16;
       $scope.center = { lat: 56.312956, lng: 43.989955 }; // Nizhny
       $scope.radius = 188.796;

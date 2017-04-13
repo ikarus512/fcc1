@@ -19,7 +19,16 @@ block vars
   - var title = 'Stock';
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_world.jpg);';
 
+block scriptBeforeBody
+  script(src='/lib/angular.min.js')
+  script(src='/js/app3.js')
+
 block content
   .well
     h3 Chart the Stock Market
     p Here are...
+
+  .well
+    div#timer1
+    div(class="ng-app" ng-app="myApp3" ng-controller="myApp3ControllerMain" ng-cloak)
+      div#timer {{time}}
