@@ -16,6 +16,7 @@
 'use strict';
 
 module.exports = {
+  APP2_GOOGLE_SEARCH_ENABLED: true,
   APP2_MAX_TIMESLOTS: 4,
   APP2_TIMESLOT_LENGTH: 30, // timeslot length in minutes (must divide 60)
 };

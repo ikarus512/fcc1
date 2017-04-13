@@ -38,9 +38,9 @@ function getCafes(obj){
 
   // If not found, refresh DB from Google
   .then( function(cafes) {
-    // if (cafes.length === 0) {
-    //   return refreshCafesGoogle(lat, lng, radius); // Try refresh DB again
-    // }
+    if (cafes.length === 0) {
+      return refreshCafesGoogle(lat, lng, radius); // Try refresh DB again
+    }
     return cafes;
   })
 

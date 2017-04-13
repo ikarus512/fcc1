@@ -16,10 +16,10 @@
 'use strict';
 
 var
-  GOOGLE_SEARCH_ENABLED = true,
   request = require('request'),
   Promise = require('bluebird'),
   Cafe = require('./../../models/app2-cafes.js'),
+  APPCONST = require('./../../config/constants.js'),
   myErrorLog = require('../../utils/my-error-log.js'),
   MAPS_SEARCH_LIMIT = require('./../../config/maps-search-limit.js'),
   GOOGLE_DELAY_BETWEEN_REQUESTS = 2000;
@@ -191,7 +191,7 @@ function cafeFilterAndSave(cafes){
 
 function refreshCafesGoogle(lat, lng, radius) {
 
-  if (GOOGLE_SEARCH_ENABLED) {
+  if (APPCONST.APP2_GOOGLE_SEARCH_ENABLED) {
 
     return googleRequestLoop(lat, lng, radius)
 
@@ -207,7 +207,7 @@ function refreshCafesGoogle(lat, lng, radius) {
 
   } else {
 
-    var err = new Error('Google search disabled in file ' + __filename);
+    var err = new Error('Google search disabled (APP2_GOOGLE_SEARCH_ENABLED == false).');
     myErrorLog(null, err);
     return Promise.resolve([]);
 
