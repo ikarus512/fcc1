@@ -22,7 +22,12 @@ var
 
 module.exports = function(req, err) {
 
-  if (isHeroku()) return;
+  if (isHeroku()) {
+    if (err) {
+      console.log(err.name + ': ' + err.message);
+    }
+    return;
+  }
 
   var txt = '';
 
