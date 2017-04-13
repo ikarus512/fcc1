@@ -17,6 +17,7 @@
       var APP2_TIMESLOT_LENGTH = 30; // timeslot length in minutes (must divide 60)
 
       $scope.cafes = [];
+      $scope.selectedCafeId;
       $scope.zoom = 16;
       $scope.center = { lat: 56.312956, lng: 43.989955 }; // Nizhny
       $scope.radius = 188.796;
@@ -39,7 +40,7 @@
           alert(err.data.message);
           console.log('Error: ' + err.data.message);
         }
-      }
+      } // function myAlert(...)
 
       $scope.onPlan = function(cafe, timeslot) {
         if ($scope.username) {
@@ -71,7 +72,18 @@
 
       $scope.cafesUnselect = function() {
         $scope.cafes.forEach( function(cafe) { cafe.show = true; cafe.selected = false; });
+        if ($scope.selectedCafeId) $scope.selectedCafeId = undefined;
       }; // $scope.cafesUnselect(...)
+
+      $scope.listSelectedCafe = function(_id) {
+        $scope.cafeSelect(_id);
+        if ($scope.selectedCafeId !== _id) $scope.selectedCafeId = _id;
+      }; // $scope.listSelectedCafe(...)
+
+      $scope.mapSelectedCafe = function(_id) {
+        $scope.cafeSelect(_id);
+        if ($scope.selectedCafeId !== _id) $scope.selectedCafeId = _id;
+      }; // $scope.mapSelectedCafe(...)
 
       $scope.cafeSelect = function(_id) {
         var selCafe;
@@ -134,7 +146,7 @@
         cafe.timeslots = cafe.timeslots.sort( function(a, b) {
           return (a.start > b.start);
         });
-      }
+      } // function refreshCafeTimeslots(...)
 
       function cafesRefresh() {
         setTimeout( function() {

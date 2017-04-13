@@ -13,10 +13,11 @@
 
     var scope = {
       cafes: '=mapCafes',
+      selectedCafeId: '=mapSelectedCafeId',
       center: '=mapCenter',
       zoom: '=mapZoom',
       mapMoved: '&',
-      cafeSelect: '&',
+      mapSelectedCafe: '&',
       cafesUnselect: '&',
     };
 
@@ -65,13 +66,15 @@
 
       } // function initMap(...)
 
-      function markerSelect(marker, cafe_id) {
+      function markerSelect(marker, cafe_id, scopeApply) {
         selectedMarkerDeselect();
         selectedMarker = marker;
         marker.setIcon('https://maps.google.com/mapfiles/ms/icons/red-dot.png');
-        scope.$apply( function() {
-          scope.cafeSelect(cafe_id);
-        });
+        if (scopeApply) {
+          scope.$apply( function() {
+            scope.mapSelectedCafe(cafe_id);
+          });
+        }
       } // function markerSelect(...)
 
       function selectedMarkerDeselect() {
@@ -198,7 +201,7 @@
         marker.myMarkerListenerHandle = google.maps.event.addListener(
           marker, 'click', function markerOnClick() {
             var marker = markers[cafe._id];
-            markerSelect(marker,cafe._id);
+            markerSelect(marker,cafe._id,true);
           }
         );
 
@@ -230,7 +233,24 @@
           }
         });
 
-      });
+      }); // scope.$watchCollection('cafes',...)
+
+      scope.$watch('selectedCafeId', function(id) {
+        // Select marker of selected cafe if any
+        if (!id) {
+          selectedMarkerDeselect();
+        } else {
+          scope.cafes.some( function(cafe) {
+            if (cafe.selected) {
+              var marker = markers[cafe._id];
+              markerSelect(marker,cafe._id,false);
+              return true;
+            }
+            return false;
+          });
+        }
+
+      }); // scope.$watch('selectedCafeId',...)
 
     } // function directiveLinkFunction(...)
     
