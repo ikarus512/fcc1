@@ -37,12 +37,14 @@ router.get('/', function(req, res) {
 router.get('/cafes', function(req, res) {
 
   // Get user state from session, if any
-  var app2state = req.session.app2state;
+  var app2state = {};
+
   if (req.session.app2state) {
     app2state.app2state_lat = req.session.app2state.lat;
     app2state.app2state_lng = req.session.app2state.lng;
     app2state.app2state_zoom = req.session.app2state.zoom;
     app2state.app2state_radius = req.session.app2state.radius;
+    app2state.app2state_selectedCafeId = req.session.app2state.selectedCafeId;
   }
 
   res.render('app2_nightlife', greet(req, app2state));
@@ -57,11 +59,19 @@ router.get('/api/cafes', function(req, res, next) {
   var radius = 188.796, lat = 56.312956, lng = 43.989955, zoom = 16; // Nizhny
   if (isFinite(Number(req.query.lat)))     lat = Number(req.query.lat);
   if (isFinite(Number(req.query.lng)))     lng = Number(req.query.lng);
-  if (isFinite(Number(req.query.zoom)))    radius = Number(req.query.zoom);
+  if (isFinite(Number(req.query.zoom)))    zoom = Number(req.query.zoom);
   if (isFinite(Number(req.query.radius)))  radius = Number(req.query.radius);
 
   // Save user state to session
-  req.session.app2state = req.query;
+  req.session.app2state = req.session.app2state || {};
+  req.session.app2state.lat = lat;
+  req.session.app2state.lng = lng;
+  req.session.app2state.zoom = zoom;
+  req.session.app2state.radius = radius;
+  req.session.app2state.selectedCafeId = req.query.selected_cafe_id;
+
+
+
 
   var userId; if (req.user) userId = req.user.id;
 
@@ -75,6 +85,20 @@ router.get('/api/cafes', function(req, res, next) {
     myErrorLog(null, err);
     res.status(400).json([]);
   });
+
+});
+
+// RESTAPI PUT    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - update session state
+router.put('/api/cafes', function(req, res, next) {
+
+  // Save user state to session
+  if (isFinite(Number(req.query.lat)))    req.session.app2state.lat = Number(req.query.lat);
+  if (isFinite(Number(req.query.lng)))    req.session.app2state.lng = Number(req.query.lng);
+  if (isFinite(Number(req.query.zoom)))   req.session.app2state.zoom = Number(req.query.zoom);
+  if (isFinite(Number(req.query.radius))) req.session.app2state.radius = Number(req.query.radius);
+  if (req.query.selected_cafe_id)         req.session.app2state.selectedCafeId = req.query.selected_cafe_id;
+
+  res.status(200).json();
 
 });
 
@@ -145,3 +169,8 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
 });
 
 module.exports = router;
+
+// TODO: manually cap cafes collection to 100000 by updateTime field, during updateCafe() call.
+// TODO: download photos using Google Place Photo API
+// TODO: list my reservations, show on map
+// TODO: search other user reservations by his name, show on map

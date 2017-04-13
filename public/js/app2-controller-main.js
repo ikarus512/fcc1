@@ -24,7 +24,7 @@
       $scope.logintype = '';
       $scope.username = '';
 
-      $scope.init = function(logintype,username,lat,lng,zoom,radius) {
+      $scope.init = function(logintype,username,lat,lng,zoom,radius,selectedCafeId) {
         $scope.logintype = logintype;
         $scope.username = username;
         lat=Number(lat); lng=Number(lng); zoom=Number(zoom); radius=Number(radius);
@@ -32,6 +32,14 @@
         if (isFinite(lng)) $scope.center.lng = lng;
         if (isFinite(zoom)) $scope.zoom = zoom;
         if (isFinite(radius)) $scope.radius = radius;
+        if (selectedCafeId && selectedCafeId !== 'undefined') {
+          var interval = setInterval( function() { // Wait until map ready
+            if ($scope.mapInit) {
+              $scope.listSelectedCafe(selectedCafeId); // select cafe when map ready
+              clearInterval(interval);
+            }
+          }, 100);
+        }
         cafesRefresh();
       }; // $scope.init(...)
 
@@ -41,6 +49,8 @@
           console.log('Error: ' + err.data.message);
         }
       } // function myAlert(...)
+
+      $scope.onMapInit = function() { $scope.mapInit = true; };
 
       $scope.onPlan = function(cafe, timeslot) {
         if ($scope.username) {
@@ -76,13 +86,13 @@
       }; // $scope.cafesUnselect(...)
 
       $scope.listSelectedCafe = function(_id) {
-        $scope.cafeSelect(_id);
         if ($scope.selectedCafeId !== _id) $scope.selectedCafeId = _id;
+        $scope.cafeSelect(_id);
       }; // $scope.listSelectedCafe(...)
 
       $scope.mapSelectedCafe = function(_id) {
-        $scope.cafeSelect(_id);
         if ($scope.selectedCafeId !== _id) $scope.selectedCafeId = _id;
+        $scope.cafeSelect(_id);
       }; // $scope.mapSelectedCafe(...)
 
       $scope.cafeSelect = function(_id) {
@@ -94,6 +104,7 @@
             cafe.show = cafe.selected = true;
           }
         });
+        cafeStorage.updateSessionState($scope.location, $scope.radius, $scope.zoom, $scope.selectedCafeId);
 
         // Refresh timeslots in selected cafe
         refreshCafeTimeslots(selCafe);
@@ -101,51 +112,53 @@
       }; // $scope.cafeSelect(...)
 
       function refreshCafeTimeslots(cafe) {
-        var start = new Date();
-        start.setMinutes(Math.floor(start.getMinutes()/APP2_TIMESLOT_LENGTH)*APP2_TIMESLOT_LENGTH);
-        start.setSeconds(0); start.setMilliseconds(0);
-        // 1) remove old timeslots
-        if (!cafe.timeslots) cafe.timeslots = [];
-        cafe.timeslots = cafe.timeslots.filter( function(timeslot) {
-          return timeslot.start >= start;
-        });
-        // 2) add new nearest timeslots
-        var i, t, times = []; // array of start times of nearest timeslots
-        for (i = 0; i < APP2_MAX_TIMESLOTS; i++) {
-          t = new Date(start);
-          t.setMinutes(t.getMinutes() + i*APP2_TIMESLOT_LENGTH);
-          times.push( new Date(t) );
-        }
-        times.forEach( function(t) {
-          // Check if timeslot already present
-          var found = cafe.timeslots.some( function(timeslot) {
-            return (timeslot.start.getTime() === t.getTime());
+        if (cafe) {
+          var start = new Date();
+          start.setMinutes(Math.floor(start.getMinutes()/APP2_TIMESLOT_LENGTH)*APP2_TIMESLOT_LENGTH);
+          start.setSeconds(0); start.setMilliseconds(0);
+          // 1) remove old timeslots
+          if (!cafe.timeslots) cafe.timeslots = [];
+          cafe.timeslots = cafe.timeslots.filter( function(timeslot) {
+            return timeslot.start >= start;
           });
-          // If timeslot not found, create it
-          if (!found) {
-            var timeslot = { start: new Date(t) };
-            cafe.timeslots.push(timeslot);
+          // 2) add new nearest timeslots
+          var i, t, times = []; // array of start times of nearest timeslots
+          for (i = 0; i < APP2_MAX_TIMESLOTS; i++) {
+            t = new Date(start);
+            t.setMinutes(t.getMinutes() + i*APP2_TIMESLOT_LENGTH);
+            times.push( new Date(t) );
           }
-          // Update timeslots with needed new data
-          cafe.timeslots.forEach( function(timeslot) {
-            var timeslotEnd = new Date(timeslot.start);
-            timeslotEnd.setMinutes(timeslotEnd.getMinutes() + 1*APP2_TIMESLOT_LENGTH);
-            timeslot.strDate = timeslot.start.getFullYear() +
-              '/' + (timeslot.start.getMonth()+1) +
-              '/' + timeslot.start.getDate();
-            timeslot.strHoursStart = timeslot.start.getHours();
-            timeslot.strHoursEnd   = timeslotEnd.getHours();
-            timeslot.strMinutesStart = timeslot.start.getMinutes();
-            timeslot.strMinutesEnd   = timeslotEnd.getMinutes();
-            if (timeslot.strMinutesStart < 10) timeslot.strMinutesStart = '0' + timeslot.strMinutesStart;
-            if (timeslot.strMinutesEnd < 10) timeslot.strMinutesEnd = '0' + timeslot.strMinutesEnd;
-            if (!timeslot.users) timeslot.users = [];
+          times.forEach( function(t) {
+            // Check if timeslot already present
+            var found = cafe.timeslots.some( function(timeslot) {
+              return (timeslot.start.getTime() === t.getTime());
+            });
+            // If timeslot not found, create it
+            if (!found) {
+              var timeslot = { start: new Date(t) };
+              cafe.timeslots.push(timeslot);
+            }
+            // Update timeslots with needed new data
+            cafe.timeslots.forEach( function(timeslot) {
+              var timeslotEnd = new Date(timeslot.start);
+              timeslotEnd.setMinutes(timeslotEnd.getMinutes() + 1*APP2_TIMESLOT_LENGTH);
+              timeslot.strDate = timeslot.start.getFullYear() +
+                '/' + (timeslot.start.getMonth()+1) +
+                '/' + timeslot.start.getDate();
+              timeslot.strHoursStart = timeslot.start.getHours();
+              timeslot.strHoursEnd   = timeslotEnd.getHours();
+              timeslot.strMinutesStart = timeslot.start.getMinutes();
+              timeslot.strMinutesEnd   = timeslotEnd.getMinutes();
+              if (timeslot.strMinutesStart < 10) timeslot.strMinutesStart = '0' + timeslot.strMinutesStart;
+              if (timeslot.strMinutesEnd < 10) timeslot.strMinutesEnd = '0' + timeslot.strMinutesEnd;
+              if (!timeslot.users) timeslot.users = [];
+            });
           });
-        });
-        // 3) sort ascending
-        cafe.timeslots = cafe.timeslots.sort( function(a, b) {
-          return (a.start > b.start);
-        });
+          // 3) sort ascending
+          cafe.timeslots = cafe.timeslots.sort( function(a, b) {
+            return (a.start > b.start);
+          });
+        }
       } // function refreshCafeTimeslots(...)
 
       function cafesRefresh() {
@@ -157,7 +170,7 @@
             return cafe.selected;
           });
 
-          cafeStorage.get($scope.center, $scope.radius, $scope.zoom)
+          cafeStorage.get($scope.center, $scope.radius, $scope.zoom, $scope.selectedCafeId)
 
           .then( function(res) {
             $scope.cafes = [];
@@ -178,6 +191,7 @@
                 }
               });
             } else {
+              if ($scope.selectedCafeId) $scope.selectedCafeId = undefined;
               newCafes.forEach( function(cafe) { cafe.show = true; cafe.selected = false; });
             }
 

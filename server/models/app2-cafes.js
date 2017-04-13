@@ -435,5 +435,3 @@ function CafeModel() {
 
 var collectionName = 'cafes';
 module.exports = mongoose.model('Cafe', CafeSchema, collectionName);
-
-// TODO: manually cap collection to 100000 by updateTime field inside updateCafe() call.

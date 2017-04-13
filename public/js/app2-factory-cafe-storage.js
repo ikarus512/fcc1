@@ -11,14 +11,29 @@
 
   app.factory('cafeStorage', ['$http', function ($http) {
     return {
-      get: function(location, radius, zoom) {
+      get: function(location, radius, zoom, selectedCafeId) {
         return $http({
           method: 'GET',
           url: '/app2/api/cafes' +
             '?lat='     + encodeURIComponent(location.lat) +
             '&lng='     + encodeURIComponent(location.lng) +
             '&zoom='    + encodeURIComponent(zoom) +
-            '&radius='  + encodeURIComponent(radius)
+            '&radius='  + encodeURIComponent(radius) +
+            '&selected_cafe_id=' + encodeURIComponent(selectedCafeId) +
+            ''
+        });
+      },
+
+      updateSessionState: function(location, radius, zoom, selectedCafeId) {
+        return $http({
+          method: 'PUT',
+          url: '/app2/api/cafes' +
+            '?lat='     + encodeURIComponent(location?location.lat:undefined) +
+            '&lng='     + encodeURIComponent(location?location.lng:undefined) +
+            '&zoom='    + encodeURIComponent(zoom) +
+            '&radius='  + encodeURIComponent(radius) +
+            '&selected_cafe_id=' + encodeURIComponent(selectedCafeId) +
+            ''
         });
       },
 

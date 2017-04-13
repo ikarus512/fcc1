@@ -17,6 +17,7 @@
       center: '=mapCenter',
       zoom: '=mapZoom',
       mapMoved: '&',
+      onMapInit: '&',
       mapSelectedCafe: '&',
       cafesUnselect: '&',
     };
@@ -24,7 +25,7 @@
     // directive link function
     function directiveLinkFunction(scope, element, attrs) {
 
-      var map, selectedMarker, circle, mapReady = true, markers = {};
+      var map, selectedMarker, circle, mapInit = false, mapReadyFlag = true, markers = {};
 
       var mapOptions = {
         center: scope.center,
@@ -46,7 +47,14 @@
           map.addListener('center_changed', onMapChangeRefreshScope);
           map.addListener('dblclick', onDblClick);
           map.addListener('click', onClick);
-          $(document).on('webkitfullscreenchange mozfullscreenchange msfullscreenchange fullscreenchange', onFullScreen);
+          $(document).on('webkitfullscreenchange ' +
+            'mozfullscreenchange msfullscreenchange fullscreenchange', onFullScreen);
+          map.addListener('idle', function(e) {
+            if (!mapInit) {
+              mapInit = true;
+              scope.onMapInit();
+            }
+          });
 
           circle = new google.maps.Circle({
             strokeColor: '#FF0000',   strokeOpacity: 0.30,     strokeWeight: 2,
@@ -110,8 +118,8 @@
       // Detect current center and bounds, and refresh scope
       function onMapChangeRefreshScope() {
 
-        if (mapReady) {
-          mapReady = false;
+        if (mapReadyFlag) {
+          mapReadyFlag = false;
 
           setTimeout( function() {
             var z = map.getZoom();
@@ -142,7 +150,7 @@
             circle.setCenter(c);
             circle.setRadius(r);
 
-            mapReady = true;
+            mapReadyFlag = true;
 
           }, 500); // Slow down map refresh (and hence
                    // lower server load by refresh requests)
@@ -237,7 +245,7 @@
 
       scope.$watch('selectedCafeId', function(id) {
         // Select marker of selected cafe if any
-        if (!id) {
+        if (!id || id==='undefined') {
           selectedMarkerDeselect();
         } else {
           scope.cafes.some( function(cafe) {
