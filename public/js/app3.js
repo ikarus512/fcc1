@@ -4,30 +4,48 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-$(document).ready( function() {
-  var HOST = location.origin.replace(/^https/, 'wss');
-  var ws = new WebSocket(HOST);
-  var el = document.getElementById('timer1');
-  ws.onmessage = function (event) {
-    el.innerHTML = 'Server time: ' + event.data;
-  };
-});
-
-
-
-
 ;( function() {
   'use strict';
 
   var app = angular.module('myApp3', []);
 
   app.controller('myApp3ControllerMain',
-    ['$scope', 'pollStorage',
-    function ($scope, pollStorage) {
+    ['$scope', 'pollStorage', 'WebSocketService',
+    function ($scope, pollStorage, WebSocketService) {
 
-      $scope.time = undefined;
+      $scope.time = '--';
 
-  }]); // app.controller('myApp1Controller', ...
+      WebSocketService.subscribe( function(time) {
+        $scope.time = time;
+        $scope.$apply();
+      });
+
+  }]); // app.controller('myApp3ControllerMain', ...
+
+
+  app.factory('WebSocketService', ['$rootScope', function($rootScope) {
+
+    var Service = {};
+
+    var HOST = location.origin.replace(/^https/, 'wss');
+    var ws = new WebSocket(HOST);
+
+    ws.onmessage = function(message) {
+      if (Service.callback) Service.callback(message.data);
+    };
+
+    Service.time = '-';
+
+    Service.subscribe = function(callback) {
+      Service.callback = callback;
+    };
+
+    return Service;
+
+  }]);
+
+
+
 
   app.factory('pollStorage', ['$http', function ($http) {
     return {

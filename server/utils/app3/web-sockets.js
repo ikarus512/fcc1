@@ -22,8 +22,10 @@ module.exports = function(server) {
     wss = new SocketServer({server:server});
 
   wss.on('connection', function(ws) {
-    console.log('Client connected');
-    ws.on('close', function() { console.log('Client disconnected'); });
+    // console.log('Client connected');
+    ws.on('close', function() {
+      // console.log('Client disconnected');
+    });
   });
 
   setInterval( function() {
