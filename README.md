@@ -2,6 +2,7 @@
 FreeCodeCamp.com developement tasks. Running application available at https://ikarus512-fcc1.herokuapp.com
 
 
+--------------------------------------------------------------------------------
 
 ## app1: Voting App
 Accessible via 'Voting' menu.
@@ -19,6 +20,7 @@ Build a Voting App similar to [this](https://fcc-voting-arthow4n.herokuapp.com)
 + User Story: As an authenticated user, if I don't like the options on a poll, I can create a new option.
 
 
+--------------------------------------------------------------------------------
 
 ## app2: Nightlife Coordination App
 Accessible via 'Nightlife' menu.
@@ -35,7 +37,7 @@ similar to [this](http://whatsgoinontonight.herokuapp.com)
   https://www.yelp.com/developers/documentation/v2/overview
   If you use Yelp's API, be sure to mention so in your app.
 
-Optional features to do in future:
+Optional features maybe to do in future:
 
 - TODO: List my reservations, show on map.
 - TODO: List another user's reservations (search by his name), show on map.
@@ -43,6 +45,7 @@ Optional features to do in future:
 - TODO: Download photos using Google Place Photo API.
 
 
+--------------------------------------------------------------------------------
 
 ## app3: Chart the Stock Market
 Accessible via 'Stock' menu.
@@ -57,6 +60,7 @@ similar to [this](http://watchstocks.herokuapp.com)
 - User Story: I can see changes in real-time when any other user adds or removes a stock. For this you will need to use Web Sockets.
 
 
+--------------------------------------------------------------------------------
 
 ## app4: Book Trading Club
 Accessible via 'Books' menu.
@@ -71,6 +75,7 @@ similar to [this](http://bookjump.herokuapp.com)
 - User Story: I can propose a trade and wait for the other user to accept the trade.
 
 
+--------------------------------------------------------------------------------
 
 ## app5: Pinterest Clone
 Accessible via 'Pinter' menu.
