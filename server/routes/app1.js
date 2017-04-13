@@ -323,5 +323,3 @@ router.put('/api/polls/:id/options/:oid/vote',
 
 
 module.exports = router;
-
-// TODO: do not respond internal data like user password hash (_id is ok).

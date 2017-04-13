@@ -169,8 +169,3 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
 });
 
 module.exports = router;
-
-// TODO: manually cap cafes collection to 100000 by updateTime field, during updateCafe() call.
-// TODO: download photos using Google Place Photo API
-// TODO: list my reservations, show on map
-// TODO: search other user reservations by his name, show on map

@@ -35,6 +35,13 @@ similar to [this](http://whatsgoinontonight.herokuapp.com)
   https://www.yelp.com/developers/documentation/v2/overview
   If you use Yelp's API, be sure to mention so in your app.
 
+Optional features to do in future:
+
+- TODO: List my reservations, show on map.
+- TODO: List another user's reservations (search by his name), show on map.
+- TODO: Manually cap cafes collection to 100000 by updateTime field, during updateCafe() call.
+- TODO: Download photos using Google Place Photo API.
+
 
 
 ## app3: Chart the Stock Market
