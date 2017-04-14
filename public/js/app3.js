@@ -27,7 +27,8 @@
 
     var Service = {};
 
-    var HOST = location.origin.replace(/^https/, 'wss');
+    var HOST = (window.document.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.document.location.host;
+    // var HOST = location.origin.replace(/^https/, 'wss');
     var ws = new WebSocket(HOST);
 
     ws.onmessage = function(message) {

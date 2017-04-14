@@ -48,7 +48,8 @@
     "pug": "^2.0.0-beta11",
     "request": "^2.81.0",
     "rotating-file-stream": "^1.2.1",
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.3",
+    "ws": "^2.2.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -69,7 +70,6 @@
     "mongodb": "^2.2.25",
     "protractor": "^4.0.14",
     "requirejs": "^2.3.3",
-    "superagent": "^3.5.2",
-    "ws": "^2.2.3"
+    "superagent": "^3.5.2"
   }
 }
