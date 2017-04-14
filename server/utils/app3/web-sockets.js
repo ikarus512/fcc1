@@ -15,6 +15,9 @@
 /*jshint node: true*/
 'use strict';
 
+var
+  wsStore = require('./web-sockets-store.js');
+
 module.exports = function(server) {
 
   var
@@ -29,6 +32,8 @@ module.exports = function(server) {
   });
 
   wss.on('connection', function(ws) {
+    //ws.myconnectsid=decodeURIComponent(ws.upgradeReq.headers.cookie.split('=')[1]);//connect.sid
+    //id = w.upgradeReq.headers['sec-websocket-key'];
     // console.log('Client connected');
     ws.on('close', function() {
       // console.log('Client disconnected');
@@ -37,8 +42,13 @@ module.exports = function(server) {
 
   setInterval( function() {
     wss.clients.forEach( function(client) {
-      client.send(new Date().toTimeString());
+      client.send(
+        JSON.stringify({
+          items: wsStore.get(),
+          time: new Date().toTimeString(),
+        })
+      );
     });
-  }, 1000);
+  }, 10*1000);
 
 };

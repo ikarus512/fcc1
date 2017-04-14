@@ -18,13 +18,18 @@
 var express = require('express'),
   router = express.Router(),
   path = require('path'),
-  greet = require(path.join(__dirname, '../utils/greet.js'));
+  wsStore = require('./../utils/app3/web-sockets-store.js'),
+  greet = require(path.join(__dirname, '../utils/greet.js')),
+  createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js');
 
 
 // /app3
-router.get('/', function(req, res) {
-  res.render('app3_stock', greet(req));
-});
+router.get('/',
+  function(req, res) {
+    if (req.user) wsStore.add(req.user.name);
+    res.render('app3_stock', greet(req));
+  }
+);
 
 
 

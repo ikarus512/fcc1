@@ -10,20 +10,20 @@
   var app = angular.module('myApp3', []);
 
   app.controller('myApp3ControllerMain',
-    ['$scope', 'pollStorage', 'WebSocketService',
-    function ($scope, pollStorage, WebSocketService) {
+    ['$scope', 'RESTService', 'WebSocketService',
+    function ($scope, RESTService, WebSocketService) {
 
       $scope.time = '--';
 
-      WebSocketService.subscribe( function(time) {
-        $scope.time = time;
+      WebSocketService.subscribe( function(data) {
+        $scope.time = data.items.join(', ') + ' /// ' + data.time;
         $scope.$apply();
       });
 
   }]); // app.controller('myApp3ControllerMain', ...
 
 
-  app.factory('WebSocketService', ['$rootScope', function($rootScope) {
+  app.factory('WebSocketService', ['RESTService', function(RESTService) {
 
     var Service = {};
 
@@ -31,10 +31,9 @@
     var ws = new WebSocket(HOST);
 
     ws.onmessage = function(message) {
-      if (Service.callback) Service.callback(message.data);
+      var data = JSON.parse(message.data);
+      if (Service.callback) Service.callback(data);
     };
-
-    Service.time = '-';
 
     Service.subscribe = function(callback) {
       Service.callback = callback;
@@ -47,7 +46,7 @@
 
 
 
-  app.factory('pollStorage', ['$http', function ($http) {
+  app.factory('RESTService', ['$http', function ($http) {
     return {
       get: function () {
         return $http({
@@ -67,6 +66,6 @@
 
     };
 
-  }]); // app.factory('pollStorage', ...
+  }]); // app.factory('RESTService', ...
 
 })();
