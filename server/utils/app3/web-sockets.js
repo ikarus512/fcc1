@@ -21,6 +21,13 @@ module.exports = function(server) {
     SocketServer = require('ws').Server,
     wss = new SocketServer({server:server});
 
+  wss.on('error', function (e) {
+    console.log('wss err=',e);
+    // if (e.code == 'EADDRINUSE') {
+    //   console.log('Address in use');
+    // }
+  });
+
   wss.on('connection', function(ws) {
     // console.log('Client connected');
     ws.on('close', function() {

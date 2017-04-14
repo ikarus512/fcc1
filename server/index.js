@@ -225,8 +225,8 @@ if (!isHeroku()) {
 } else {
   // Here if run on Heroku
 
-  server = app;
-  serverHttp = app;
+  server = http.createServer(app);
+  serverHttp = server;
 
   boot = function() {
     server.listen(app.get('port'), function () {
