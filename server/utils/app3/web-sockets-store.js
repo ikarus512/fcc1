@@ -20,7 +20,7 @@ var
   Store = {};
 
 Store.add = function(value) {
-  data.push(new String(value));
+  data.push(String(value));
 };
 
 Store.remove = function(value) {

@@ -41,7 +41,6 @@ Optional features maybe to do in future:
 
 - TODO: List my reservations, show on map.
 - TODO: List another user's reservations (search by his name), show on map.
-- TODO: Manually cap cafes collection to 100000 by updateTime field, during updateCafe() call.
 - TODO: Download photos using Google Place Photo API.
 
 

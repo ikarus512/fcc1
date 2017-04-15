@@ -84,21 +84,46 @@ CafeSchema.virtual('origin').get( function() {
 
 // updateCafe
 CafeSchema.statics.updateCafe = function(cafe) {
-  if (cafe && cafe.google && cafe.google.id) return CafeModel().updateOrInsertGoogleCafe(cafe);
+  if (cafe && cafe.google && cafe.google.id) {
+    return CafeModel().updateOrInsertGoogleCafe(cafe);
+  }
 
   myErrorLog(null, new Error('Unknown type of cafe.')); // log error
   cafe._id = 0;
-  return cafe;
+  return Promise.resolve(cafe);
 };
 
 // updateOrInsertGoogleCafe
 CafeSchema.statics.updateOrInsertGoogleCafe = function(cafe) {
 
-  return CafeModel().findOneAndUpdate(
-    { 'google.id': cafe.google.id }, // find doc by google.id
-    { $set: cafe }, // inserting document, if not found
-    { upsert:true, new:true } // insert if not found; return new document
-  ).exec()
+  // limit database size to APPCONST.APP2_MAX_CAFES
+  return CafeModel().findOne({ 'google.id': cafe.google.id }).exec()
+
+  .then( function(cafe) {
+
+    if (!cafe) return CafeModel().count({}).exec(); // Cafes collection size.
+
+    // Here if cafe found.
+    // Hence cafe needs only update (cafes collection size will not grow).
+    return 0; // 0 < APPCONST.APP2_MAX_CAFES, it will allow updating the cafe.
+
+  })
+
+  .then( function(count) {
+    if (count > APPCONST.APP2_MAX_CAFES) {
+      throw new PublicError('Cafe collection size got its limit of ' + APPCONST.APP2_MAX_CAFES);
+    }
+    return;
+  })
+
+  // Now save/update cafe
+  .then( function() {
+    return CafeModel().findOneAndUpdate(
+      { 'google.id': cafe.google.id }, // find doc by google.id
+      { $set: cafe }, // inserting document, if not found
+      { upsert:true, new:true } // insert if not found; return new document
+    ).exec();
+  })
 
   .then( function(cafe) {
     return cafe;
@@ -107,7 +132,7 @@ CafeSchema.statics.updateOrInsertGoogleCafe = function(cafe) {
   .catch( function(err) {
     myErrorLog(null, err); // log error
     cafe._id = 0;
-    return cafe;
+    return null;
   });
 
 };

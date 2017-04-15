@@ -152,7 +152,7 @@ function cafeFilterAndSave(cafes) {
   //  1) Filter cafes useful data
   //
 
-  var filteredCafes = cafes
+  var filteredCafes1 = cafes
 
   .map( function(cafe) {
 
@@ -176,17 +176,29 @@ function cafeFilterAndSave(cafes) {
   //
   //  2) save cafes to DB
   //
-  var cafePromises = filteredCafes.map( function(cafe) {
-    return Cafe.updateCafe(cafe);
+  var cafePromises = filteredCafes1.map( function(cafe) {
+    return Cafe.updateCafe(cafe)
+      .reflect(); // will wait until all promises finished
   });
 
   //
-  //  3) Return filtered cafes
+  //  3) Filter cafes
   //
+  var filteredCafes2 = [];
+
   return Promise.all(cafePromises)
 
-  .then( function(cafes) {
-    return cafes;
+  .each(function(inspection) {
+    if (inspection.isFulfilled()) {
+      var cafe = inspection.value();
+      if (cafe) filteredCafes2.push(cafe);
+    } else {
+      myErrorLog(null, inspection.reason()); // log error
+    }
+  })
+
+  .then( function() {
+    return filteredCafes2;
   })
 
   .catch( function(err) {
