@@ -7,7 +7,7 @@
 ;( function() {
   'use strict';
 
-  var app = angular.module("myApp1Poll", ["chart.js"]);
+  var app = angular.module('myApp1Poll', ['chart.js']);
 
   // app.config(['ChartJsProvider', function (ChartJsProvider) {
   //   // Configure all charts
@@ -69,7 +69,7 @@
       };
 
       $scope.pollDelete = function() {
-        if (confirm("Do you really want to delete the poll?")) {
+        if (confirm('Do you really want to delete the poll?')) {
           pollOptStorage.delete($scope.poll._id)
           .then( function onOk(res) { // Poll successfully deleted on server
             $window.location.href = '/app1/polls'; // return to polls page

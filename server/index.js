@@ -92,8 +92,8 @@ if (!isHeroku()) {
   });
 
   appHttp.all('*', function (req, res) {
-    res.status(400).json({message: "Error: cannot "+req.method+" "+
-      req.protocol+'://'+req.headers.host+req.originalUrl+". Use https."
+    res.status(400).json({message: 'Error: cannot '+req.method+' '+
+      req.protocol+'://'+req.headers.host+req.originalUrl+'. Use https.'
     });
   });
 } else {
@@ -150,7 +150,7 @@ app.use('/app5', isLoggedIn, app5_pinter);
 
 // ALL * - json respond with error
 app.all('*', function (req, res) {
-  res.status(400).json({message: "Error: cannot "+req.method+" "+req.originalUrl});
+  res.status(400).json({message: 'Error: cannot '+req.method+' '+req.originalUrl});
 });
 
 

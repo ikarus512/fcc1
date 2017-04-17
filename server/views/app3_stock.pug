@@ -21,7 +21,13 @@ block vars
 
 block scriptBeforeBody
   script(src='/lib/angular.min.js')
+  script(src='/lib/d3.v4.min.js')
   script(src='/js/app3.js')
+  script(src='/js/app3-controller-main.js')
+  script(src='/js/app3-directive-chart1.js')
+  script(src='/js/app3-service-rest.js')
+  script(src='/js/app3-service-websockets.js')
+
 
 block content
   .well
@@ -29,5 +35,5 @@ block content
     p Here are...
 
   .well
-    div(class="ng-app" ng-app="myApp3" ng-controller="myApp3ControllerMain" ng-cloak)
-      div#timer {{time}}
+    div(class='ng-app' ng-app='myApp3' ng-controller='myApp3ControllerMain' ng-cloak)
+      chart1(data='chart1Data')

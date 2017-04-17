@@ -16,7 +16,8 @@
 'use strict';
 
 var
-  wsStore = require('./web-sockets-store.js');
+  wsStore = require('./web-sockets-store.js'),
+  myErrorLog = require('./../../utils/my-error-log.js');
 
 module.exports = function(server) {
 
@@ -26,29 +27,28 @@ module.exports = function(server) {
 
   wss.on('error', function (e) {
     console.log('wss err=',e);
-    // if (e.code == 'EADDRINUSE') {
-    //   console.log('Address in use');
-    // }
   });
 
   wss.on('connection', function(ws) {
-    //ws.myconnectsid=decodeURIComponent(ws.upgradeReq.headers.cookie.split('=')[1]);//connect.sid
-    //id = w.upgradeReq.headers['sec-websocket-key'];
-    // console.log('Client connected');
     ws.on('close', function() {
-      // console.log('Client disconnected');
     });
   });
 
   setInterval( function() {
     wss.clients.forEach( function(client) {
-      client.send(
-        JSON.stringify({
-          items: wsStore.get(),
-          time: new Date().toTimeString(),
-        })
-      );
+      try {
+        client.send(
+          JSON.stringify({
+            items: wsStore.get(),
+            time: new Date().toISOString(),
+            y: Math.random()*300,
+            x: new Date().toISOString(),
+          })
+        );
+      } catch(err) {
+        myErrorLog(null, err);
+      }
     });
-  }, 10*1000);
+  }, 0.5*1000);
 
 };

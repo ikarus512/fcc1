@@ -1,0 +1,58 @@
+// file: app3-chart1.less
+//
+// Copyright 2017 ikarus512
+// https://github.com/ikarus512/fcc1.git
+//
+// DESCRIPTION: App3 Chart1 Styles
+// AUTHOR: ikarus512
+// CREATED: 2017/03/13
+//
+// MODIFICATION HISTORY
+//  2017/04/04, ikarus512. Added copyright header.
+//
+
+.chart1-container {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.chart1-title {
+  box-sizing: border-box;
+  font-size: 2em;
+  text-align: center;
+  color: @colHighlight;
+  background-color: @bgHighlight;
+}
+
+.chart1-chart {
+  margin: 0;
+  color: @colDefault;
+  background-color: @bgHighlight;
+}
+
+.chart1-chart-area {
+  fill: @bgHighlight;
+}
+
+.chart1-note {
+  box-sizing: border-box;
+  margin-top: -10px;
+  text-align: center;
+  color: @colDefault;
+  background-color: @bgHighlight;
+}
+
+.chart1-tooltip {
+  position: absolute;
+  display: none;
+  border: 1px solid black;
+  border-radius: 10px;
+  color: black;
+  background-color: white;
+}
+
+.chart1-axis-x-text {
+  fill: @colHighlight;
+  text-anchor: end;
+  font-size: 10px;
+}

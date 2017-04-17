@@ -17,9 +17,9 @@
 
 var dbUrls = {
   production: process.env.APP_MONGODB_URI,
-  'test-int':     "mongodb://localhost:27017/dbname-test-int",
-  'test-int-cov': "mongodb://localhost:27017/dbname-test-int-cov",
-  'test-e2e':     "mongodb://localhost:27017/dbname-test-e2e",
+  'test-int':     'mongodb://localhost:27017/dbname-test-int',
+  'test-int-cov': 'mongodb://localhost:27017/dbname-test-int-cov',
+  'test-e2e':     'mongodb://localhost:27017/dbname-test-e2e',
 };
 
 module.exports = dbUrls[process.env.NODE_ENV];

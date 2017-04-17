@@ -19,7 +19,7 @@ exports.config = {
   //localSeleniumStandaloneOpts: {args: '--standalone'},
   specs: ['routes/**/*.js'],
 
-  seleniumServerJar: "./../../node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar",
+  seleniumServerJar: './../../node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
   seleniumPort: 4444,
   seleniumArgs: '',
   directConnect: true,
@@ -30,7 +30,7 @@ exports.config = {
 
   framework: 'mocha',
   mochaOpts: {
-    reporter: "dot",
+    reporter: 'dot',
     // defaultTimeoutInterval: 10000,
     // enableTimeouts: false,
     timeout: 20000,//10000,
@@ -60,6 +60,6 @@ exports.config = {
   // maxSessions: 4,
 
   // localSeleniumStandaloneOpts : {
-  //   jvmArgs : ["-Dwebdriver.ie.driver=node_modules/protractor/node_modules/webdriver-manager/selenium/IEDriverServer.exe"]
+  //   jvmArgs : ['-Dwebdriver.ie.driver=node_modules/protractor/node_modules/webdriver-manager/selenium/IEDriverServer.exe']
   // },
 };

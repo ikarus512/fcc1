@@ -20,7 +20,8 @@ var express = require('express'),
   path = require('path'),
   wsStore = require('./../utils/app3/web-sockets-store.js'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
-  createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js');
+  createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
+  myErrorLog = require('../utils/my-error-log.js');
 
 
 // /app3

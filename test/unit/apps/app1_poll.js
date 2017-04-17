@@ -30,12 +30,12 @@ describe('todo angular view', function() {
 //     .when('GET', 'https://localhost:5000/app1/polls')
 // //    .respond({userId: 'userX'}, {'A-Token': 'xxx'});
 //     .respond([
-//       {"text":"11",             "done":true, "id":38},
-//       {"text":"qwdqewdq",       "done":false,"id":37},
-//       {"text":"aaaa",           "done":false,"id":31},
-//       {"text":"wethw rth wrth", "done":true, "id":30},
-//       {"text":"aaaaaq",         "done":false,"id":20},
-//       {"text":"qwdqwd",         "done":false,"id":39}
+//       {'text':'11',             'done':true, 'id':38},
+//       {'text':'qwdqewdq',       'done':false,'id':37},
+//       {'text':'aaaa',           'done':false,'id':31},
+//       {'text':'wethw rth wrth', 'done':true, 'id':30},
+//       {'text':'aaaaaq',         'done':false,'id':20},
+//       {'text':'qwdqwd',         'done':false,'id':39}
 //     ]);
 
     // Get hold of a scope (i.e. the root scope)
