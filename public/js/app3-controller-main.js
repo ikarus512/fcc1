@@ -13,17 +13,21 @@
     ['$scope', 'RestService', 'WebSocketService',
     function ($scope, RestService, WebSocketService) {
 
-      var d = new Date();
-      var data = [];
-      var i, DATA_LENGTH = 20;
-      for (i=0; i<=DATA_LENGTH; i++ ) {
-        data.push([d.getTime()-(DATA_LENGTH-i)*0.5*1000,0]);
+      var DATA_LENGTH = 20;
+      function initData() {
+        var d = new Date();
+        var data = [];
+        var i, DATA_LENGTH = 20;
+        for (i=0; i<=DATA_LENGTH; i++ ) {
+          data.push([d.getTime()-(DATA_LENGTH-i)*0.5*1000,0]);
+        }
+        return data;
       }
 
       $scope.chart1Data = {
         name: 'Title',
         description: 'Description',
-        data : data,
+        data : initData(),
       };
 
       WebSocketService.subscribe( function(data) {

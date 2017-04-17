@@ -26,13 +26,15 @@ module.exports = function(server) {
     wss = new SocketServer({server:server});
 
   wss.on('error', function (e) {
-    console.log('wss err=',e);
+    myErrorLog(null, err);
   });
 
   wss.on('connection', function(ws) {
     ws.on('close', function() {
     });
   });
+
+
 
   setInterval( function() {
     wss.clients.forEach( function(client) {
