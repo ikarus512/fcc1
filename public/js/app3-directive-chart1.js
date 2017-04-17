@@ -18,22 +18,44 @@
 
       link: function(scope, element, attrs) {
 
-        // window.onresize = function() {
-        //   scope.$apply();
-        // };
+        var
+          elemWidth = Math.max(200, element[0].getBoundingClientRect().height),
+          elemHeight = Math.max(300, element[0].getBoundingClientRect().height);
+
+console.log(elemHeight);
+        var chartUpdate = chartInit( element[0], scope.data, elemWidth, elemHeight);
+
+        // Automatic update elemWidth on element resize
+        scope.$watchGroup([
+          function() { return element[0].getBoundingClientRect().width; },
+        ], function(newValues, oldValues) {
+          var x = Number(newValues[0]);
+          if (isFinite(x)) {
+            if (x >= 200) elemWidth = x;
+            chartUpdate = chartInit( element[0], scope.data, elemWidth, elemHeight);
+          }
+        });
+
+        scope.$watchCollection('data.data', function(newData, oldData) {
+
+          if (chartUpdate) chartUpdate(newData);
+
+        }); // scope.$watch('data',...)
+
+
 
         function chartInit(selector, data, fullWidth, fullHeight) {
 
-          var titleHeight = 30;
+          var titleHeight = 40;
           var noteHeight = 30;
           var width = fullWidth;
           var height = fullHeight - titleHeight - noteHeight;
 
           var chartAreaSz = {
             left:   Math.floor( width*0.09),
-            top:    Math.floor(height*0.03),
+            top:    Math.floor(height*0.03)  + titleHeight,
             right:  Math.floor( width*(1-0.00)),
-            bottom: Math.floor(height*(1-0.14)),
+            bottom: Math.floor(height*(1-0.14))  + titleHeight,
           };
 
           var formatCurrency = d3.format('$,.2f');
@@ -41,48 +63,49 @@
 
           //
           //  container
-          //    title
-          //    chart
-          //      chartArea
-          //    note
           //    tooltip
+          //    svg
+          //      title
+          //      chart
+          //      note
           //
           var container = d3.select(selector)
-            .attr('class','chart1-container')
-            .style('width', fullWidth+'px')
-            .style('height', fullHeight+'px');
+            .attr('class','chart1-container');
 
-          var title = container
-          .append('div')
-            .attr('class','chart1-title')
-            .style('width', fullWidth+'px')
-            .style('height',titleHeight+'px')
-            .text(data.name);
-
-          var chart = container
-          .append('svg')
-            .attr('class', 'chart1-chart')
-            .attr('width', width)
-            .attr('height', height);
-
-          var note = container
-          .append('div')
-            .attr('class','chart1-note')
-            .style('width', fullWidth+'px')
-            .style('height', noteHeight+'px')
-            .text(data.description);
+          container.selectAll('*').remove();
 
           var tooltip = container
           .append('div')
             .attr('class','chart1-tooltip');
 
-          var chartArea = chart
-          .append('rect')
-            .attr('class', 'chart1-chart-area')
-            .attr('x', chartAreaSz.left)
-            .attr('y', chartAreaSz.top)
-            .attr('width', chartAreaSz.right-chartAreaSz.left)
-            .attr('height', chartAreaSz.bottom-chartAreaSz.top);
+          var svg = container
+          .append('svg')
+            .attr('class', 'chart1-chart')
+            .attr("width", '100%') // ie11
+            .attr("height", fullHeight) // ie11
+            .attr('viewBox', '0 0 '+fullWidth+' '+fullHeight) // chrome
+            .style('min-width', '200px');
+
+          var chart = svg
+          .append('g')
+            .attr('class', 'chart1-chart');
+
+          var title = svg
+          .append('text')
+            .attr('class','chart1-title')
+            .attr('x',(fullWidth/2)+'px')
+            .attr('y',(titleHeight)+'px')
+            .attr('text-ancor', 'middle')
+            .text(data.name);
+
+          var note = svg
+          .append('text')
+            .attr('class','chart1-note')
+            .attr('x',(fullWidth/2)+'px')
+            .attr('y',(fullHeight-noteHeight/2)+'px')
+            .attr('text-ancor', 'middle')
+            .text(data.description);
+
 
 
 
@@ -122,7 +145,7 @@
             .selectAll('line')
             .data(x.ticks(5))
             .enter().append('line')
-              .attr('class', 'verticalGrid')
+              .attr('class', 'vertical-grid-line')
               .attr('x1', function(d){ return Math.floor(x(d));})
               .attr('x2', function(d){ return Math.floor(x(d));})
               .attr('y1', chartAreaSz.top)
@@ -140,6 +163,7 @@
               .attr('transform', 'translate(' + chartAreaSz.left + ',0)')
               .call(yAxis)
                 .selectAll('text')  
+                .attr('class', 'chart1-axis-y-text')
                 .style('text-anchor', 'end');
 
             chart.append('g')
@@ -147,7 +171,7 @@
             .selectAll('line')
             .data(y.ticks(10))
             .enter().append('line')
-              .attr('class', 'horizontalGrid')
+              .attr('class', 'horizontal-grid-line')
               .attr('x1', chartAreaSz.left)
               .attr('x2', chartAreaSz.right)
               .attr('y1', function(d){ return Math.floor(y(d));})
@@ -218,14 +242,6 @@
           return chartUpdate;
 
         } // function chartInit(...)
-
-        var chartUpdate = chartInit( element[0], scope.data, 300, 300);
-
-        scope.$watchCollection('data.data', function(newData, oldData) {
-
-          chartUpdate(newData);
-
-        }); // scope.$watch('data',...)
 
       } // function link(...)
 
