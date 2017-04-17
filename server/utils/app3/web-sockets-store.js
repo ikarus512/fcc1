@@ -16,7 +16,9 @@
 'use strict';
 
 var
+  d3 = require('d3'),
   data = [],
+  tickets = [],
   Store = {};
 
 Store.add = function(value) {
@@ -31,6 +33,39 @@ Store.get = function() {
   var res = data.map( function(el) { return el; });
   return res;
 };
+
+
+
+Store.ticketGenerate = function(userinfo) {
+  var ticket, TWO_POW_24 = 16*1024*1024;
+
+  do {
+    ticket = Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16) +
+      Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16) +
+      Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16);
+  } while(tickets.indexOf(ticket) >= 0);
+
+  tickets.push({ticket: ticket, userinfo: userinfo});
+
+  return ticket;
+};
+
+Store.ticketCheck = function(ticket) {
+  return tickets.some( function(el) { return (el.ticket===ticket); });
+};
+
+Store.ticketRemove = function(ticket) {
+  var
+    i,
+    found = tickets.some( function(el,idx) { i=idx; return (el.ticket===ticket); });
+
+  if (found) {
+    tickets.splice(i);
+  }
+};
+
+
+
 
 
 module.exports = Store;

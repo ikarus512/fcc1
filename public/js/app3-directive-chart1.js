@@ -22,7 +22,6 @@
           elemWidth = Math.max(200, element[0].getBoundingClientRect().height),
           elemHeight = Math.max(300, element[0].getBoundingClientRect().height);
 
-console.log(elemHeight);
         var chartUpdate = chartInit( element[0], scope.data, elemWidth, elemHeight);
 
         // Automatic update elemWidth on element resize

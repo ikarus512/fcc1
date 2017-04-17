@@ -16,6 +16,13 @@
     var HOST = (window.document.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.document.location.host;
     var ws = new WebSocket(HOST);
 
+    // get and register client's ws ticket
+    RestService.getWsTicket()
+    .then( function(data) {
+      var wsTicket = data.data.ticket;
+      ws.send(JSON.stringify({type:'check-ticket',ticket:wsTicket}));
+    });
+
     ws.onmessage = function(message) {
       var data = JSON.parse(message.data);
       if (Service.callback) Service.callback(data);

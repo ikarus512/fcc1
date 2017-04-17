@@ -16,6 +16,7 @@
 'use strict';
 
 var internalErrors = {
+  'e0000009': 'Error during GET /app3/api/get-ws-ticket',
   'e0000008': 'Error during PUT /app2/api/cafes/:cafeId/timeslots/:startTimeUTC/unplan',
   'e0000007': 'Error during PUT /app2/api/cafes/:cafeId/timeslots/:startTimeUTC/plan',
   'e0000006': 'Error in app.route(\'/auth/local/signup\').',

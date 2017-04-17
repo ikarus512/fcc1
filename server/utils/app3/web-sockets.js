@@ -17,7 +17,8 @@
 
 var
   wsStore = require('./web-sockets-store.js'),
-  myErrorLog = require('./../../utils/my-error-log.js');
+  myErrorLog = require('./../../utils/my-error-log.js'),
+  registeredClients = [];
 
 module.exports = function(server) {
 
@@ -25,19 +26,40 @@ module.exports = function(server) {
     SocketServer = require('ws').Server,
     wss = new SocketServer({server:server});
 
-  wss.on('error', function (e) {
+  wss.on('error', function (err) {
     myErrorLog(null, err);
   });
 
   wss.on('connection', function(ws) {
+
+    ws.on('message', function(msg) {
+      try {
+        var data = JSON.parse(msg);
+        if (data.type === 'check-ticket') {
+          if(wsStore.ticketCheck(data.ticket)) {
+            ws.myTicket = data.ticket;
+            registeredClients.push(ws);
+          }
+        }
+      } catch(err) {
+        myErrorLog(null, err);
+      }
+    });
+
     ws.on('close', function() {
+      var i=registeredClients.indexOf(ws);
+      if (i>=0) {
+        wsStore.ticketRemove(registeredClients[i].myTicket);
+        registeredClients.splice(i);
+      }
     });
   });
 
 
 
   setInterval( function() {
-    wss.clients.forEach( function(client) {
+    // wss.clients.forEach( function(client) {
+    registeredClients.forEach( function(client) {
       try {
         client.send(
           JSON.stringify({

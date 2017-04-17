@@ -11,21 +11,21 @@
 
   .factory('RestService', ['$http', function ($http) {
     return {
-      get: function () {
+      getWsTicket: function () {
         return $http({
           method: 'GET',
           data:{},
-          url: '/app1/api/polls'
+          url: '/app3/api/get-ws-ticket'
         });
       },
 
-      post: function (poll) {
-        return $http({
-          method: 'POST',
-          data:poll,
-          url: '/app1/api/polls'
-        });
-      },
+      // post: function (poll) {
+      //   return $http({
+      //     method: 'POST',
+      //     data:poll,
+      //     url: '/app1/api/polls'
+      //   });
+      // },
 
     };
 

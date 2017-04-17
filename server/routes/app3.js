@@ -21,6 +21,7 @@ var express = require('express'),
   wsStore = require('./../utils/app3/web-sockets-store.js'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
   createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
+  PublicError = require('../utils/public-error.js'),
   myErrorLog = require('../utils/my-error-log.js');
 
 
@@ -31,6 +32,32 @@ router.get('/',
     res.render('app3_stock', greet(req));
   }
 );
+
+// RESTAPI GET    /app3/api/get-ws-ticket - get web socket ticket
+router.get('/api/get-ws-ticket', function(req, res, next) {
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({message:'Error: Only authorized person can get Web Socket ticket.'});
+  }
+
+  try {
+
+    var ticket = wsStore.ticketGenerate(req.user.name);
+
+    return res.status(200).json({ticket: ticket});
+
+  } catch(err) {
+
+    if (err instanceof PublicError) {
+      return res.status(400).json({message:err.toString()});
+    } else {
+      myErrorLog(null, err);
+      return res.status(400).json({message:'Internal error e0000009.'});
+    }
+
+  }
+
+});
 
 
 
