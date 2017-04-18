@@ -23,7 +23,7 @@
       // Register WebSocket ticket (to be able to receive messages from server)
       setTimeout( function() {
         ws.send(JSON.stringify({msgtype:'check-ticket',ticket:wsTicket}));
-      },1000); // Delay for heroku.com
+      },1500); // Delay for heroku.com
     })
     .catch( function(err) {
       if (err && err.data && err.data.message) {

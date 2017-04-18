@@ -135,7 +135,9 @@
               .range([chartAreaSz.bottom, chartAreaSz.top]);
 
             var z = d3.scaleOrdinal(d3.schemeCategory10)
-              .domain(Object.keys(newData.stocks));
+              // .domain(Object.keys(newData.stocks)); // Random colors
+              .domain(['stock1', 'stock2', 'stock3', 'stock4', 'stock5']); // Fix color to name
+
 
             var xAxis = d3.axisBottom(x)
               .tickSize(1,1)
