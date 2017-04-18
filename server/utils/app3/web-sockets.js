@@ -34,6 +34,7 @@ module.exports = function(server) {
   wss.on('connection', function(ws) {
 
     ws.on('message', function(msg) {
+console.log('message ',msg);
       try {
         var data = JSON.parse(msg);
         if (data.msgtype === 'check-ticket') {
