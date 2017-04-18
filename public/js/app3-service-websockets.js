@@ -21,7 +21,9 @@
     .then( function(data) {
       var wsTicket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
       // Register WebSocket ticket (to be able to receive messages from server)
-      ws.send(JSON.stringify({msgtype:'check-ticket',ticket:wsTicket}));
+      setTimeout( function() {
+        ws.send(JSON.stringify({msgtype:'check-ticket',ticket:wsTicket}));
+      },1000);
     })
     .catch( function(err) {
       if (err && err.data && err.data.message) {
