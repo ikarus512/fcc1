@@ -34,7 +34,6 @@ module.exports = function(server) {
   wss.on('connection', function(ws) {
 
     ws.on('message', function(msg) {
-console.log('message ',msg);
       try {
         var data = JSON.parse(msg);
         if (data.msgtype === 'check-ticket') {
@@ -43,7 +42,6 @@ console.log('message ',msg);
             ws.myTicket = data.ticket;
             // Save client
             registeredClients.push(ws);
-console.log('adding ',registeredClients.map(function(client){return {ticket:client.myTicket, send:client.send};}));
           }
         } else if (ws.myTicket && data.msgtype === 'add-stock-name') {
           wsStore.addStockName(data.stockName);
@@ -72,9 +70,8 @@ console.log('adding ',registeredClients.map(function(client){return {ticket:clie
   setInterval( function() {
     try {
       var newData = wsStore.getNewData();
-console.log('sending ',registeredClients.map(function(client){return {ticket:client.myTicket, send:client.send};}));
-      wss.clients.forEach( function(client) {
-      // registeredClients.forEach( function(client) {
+      // wss.clients.forEach( function(client) {
+      registeredClients.forEach( function(client) {
         client.send(JSON.stringify({msgtype: 'stocks-data', data: newData}));
       });
     } catch(err) {
