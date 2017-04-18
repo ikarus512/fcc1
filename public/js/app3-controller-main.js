@@ -15,36 +15,34 @@
 
       $scope.init = function(logintype,username) {
         $scope.logintype = logintype==='undefined' ? undefined : logintype;
-        $scope.username = username;
       }; // $scope.init(...)
 
-      var DATA_MAX_LENGTH = 20;
-      var DATA_PORTION_LENGTH = 5;
+      var APP3_STOCK_PORTION_LENGTH = 5,
+        APP3_STOCK_MAX_LENGTH = 4 * APP3_STOCK_PORTION_LENGTH;
+
       function initData() {
         var i,j, d = new Date(), data = {}, stockNames = ['stock1', 'stock2', 'stock3'];
 
         data.x = [];
-        for (i=0; i<=DATA_MAX_LENGTH; i++ ) {
-          data.x.push( new Date(d.getTime()-(DATA_MAX_LENGTH-i)*0.5*1000) );
+        for (i=0; i<APP3_STOCK_MAX_LENGTH; i++ ) {
+          data.x.push( new Date(d.getTime()-(APP3_STOCK_MAX_LENGTH-i)*0.5*1000) );
         }
 
-        data.stocks = [];
+        data.stocks = {};
         stockNames.forEach( function(stockName) {
-          var stock = {};
-          stock.id = stockName;
-          stock.values = [];
-          for (i=0; i<=DATA_MAX_LENGTH; i++ ) {
-            // data.stocks[stockName].push(0);
-            stock.values.push({
-              x: data.x[i],
-              y: Math.random()*300
+          data.stocks[stockName] = {};
+          data.stocks[stockName].id = stockName;
+          data.stocks[stockName].values = [];
+          for (i=0; i<APP3_STOCK_MAX_LENGTH; i++ ) {
+            data.stocks[stockName].values.push({
+              x: new Date(data.x[i]),
+              y: 0
             });
           }
-          data.stocks.push(stock);
         });
 
         return data;
-      }
+      } // function initData(...)
 
       $scope.chart1Data = {
         title: 'Title',
@@ -52,17 +50,44 @@
         data: initData(),
       };
 
-      WebSocketService.subscribe( function(data) {
-        // // Remove old data portion
-        // if ($scope.chart1Data.data.length >= DATA_MAX_LENGTH) {
-        //   $scope.chart1Data.data.splice(0,DATA_PORTION_LENGTH);
-        // }
+      WebSocketService.subscribe( function(newDataPortion) {
+        var key, newData = $scope.chart1Data;
 
-        // // Read and add new data portion
-        // $scope.chart1Data.data.push([data.x,data.y]);
+        // newDataPortion update: convert all dates from String() to Date()
+        newDataPortion.data.x = newDataPortion.data.x.map( function(el) { return new Date(el); });
+        for (key in newDataPortion.data.stocks) {
+          newDataPortion.data.stocks[key].values.forEach( function(el) {
+            el.x = new Date(el.x);
+          });
+        }
 
-        // // Refresh scope
-        // $scope.$apply();
+
+        // Remove old data portion
+        if (newData.data.x.length >= APP3_STOCK_MAX_LENGTH) {
+          newData.data.x.splice(0, APP3_STOCK_PORTION_LENGTH);
+          for (key in newData.data.stocks) {
+            newData.data.stocks[key].values.splice(0, APP3_STOCK_PORTION_LENGTH);
+          }
+        }
+
+
+        // Add new data portion
+        newData.data.x = newData.data.x.concat(newDataPortion.data.x);
+        for (key in newDataPortion.data.stocks) {
+          // If key was absent
+          if (!newData.data.stocks[key])
+            newData.data.stocks[key] = {id: key, values: []};
+
+          newData.data.stocks[key].values = newData.data.stocks[key].values
+            .concat(newDataPortion.data.stocks[key].values);
+        }
+
+
+
+        $scope.chart1Data = newData;
+
+        // Refresh scope
+        $scope.$apply();
       });
 
   }]); // .controller('myApp3ControllerMain', ...

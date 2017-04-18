@@ -17,20 +17,75 @@
 
 var
   d3 = require('d3'),
-  data = [],
+  APPCONST = require('./../../config/constants.js'),
+  wsStore = {},
   tickets = [],
-  wsStore = {};
+  gauss = d3.randomNormal(1.0,0.01),
+  allStocks = {
+    'stock1': Array(APPCONST.APP3_STOCK_PORTION_LENGTH).fill(49.0),
+    'stock2': Array(APPCONST.APP3_STOCK_PORTION_LENGTH).fill(50.0),
+    'stock3': Array(APPCONST.APP3_STOCK_PORTION_LENGTH).fill(51.0),
+    'stock4': Array(APPCONST.APP3_STOCK_PORTION_LENGTH).fill(52.0),
+    'stock5': Array(APPCONST.APP3_STOCK_PORTION_LENGTH).fill(53.0),
+  },
+  allStockIds = Object.keys(allStocks),
+  selStockIds = [allStockIds[0], allStockIds[1], allStockIds[2]];
+
+
+
+
+
+wsStore.getNewData = function() {
+  var i, key, d = new Date(), data={};
+
+  // Generate time data
+  data.x = [];
+  for (i=0; i<APPCONST.APP3_STOCK_PORTION_LENGTH; i++) {
+    data.x.push( new Date(d.getTime()+i*0.5*1000).toISOString() );
+  }
+
+  // Generate new stock data
+  for ( key in allStocks ) {
+    var v1 = allStocks[key][APPCONST.APP3_STOCK_PORTION_LENGTH-1];
+    for (i=0; i<APPCONST.APP3_STOCK_PORTION_LENGTH; i++) {
+      v1 *= gauss();
+      if (v1<1 || v1>1000) v1 = 50.0;
+      allStocks[key][i] = v1;
+    }
+  }
+
+  // Return only selected data
+  data.stocks = {};
+  selStockIds.forEach( function(key) {
+    data.stocks[key] = {};
+    data.stocks[key].id = key;
+    data.stocks[key].values = allStocks[key].map( function(el,idx) {
+      return {
+        x: data.x[idx],
+        y: el,
+      };
+    });
+  });
+
+  return {
+    title: 'Title',
+    note: 'Description',
+    data: data,
+  };
+};
+
+
 
 wsStore.add = function(value) {
-  data.push(String(value));
+  selStockIds.push(String(value));
 };
 
 wsStore.remove = function(value) {
-  data.splice(data.indexOf(value));
+  selStockIds.splice(selStockIds.indexOf(value));
 };
 
 wsStore.get = function() {
-  var res = data.map( function(el) { return el; });
+  var res = selStockIds.map( function(el) { return el; });
   return res;
 };
 

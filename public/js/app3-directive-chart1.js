@@ -35,11 +35,11 @@
           }
         });
 
-        scope.$watchCollection('data.data', function(newData, oldData) {
+        scope.$watch('data.data', function(newData, oldData) {
 
           if (chartUpdate) chartUpdate(newData);
 
-        }); // scope.$watch('data',...)
+        },true); // scope.$watch('data',...)
 
 
 
@@ -120,19 +120,22 @@
               .domain(d3.extent(newData.x))
               .range([chartAreaSz.left, chartAreaSz.right]);
 
+            var stocksArray = [], key;
+            for (key in newData.stocks) stocksArray.push(newData.stocks[key]);
+
             var y = d3.scaleLinear()
               .domain([
-                d3.min(newData.stocks, function(stock) {
+                d3.min(stocksArray, function(stock) {
                   return d3.min(stock.values, function(d) { return d.y; });
                 }),
-                d3.max(newData.stocks, function(stock) {
+                d3.max(stocksArray, function(stock) {
                   return d3.max(stock.values, function(d) { return d.y; });
                 })
               ])
               .range([chartAreaSz.bottom, chartAreaSz.top]);
 
             var z = d3.scaleOrdinal(d3.schemeCategory10)
-              .domain(newData.stocks.map( function(s) { return s.id; }));
+              .domain(Object.keys(newData.stocks));
 
             var xAxis = d3.axisBottom(x)
               .tickSize(1,1)
@@ -195,7 +198,7 @@
               .y( function(d) { return y(d.y); });
 
             var stock = chart.selectAll('.stock')
-            .data(newData.stocks)
+            .data(stocksArray)
             .enter().append('g')
               .attr('class', 'stock');
 
@@ -217,8 +220,8 @@
               tooltip
                 .html('<div><b>' + d.id + ' </b><div>')
                 .style('color', z(d.id))
-                .style('left', (d3.event.pageX+20) + 'px')
-                .style('top', (d3.event.pageY-60) + 'px')
+                .style('left', (d3.event.pageX+10) + 'px')
+                .style('top', (d3.event.pageY-20) + 'px')
                 .style('display', 'block');
             })
 

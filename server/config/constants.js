@@ -24,4 +24,6 @@ module.exports = {
   APP2_GOOGLE_SEARCH_ENABLED: isHeroku(),
   APP2_MAX_TIMESLOTS: 4,
   APP2_TIMESLOT_LENGTH: 30, // timeslot length in minutes (must divide 60)
+
+  APP3_STOCK_PORTION_LENGTH: 5,
 };

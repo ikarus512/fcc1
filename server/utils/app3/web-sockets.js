@@ -17,6 +17,7 @@
 
 var
   wsStore = require('./web-sockets-store.js'),
+  APPCONST = require('./../../config/constants.js'),
   myErrorLog = require('./../../utils/my-error-log.js'),
   registeredClients = [];
 
@@ -35,13 +36,15 @@ module.exports = function(server) {
     ws.on('message', function(msg) {
       try {
         var data = JSON.parse(msg);
-        if (data.type === 'check-ticket') {
+        if (data.msgtype === 'check-ticket') {
           if(wsStore.ticketCheck(data.ticket)) { // If ticket ok
             // Save ticket
             ws.myTicket = data.ticket;
             // Save client
             registeredClients.push(ws);
           }
+        } else if (ws.myTicket && data.msgtype === 'add-stock-name') {
+        } else if (ws.myTicket && data.msgtype === 'remove-stock-name') {
         }
       } catch(err) {
         myErrorLog(null, err);
@@ -63,21 +66,15 @@ module.exports = function(server) {
 
 
   setInterval( function() {
-    // wss.clients.forEach( function(client) {
-    registeredClients.forEach( function(client) {
-      try {
-        client.send(
-          JSON.stringify({
-            items: wsStore.get(),
-            time: new Date().toISOString(),
-            y: Math.random()*300,
-            x: new Date().toISOString(),
-          })
-        );
-      } catch(err) {
-        myErrorLog(null, err);
-      }
-    });
-  }, 0.5*1000);
+      var newData = wsStore.getNewData();
+    try {
+      // wss.clients.forEach( function(client) {
+      registeredClients.forEach( function(client) {
+        client.send(JSON.stringify({msgtype: 'stocks-data', data: newData}));
+      });
+    } catch(err) {
+      myErrorLog(null, err);
+    }
+  }, 0.5*1000 * APPCONST.APP3_STOCK_PORTION_LENGTH);
 
 };
