@@ -51,9 +51,9 @@
           var height = fullHeight - titleHeight - noteHeight;
 
           var chartAreaSz = {
-            left:   Math.floor( width*0.09),
+            left:   Math.floor( width*0.1),
             top:    Math.floor(height*0.03)  + titleHeight,
-            right:  Math.floor( width*(1-0.00)),
+            right:  Math.floor( width*(1-0.1)),
             bottom: Math.floor(height*(1-0.14))  + titleHeight,
           };
 
@@ -80,8 +80,8 @@
           var svg = container
           .append('svg')
             .attr('class', 'chart1-chart')
-            .attr("width", '100%') // ie11
-            .attr("height", fullHeight) // ie11
+            .attr('width', '100%') // ie11
+            .attr('height', fullHeight) // ie11
             .attr('viewBox', '0 0 '+fullWidth+' '+fullHeight) // chrome
             .style('min-width', '200px');
 
@@ -110,22 +110,29 @@
 
           function chartUpdate(newData) {
 
-            var ny = newData.length - 1;
+            var ny = newData.x.length - 1;
 
-            var barWidth = Math.ceil((chartAreaSz.right-chartAreaSz.left) / newData.length);
+            var barWidth = Math.ceil((chartAreaSz.right-chartAreaSz.left) / newData.x.length);
 
             chart.selectAll('g').remove();
 
             var x = d3.scaleTime()
-              .domain(d3.extent(newData, function(d) { return new Date(d[0]); }))
+              .domain(d3.extent(newData.x))
               .range([chartAreaSz.left, chartAreaSz.right]);
 
             var y = d3.scaleLinear()
               .domain([
-                d3.min(newData, function(d) { return d[1]; }),
-                d3.max(newData, function(d) { return d[1]; })
+                d3.min(newData.stocks, function(stock) {
+                  return d3.min(stock.values, function(d) { return d.y; });
+                }),
+                d3.max(newData.stocks, function(stock) {
+                  return d3.max(stock.values, function(d) { return d.y; });
+                })
               ])
               .range([chartAreaSz.bottom, chartAreaSz.top]);
+
+            var z = d3.scaleOrdinal(d3.schemeCategory10)
+              .domain(newData.stocks.map( function(s) { return s.id; }));
 
             var xAxis = d3.axisBottom(x)
               .tickSize(1,1)
@@ -134,10 +141,10 @@
             chart.append('g')
               .attr('id', 'xAxis')
               .attr('transform', 'translate(0,' + chartAreaSz.bottom + ')' )
-              .call(xAxis)
-                .selectAll('text')
-                .attr('class', 'chart1-axis-x-text')
-                .attr('transform', 'translate(-8,0) rotate(-70)' );
+            .call(xAxis)
+              .selectAll('text')
+              .attr('class', 'chart1-axis-x-text')
+              .attr('transform', 'translate(-8,0) rotate(-70)' );
 
             chart.append('g')
               .attr('id', 'verticalGrid')
@@ -160,10 +167,10 @@
             chart.append('g')
               .attr('id', 'yAxis')
               .attr('transform', 'translate(' + chartAreaSz.left + ',0)')
-              .call(yAxis)
-                .selectAll('text')  
-                .attr('class', 'chart1-axis-y-text')
-                .style('text-anchor', 'end');
+            .call(yAxis)
+              .selectAll('text')
+              .attr('class', 'chart1-axis-y-text')
+              .style('text-anchor', 'end');
 
             chart.append('g')
               .attr('id', 'horizontalGrid')
@@ -184,31 +191,22 @@
 
             var lineGen = d3.line()
               .curve(d3.curveLinear)
-              .x(function(d) { return x(new Date(d[0])); })
-              .y(function(d) { return y(d[1]); });
+              .x( function(d) { return x(d.x); })
+              .y( function(d) { return y(d.y); });
 
+            var stock = chart.selectAll('.stock')
+            .data(newData.stocks)
+            .enter().append('g')
+              .attr('class', 'stock');
 
-            var lines = chart
-            .append('g')
-              .attr('class','chart1-line')
-            .append('path')
-            .datum(newData)
-              .attr('fill', 'none')
-              .attr('stroke', 'blue')
+            stock.append('path')
+              .attr('class', 'chart1-line')
+              .attr('d', function(d) { return lineGen(d.values); })
+              .style('stroke', function(d) { return z(d.id); })
               .attr('stroke-linejoin', 'round')
               .attr('stroke-linecap', 'round')
-              .attr('stroke-width', 1.5)
-              .attr('d', lineGen);
-
-
-            var points = chart.append('g')
-            .selectAll('circle')
-            .data(newData)
-            .enter().append('circle')
-              .attr('cx',function(d,i){ return x(new Date(d[0])); })
-              .attr('cy',function(d,i){ return y(d[1]); })
-              .attr('r',barWidth/4)
-              .attr('fill','blue')
+              .attr('stroke-width', 3)
+              .attr('fill', 'none')
 
             .on('mouseover', function(d) {
               tooltipWait++;
@@ -217,8 +215,8 @@
               figure.attr('opacity', '0.5');
 
               tooltip
-                .html('<div><b>' + formatCurrency(d[1]) + ' </b><div>'+
-                  '<div>' + formatDate(new Date(d[0])) + '</div>')
+                .html('<div><b>' + d.id + ' </b><div>')
+                .style('color', z(d.id))
                 .style('left', (d3.event.pageX+20) + 'px')
                 .style('top', (d3.event.pageY-60) + 'px')
                 .style('display', 'block');
@@ -235,6 +233,14 @@
                 }
               }, 2*1000);
             });
+
+            // Legend
+            stock.append('text')
+              .attr('class', 'chart1-label')
+            .datum( function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+              .attr('x', 10)
+              .attr('transform', function(d) { return 'translate(' + x(d.value.x) + ',' + y(d.value.y) + ')'; })
+              .text( function(d) { return d.id; });
 
           } // function chartUpdate(...)
 

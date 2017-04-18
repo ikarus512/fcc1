@@ -18,28 +18,51 @@
         $scope.username = username;
       }; // $scope.init(...)
 
-      var DATA_LENGTH = 20;
+      var DATA_MAX_LENGTH = 20;
+      var DATA_PORTION_LENGTH = 5;
       function initData() {
-        var d = new Date();
-        var data = [];
-        var i, DATA_LENGTH = 20;
-        for (i=0; i<=DATA_LENGTH; i++ ) {
-          data.push([d.getTime()-(DATA_LENGTH-i)*0.5*1000,0]);
+        var i,j, d = new Date(), data = {}, stockNames = ['stock1', 'stock2', 'stock3'];
+
+        data.x = [];
+        for (i=0; i<=DATA_MAX_LENGTH; i++ ) {
+          data.x.push( new Date(d.getTime()-(DATA_MAX_LENGTH-i)*0.5*1000) );
         }
+
+        data.stocks = [];
+        stockNames.forEach( function(stockName) {
+          var stock = {};
+          stock.id = stockName;
+          stock.values = [];
+          for (i=0; i<=DATA_MAX_LENGTH; i++ ) {
+            // data.stocks[stockName].push(0);
+            stock.values.push({
+              x: data.x[i],
+              y: Math.random()*300
+            });
+          }
+          data.stocks.push(stock);
+        });
+
         return data;
       }
 
       $scope.chart1Data = {
         title: 'Title',
         note: 'Description',
-        data : initData(),
+        data: initData(),
       };
 
       WebSocketService.subscribe( function(data) {
-        if ($scope.chart1Data.data.length >= DATA_LENGTH)
-          $scope.chart1Data.data.splice(0,1);
-        $scope.chart1Data.data.push([data.x,data.y]);
-        $scope.$apply();
+        // // Remove old data portion
+        // if ($scope.chart1Data.data.length >= DATA_MAX_LENGTH) {
+        //   $scope.chart1Data.data.splice(0,DATA_PORTION_LENGTH);
+        // }
+
+        // // Read and add new data portion
+        // $scope.chart1Data.data.push([data.x,data.y]);
+
+        // // Refresh scope
+        // $scope.$apply();
       });
 
   }]); // .controller('myApp3ControllerMain', ...

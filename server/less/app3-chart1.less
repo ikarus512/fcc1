@@ -11,10 +11,10 @@
 //  2017/04/04, ikarus512. Added copyright header.
 //
 
-@chBgDefault   : @colHighlight;
-@chBgHighlight : @colDefault;
-@chColDefault  : @bgHighlight;
-@chColHighlight: @bgDefault;
+@chBgDefault   : @colDefault;
+@chBgHighlight : @colHighlight;
+@chColDefault  : @bgDefault;
+@chColHighlight: @bgHighlight;
 
 .chart1 {
   width: 100%;
@@ -27,7 +27,7 @@
 }
 
 .chart1-title {
-  font-size: 2em;
+  font-size: 32px;
   fill: @chColHighlight;
 }
 
@@ -46,7 +46,7 @@
   display: none;
   padding: 0px 10px 0px 10px;
   color: @chColHighlight;
-  background-color: @chBgDefault;
+  background-color: @chBgHighlight;
   opacity: 0.8;
 }
 
@@ -61,4 +61,9 @@
   fill: @chColHighlight;
   text-anchor: end;
   font-size: 10px;
+}
+
+.chart1-label {
+  font-size: 16px;
+  fill: @chColHighlight;
 }
