@@ -95,7 +95,7 @@
             .attr('x',(fullWidth/2)+'px')
             .attr('y',(titleHeight)+'px')
             .attr('text-ancor', 'middle')
-            .text(data.name);
+            .text(data.title);
 
           var note = svg
           .append('text')
@@ -103,7 +103,7 @@
             .attr('x',(fullWidth/2)+'px')
             .attr('y',(fullHeight-noteHeight/2)+'px')
             .attr('text-ancor', 'middle')
-            .text(data.description);
+            .text(data.note);
 
 
 

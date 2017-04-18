@@ -35,5 +35,7 @@ block content
     p Using WebSockets, Angular, D3.
 
   .well
-    div(class='ng-app' ng-app='myApp3' ng-controller='myApp3ControllerMain' ng-cloak)
-      chart1(data='chart1Data' class='chart1')
+    div(class='ng-app' ng-app='myApp3' ng-controller='myApp3ControllerMain' ng-init="init('"+logintype+"','"+username+"')" ng-cloak)
+      div(ng-show='logintype')
+        chart1(data='chart1Data' class='chart1')
+      p(ng-show='!logintype') Please log in, in order to view stock data chart.

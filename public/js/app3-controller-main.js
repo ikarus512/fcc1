@@ -13,6 +13,11 @@
     ['$scope', 'RestService', 'WebSocketService',
     function ($scope, RestService, WebSocketService) {
 
+      $scope.init = function(logintype,username) {
+        $scope.logintype = logintype==='undefined' ? undefined : logintype;
+        $scope.username = username;
+      }; // $scope.init(...)
+
       var DATA_LENGTH = 20;
       function initData() {
         var d = new Date();
@@ -25,8 +30,8 @@
       }
 
       $scope.chart1Data = {
-        name: 'Title',
-        description: 'Description',
+        title: 'Title',
+        note: 'Description',
         data : initData(),
       };
 
