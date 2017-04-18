@@ -50,23 +50,39 @@
         data: initData(),
       };
 
+
+
+
+      $scope.addStockName = function(stockName) {
+        WebSocketService.addStockName(stockName);
+      };
+
+      $scope.removeStockName = function(stockName) {
+        WebSocketService.removeStockName(stockName);
+      };
+
       WebSocketService.subscribe( function(newDataPortion) {
         var key, newData = $scope.chart1Data;
 
         // newDataPortion update: convert all dates from String() to Date()
         newDataPortion.data.x = newDataPortion.data.x.map( function(el) { return new Date(el); });
+        function cvtToDate(el) { el.x = new Date(el.x); }
         for (key in newDataPortion.data.stocks) {
-          newDataPortion.data.stocks[key].values.forEach( function(el) {
-            el.x = new Date(el.x);
-          });
+          newDataPortion.data.stocks[key].values.forEach(cvtToDate);
         }
 
 
         // Remove old data portion
         if (newData.data.x.length >= APP3_STOCK_MAX_LENGTH) {
           newData.data.x.splice(0, APP3_STOCK_PORTION_LENGTH);
-          for (key in newData.data.stocks) {
-            newData.data.stocks[key].values.splice(0, APP3_STOCK_PORTION_LENGTH);
+        }
+        function isNew(el) { return (el.x.getTime() >= newData.data.x[0].getTime()); }
+        for (key in newData.data.stocks) {
+          // Filter out old stock data by date
+          newData.data.stocks[key].values = newData.data.stocks[key].values.filter(isNew);
+          // Remove empty stock data
+          if (newData.data.stocks[key].values.length < 2) {
+            delete newData.data.stocks[key];
           }
         }
 
@@ -81,7 +97,6 @@
           newData.data.stocks[key].values = newData.data.stocks[key].values
             .concat(newDataPortion.data.stocks[key].values);
         }
-
 
 
         $scope.chart1Data = newData;

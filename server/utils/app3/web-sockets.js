@@ -44,7 +44,9 @@ module.exports = function(server) {
             registeredClients.push(ws);
           }
         } else if (ws.myTicket && data.msgtype === 'add-stock-name') {
+          wsStore.addStockName(data.stockName);
         } else if (ws.myTicket && data.msgtype === 'remove-stock-name') {
+          wsStore.removeStockName(data.stockName);
         }
       } catch(err) {
         myErrorLog(null, err);
@@ -58,7 +60,7 @@ module.exports = function(server) {
         wsStore.ticketRemove(registeredClients[i].myTicket);
         registeredClients[i].myTicket = undefined;
         // Remove client
-        registeredClients.splice(i);
+        registeredClients.splice(i,1);
       }
     });
   });

@@ -71,7 +71,7 @@
           cafeStorage.unplanCafeTimeslot(cafe._id, timeslot.start)
           .then( function(res) {
             timeslot.planned = false;
-            timeslot.users.splice(timeslot.users.indexOf($scope.username));
+            timeslot.users.splice(timeslot.users.indexOf($scope.username),1);
           })
           .catch( function(err) {
             // Errors like date in the past, no such cafe, etc

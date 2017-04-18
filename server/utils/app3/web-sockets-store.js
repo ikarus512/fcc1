@@ -76,18 +76,33 @@ wsStore.getNewData = function() {
 
 
 
-wsStore.add = function(value) {
-  selStockIds.push(String(value));
+wsStore.addStockName = function(name) {
+  if (
+    allStockIds.indexOf(name)>=0 && // allowed name
+    selStockIds.indexOf(name)<0     // not yet added
+  )
+  {
+    selStockIds.push(String(name)); // add to selection
+    return true;
+  } else {
+    return false;
+  }
 };
 
-wsStore.remove = function(value) {
-  selStockIds.splice(selStockIds.indexOf(value));
+wsStore.removeStockName = function(name) {
+  if (
+    allStockIds.indexOf(name)>=0 && // allowed name
+    selStockIds.indexOf(name)>=0 && // was selected
+    selStockIds.length>1            // keep selection size >= 1
+  )
+  {
+    selStockIds.splice(selStockIds.indexOf(name),1); // remove from selection
+    return true;
+  } else {
+    return false;
+  }
 };
 
-wsStore.get = function() {
-  var res = selStockIds.map( function(el) { return el; });
-  return res;
-};
 
 
 
@@ -115,7 +130,7 @@ wsStore.ticketRemove = function(ticket) {
     found = tickets.some( function(el,idx) { i=idx; return (el.ticket===ticket); });
 
   if (found) {
-    tickets.splice(i);
+    tickets.splice(i,1);
   }
 };
 

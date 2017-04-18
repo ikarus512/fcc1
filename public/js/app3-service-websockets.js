@@ -40,6 +40,14 @@
       Service.callback = callback;
     };
 
+    Service.addStockName = function(stockName) {
+      ws.send(JSON.stringify({msgtype: 'add-stock-name', stockName: stockName}));
+    };
+
+    Service.removeStockName = function(stockName) {
+      ws.send(JSON.stringify({msgtype: 'remove-stock-name', stockName: stockName}));
+    };
+
     return Service;
 
   }]); // .factory('WebSocketService', ...

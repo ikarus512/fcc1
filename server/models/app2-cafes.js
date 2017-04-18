@@ -437,7 +437,7 @@ CafeSchema.statics.unplanTimeslot = function(args) {
     }
 
     // Remove user from this timeslot
-    cafe.timeslots[timeslotIdx].users.splice(userIdx);
+    cafe.timeslots[timeslotIdx].users.splice(userIdx,1);
 
     // Save cafe
     return cafe.save();

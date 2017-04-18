@@ -38,4 +38,16 @@ block content
     div(class='ng-app' ng-app='myApp3' ng-controller='myApp3ControllerMain' ng-init="init('"+logintype+"','"+username+"')" ng-cloak)
       div(ng-show='logintype')
         chart1(data='chart1Data' class='chart1')
+
+        button.btn.btn-primary(ng-show='!chart1Data.data.stocks.stock1' ng-click='addStockName(\'stock1\')') Add stock1
+        button.btn.btn-danger(ng-show='chart1Data.data.stocks.stock1' ng-click='removeStockName(\'stock1\')') Remove stock1
+        button.btn.btn-primary(ng-show='!chart1Data.data.stocks.stock2' ng-click='addStockName(\'stock2\')') Add stock2
+        button.btn.btn-danger(ng-show='chart1Data.data.stocks.stock2' ng-click='removeStockName(\'stock2\')') Remove stock2
+        button.btn.btn-primary(ng-show='!chart1Data.data.stocks.stock3' ng-click='addStockName(\'stock3\')') Add stock3
+        button.btn.btn-danger(ng-show='chart1Data.data.stocks.stock3' ng-click='removeStockName(\'stock3\')') Remove stock3
+        button.btn.btn-primary(ng-show='!chart1Data.data.stocks.stock4' ng-click='addStockName(\'stock4\')') Add stock4
+        button.btn.btn-danger(ng-show='chart1Data.data.stocks.stock4' ng-click='removeStockName(\'stock4\')') Remove stock4
+        button.btn.btn-primary(ng-show='!chart1Data.data.stocks.stock5' ng-click='addStockName(\'stock5\')') Add stock5
+        button.btn.btn-danger(ng-show='chart1Data.data.stocks.stock5' ng-click='removeStockName(\'stock5\')') Remove stock5
+
       p(ng-show='!logintype') Please log in, in order to view stock data chart.
