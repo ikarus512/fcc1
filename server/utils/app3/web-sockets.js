@@ -36,8 +36,10 @@ module.exports = function(server) {
       try {
         var data = JSON.parse(msg);
         if (data.type === 'check-ticket') {
-          if(wsStore.ticketCheck(data.ticket)) {
+          if(wsStore.ticketCheck(data.ticket)) { // If ticket ok
+            // Save ticket
             ws.myTicket = data.ticket;
+            // Save client
             registeredClients.push(ws);
           }
         }
@@ -49,7 +51,10 @@ module.exports = function(server) {
     ws.on('close', function() {
       var i=registeredClients.indexOf(ws);
       if (i>=0) {
+        // Remove ticket
         wsStore.ticketRemove(registeredClients[i].myTicket);
+        registeredClients[i].myTicket = undefined;
+        // Remove client
         registeredClients.splice(i);
       }
     });

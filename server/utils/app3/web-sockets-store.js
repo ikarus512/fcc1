@@ -19,24 +19,24 @@ var
   d3 = require('d3'),
   data = [],
   tickets = [],
-  Store = {};
+  wsStore = {};
 
-Store.add = function(value) {
+wsStore.add = function(value) {
   data.push(String(value));
 };
 
-Store.remove = function(value) {
+wsStore.remove = function(value) {
   data.splice(data.indexOf(value));
 };
 
-Store.get = function() {
+wsStore.get = function() {
   var res = data.map( function(el) { return el; });
   return res;
 };
 
 
 
-Store.ticketGenerate = function(userinfo) {
+wsStore.ticketGenerate = function(userinfo) {
   var ticket, TWO_POW_24 = 16*1024*1024;
 
   do {
@@ -50,11 +50,11 @@ Store.ticketGenerate = function(userinfo) {
   return ticket;
 };
 
-Store.ticketCheck = function(ticket) {
+wsStore.ticketCheck = function(ticket) {
   return tickets.some( function(el) { return (el.ticket===ticket); });
 };
 
-Store.ticketRemove = function(ticket) {
+wsStore.ticketRemove = function(ticket) {
   var
     i,
     found = tickets.some( function(el,idx) { i=idx; return (el.ticket===ticket); });
@@ -68,4 +68,4 @@ Store.ticketRemove = function(ticket) {
 
 
 
-module.exports = Store;
+module.exports = wsStore;
