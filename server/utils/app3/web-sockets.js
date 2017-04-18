@@ -68,10 +68,10 @@ module.exports = function(server) {
 
 
   setInterval( function() {
-      var newData = wsStore.getNewData();
     try {
-      // wss.clients.forEach( function(client) {
-      registeredClients.forEach( function(client) {
+      var newData = wsStore.getNewData();
+      wss.clients.forEach( function(client) {
+      // registeredClients.forEach( function(client) {
         client.send(JSON.stringify({msgtype: 'stocks-data', data: newData}));
       });
     } catch(err) {
