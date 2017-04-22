@@ -5,7 +5,10 @@ _tmp
 npm-debug.log*
 debug.log
 1.1
-public/img/app4tmp/*
+
+# temporary image dirs
+public/img/app2tmp
+public/img/app4tmp
 
 # SSL/TLS certificate/key files
 _certificate

@@ -50,7 +50,7 @@ block content
         .media(style='border: 1px solid grey')
           .media-left
             a(href='/app4/books/{{book._id}}')
-              img.media-object.book-image(src='{{book.photo}}' alt='No photo')
+              img.media-object.book-image(ng-src='{{book.photo}}' alt='No photo')
           .media-body
             h4.media-heading()
               a(href='/app4/books/{{book._id}}') {{book.title}}

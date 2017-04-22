@@ -73,14 +73,20 @@ var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-option
 //  Middlewares
 ////////////////////////////////////////////////////////////////
 
+var tmpdir1;
+tmpdir1 = path.join(__dirname, '../public' + '/img/app2tmp/');
+fs.exists(tmpdir1, function(exists) { if (!exists) fs.mkdir(tmpdir1, function() {}); });
+tmpdir1 = path.join(__dirname, '../public' + '/img/app4tmp/');
+fs.exists(tmpdir1, function(exists) { if (!exists) fs.mkdir(tmpdir1, function() {}); });
+
 // Logs before all middlewares
 if (!isHeroku()) {
   // appHttp.use(helmet); // Node.js Security Tutorial
 
   if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
   var logStream = rfs('access.log', { interval: '1d', path: logDir });
-  appHttp.use(morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
-  app.use    (morganLogger('combined', {stream: logStream, immeduate:true})); // log requests to file
+  appHttp.use(morganLogger('combined', {stream: logStream, immediate:true})); // log requests to file
+  app.use    (morganLogger('combined', {stream: logStream, immediate:true})); // log requests to file
 
   appHttp.use(myRequestLogger({file: myLogFile, immediate: true, short: true}));
 }
