@@ -20,9 +20,12 @@ var
   fs = require('fs'),
   isHeroku = require('./../utils/is-heroku.js');
 
-module.exports = function(req, err) {
+module.exports = function(req, err, message) {
 
   if (isHeroku()) {
+    if (message) {
+      console.log('Message: ', message);
+    }
     if (err) {
       console.log(err.name + ': ' + err.message);
     }
@@ -33,7 +36,11 @@ module.exports = function(req, err) {
 
   txt += '\n\n\n';
   txt += '--- ' + new Date().toISOString() + ' ---' + '\n';
+  if (message) {
+    txt += 'Message: ' + message + '\n';
+  }
   if (err) {
+    txt += 'Error:\n';
     txt += 'name: ' + err.name + '\n';
     txt += 'message: ' + err.message + '\n';
     txt += 'stack:' + '\n';

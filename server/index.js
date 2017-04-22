@@ -145,8 +145,8 @@ require('./routes/settings.js')(app, passport, isLoggedIn, greet);
 app.use('/app1', app1_voting);
 app.use('/app2', app2_nightlife);
 app.use('/app3', app3_stock);
-app.use('/app4', isLoggedIn, app4_books);
-app.use('/app5', isLoggedIn, app5_pinter);
+app.use('/app4', app4_books);
+app.use('/app5', app5_pinter);
 
 // ALL * - json respond with error
 app.all('*', function (req, res) {

@@ -50,8 +50,9 @@ router.get('/api/get-ws-ticket', function(req, res, next) {
     if (err instanceof PublicError) {
       return res.status(400).json({message:err.toString()});
     } else {
-      myErrorLog(null, err);
-      return res.status(400).json({message:'Internal error e0000009.'});
+      var message = 'Internal error e0000007.';
+      myErrorLog(null, err, message);
+      return res.status(400).json({message:message});
     }
 
   }

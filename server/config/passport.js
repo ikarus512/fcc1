@@ -42,8 +42,9 @@ module.exports = function (passport) {
     })
 
     .catch( function(err) {
-      myErrorLog(req, err);
-      return done(null, false, req.flash('message', 'Internal error e0000001.' ));
+      var message = 'Internal error e0000001.';
+      myErrorLog(req, err, message);
+      return done(null, false, req.flash('message', message ));
     });
 
   });
@@ -76,8 +77,9 @@ module.exports = function (passport) {
       })
 
       .catch( function(err) {
-        myErrorLog(req, err);
-        return done(null, false, req.flash('message', 'Internal error e0000002.' ));
+        var message = 'Internal error e0000002.';
+        myErrorLog(req, err, message);
+        return done(null, false, req.flash('message', message ));
       });
 
     } // localVerify()
@@ -113,8 +115,9 @@ module.exports = function (passport) {
         })
 
         .catch( function(err) {
-          myErrorLog(req, err);
-          return done(null, false, req.flash('message', 'Internal error e0000003.' ));
+          var message = 'Internal error e0000003.';
+          myErrorLog(req, err, message);
+          return done(null, false, req.flash('message', message ));
         });
 
       });
@@ -153,8 +156,9 @@ module.exports = function (passport) {
         })
 
         .catch( function(err) {
-          myErrorLog(req, err);
-          return done(null, false, req.flash('message', 'Internal error e0000004.' ));
+          var message = 'Internal error e0000004.';
+          myErrorLog(req, err, message);
+          return done(null, false, req.flash('message', message ));
         });
 
       });
@@ -192,8 +196,9 @@ module.exports = function (passport) {
         })
 
         .catch( function(err) {
-          myErrorLog(req, err);
-          return done(null, false, req.flash('message', 'Internal error e0000005.' ));
+          var message = 'Internal error e0000005.';
+          myErrorLog(req, err, message);
+          return done(null, false, req.flash('message', message ));
         });
 
       });

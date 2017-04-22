@@ -127,8 +127,9 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, ne
 
   // Internal error
   .catch( function(err) {
-    myErrorLog(req, err);
-    return res.status(400).json({message:'Internal error e0000007.'});
+    var message = 'Internal error e0000007.';
+    myErrorLog(req, err, message);
+    return res.status(400).json({message:message});
   });
 
 });
@@ -162,8 +163,9 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
 
   // Internal error
   .catch( function(err) {
-    myErrorLog(req, err);
-    return res.status(400).json({message:'Internal error e0000008.'});
+    var message = 'Internal error e0000007.';
+    myErrorLog(req, err, message);
+    return res.status(400).json({message:message});
   });
 
 });

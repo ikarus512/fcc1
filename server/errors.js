@@ -16,6 +16,8 @@
 'use strict';
 
 var internalErrors = {
+  'e000000b': 'Error during GET /app4/api/books',
+  'e000000a': 'Error during POST /app4/api/books',
   'e0000009': 'Error during GET /app3/api/get-ws-ticket',
   'e0000008': 'Error during PUT /app2/api/cafes/:cafeId/timeslots/:startTimeUTC/unplan',
   'e0000007': 'Error during PUT /app2/api/cafes/:cafeId/timeslots/:startTimeUTC/plan',

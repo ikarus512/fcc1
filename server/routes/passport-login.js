@@ -80,8 +80,9 @@ module.exports = function (app, passport) {
     })
 
     .catch( function(err) {
-      myErrorLog(req, err);
-      return res.status(500).render('signup', {lasterror: 'Internal error e0000006.', username: req.body.username});
+      var message = 'Internal error e0000006.';
+      myErrorLog(req, err, message);
+      return res.status(500).render('signup', {lasterror: message, username: req.body.username});
     });
 
   });
