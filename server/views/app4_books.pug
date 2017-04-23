@@ -38,10 +38,10 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  books list
     //- //////////////////////////////////////////////////////////
-    #noBooks.well.my-opacity-09(ng-show="mode=='books' && !books.length" ng-cloak)
+    #noBooks.well(ng-show="mode=='books' && !books.length" ng-cloak)
       label No books.
 
-    #books.well.my-opacity-09(ng-show="mode=='books' && books.length" ng-cloak)
+    #books.well(ng-show="mode=='books' && books.length" ng-cloak)
       h3 Books:
       div(ng-repeat='book in books' ng-cloak)
         //- --------------------
@@ -50,7 +50,10 @@ block content
         .media(style='border: 1px solid grey')
           .media-left
             a(href='/app4/books/{{book._id}}')
-              img.media-object.book-image(ng-src='{{book.photo}}' alt='No photo')
+              .thumbnail
+                .book-image-thumb
+                  span.book-image-helper
+                  img.book-image(ng-src='{{book.photo}}' alt='No photo')
           .media-body
             h4.media-heading()
               a(href='/app4/books/{{book._id}}') {{book.title}}
@@ -61,10 +64,10 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  add new book
     //- //////////////////////////////////////////////////////////
-    #modeAddBookButtonDiv.well.my-opacity-09(ng-show="mode=='books' && logintype")
+    #modeAddBookButtonDiv.well(ng-show="mode=='books' && logintype")
       button#modeAddBookButton.btn.btn-primary(ng-click='modeAddBook()') Add Book
 
-    #newBookForm.well.my-opacity-09(ng-show="mode=='addBook'")
+    #newBookForm.well(ng-show="mode=='addBook'")
       h3 Adding Book...
 
       form(name='myForm' novalidate)
@@ -92,7 +95,10 @@ block content
           |  {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.
 
         //- myForm.picture preview
-        img#imgPreview.thumb(ng-show='newBook.file && myForm.file.$valid' ngf-thumbnail='newBook.file')
+        .thumbnail(ng-show='newBook.file && myForm.file.$valid')
+          .book-image-thumb
+            span.book-image-helper
+            img#imgPreview.book-image(ngf-thumbnail='newBook.file')
         | &nbsp;
         button(ng-click='newBook.file = null;' ng-show='newBook.file') Remove Picture
         br

@@ -55,11 +55,14 @@ var BookSchema = new Schema({
 // getBooks
 BookSchema.statics.getBooks = function() {
 
+  var filteredBooks;
+
   return BookModel().find({}).exec()
 
   // Filter book data
   .then( function(books) {
-    var filteredBooks = books.map( function(book) {
+    var promises = [];
+    filteredBooks = books.map( function(book) {
       var newBook = {};
       newBook.title = book.title;
       newBook.keywords = book.keywords.join(',');
@@ -67,10 +70,14 @@ BookSchema.statics.getBooks = function() {
       newBook.createdBy = book.createdBy;
       if (book.photo) {
         newBook.photo = '/img/app4tmp/' + book.photo + '.jpg';
-        BookPhoto.getBookPhoto(book.photo);
+        promises.push(BookPhoto.getBookPhoto(book.photo));
       }
       return newBook;
     });
+    return Promise.all(promises);
+  })
+
+  .then( function() {
     return filteredBooks;
   });
 

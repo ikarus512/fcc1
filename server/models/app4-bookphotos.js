@@ -30,6 +30,10 @@ var
 
 mongoose.Promise = Promise;
 
+fs.existsAsync = Promise.promisify
+(function exists2(path, exists2callback) {
+  fs.exists(path, function callbackWrapper(exists) { exists2callback(null, exists); });
+});
 
 ////////////////////////////////////////////////////////////////
 //  BookSchema
@@ -46,18 +50,40 @@ var BookPhotoSchema = new Schema({
 // getBookPhoto
 BookPhotoSchema.statics.getBookPhoto = function(id) {
 
+  var fileName = path.join(__dirname, '../../public' + '/img/app4tmp/' + id + '.jpg');;
+  var data;
+
   return BookPhotoModel().findOne({_id:id}).exec()
 
-  // Get photo from DB to /publib/img/app4tmp dir
+  // Find photo in DB
   .then( function(photo) {
 
     if (!photo) throw new Error('Photo '+id+' not found.');
 
-    var fileName = path.join(__dirname, '../../public' + '/img/app4tmp/' + id + '.jpg');
+    data = photo.img.data;
 
-    return fs.writeFileAsync(fileName, photo.img.data);
+    return fs.existsAsync(fileName);
+
+  })
+
+  // If not exists on disk, save to /public/img/app4tmp/
+  .then( function(exists) {
+
+    if (exists) return;
+
+    return fs.writeFileAsync(fileName, data);
+
+  })
+
+  // Disable, but log errors
+  .catch( function(err) {
+
+    myErrorLog(null, err);
+
+    return;
 
   });
+
 
 };
 
@@ -84,8 +110,7 @@ BookPhotoSchema.statics.addBookPhoto = function(file) {
   // Convert, save to jpg
   .then( function(image) {
     image
-      // .resize(imageLib.AUTO, 100)
-      .resize(100, 100)
+      .scaleToFit(100, 100)
       .quality(70)
       .write(nameTmp2);
   })
