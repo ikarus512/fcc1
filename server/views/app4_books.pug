@@ -74,11 +74,11 @@ block content
 
         //- myForm.title
         .form-group.has-feedback(ng-class="{'has-error': myForm.title.$error.required, 'has-success': !myForm.title.$error.required}")
-          label.control-label(for='inputTitle') Title: &nbsp;
+          label.control-label(for='inputTitle') *Title: &nbsp;
           input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='newBook.title' my-escape='modeAddBookCancel()' my-focus="mode=='addBook'" required)
           span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='!myForm.title.$error.required')
           span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='myForm.title.$error.required')
-          p: i(ng-show='myForm.title.$error.required') *required
+          p: i.color-error(ng-show='myForm.title.$error.required') *required
 
         //- myForm.keywords
         label Keywords (comma separated): &nbsp;
@@ -88,10 +88,11 @@ block content
         label Description: &nbsp;
         textarea.form-control(placeholder='Description' ng-model='newBook.description' my-escape='modeAddBookCancel()' rows='6')
 
+
         //- myForm.picture
         label Picture: &nbsp;
-        input.form-control(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'80KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
-        p: i(ng-show='myForm.file.$error.maxSize') File too large:
+        input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'80KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
+        p: i.color-error(ng-show='myForm.file.$error.maxSize') File too large:
           |  {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.
 
         //- myForm.picture preview
@@ -100,8 +101,11 @@ block content
             span.book-image-helper
             img#imgPreview.book-image(ngf-thumbnail='newBook.file')
         | &nbsp;
-        button(ng-click='newBook.file = null;' ng-show='newBook.file') Remove Picture
+        //- Works like pressing on #fileInput:
+        label.btn.btn-default(for='fileInput' ng-show='!newBook.file') Add Picture
+        button.btn.btn-default(ng-click='newBook.file = null;' ng-show='newBook.file') Remove Picture
         br
+
 
         br
         br
