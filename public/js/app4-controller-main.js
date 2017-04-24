@@ -29,6 +29,11 @@
         .catch( function(res) { console.log(res.data.message); } );
       }
 
+      $scope.clearFile = function() {
+        $scope.myForm.file.$setValidity("maxSize", true);
+        $scope.newBook.file = null;
+      };
+
       $scope.init = function(logintype) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
       };

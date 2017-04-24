@@ -102,9 +102,8 @@ block content
             img#imgPreview.book-image(ngf-thumbnail='newBook.file')
         | &nbsp;
         //- Works like pressing on #fileInput:
-        label.btn.btn-default(for='fileInput' ng-show='!newBook.file') Add Picture
-        button.btn.btn-default(ng-click='newBook.file = null;' ng-show='newBook.file') Remove Picture
-        br
+        label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myForm.file.$valid') Add Picture
+        button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myForm.file.$valid') Remove Picture
 
 
         br
