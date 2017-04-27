@@ -10,6 +10,7 @@
    *
    * MODIFICATION HISTORY
    *  2017/04/20, ikarus512. Initial version.
+   *  2017/04/27, ikarus512. Description feature: show more.
    *
    */
 
@@ -66,7 +67,16 @@ block content
 
         .col-sm-12
           p: b Description:
-          p(style='white-space: pre-line;') {{book.description}}
+          p(style='white-space: pre-line;')
+            div(ng-show='book.noShort')
+              span {{book.description}}
+            div(ng-show='!book.noShort && !book.short')
+              span {{book.description}}
+              p: a(ng-show='!book.short' ng-click='book.short = !book.short;') &lt;show less&gt;
+            div(ng-show='!book.noShort && book.short')
+              span {{book.descriptionShort}}
+              span ...&nbsp;
+              a(ng-click='book.short = !book.short;') &lt;show more&gt;
 
 
     //- //////////////////////////////////////////////////////////
@@ -75,9 +85,6 @@ block content
 
     .well(ng-show='uid===book.createdBy')
       h3 Change Book Details:
-      //- | createdBy: {{book.createdBy}}
-      //- | uid: {{uid}}
-      //- img.book-image(ng-src='{{book.photoId | photo}}' alt='No photo')
 
       form#bookForm(name='myForm' novalidate)
 
@@ -138,9 +145,9 @@ block content
 
         br
         br
-        button.btn.btn-primary(ng-click='bookReset()') Reset Changes
-        | &nbsp;
         button#bookUpdate.btn.btn-primary(ng-disabled='!myForm.$valid' ng-click='bookUpdate()') Save Changes
+        | &nbsp;
+        button.btn.btn-primary(ng-click='bookReset()') Reset Changes
         | &nbsp;
         button#bookDelete.btn.btn-primary(ng-click='bookDelete()') Delete Book
         br

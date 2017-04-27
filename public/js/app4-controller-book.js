@@ -30,6 +30,16 @@
 
           .then( function(res) {
             $scope.books = [res.data];
+            if ($scope.books.length) {
+              var s = String($scope.books[0].description);
+              if (s.length > 200) {
+                $scope.books[0].descriptionShort = s.substr(0, 200);
+                $scope.books[0].short = true;
+                $scope.books[0].noShort = false;
+              } else {
+                $scope.books[0].noShort = true;
+              }
+            }
             $scope.bookReset();
           })
 
