@@ -9,9 +9,9 @@
 
   angular.module('myapp')
 
-  .controller('myApp4Controller',
-    ['$scope', 'bookStorage',
-    function ($scope, bookStorage) {
+  .controller('myApp4Controller', [
+    '$scope', 'bookStorage', 'MyError',
+    function ($scope, bookStorage, MyError) {
 
       $scope.mode = 'books'; // books/addBook
       $scope.newBook = null;
@@ -21,7 +21,7 @@
       function booksRefresh() {
         bookStorage.getBooks()
         .then( function(res) { $scope.books=res.data; } )
-        .catch( function(res) { console.log(res.data.message); } );
+        .catch( function(res) { MyError.alert(res); } );
       }
 
       $scope.clearFile = function() {

@@ -9,9 +9,9 @@
 
   angular.module('myapp')
 
-  .controller('ControllerPoll',
-    ['$scope', '$location', '$window', 'StoragePoll',
-    function ($scope, $location, $window, StoragePoll) {
+  .controller('ControllerPoll', [
+    '$scope', '$location', '$window', 'StoragePoll', 'MyError',
+    function ($scope, $location, $window, StoragePoll, MyError) {
 
       $scope.view = 'poll'; // poll/newOption
       $scope.newOptionTitle = '';
@@ -56,7 +56,7 @@
             $window.location.href = '/app1/polls'; // return to polls page
           }, function onErr(res) {
             // Report error during poll deletion
-            alert(res.data.message);
+            MyError.alert(res);
           });
         }
       };
@@ -82,7 +82,7 @@
             $scope.view = 'poll';
           }, function onErr(res) {
             // Report error during poll creation
-            alert(res.data.message);
+            MyError.alert(res);
           });
 
         }
@@ -94,7 +94,7 @@
           reloadPoll();
         }, function onErr(res) {
           // Report error during poll creation
-          alert(res.data.message);
+          MyError.alert(res);
         });
       };
 

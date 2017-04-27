@@ -9,9 +9,9 @@
 
   angular.module('myapp')
 
-  .controller('myApp4ControllerBook',
-    ['$scope', '$window', '$timeout', 'bookStorage',
-    function ($scope, $window, $timeout, bookStorage) {
+  .controller('myApp4ControllerBook', [
+    '$scope', '$window', '$timeout', 'bookStorage', 'MyError',
+    function ($scope, $window, $timeout, bookStorage, MyError) {
 
       $scope.init = function(logintype,uid,bookId) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
@@ -46,7 +46,7 @@
           .catch( function(res) {
             $scope.books = [];
             $scope.book = null;
-            console.log(res.data.message);
+            MyError.alert(res);
           });
 
         }
@@ -93,8 +93,7 @@
 
           .catch( function(res) {
             // Report error during book creation
-            if (res.data) alert(res.data.message);
-            else console.log(res);
+            MyError.alert(res);
           });
 
         }

@@ -9,9 +9,9 @@
 
   angular.module('myapp')
 
-  .controller('ControllerPolls',
-    ['$scope', 'StoragePolls',
-    function ($scope, StoragePolls) {
+  .controller('ControllerPolls', [
+    '$scope', 'StoragePolls', 'MyError',
+    function ($scope, StoragePolls, MyError) {
 
       $scope.view = 'polls'; // polls/newPoll
       $scope.newPollTitle = '';
@@ -46,7 +46,7 @@
             $scope.view = 'polls';
           }, function onErr(res) {
             // Report error during poll creation
-            alert(res.data.message);
+            MyError.alert(res);
           });
 
         }

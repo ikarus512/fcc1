@@ -9,48 +9,48 @@
 
   angular.module('myapp')
 
-  .factory('WebSocketService', ['RestService', function(RestService) {
+  .factory('WebSocketService', [
+    'RestService', 'MyError',
+    function(RestService, MyError) {
 
-    var Service = {};
+      var Service = {};
 
-    var HOST = (window.document.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.document.location.host;
-    var ws = new WebSocket(HOST);
+      var HOST = (window.document.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.document.location.host;
+      var ws = new WebSocket(HOST);
 
-    // Get WebSocket ticket
-    RestService.getWsTicket()
-    .then( function(data) {
-      var wsTicket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
-      // Register WebSocket ticket (to be able to receive messages from server)
-      setTimeout( function() {
-        ws.send(JSON.stringify({msgtype:'check-ticket',ticket:wsTicket}));
-      },1500); // Delay for heroku.com
-    })
-    .catch( function(err) {
-      if (err && err.data && err.data.message) {
-        console.log(err.data.message);
-      }
-    });
+      // Get WebSocket ticket
+      RestService.getWsTicket()
+      .then( function(data) {
+        var wsTicket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
+        // Register WebSocket ticket (to be able to receive messages from server)
+        setTimeout( function() {
+          ws.send(JSON.stringify({msgtype:'check-ticket',ticket:wsTicket}));
+        },1500); // Delay for heroku.com
+      })
+      .catch( function(res) {
+        MyError.alert(res);
+      });
 
-    ws.onmessage = function(message) {
-      var data = JSON.parse(message.data);
-      if (Service.callback && data.msgtype==='stocks-data') {
-        Service.callback(data.data);
-      }
-    };
+      ws.onmessage = function(message) {
+        var data = JSON.parse(message.data);
+        if (Service.callback && data.msgtype==='stocks-data') {
+          Service.callback(data.data);
+        }
+      };
 
-    Service.subscribe = function(callback) {
-      Service.callback = callback;
-    };
+      Service.subscribe = function(callback) {
+        Service.callback = callback;
+      };
 
-    Service.addStockName = function(stockName) {
-      ws.send(JSON.stringify({msgtype: 'add-stock-name', stockName: stockName}));
-    };
+      Service.addStockName = function(stockName) {
+        ws.send(JSON.stringify({msgtype: 'add-stock-name', stockName: stockName}));
+      };
 
-    Service.removeStockName = function(stockName) {
-      ws.send(JSON.stringify({msgtype: 'remove-stock-name', stockName: stockName}));
-    };
+      Service.removeStockName = function(stockName) {
+        ws.send(JSON.stringify({msgtype: 'remove-stock-name', stockName: stockName}));
+      };
 
-    return Service;
+      return Service;
 
   }]); // .factory('WebSocketService', ...
 

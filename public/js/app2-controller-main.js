@@ -10,8 +10,8 @@
   angular.module('myapp')
 
   .controller('myApp2ControllerMain', [
-    '$scope', 'cafeStorage',
-    function($scope, cafeStorage) {
+    '$scope', 'cafeStorage', 'MyError',
+    function($scope, cafeStorage, MyError) {
 
       var APP2_MAX_TIMESLOTS = 4;
       var APP2_TIMESLOT_LENGTH = 30; // timeslot length in minutes (must divide 60)
@@ -43,13 +43,6 @@
         cafesRefresh();
       }; // $scope.init(...)
 
-      function myAlert(err) {
-        if (err.data.message) {
-          alert(err.data.message);
-          console.log('Error: ' + err.data.message);
-        }
-      } // function myAlert(...)
-
       $scope.onMapInit = function() { $scope.mapInit = true; };
 
       $scope.onPlan = function(cafe, timeslot) {
@@ -59,9 +52,9 @@
             timeslot.planned = true;
             timeslot.users.push($scope.username);
           })
-          .catch( function(err) {
+          .catch( function(res) {
             // Errors like date in the past, no such cafe, etc
-            myAlert(err);
+            MyError.alert(res);
           });
         }
       }; // $scope.onPlan(...)
@@ -73,9 +66,9 @@
             timeslot.planned = false;
             timeslot.users.splice(timeslot.users.indexOf($scope.username),1);
           })
-          .catch( function(err) {
+          .catch( function(res) {
             // Errors like date in the past, no such cafe, etc
-            myAlert(err);
+            MyError.alert(res);
           });
         }
       }; // $scope.onUnplan(...)
@@ -207,9 +200,9 @@
             $scope.cafes = newCafes;
           })
 
-          .catch( function(err) {
+          .catch( function(res) {
             // No connection. Do not remove cafes downloaded earlier.
-            myAlert(err);
+            MyError.alert(res);
             //$scope.cafes = [];
           });
 

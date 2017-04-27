@@ -75,7 +75,6 @@ similar to [this](http://bookjump.herokuapp.com)
 
 Optional features maybe to do in future:
 
-- TODO: Error messages/alerts --> service.
 - TODO: ng-message.
 - TODO: Books list filter: all|my offers|my bids|by keywords.
 - TODO: Books list pages (temporary query in DB: query ID, query params, current page).
