@@ -24,15 +24,15 @@ block scriptBeforeBody
   script(src='/lib/ng-file-upload-all.min.js')
   script(src='/js/app4.js')
   script(src='/js/app4-controller-main.js')
-  script(src='/js/app4-directive-my-enter.js')
-  script(src='/js/app4-directive-my-escape.js')
-  script(src='/js/app4-directive-my-focus.js')
   script(src='/js/app4-filter-photo.js')
   script(src='/js/app4-service-book-storage.js')
+  script(src='/js/directive-my-enter.js')
+  script(src='/js/directive-my-escape.js')
+  script(src='/js/directive-my-focus.js')
 
 block content
 
-  div(class='ng-app' ng-app='myApp4' ng-controller='myApp4Controller' ng-init="init('"+logintype+"')" ng-cloak)
+  div(class='ng-app' ng-app='myapp' ng-controller='myApp4Controller' ng-init="init('"+logintype+"')" ng-cloak)
 
     .well(ng-show="mode=='books'"): h3 Book Trading Club
 

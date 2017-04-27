@@ -7,7 +7,7 @@
 ;( function() {
   'use strict';
 
-  angular.module('myApp3')
+  angular.module('myapp')
 
   .factory('RestService', ['$http', function ($http) {
     return {

@@ -7,7 +7,7 @@
 ;( function() {
   'use strict';
 
-  angular.module('myApp4')
+  angular.module('myapp')
 
   .factory('bookStorage',
     ['$http', 'Upload',

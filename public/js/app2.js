@@ -7,6 +7,6 @@
 ;( function() {
   'use strict';
 
-  var app = angular.module('myApp2Places', []);
+  angular.module('myapp', []);
 
 })();

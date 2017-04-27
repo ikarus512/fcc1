@@ -1,4 +1,4 @@
-/* file: app4-directive-my-escape.js */
+/* file: directive-my-escape.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -7,7 +7,7 @@
 ;( function() {
   'use strict';
 
-  angular.module('myApp4')
+  angular.module('myapp')
 
   .directive('myEscape', function () {
 

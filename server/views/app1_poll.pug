@@ -23,12 +23,17 @@ block scriptBeforeBody
   script(src='/lib/angular.min.js')
   script(src='/lib/Chart.bundle.min.js')
   script(src='/lib/angular-chart.min.js')
-  //- script(src='/lib/tc-angular-chartjs.min.js')
-  script(src='/js/app1_poll.js')
+  script(src='/js/app1-poll.js')
+  script(src='/js/app1-controller-poll.js')
+  script(src='/js/app1-service-storage-poll.js')
+  script(src='/js/directive-my-enter.js')
+  script(src='/js/directive-my-escape.js')
+  script(src='/js/directive-my-focus.js')
+
 
 block content
 
-  div(class="ng-app" ng-app="myApp1Poll" ng-controller="myApp1PollController" ng-init="init('"+logintype+"','"+poll_id+"')" ng-cloak)
+  div(class="ng-app" ng-app="myapp" ng-controller="ControllerPoll" ng-init="init('"+logintype+"','"+poll_id+"')" ng-cloak)
 
     //- //////////////////////////////////////////////////////////
     //- //  view poll

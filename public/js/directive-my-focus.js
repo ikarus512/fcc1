@@ -1,4 +1,4 @@
-/* file: app4-directive-my-focus.js */
+/* file: directive-my-focus.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -7,7 +7,7 @@
 ;( function() {
   'use strict';
 
-  angular.module('myApp4')
+  angular.module('myapp')
 
   .directive('myFocus', ['$timeout', function($timeout) {
 

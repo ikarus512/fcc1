@@ -75,7 +75,6 @@ similar to [this](http://bookjump.herokuapp.com)
 
 Optional features maybe to do in future:
 
-- TODO: Split/consolidate public js scripts.
 - TODO: Error messages/alerts --> service.
 - TODO: ng-message.
 - TODO: Books list filter: all|my offers|my bids|by keywords.

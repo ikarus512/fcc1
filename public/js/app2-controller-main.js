@@ -7,9 +7,9 @@
 ;( function() {
   'use strict';
 
-  var app = angular.module('myApp2Cafes', []);
+  angular.module('myapp')
 
-  app.controller('myApp2ControllerMain', [
+  .controller('myApp2ControllerMain', [
     '$scope', 'cafeStorage',
     function($scope, cafeStorage) {
 

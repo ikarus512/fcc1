@@ -7,9 +7,9 @@
 ;( function() {
   'use strict';
 
-  var app = angular.module('myApp2Cafes');
+  angular.module('myapp')
 
-  app.directive('myGoogleMap', function() {
+  .directive('myGoogleMap', function() {
 
     var scope = {
       cafes: '=mapCafes',

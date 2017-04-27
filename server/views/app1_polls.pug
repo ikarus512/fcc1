@@ -21,13 +21,18 @@ block vars
 
 block scriptBeforeBody
   script(src='/lib/angular.min.js')
-  script(src='/js/app1_polls.js')
+  script(src='/js/app1-polls.js')
+  script(src='/js/app1-controller-polls.js')
+  script(src='/js/app1-service-storage-polls.js')
+  script(src='/js/directive-my-enter.js')
+  script(src='/js/directive-my-escape.js')
+  script(src='/js/directive-my-focus.js')
 
 block content
   .well.my-opacity-08
     h3 Voting App
 
-  div(class="ng-app" ng-app="myApp1Voting" ng-controller="myApp1Controller" ng-init="init('"+logintype+"')" ng-cloak)
+  div(class="ng-app" ng-app="myapp" ng-controller="ControllerPolls" ng-init="init('"+logintype+"')" ng-cloak)
 
     //- //////////////////////////////////////////////////////////
     //- //  polls list

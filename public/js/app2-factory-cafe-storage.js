@@ -7,9 +7,9 @@
 ;( function() {
   'use strict';
 
-  var app = angular.module('myApp2Cafes');
+  angular.module('myapp')
 
-  app.factory('cafeStorage', ['$http', function ($http) {
+  .factory('cafeStorage', ['$http', function ($http) {
     return {
       get: function(location, radius, zoom, selectedCafeId) {
         return $http({

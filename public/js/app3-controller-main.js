@@ -7,7 +7,7 @@
 ;( function() {
   'use strict';
 
-  angular.module('myApp3')
+  angular.module('myapp')
 
   .controller('myApp3ControllerMain',
     ['$scope', 'RestService', 'WebSocketService',

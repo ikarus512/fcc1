@@ -7,6 +7,6 @@
 ;( function() {
   'use strict';
 
-  angular.module('myApp4', ['ngFileUpload']);
+  angular.module('myapp', ['ngFileUpload']);
 
 })();
