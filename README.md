@@ -79,7 +79,6 @@ Optional features maybe to do in future:
 - TODO: ng-message.
 - TODO: Books list filter: all|my offers|my bids|by keywords.
 - TODO: Books list pages (temporary query in DB: query ID, query params, current page).
-- TODO: Book view: compact description/see more/see less.
 - TODO: Unused photos cleanup from disk and DB.
 - TODO: Private messaging about trade.
 - TODO: Mail notifications about trade.
