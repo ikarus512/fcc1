@@ -13,6 +13,7 @@
  */
 
 /*jshint node: true*/
+/*jshint scripturl: true*/
 'use strict';
 
 module.exports = [
@@ -148,7 +149,7 @@ module.exports = [
       'how to avoid its pitfalls. No matter how long you\'ve been writing ' +
       'JavaScript code, Effective JavaScript will help deepen your ' +
       'understanding of this powerful language, so you can build more ' +
-      'predictable, reliable, and maintainable programs.'
+      'predictable, reliable, and maintainable programs.' +
       '\n\n' +
 
       'Author David Herman, with his years of experience on Ecma\'s ' +

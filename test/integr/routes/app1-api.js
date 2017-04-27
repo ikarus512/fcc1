@@ -57,6 +57,15 @@ before( function () {
 var userACookies;
 
 before( function(done) {
+  // Log out
+  request
+  .get(appUrl+'/logout')
+  .end( function(err, res) {
+    done();
+  });
+});
+
+before( function(done) {
   // Log in as user a, and get cookie with session id
   request
   .agent() // to make authenticated requests

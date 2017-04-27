@@ -50,7 +50,7 @@ var BookPhotoSchema = new Schema({
 // getBookPhoto
 BookPhotoSchema.statics.getBookPhoto = function(id) {
 
-  var fileName = path.join(__dirname, '../../public' + '/img/app4tmp/' + id + '.jpg');;
+  var fileName = path.join(__dirname, '../../public' + '/img/app4tmp/' + id + '.jpg');
   var data;
 
   return BookPhotoModel().findOne({_id:id}).exec()

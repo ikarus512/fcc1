@@ -13,7 +13,7 @@
     return function(text) {
       if (!text) return text;
       return '/img/app4tmp/' + text + '.jpg';
-    }
+    };
   }); // .filter('photo', ...
 
 })();

@@ -60,7 +60,7 @@
 
         }
 
-      } // $scope.bookReset(...)
+      }; // $scope.bookReset = function(...)
 
       $scope.clearFile = function() {
         $scope.myForm.file.$setValidity("maxSize", true);
