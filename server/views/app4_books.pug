@@ -27,19 +27,23 @@ block scriptBeforeBody
   script(src='/js/app4-directive-my-enter.js')
   script(src='/js/app4-directive-my-escape.js')
   script(src='/js/app4-directive-my-focus.js')
+  script(src='/js/app4-filter-photo.js')
   script(src='/js/app4-service-book-storage.js')
 
 block content
-  .well
-    h3 Book Trading Club
 
   div(class='ng-app' ng-app='myApp4' ng-controller='myApp4Controller' ng-init="init('"+logintype+"')" ng-cloak)
+
+    .well(ng-show="mode=='books'"): h3 Book Trading Club
 
     //- //////////////////////////////////////////////////////////
     //- //  books list
     //- //////////////////////////////////////////////////////////
-    #noBooks.well(ng-show="mode=='books' && !books.length" ng-cloak)
-      label No books.
+
+    #modeAddBookButtonDiv.well(ng-show="mode=='books' && logintype")
+      button#modeAddBookButton.btn.btn-primary(ng-click='modeAddBook()') Add Book
+
+    #noBooks.well(ng-show="mode=='books' && !books.length" ng-cloak): label No books.
 
     #books.well(ng-show="mode=='books' && books.length" ng-cloak)
       h3 Books:
@@ -53,32 +57,42 @@ block content
               .thumbnail
                 .book-image-thumb
                   span.book-image-helper
-                  img.book-image(ng-src='{{book.photo}}' alt='No photo')
+                  img.book-image(ng-src='{{book.photoId | photo}}' alt='No photo')
           .media-body
-            h4.media-heading()
+            h4.media-heading
               a(href='/app4/books/{{book._id}}') {{book.title}}
-            p Keywords: {{book.keywords.join(', ')}}
+            p Keywords: {{book.keywords}}
+            p Price: ${{book.price}}
 
 
 
     //- //////////////////////////////////////////////////////////
-    //- //  add new book
+    //- //  add book
     //- //////////////////////////////////////////////////////////
-    #modeAddBookButtonDiv.well(ng-show="mode=='books' && logintype")
-      button#modeAddBookButton.btn.btn-primary(ng-click='modeAddBook()') Add Book
 
-    #newBookForm.well(ng-show="mode=='addBook'")
-      h3 Adding Book...
+    .well(ng-show="mode=='addBook'"): h3 Adding New Book
 
-      form(name='myForm' novalidate)
+    .well(ng-show="mode=='addBook'")
+
+      form#newBookForm(name='myForm' novalidate)
 
         //- myForm.title
-        .form-group.has-feedback(ng-class="{'has-error': myForm.title.$error.required, 'has-success': !myForm.title.$error.required}")
+        .form-group.has-feedback(ng-class="{'has-error': !myForm.title.$valid, 'has-success': myForm.title.$valid}")
           label.control-label(for='inputTitle') *Title: &nbsp;
           input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='newBook.title' my-escape='modeAddBookCancel()' my-focus="mode=='addBook'" required)
-          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='!myForm.title.$error.required')
-          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='myForm.title.$error.required')
+          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myForm.title.$valid')
+          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myForm.title.$valid')
           p: i.color-error(ng-show='myForm.title.$error.required') *required
+
+        //- myForm.price
+        .form-group.has-feedback(ng-class="{'has-error': !myForm.price.$valid, 'has-success': myForm.price.$valid}")
+          label.control-label(for='inputPrice') *Price ($): &nbsp;
+          input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='newBook.price' my-escape='modeAddBookCancel()' min='0' required)
+          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myForm.price.$valid')
+          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myForm.price.$valid')
+          p: i.color-error(ng-show='myForm.price.$error.required') *required
+          p: i.color-error(ng-show='myForm.price.$error.min') *must be non-negative
+          p: i.color-error(ng-show='myForm.price.$error.number') *must be number
 
         //- myForm.keywords
         label Keywords (comma separated): &nbsp;
@@ -89,21 +103,21 @@ block content
         textarea.form-control(placeholder='Description' ng-model='newBook.description' my-escape='modeAddBookCancel()' rows='6')
 
 
-        //- myForm.picture
-        label Picture: &nbsp;
+        //- myForm.photo
+        label Photo: &nbsp;
         input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'80KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
         p: i.color-error(ng-show='myForm.file.$error.maxSize') File too large:
           |  {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.
 
-        //- myForm.picture preview
+        //- myForm.photo preview
         .thumbnail(ng-show='newBook.file && myForm.file.$valid')
           .book-image-thumb
             span.book-image-helper
             img#imgPreview.book-image(ngf-thumbnail='newBook.file')
         | &nbsp;
         //- Works like pressing on #fileInput:
-        label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myForm.file.$valid') Add Picture
-        button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myForm.file.$valid') Remove Picture
+        label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myForm.file.$valid') Add Photo
+        button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myForm.file.$valid') Remove Photo
 
 
         br

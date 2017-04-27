@@ -120,7 +120,7 @@ CafeSchema.statics.updateOrInsertGoogleCafe = function(cafe) {
   .then( function() {
     return CafeModel().findOneAndUpdate(
       { 'google.id': cafe.google.id }, // find doc by google.id
-      { $set: cafe }, // inserting document, if not found
+      { $set: cafe }, // new document
       { upsert:true, new:true } // insert if not found; return new document
     ).exec();
   })

@@ -16,6 +16,8 @@
 'use strict';
 
 var internalErrors = {
+  'e000000d': 'Error during DELETE /app4/api/books/:id',
+  'e000000c': 'Error during GET /app4/api/books/:id',
   'e000000b': 'Error during GET /app4/api/books',
   'e000000a': 'Error during POST /app4/api/books',
   'e0000009': 'Error during GET /app3/api/get-ws-ticket',

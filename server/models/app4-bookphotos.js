@@ -88,9 +88,9 @@ BookPhotoSchema.statics.getBookPhoto = function(id) {
 };
 
 // addBookPhoto
-BookPhotoSchema.statics.addBookPhoto = function(file) {
+BookPhotoSchema.statics.addBookPhoto = function(file, photoId) {
 
-  var photoId = null;
+  var newPhotoId = null;
 
   if (!file) return Promise.resolve(photoId);
 
@@ -134,7 +134,7 @@ BookPhotoSchema.statics.addBookPhoto = function(file) {
   })
 
   .then( function(photo) {
-    photoId = photo._id;
+    newPhotoId = photo._id;
     return;
   })
 
@@ -144,7 +144,7 @@ BookPhotoSchema.statics.addBookPhoto = function(file) {
   })
 
   .then( function() {
-    return photoId;
+    return newPhotoId;
   });
 
 };

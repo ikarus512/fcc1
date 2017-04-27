@@ -36,8 +36,8 @@ var BookSchema = new Schema({
   keywords: [String],
   description: String,
   createdBy: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
-  // price: {type: Number, required: true},
-  photo: {type: mongoose.Schema.Types.ObjectId, ref: 'BookPhoto'},
+  price: {type: Number, required: true},
+  photoId: {type: mongoose.Schema.Types.ObjectId, ref: 'BookPhoto'},
   requests: [{
     requestedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     price: {type: Number, required: true},
@@ -65,12 +65,14 @@ BookSchema.statics.getBooks = function() {
     filteredBooks = books.map( function(book) {
       var newBook = {};
       newBook.title = book.title;
-      newBook.keywords = book.keywords.join(',');
+      newBook._id = book._id;
+      newBook.price = book.price;
+      newBook.keywords = book.keywords ? book.keywords.join(', ') : '';
       newBook.description = book.description;
       newBook.createdBy = book.createdBy;
-      if (book.photo) {
-        newBook.photo = '/img/app4tmp/' + book.photo + '.jpg';
-        promises.push(BookPhoto.getBookPhoto(book.photo));
+      if (book.photoId) {
+        newBook.photoId = book.photoId;
+        promises.push(BookPhoto.getBookPhoto(book.photoId));
       }
       return newBook;
     });
@@ -83,27 +85,79 @@ BookSchema.statics.getBooks = function() {
 
 };
 
+
+// getBook
+BookSchema.statics.getBook = function(id) {
+
+  var newBook;
+
+  return BookModel().findOne({_id:id}).exec()
+
+  // Filter book data
+  .then( function(book) {
+    if(!book) throw new PublicError('No book with _id='+id+'.');
+    newBook = {};
+    newBook.title = book.title;
+    newBook._id = book._id;
+    newBook.price = book.price;
+    newBook.keywords = book.keywords ? book.keywords.join(', ') : '';
+    newBook.description = book.description;
+    newBook.createdBy = book.createdBy;
+    if (book.photoId) {
+      newBook.photoId = book.photoId;
+      return BookPhoto.getBookPhoto(book.photoId);
+    }
+    return Promise.resolve();
+  })
+
+  .then( function() {
+    return newBook;
+  });
+
+};
+
+// removeBook
+BookSchema.statics.removeBook = function(id,uid) {
+
+  return BookModel().findOne({_id:id}).exec()
+
+  .then( function(book) {
+    if (!book) throw new PublicError('No book with _id='+id+'.');
+    if (!book.createdBy.equals(uid)) throw new PublicError('Only creator can remove the book.');
+    return BookModel().findOneAndRemove({_id:id}).exec();
+  });
+
+};
+
 // addBook
 BookSchema.statics.addBook = function(book) {
 
   // Save photo file to DB if any, and return photoId
-  return BookPhoto.addBookPhoto(book.file)
+  return BookPhoto.addBookPhoto(book.file, book.photoId)
 
   // Save book
   .then( function(photoId) {
 
-    return new Promise( function(resolve, reject) {
-      var newBook = new BookModel()();
-      newBook.title = book.title;
-      newBook.photo = photoId;
-      newBook.createdBy = book.createdBy;
-      if (book.keywords) {
-        newBook.keywords = book.keywords.split(',');
-      }
-      newBook.description = book.description;
-      // newBook.photo = book.file;
-      return resolve(newBook.save());
-    });
+    var newBook = {};
+    newBook.title = book.title;
+    newBook.price = book.price;
+    newBook.photoId = photoId;
+    newBook.createdBy = book.createdBy;
+    if (book.keywords) {
+      newBook.keywords = book.keywords.split(',').map( function(keyword) { return keyword.trim(); });
+    }
+    newBook.description = book.description;
+
+
+    if (book._id) {
+      return BookModel().findOneAndUpdate(
+        { _id: book._id }, // query
+        { $set: newBook }, // new document
+        { upsert:true, new:true } // insert if not found; return new document
+      ).exec();
+    } else {
+      return new BookModel()(newBook).save();
+    }
 
   });
 

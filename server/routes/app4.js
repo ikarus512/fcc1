@@ -38,6 +38,13 @@ router.get('/books', function(req, res) {
   res.render('app4_books', greet(req));
 });
 
+// GET /app4/books/:id - view book
+router.get('/books/:id', function(req, res) {
+  var uid;
+  if (req.isAuthenticated()) uid = req.user._id;
+  res.render('app4_book', greet(req,{uid:uid, bookId:req.params.id}));
+});
+
 
 
 
@@ -65,20 +72,73 @@ router.get('/api/books', function(req, res, next) {
 
 });
 
+// GET /app4/api/books/:id - get book
+router.get('/api/books/:id', function(req, res, next) {
 
+  // Find book by id
+  Book.getBook(req.params.id)
 
-// RESTAPI POST   /app4/api/books {title,...} - create new book (authorized only)
+  // Send the response back
+  .then( function(book) {
+    return res.status(200).json(book);
+  })
+
+  // On fail, send error response
+  .catch( PublicError, function(err) {
+    return res.status(400).json({message:err.toString()});
+  })
+
+  // Internal error
+  .catch( function(err) {
+    var message = 'Internal error e000000c.';
+    myErrorLog(null, err, message);
+    return res.status(400).json({message: message});
+  });
+
+});
+
+// DELETE /app4/api/books/:id - delete book
+router.delete('/api/books/:id', function(req, res, next) {
+
+  var uid;
+  if (req.isAuthenticated()) uid = req.user._id;
+
+  Book.removeBook(req.params.id, uid)
+
+  // Send the response back
+  .then( function() {
+    return res.status(200).json();
+  })
+
+  // On fail, send error response
+  .catch( PublicError, function(err) {
+    return res.status(400).json({message:err.toString()});
+  })
+
+  // Internal error
+  .catch( function(err) {
+    var message = 'Internal error e000000d.';
+    myErrorLog(null, err, message);
+    return res.status(400).json({message: message});
+  });
+
+});
+
+// RESTAPI POST   /app4/api/books {title,...} - create/update book (authorized only)
 router.post('/api/books', upload.single('file'), function(req, res, next) {
 
   if (!req.isAuthenticated()) {
-    return res.status(401).json({message:'Error: Only authorized person can create new book.'});
+    return res.status(401).json({message:'Error: Only authorized person can create/update a book.'});
   }
 
   Book.addBook({
+    _id: req.body._id,
     title: req.body.title,
+    price: Number(req.body.price),
     keywords: req.body.keywords,
     description: req.body.description,
     createdBy: req.user._id,
+    photoId: req.body.photoId,
     file: req.file,
   })
 

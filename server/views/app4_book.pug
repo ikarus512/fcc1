@@ -1,0 +1,150 @@
+//-
+  /* file: app4_book.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: App4 Book View
+   * AUTHOR: ikarus512
+   * CREATED: 2017/04/20
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/20, ikarus512. Initial version.
+   *
+   */
+
+extend ./common/layout.pug
+
+block vars
+  - var title = 'Books';
+  - var background = 'background-color: #444; background-image: url(/img/pixabay_com_world.jpg);';
+
+block scriptBeforeBody
+  script(src='/lib/angular.min.js')
+  script(src='/lib/ng-file-upload-all.min.js')
+  script(src='/js/app4.js')
+  script(src='/js/app4-controller-book.js')
+  script(src='/js/app4-directive-my-enter.js')
+  script(src='/js/app4-directive-my-escape.js')
+  script(src='/js/app4-directive-my-focus.js')
+  script(src='/js/app4-filter-photo.js')
+  script(src='/js/app4-service-book-storage.js')
+
+block content
+
+  div(class='ng-app' ng-app='myApp4' ng-controller='myApp4ControllerBook' ng-init="init('"+logintype+"','"+uid+"','"+bookId+"')" ng-cloak)
+
+    //- //////////////////////////////////////////////////////////
+    //- //  book
+    //- //////////////////////////////////////////////////////////
+
+    #books.well(ng-show='books.length' ng-cloak)
+      h3 Book:
+      .row(style='border: 1px solid grey' ng-repeat='book in books' ng-cloak)
+        //- --------------------
+        //- --  book
+        //- --------------------
+        .col-sm-12
+          .row
+            .col-sm-12
+              | &nbsp;
+              .media
+                .media-left
+                  .thumbnail
+                    .book-image-thumb
+                      span.book-image-helper
+                      img.book-image(ng-src='{{book.photoId | photo}}' alt='No photo')
+                .media-body
+                  h4.media-heading {{book.title}}
+                  | &nbsp;
+                  p
+                    b Keywords:
+                    |  {{book.keywords}}
+                  p 
+                    b Price:
+                    |  ${{book.price}}
+
+        .col-sm-12
+          p: b Description:
+          p(style='white-space: pre-line;') {{book.description}}
+
+
+    //- //////////////////////////////////////////////////////////
+    //- //  edit book
+    //- //////////////////////////////////////////////////////////
+
+    .well(ng-show='uid===book.createdBy')
+      h3 Change Book Details:
+      //- | createdBy: {{book.createdBy}}
+      //- | uid: {{uid}}
+      //- img.book-image(ng-src='{{book.photoId | photo}}' alt='No photo')
+
+      form#bookForm(name='myForm' novalidate)
+
+        //- myForm.title
+        .form-group.has-feedback(ng-class="{'has-error': !myForm.title.$valid, 'has-success': myForm.title.$valid}")
+          label.control-label(for='inputTitle') *Title: &nbsp;
+          input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='book.title' required)
+          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myForm.title.$valid')
+          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myForm.title.$valid')
+          p: i.color-error(ng-show='myForm.title.$error.required') *required
+
+        //- myForm.price
+        .form-group.has-feedback(ng-class="{'has-error': !myForm.price.$valid, 'has-success': myForm.price.$valid}")
+          label.control-label(for='inputPrice') *Price ($): &nbsp;
+          input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='book.price' min='0' required)
+          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myForm.price.$valid')
+          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myForm.price.$valid')
+          p: i.color-error(ng-show='myForm.price.$error.required') *required
+          p: i.color-error(ng-show='myForm.price.$error.min') *must be non-negative
+          p: i.color-error(ng-show='myForm.price.$error.number') *must be number
+
+        //- myForm.keywords
+        label Keywords (comma separated): &nbsp;
+        input.form-control(placeholder='Keywords' ng-model='book.keywords')
+
+        //- myForm.description
+        label Description: &nbsp;
+        textarea.form-control(placeholder='Description' ng-model='book.description' rows='6')
+
+
+        //- old photo (photoId), if any
+        div(ng-show='book.photoId')
+          label Photo: &nbsp;
+          .thumbnail
+            .book-image-thumb
+              span.book-image-helper
+              img.book-image(ng-src='{{book.photoId | photo}}' alt='No photo')
+          button.btn.btn-default(ng-click='book.photoId = null;') Remove Photo
+
+        //- new photo (file)
+        div(ng-show='!book.photoId')
+          //- myForm.file
+          label Photo: &nbsp;
+          input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'80KB'" ngf-model-invalid='errorFile' ng-model='book.file')
+          p: i.color-error(ng-show='myForm.file.$error.maxSize') File too large:
+            |  {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.
+
+          //- myForm.file preview
+          .thumbnail(ng-show='book.file && myForm.file.$valid')
+            .book-image-thumb
+              span.book-image-helper
+              img#imgPreview.book-image(ngf-thumbnail='book.file')
+          | &nbsp;
+          //- Works like pressing on #fileInput:
+          label.btn.btn-default(for='fileInput' ng-show='!book.file && myForm.file.$valid') Add Photo
+          button.btn.btn-default(ng-click='clearFile()' ng-show='book.file || !myForm.file.$valid') Remove Photo
+
+
+        br
+        br
+        button.btn.btn-primary(ng-click='bookReset()') Reset Changes
+        | &nbsp;
+        button#bookUpdate.btn.btn-primary(ng-disabled='!myForm.$valid' ng-click='bookUpdate()') Save Changes
+        | &nbsp;
+        button#bookDelete.btn.btn-primary(ng-click='bookDelete()') Delete Book
+        br
+
+    .well
+      h3 Return back to books list
+      button#back.btn.btn-primary(ng-click='goBooksPage()') Back

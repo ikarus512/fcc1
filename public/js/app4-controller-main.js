@@ -14,12 +14,7 @@
     function ($scope, bookStorage) {
 
       $scope.mode = 'books'; // books/addBook
-      $scope.newBook = {
-        title: '',
-        keywords: '',
-        description: '',
-        file: null,
-      };
+      $scope.newBook = null;
       $scope.books = [];
 
       booksRefresh();
@@ -34,22 +29,26 @@
         $scope.newBook.file = null;
       };
 
-      $scope.init = function(logintype) {
+      $scope.init = function(logintype,uid) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
+        $scope.uid = uid==='undefined' ? '' : uid;
       };
 
-      $scope.modeAddBook = function() {
-        $scope.mode = 'addBook';
-      };
-
-      $scope.modeAddBookCancel = function() {
+      $scope.modeAddBook = function(book) {
         $scope.newBook = {
           title: '',
+          createdBy: undefined,
+          price: undefined,
           keywords: '',
           description: '',
           file: null,
         };
 
+        $scope.mode = 'addBook';
+      };
+
+      $scope.modeAddBookCancel = function() {
+        $scope.newBook = null;
         $scope.mode = 'books';
       };
 

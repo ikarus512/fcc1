@@ -14,6 +14,22 @@
     function ($http, Upload) {
 
       return {
+        getBook: function(id) {
+          return $http({
+            method: 'GET',
+            data:{},
+            url: '/app4/api/books/'+id
+          });
+        },
+
+        bookDelete: function(id) {
+          return $http({
+            method: 'DELETE',
+            data:{},
+            url: '/app4/api/books/'+id
+          });
+        },
+
         getBooks: function () {
           return $http({
             method: 'GET',
