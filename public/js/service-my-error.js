@@ -14,14 +14,24 @@
     function () {
 
       return {
+
         alert: function(res) {
           if (res && res.data && res.data.message) {
             alert(res.data.message);
-            console.log('Error: ' + res.data.message);
+            console.log(res.data.message);
           } else {
             console.log(res);
           }
-        } // alert: function(...)
+        }, // alert: function(...)
+
+        log: function(res) {
+          if (res && res.data && res.data.message) {
+            console.log(res.data.message);
+          } else {
+            console.log(res);
+          }
+        }, // log: function(...)
+
       };
 
     }

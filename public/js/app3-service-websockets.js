@@ -28,7 +28,7 @@
         },1500); // Delay for heroku.com
       })
       .catch( function(res) {
-        MyError.alert(res);
+        MyError.log(res);
       });
 
       ws.onmessage = function(message) {
