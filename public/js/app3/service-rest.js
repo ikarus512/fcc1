@@ -1,4 +1,4 @@
-/* file: app3-service-rest.js */
+/* file: service-rest.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git

@@ -1,4 +1,4 @@
-/* file: app4-service-book-storage.js */
+/* file: service-book-storage.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git

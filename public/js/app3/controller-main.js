@@ -1,4 +1,4 @@
-/* file: app3-controller-main.js */
+/* file: controller-main.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git

@@ -20,11 +20,15 @@ var extend = require('extend');
 function greet(req,o2,o3) {
   var o={};
 
+  var uid;
+  if (req.isAuthenticated()) uid = req.user._id;
+
   if (req.user) {
     extend(o, {
       //greeting : 'Hi, '+req.user.name+' ('+req.user.type+')!',
       username : req.user.name,
       logintype: req.user.type,
+      uid      : uid,
     });
   } else {
     //o.greeting='(Not logged in.)';

@@ -1,4 +1,4 @@
-/* file: app1-service-storage-polls.js */
+/* file: service-storage-polls.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git

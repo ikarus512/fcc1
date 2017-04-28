@@ -19,6 +19,16 @@ block vars
   - var title = 'Settings';
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_crowd.png);';
 
+
+block scriptBeforeBody
+  script(src='/lib/angular.min.js')
+  script(src='/js/settings/app.js')
+  script(src='/js/settings/controller.js')
+  script(src='/js/settings/service-rest.js')
+  script(src='/js/directive-my-focus.js')
+  script(src='/js/service-my-error.js')
+
+
 block content
 
   .row
@@ -37,3 +47,40 @@ block content
               label.col-sm-4.control-label(for='loginUsername') User Name:
               .col-sm-8
                 input.form-control(type='text' readonly disabled value=username)
+
+
+  .row(class='ng-app' ng-app='myapp' ng-controller='ctrSettings' ng-init="init('"+logintype+"','"+uid+"')" ng-cloak)
+    .col-sm-12
+      .panel.panel-default
+        .panel-heading
+          h2 Change Additional Details:
+        .panel-body
+          form.form-horizontal#settingsForm(name='myForm' novalidate)
+
+            .form-group
+              label.col-sm-3.control-label Full Name:
+              .col-sm-9: input.form-control(type='text' ng-model='newSettings.fullName' my-focus='true')
+
+            .form-group
+              label.col-sm-3.control-label City/Town:
+              .col-sm-9: input.form-control(type='text' ng-model='newSettings.city')
+
+            .form-group
+              label.col-sm-3.control-label State/Region:
+              .col-sm-9: input.form-control(type='text' ng-model='newSettings.state')
+
+            .form-group
+              label.col-sm-3.control-label Country:
+              .col-sm-9: input.form-control(type='text' ng-model='newSettings.country')
+
+            br
+            br
+            button#saveChanges.btn.btn-primary(ng-click='saveChanges()') Save Changes
+            | &nbsp;
+
+            button#cancelChanges.btn.btn-primary(ng-click='cancelChanges()') Cancel Changes
+
+            br
+            br
+            button#deleteUser.btn.btn-danger(ng-click='deleteUser()') Delete User
+            br

@@ -42,10 +42,6 @@ var BookSchema = new Schema({
     requestedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     price: {type: Number, required: true},
   }],
-},
-{ // options
-  versionKey: false, // do not use __v property
-  // bufferCommands: false,
 });
 
 ////////////////////////////////////////////////////////////////

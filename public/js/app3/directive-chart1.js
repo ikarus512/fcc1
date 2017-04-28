@@ -1,4 +1,4 @@
-/* file: app3-directive-chart1.js */
+/* file: directive-chart1.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git

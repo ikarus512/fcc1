@@ -1,4 +1,4 @@
-/* file: app4-controller-main.js */
+/* file: controller-main.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -69,7 +69,7 @@
 
           .catch( function(res) {
             // Report error during book creation
-            alert(res.data.message);
+            MyError.alert(res);
           });
 
         }

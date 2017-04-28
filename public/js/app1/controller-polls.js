@@ -1,4 +1,4 @@
-/* file: app1-controller-polls.js */
+/* file: controller-polls.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git

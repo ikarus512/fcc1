@@ -1,4 +1,4 @@
-/* file: app4-controller-book.js */
+/* file: controller-book.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -114,8 +114,7 @@
 
             .catch( function onErr(res) {
               // Report error during poll deletion
-              alert(res.data.message);
-              if (res.data) alert(res.data.message);
+              MyError.alert(res);
             });
 
           }

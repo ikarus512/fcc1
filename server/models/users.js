@@ -43,10 +43,13 @@ var UserSchema = new Schema({
 
   // Not logged in (used in voting):
   unauthorized: { ip: String },
-},
-{ // options
-  versionKey: false, // do not use __v property
-  //bufferCommands: false, // we'll do connection check manually
+
+  // Additional settings
+  fullName:     String,
+  city:         String,
+  state:        String,
+  country:      String,
+
 });
 
 ////////////////////////////////////////////////////////////////
@@ -226,6 +229,67 @@ UserSchema.methods.validatePassword = function(password, callback) {
 
     return resolve(myValidate(password, self.local.password));
 
+  });
+
+};
+
+// removeUser
+UserSchema.statics.removeUser = function(id,uid) {
+
+  return UserModel().findOne({_id:id}).exec()
+
+  .then( function(user) {
+    if (!user) throw new PublicError('No user '+id+'.');
+    if (!user._id.equals(uid)) throw new PublicError('User can remove only his own account.');
+    return UserModel().findOneAndRemove({_id:id}).exec();
+  })
+
+  .then( function() {
+    return;
+  });
+
+};
+
+// getSettings
+UserSchema.statics.getSettings = function(id,uid) {
+
+  return UserModel().findOne({_id:id}).exec()
+
+  // Filter settings
+  .then( function(user) {
+    if (!user) throw new PublicError('No user '+id+'.');
+    if (!user._id.equals(uid)) throw new PublicError('User can get only his own settings.');
+    var settings = {};
+    settings.fullName = user.fullName;
+    settings.city = user.city;
+    settings.state = user.state;
+    settings.country = user.country;
+    return settings;
+  });
+
+};
+
+// updateSettings
+UserSchema.statics.updateSettings = function(id,uid,settings) {
+
+  return UserModel().findOne({_id:id}).exec()
+
+  // Filter settings
+  .then( function(user) {
+    if (!user) throw new PublicError('No user '+id+'.');
+    if (!user._id.equals(uid)) throw new PublicError('User can update only his own settings.');
+
+    user.fullName = String(settings.fullName);
+    user.city = String(settings.city);
+    user.state = String(settings.state);
+    user.country = String(settings.country);
+
+    return user.save();
+  })
+
+  // Do not return user details
+  .then( function() {
+    return;
   });
 
 };

@@ -1,4 +1,4 @@
-/* file: app2-directive-map.js */
+/* file: directive-map.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git

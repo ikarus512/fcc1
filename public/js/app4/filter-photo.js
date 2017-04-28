@@ -1,4 +1,4 @@
-/* file: app4-filter-photo.js */
+/* file: filter-photo.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
