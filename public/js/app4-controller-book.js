@@ -40,7 +40,7 @@
                 $scope.books[0].noShort = true;
               }
             }
-            $scope.bookReset();
+            $scope.bookCancelChanges(); // reset book=books[0]
           })
 
           .catch( function(res) {
@@ -53,7 +53,7 @@
 
       } // function bookRefresh(...)
 
-      $scope.bookReset = function() {
+      $scope.bookCancelChanges = function() {
 
         if ($scope.books.length) {
 
@@ -70,14 +70,14 @@
 
         }
 
-      }; // $scope.bookReset = function(...)
+      }; // $scope.bookCancelChanges = function(...)
 
       $scope.clearFile = function() {
         $scope.myForm.file.$setValidity("maxSize", true);
         $scope.book.file = null;
       };
 
-      $scope.bookUpdate = function() {
+      $scope.bookSaveChanges = function() {
 
         $scope.book.title = $scope.book.title.trim();
         $scope.book.keywords = $scope.book.keywords.trim();
@@ -98,7 +98,7 @@
 
         }
 
-      }; // $scope.bookUpdate = function(...)
+      }; // $scope.bookSaveChanges = function(...)
 
       $scope.bookDelete = function() {
 

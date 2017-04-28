@@ -1,0 +1,24 @@
+//-
+  /* file: mixins.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: Common Mixins
+   * AUTHOR: ikarus512
+   * CREATED: 2017/04/27
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/27, ikarus512. Initial version.
+   *
+   */
+
+mixin myMessage(when, title)
+  ng-message.myMessage(when=when)
+    p.alert.alert-danger(style='opacity:inherit;')
+      span.glyphicon.glyphicon-exclamation-sign
+      | &nbsp;
+      if block
+        block
+      else
+        span= title

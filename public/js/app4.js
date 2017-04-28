@@ -7,6 +7,6 @@
 ;( function() {
   'use strict';
 
-  angular.module('myapp', ['ngFileUpload']);
+  angular.module('myapp', ['ngAnimate', 'ngMessages', 'ngFileUpload']);
 
 })();

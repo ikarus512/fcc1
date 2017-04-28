@@ -21,6 +21,8 @@ block vars
 
 block scriptBeforeBody
   script(src='/lib/angular.min.js')
+  script(src='/lib/angular-animate.min.js')
+  script(src='/lib/angular-messages.min.js')
   script(src='/lib/ng-file-upload-all.min.js')
   script(src='/js/app4.js')
   script(src='/js/app4-controller-main.js')
@@ -80,20 +82,26 @@ block content
         //- myForm.title
         .form-group.has-feedback(ng-class="{'has-error': !myForm.title.$valid, 'has-success': myForm.title.$valid}")
           label.control-label(for='inputTitle') *Title: &nbsp;
-          input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='newBook.title' my-escape='modeAddBookCancel()' my-focus="mode=='addBook'" required)
+          input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='newBook.title' my-escape='modeAddBookCancel()' my-focus="mode=='addBook'" autocomplete='off' required)
+
           span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myForm.title.$valid')
           span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myForm.title.$valid')
-          p: i.color-error(ng-show='myForm.title.$error.required') *required
+
+          ng-messages(for='myForm.title.$error' role='alert')
+            +myMessage('required', 'Title is required field.')
 
         //- myForm.price
         .form-group.has-feedback(ng-class="{'has-error': !myForm.price.$valid, 'has-success': myForm.price.$valid}")
           label.control-label(for='inputPrice') *Price ($): &nbsp;
           input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='newBook.price' my-escape='modeAddBookCancel()' min='0' required)
+
           span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myForm.price.$valid')
           span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myForm.price.$valid')
-          p: i.color-error(ng-show='myForm.price.$error.required') *required
-          p: i.color-error(ng-show='myForm.price.$error.min') *must be non-negative
-          p: i.color-error(ng-show='myForm.price.$error.number') *must be number
+
+          ng-messages(for='myForm.price.$error' role='alert')
+            +myMessage('required', 'Price is required field.')
+            +myMessage('min'     , 'Price must be non-negative.')
+            +myMessage('number'  , 'Price must be number.')
 
         //- myForm.keywords
         label Keywords (comma separated): &nbsp;
@@ -104,21 +112,27 @@ block content
         textarea.form-control(placeholder='Description' ng-model='newBook.description' my-escape='modeAddBookCancel()' rows='6')
 
 
-        //- myForm.photo
-        label Photo: &nbsp;
-        input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'80KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
-        p: i.color-error(ng-show='myForm.file.$error.maxSize') File too large:
-          |  {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.
+        //- photo (file)
+        div
 
-        //- myForm.photo preview
-        .thumbnail(ng-show='newBook.file && myForm.file.$valid')
-          .book-image-thumb
-            span.book-image-helper
-            img#imgPreview.book-image(ngf-thumbnail='newBook.file')
-        | &nbsp;
-        //- Works like pressing on #fileInput:
-        label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myForm.file.$valid') Add Photo
-        button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myForm.file.$valid') Remove Photo
+          //- myForm.file
+          label Photo: &nbsp;
+          input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'100KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
+
+          ng-messages(for='myForm.file.$error' role='alert')
+            +myMessage('maxSize', 'File too large: {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.')
+
+          //- myForm.file preview
+          .thumbnail(ng-show='newBook.file && myForm.file.$valid')
+            .book-image-thumb
+              span.book-image-helper
+              img#imgPreview.book-image(ngf-thumbnail='newBook.file')
+          | &nbsp;
+
+          //- File buttons:
+          //- Works like pressing on #fileInput:
+          label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myForm.file.$valid') Add Photo
+          button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myForm.file.$valid') Remove Photo
 
 
         br
