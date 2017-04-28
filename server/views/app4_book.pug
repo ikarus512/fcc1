@@ -71,12 +71,12 @@ block content
         .col-sm-12
           p: b Description:
           p(style='white-space: pre-line;')
-            div(ng-show='book.noShort')
+            span(ng-show='book.noShort')
               span {{book.description}}
-            div(ng-show='!book.noShort && !book.short')
+            span(ng-show='!book.noShort && !book.short')
               span {{book.description}}
               p: a(ng-show='!book.short' ng-click='book.short = !book.short;') &lt;show less&gt;
-            div(ng-show='!book.noShort && book.short')
+            span(ng-show='!book.noShort && book.short')
               span {{book.descriptionShort}}
               span ...&nbsp;
               a(ng-click='book.short = !book.short;') &lt;show more&gt;
