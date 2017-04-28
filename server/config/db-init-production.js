@@ -17,14 +17,18 @@
 'use strict';
 
 var User = require('../models/users.js'),
+  Promise = require('bluebird'),
   myErrorLog = require('../utils/my-error-log.js');
 
 function dbInit(done) {
-  User.createAdmin()
 
-  .then( function() {
-    return User.createLocalUser({username: 'me', password: 'me', password2: 'me' });
-  })
+  var promises = [
+    User.createAdmin(),
+    User.createLocalUser({username: 'me', password: 'me', password2: 'me' }),
+  ];
+
+
+  return Promise.all(promises)
 
   .then( function() {
     return done();

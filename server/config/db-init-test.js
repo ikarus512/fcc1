@@ -28,9 +28,10 @@ function dbInit(done) {
 
   //////////////////////////////////////////////////////////////
   // Clear DB:
-  new Promise( function(resolve) {
+  return new Promise( function(resolve) {
     return clearSessionsCollection(resolve);
   })
+
   .then( function() {
     return new Promise( function(resolve) {
       return clearDB(resolve);
@@ -44,102 +45,41 @@ function dbInit(done) {
   //  local.username=b, password=b
   //  unauthorized.ip=x.x.x.y
   .then( function() {
-    return User.createAdmin();
-  })
-  .then( function(createdUser) {
-    return User.createLocalUser({username: 'a', password: 'a', password2: 'a' });
-  })
-  .then( function(createdUser) {
-    userA = createdUser;
-    return User.createLocalUser({username: 'b', password: 'b', password2: 'b' });
-  })
-  .then( function(createdUser) {
-    userB = createdUser;
-    return User.createUnauthorizedUser('x.x.x.y');
-  })
-  .then( function(createdUser) {
-    userU = createdUser;
-    return;
+
+    var promises = [
+
+      User.createAdmin(),
+
+      User.createLocalUser({username: 'a', password: 'a', password2: 'a' })
+      .then( function(createdUser) { userA = createdUser; }),
+
+      User.createLocalUser({username: 'b', password: 'b', password2: 'b' })
+      .then( function(createdUser) { userB = createdUser; }),
+
+      User.createUnauthorizedUser('x.x.x.y')
+      .then( function(createdUser) { userU = createdUser; }),
+
+    ];
+
+    return Promise.all(promises);
+
   })
 
   //////////////////////////////////////////////////////////////
-  // Create app1 test data:
-  // Create poll 1
+  // App test data
   .then( function() {
-    var p = new Poll();
-    p.title = 'Poll 1';
-    p.createdBy = userA._id;
-    p.options = [
-      {title: 'Option 1', votes:[userB._id]},
-      {title: 'Option 2', votes:[]},
+
+    var promises = [
+      require('./db-init-test-app1.js')(userA, userB, userU),
+      require('./db-init-test-app2.js')(),
+      // require('./db-init-test-app3.js')(),
+      // require('./db-init-test-app4.js')(),
+      // require('./db-init-test-app5.js')(),
     ];
-    return p.save();
+
+    return Promise.all(promises);
+
   })
-  // Create poll 2
-  .then( function() {
-    var p = new Poll();
-    p.title = 'Poll 2';
-    p.createdBy = userB._id;
-    p.options = [
-      {title: 'Option 1', votes:[userB._id,userA._id]},
-      {title: 'Option 2', votes:[userU._id]}, 
-    ];
-    return p.save();
-  })
-
-
-  //////////////////////////////////////////////////////////////
-  // Create app2 test data:
-  // Create 3 cafes
-
-  // [
-  //   {
-  //     '_id' : ObjectId('58eb402a407bb511d1d395f4'),
-  //     'google' : {
-  //       'place_id' : 'ChIJt-EgPK7VUUERYudX_RPE3RE',
-  //       'id' : 'fe8bf96e3645f854f94544038c5b3f9577002620',
-  //       'icon' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png'
-  //     },
-  //     'createdAt' : ISODate('2017-04-10T08:19:53.803Z'),
-  //     'photo' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png',
-  //     'text' : 'ulitsa Kostina, 3, Nizhny Novgorod',
-  //     'name' : 'Karamel'',
-  //     'lng' : 43.99059800000001,
-  //     'lat' : 56.311938,
-  //     'updatedAt' : ISODate('2017-04-10T08:19:53.803Z')
-  //   },
-  //   {
-  //     '_id' : ObjectId('58eb402a407bb511d1d395f5'),
-  //     'google' : {
-  //       'place_id' : 'ChIJKwnxFrLVUUERDPhRUvwYtIA',
-  //       'id' : '46cf2155045818a88ce2c65ce6749c1809c02a93',
-  //       'icon' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png'
-  //     },
-  //     'createdAt' : ISODate('2017-04-10T08:19:53.849Z'),
-  //     'photo' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png',
-  //     'text' : 'ulitsa Novaya, 29, Nizhny Novgorod',
-  //     'name' : 'Dezhavyu, Kafe, OOO',
-  //     'lng' : 43.99272860000001,
-  //     'lat' : 56.3130452,
-  //     'updatedAt' : ISODate('2017-04-10T08:19:53.849Z')
-  //   },
-  //   {
-  //     '_id' : ObjectId('58eb402a407bb511d1d395f6'),
-  //     'google' : {
-  //       'place_id' : 'ChIJm9ra8rHVUUER1VeM_z-g9m8',
-  //       'id' : 'da32b63ab6bb0f5491432b6ad3ba97739624ed66',
-  //       'icon' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png'
-  //     },
-  //     'createdAt' : ISODate('2017-04-10T08:19:53.856Z'),
-  //     'photo' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png',
-  //     'text' : 'ulitsa Kostina, 3, Nizhny Novgorod',
-  //     'name' : 'Bufet Gurmana',
-  //     'lng' : 43.9906706,
-  //     'lat' : 56.3123324,
-  //     'updatedAt' : ISODate('2017-04-10T08:19:53.856Z')
-  //   }
-  // ]
-
 
   .then( function() {
     return done();
