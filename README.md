@@ -75,6 +75,7 @@ similar to [this](http://bookjump.herokuapp.com)
 
 Optional features maybe to do in future:
 
+- TODO: Book owner chooses bid to finish trade.
 - TODO: Private messaging about trade.
 - TODO: Books list filter: all|my offers|my bids|by keywords.
 - TODO: Books list pages (temporary query in DB: query ID, query params, current page).

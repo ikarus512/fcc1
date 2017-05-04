@@ -75,8 +75,11 @@ router.get('/api/books', function(req, res, next) {
 // GET /app4/api/books/:id - get book
 router.get('/api/books/:id', function(req, res, next) {
 
+  var uid;
+  if (req.isAuthenticated()) uid = req.user._id;
+
   // Find book by id
-  Book.getBook(req.params.id)
+  Book.getBook(req.params.id,uid)
 
   // Send the response back
   .then( function(book) {
@@ -161,6 +164,33 @@ router.post('/api/books', upload.single('file'), function(req, res, next) {
 
 });
 
+// POST /app4/api/books/:id/bid - add bid
+router.post('/api/books/:id/bid', function(req, res, next) {
+
+  var uid;
+  if (req.isAuthenticated()) uid = req.user._id;
+
+  // Add bid
+  Book.addBid(req.params.id, req.body.price, uid)
+
+  // Send the response back
+  .then( function(book) {
+    return res.status(200).json(book);
+  })
+
+  // On fail, send error response
+  .catch( PublicError, function(err) {
+    return res.status(400).json({message:err.toString()});
+  })
+
+  // Internal error
+  .catch( function(err) {
+    var message = 'Internal error e0000011.';
+    myErrorLog(null, err, message);
+    return res.status(400).json({message: message});
+  });
+
+});
 
 
 module.exports = router;

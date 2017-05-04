@@ -11,6 +11,31 @@
 //  2017/04/04, ikarus512. Added copyright header.
 //
 
+
+// Bootstrap Popover
+.popover {
+  border: 1px solid @ngErrorColor;
+  background-color: @ngErrorBg;
+  color: @ngErrorColor;
+  // left: -50px;
+}
+.popover-title {
+  background-color: @ngErrorBg;
+  color: @ngErrorColor;
+  font-size: 28px;
+  text-align: center;
+}
+.popover-content {
+  background-color: @ngErrorBg;
+  color: @ngErrorColor;
+  padding: 10px;
+}
+.popover.top > .arrow:after {
+  border-top-color: @ngErrorBg;
+}
+
+
+
 [ng-click],
 [data-ng-click],
 [x-ng-click] {

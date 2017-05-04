@@ -24,28 +24,102 @@
 
       function bookRefresh() {
 
+        $scope.bidIdx = -1;
+
         if ($scope.bookId) {
 
           bookStorage.getBook($scope.bookId)
 
           .then( function(res) {
-            $scope.books = [res.data];
-            if ($scope.books.length) {
-              var s = String($scope.books[0].description);
+            $scope.curBook = res.data;
+
+            // description: show more/show less
+            if ($scope.curBook) {
+              var s = String($scope.curBook.description);
               if (s.length > 200) {
-                $scope.books[0].descriptionShort = s.substr(0, 200);
-                $scope.books[0].short = true;
-                $scope.books[0].noShort = false;
+                $scope.curBook.descriptionShort = s.substr(0, 200);
+                $scope.curBook.short = true;
+                $scope.curBook.noShort = false;
               } else {
-                $scope.books[0].noShort = true;
+                $scope.curBook.noShort = true;
               }
             }
-            $scope.bookCancelChanges(); // reset book=books[0]
+
+            // Filter bids
+            if ($scope.curBook.bids) {
+
+              // Prepare bid price for update
+              $scope.curBook.bids.forEach( function(bid) { bid.updateBidPrice = bid.price; });
+
+              // Check if user has bid
+              $scope.curBook.hasBid = $scope.curBook.bids.some( function(bid,idx) {
+                var found = bid.by._id === $scope.uid;
+                if (found) {
+                  $scope.bidIdx = idx;
+                }
+                return found;
+              });
+            }
+
+            // Error messages processing for updating price
+            if ($scope.bidIdx >= 0) {
+
+              var priceRequiredId = '#priceRequired'+$scope.bidIdx,
+                priceMinId = '#priceMin'+$scope.bidIdx,
+                priceNumberId = '#priceNumber'+$scope.bidIdx,
+                popoverIds = [priceRequiredId, priceMinId, priceNumberId];
+
+              if ($scope.clearPreviousWatch) {
+                $scope.clearPreviousWatch();
+
+                // Destroy popovers
+                popoverIds.forEach( function(id) { $(id).popover('destroy'); });
+              }
+
+              // Init popovers
+              popoverIds.forEach( function(id) { $(id).popover(); });
+
+              // Hide/show popovers
+              $scope.clearPreviousWatch =
+                $scope.$watch(
+                  'updateBidForm[\'price'+$scope.bidIdx+'\'].$error',
+                  function(newData, oldData) {
+
+                    if (!(oldData && oldData.required) && newData && newData.required) {
+                      $(priceRequiredId).popover('show');
+                      $(priceMinId)     .popover('hide');
+                      $(priceNumberId)  .popover('hide');
+                    }
+
+                    if (!(oldData && oldData.min) && newData && newData.min) {
+                      $(priceRequiredId).popover('hide');
+                      $(priceMinId)     .popover('show');
+                      $(priceNumberId)  .popover('hide');
+                    }
+
+                    if (!(oldData && oldData.number) && newData && newData.number) {
+                      $(priceRequiredId).popover('hide');
+                      $(priceMinId)     .popover('hide');
+                      $(priceNumberId)  .popover('show');
+                    }
+
+                    if (newData && !newData.required && !newData.min && !newData.number) {
+                      $(priceRequiredId).popover('hide');
+                      $(priceMinId)     .popover('hide');
+                      $(priceNumberId)  .popover('hide');
+                    }
+
+                  },
+                  true
+                ); // scope.$watch('data',...)
+            }
+
+            $scope.bookCancelChanges(); // reset newBook=curBook
           })
 
           .catch( function(res) {
-            $scope.books = [];
-            $scope.book = null;
+            $scope.curBook = null;
+            $scope.newBook = null;
             MyError.alert(res);
           });
 
@@ -53,18 +127,35 @@
 
       } // function bookRefresh(...)
 
+      $scope.addBid = function() {
+
+        bookStorage.addBid($scope.curBook._id, $scope.newBidPrice)
+        .then( function(res) { bookRefresh(); })
+        .catch( function(res) { MyError.alert(res); });
+
+      }; // $scope.addBid = function(...)
+
+      $scope.updateBid = function(curPrice, newPrice) {
+        if (curPrice !== newPrice) {
+          bookStorage.addBid($scope.curBook._id, newPrice)
+          .then( function(res) { bookRefresh(); })
+          .catch( function(res) { MyError.alert(res); });
+        }
+      }; // $scope.updateBid = function(...)
+
       $scope.bookCancelChanges = function() {
 
-        if ($scope.books.length) {
+        if ($scope.curBook) {
 
-            $scope.book = {};
-            $scope.book.title        = $scope.books[0].title;
-            $scope.book._id          = $scope.books[0]._id;
-            $scope.book.price        = $scope.books[0].price;
-            $scope.book.createdBy    = $scope.books[0].createdBy;
-            $scope.book.keywords     = $scope.books[0].keywords;
-            $scope.book.description  = $scope.books[0].description;
-            $scope.book.photoId      = $scope.books[0].photoId;
+            $scope.newBook = {};
+            $scope.newBook.title        = $scope.curBook.title;
+            $scope.newBook._id          = $scope.curBook._id;
+            $scope.newBook.price        = $scope.curBook.price;
+            $scope.newBook.ownerId      = $scope.curBook.ownerId;
+            $scope.newBook.ownerName    = $scope.curBook.ownerName;
+            $scope.newBook.keywords     = $scope.curBook.keywords;
+            $scope.newBook.description  = $scope.curBook.description;
+            $scope.newBook.photoId      = $scope.curBook.photoId;
 
             $scope.clearFile();
 
@@ -73,26 +164,26 @@
       }; // $scope.bookCancelChanges = function(...)
 
       $scope.clearFile = function() {
-        $scope.myForm.file.$setValidity("maxSize", true);
-        $scope.book.file = null;
+        $scope.myBookEditForm.file.$setValidity("maxSize", true);
+        $scope.newBook.file = null;
       };
 
       $scope.bookSaveChanges = function() {
 
-        $scope.book.title = $scope.book.title.trim();
-        $scope.book.keywords = $scope.book.keywords.trim();
-        $scope.book.description = $scope.book.description.trim();
+        $scope.newBook.title = $scope.newBook.title.trim();
+        $scope.newBook.keywords = $scope.newBook.keywords.trim();
+        $scope.newBook.description = $scope.newBook.description.trim();
 
-        if ($scope.book.title) {
+        if ($scope.newBook.title) {
 
-          bookStorage.postBook($scope.book)
+          bookStorage.postBook($scope.newBook)
 
           .then( function(res) {
             bookRefresh();
           })
 
           .catch( function(res) {
-            // Report error during book creation
+            // Report error during book update
             MyError.alert(res);
           });
 
@@ -102,11 +193,11 @@
 
       $scope.bookDelete = function() {
 
-        if ($scope.book._id) {
+        if ($scope.newBook) {
 
           if (confirm('Do you really want to delete the book?')) {
 
-            bookStorage.bookDelete($scope.book._id)
+            bookStorage.bookDelete($scope.newBook._id)
 
             .then( function onOk(res) {
               $scope.goBooksPage();

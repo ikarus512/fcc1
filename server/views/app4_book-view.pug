@@ -1,0 +1,56 @@
+//-
+  /* file: app4_book-view.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: App4 Book View
+   * AUTHOR: ikarus512
+   * CREATED: 2017/05/02
+   *
+   * MODIFICATION HISTORY
+   *  2017/05/02, ikarus512. Initial version.
+   *
+   */
+
+h1(ng-show='curBook.tradeFinished') Trade Finished
+
+.row(style='border: 1px solid grey' ng-cloak)
+  //- --------------------
+  //- --  curBook
+  //- --------------------
+  .col-sm-12
+    .row
+      .col-sm-12
+        | &nbsp;
+        .media
+          .media-left
+            .thumbnail
+              .book-image-thumb
+                span.book-image-helper
+                img.book-image(ng-src='{{curBook.photoId | photo}}' alt='No photo')
+          .media-body
+            h4.media-heading {{curBook.title}}
+            | &nbsp;
+            p
+              b Keywords:
+              |  {{curBook.keywords}}
+            p
+              b Price:
+              |  ${{curBook.price}}
+            p
+              b Owner:
+              |  {{curBook.ownerName}}
+
+  .col-sm-12
+    p: b Description:
+    p(style='white-space: pre-line;')
+      span(ng-show='curBook.noShort')
+        span {{curBook.description}}
+      span(ng-show='!curBook.noShort && !curBook.short')
+        span {{curBook.description}}
+        p: a(ng-show='!curBook.short' ng-click='curBook.short = !curBook.short;') &lt;show less&gt;
+      span(ng-show='!curBook.noShort && curBook.short')
+        span {{curBook.descriptionShort}}
+        span ...&nbsp;
+        a(ng-click='curBook.short = !curBook.short;') &lt;show more&gt;

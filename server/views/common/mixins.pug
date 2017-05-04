@@ -22,3 +22,8 @@ mixin myMessage(when, title)
         block
       else
         span= title
+
+mixin myMessagePopover(id, selector, when, text)
+  span.text-danger.bg-danger(id=id data-placement='top' data-toggle='popover' data-content=text)
+    if block
+      block

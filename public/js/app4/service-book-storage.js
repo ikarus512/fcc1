@@ -54,6 +54,14 @@
           }
         },
 
+        addBid: function (id, price) {
+          return $http({
+            method: 'POST',
+            data: {price:price},
+            url: '/app4/api/books/'+id+'/bid'
+          });
+        },
+
       };
 
   }]); // .factory('bookStorage', ...

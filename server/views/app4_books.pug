@@ -66,48 +66,49 @@ block content
               a(href='/app4/books/{{book._id}}') {{book.title}}
             p Keywords: {{book.keywords}}
             p Price: ${{book.price}}
+            p Owner: {{book.ownerName}}
 
 
 
     //- //////////////////////////////////////////////////////////
-    //- //  add book
+    //- //  add book form
     //- //////////////////////////////////////////////////////////
 
     .well(ng-show="mode=='addBook'"): h3 Adding New Book
 
     .well(ng-show="mode=='addBook'")
 
-      form#newBookForm(name='myForm' novalidate)
+      form#newBookForm(name='myAddBookForm' novalidate)
 
-        //- myForm.title
-        .form-group.has-feedback(ng-class="{'has-error': !myForm.title.$valid, 'has-success': myForm.title.$valid}")
+        //- myAddBookForm.title
+        .form-group.has-feedback(ng-class="{'has-error': !myAddBookForm.title.$valid, 'has-success': myAddBookForm.title.$valid}")
           label.control-label(for='inputTitle') *Title: &nbsp;
           input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='newBook.title' my-escape='modeAddBookCancel()' my-focus="mode=='addBook'" autocomplete='off' required)
 
-          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myForm.title.$valid')
-          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myForm.title.$valid')
+          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myAddBookForm.title.$valid')
+          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myAddBookForm.title.$valid')
 
-          ng-messages(for='myForm.title.$error' role='alert')
+          ng-messages(for='myAddBookForm.title.$error' role='alert')
             +myMessage('required', 'Title is required field.')
 
-        //- myForm.price
-        .form-group.has-feedback(ng-class="{'has-error': !myForm.price.$valid, 'has-success': myForm.price.$valid}")
+        //- myAddBookForm.price
+        .form-group.has-feedback(ng-class="{'has-error': !myAddBookForm.price.$valid, 'has-success': myAddBookForm.price.$valid}")
           label.control-label(for='inputPrice') *Price ($): &nbsp;
           input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='newBook.price' my-escape='modeAddBookCancel()' min='0' required)
 
-          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myForm.price.$valid')
-          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myForm.price.$valid')
+          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myAddBookForm.price.$valid')
+          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myAddBookForm.price.$valid')
 
-          ng-messages(for='myForm.price.$error' role='alert')
+          ng-messages(for='myAddBookForm.price.$error' role='alert')
             +myMessage('required', 'Price is required field.')
             +myMessage('min'     , 'Price must be non-negative.')
             +myMessage('number'  , 'Price must be number.')
 
-        //- myForm.keywords
+        //- myAddBookForm.keywords
         label Keywords (comma separated): &nbsp;
         input.form-control(placeholder='Keywords' ng-model='newBook.keywords' my-escape='modeAddBookCancel()')
 
-        //- myForm.description
+        //- myAddBookForm.description
         label Description: &nbsp;
         textarea.form-control(placeholder='Description' ng-model='newBook.description' my-escape='modeAddBookCancel()' rows='6')
 
@@ -115,15 +116,15 @@ block content
         //- photo (file)
         div
 
-          //- myForm.file
+          //- myAddBookForm.file
           label Photo: &nbsp;
           input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'100KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
 
-          ng-messages(for='myForm.file.$error' role='alert')
+          ng-messages(for='myAddBookForm.file.$error' role='alert')
             +myMessage('maxSize', 'File too large: {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.')
 
-          //- myForm.file preview
-          .thumbnail(ng-show='newBook.file && myForm.file.$valid')
+          //- myAddBookForm.file preview
+          .thumbnail(ng-show='newBook.file && myAddBookForm.file.$valid')
             .book-image-thumb
               span.book-image-helper
               img#imgPreview.book-image(ngf-thumbnail='newBook.file')
@@ -131,13 +132,13 @@ block content
 
           //- File buttons:
           //- Works like pressing on #fileInput:
-          label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myForm.file.$valid') Add Photo
-          button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myForm.file.$valid') Remove Photo
+          label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myAddBookForm.file.$valid') Add Photo
+          button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myAddBookForm.file.$valid') Remove Photo
 
 
         br
         br
         button.btn.btn-primary(ng-click='modeAddBookCancel()') Cancel
         | &nbsp;
-        button#newBookAdd.btn.btn-primary(ng-disabled='!myForm.$valid' ng-click='newBookAdd()') Add
+        button#newBookAdd.btn.btn-primary(ng-disabled='!myAddBookForm.$valid' ng-click='newBookAdd()') Add
         br

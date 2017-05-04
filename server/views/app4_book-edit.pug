@@ -1,0 +1,90 @@
+//-
+  /* file: app4_book-edit.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: App4 Book Edit
+   * AUTHOR: ikarus512
+   * CREATED: 2017/04/20
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/20, ikarus512. Initial version.
+   *
+   */
+
+form#bookEditForm(name='myBookEditForm' novalidate)
+
+  //- myBookEditForm.title
+  .form-group.has-feedback(ng-class="{'has-error': !myBookEditForm.title.$valid, 'has-success': myBookEditForm.title.$valid}")
+    label.control-label(for='inputTitle') *Title: &nbsp;
+    input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='newBook.title' required)
+
+    span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myBookEditForm.title.$valid')
+    span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myBookEditForm.title.$valid')
+
+    ng-messages(for='myBookEditForm.title.$error' role='alert')
+      +myMessage('required', 'Title is required field.')
+
+  //- myBookEditForm.price
+  .form-group.has-feedback(ng-class="{'has-error': !myBookEditForm.price.$valid, 'has-success': myBookEditForm.price.$valid}")
+    label.control-label(for='inputPrice') *Price ($): &nbsp;
+    input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='newBook.price' min='0' required)
+
+    span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myBookEditForm.price.$valid')
+    span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myBookEditForm.price.$valid')
+
+    ng-messages(for='myBookEditForm.price.$error' role='alert')
+      +myMessage('required', 'Price is required field.')
+      +myMessage('min'     , 'Price must be non-negative.')
+      +myMessage('number'  , 'Price must be number.')
+
+  //- myBookEditForm.keywords
+  label Keywords (comma separated): &nbsp;
+  input.form-control(placeholder='Keywords' ng-model='newBook.keywords')
+
+  //- myBookEditForm.description
+  label Description: &nbsp;
+  textarea.form-control(placeholder='Description' ng-model='newBook.description' rows='6')
+
+
+  //- old photo (photoId), if any
+  div(ng-show='newBook.photoId')
+    label Photo: &nbsp;
+    .thumbnail
+      .book-image-thumb
+        span.book-image-helper
+        img.book-image(ng-src='{{newBook.photoId | photo}}' alt='No photo')
+    button.btn.btn-default(ng-click='newBook.photoId = null;') Remove Photo
+
+  //- new photo (file)
+  div(ng-show='!newBook.photoId')
+
+    //- myBookEditForm.file
+    label Photo: &nbsp;
+    input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'100KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
+
+    ng-messages(for='myBookEditForm.file.$error' role='alert')
+      +myMessage('maxSize', 'File too large: {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.')
+
+    //- myBookEditForm.file preview
+    .thumbnail(ng-show='newBook.file && myBookEditForm.file.$valid')
+      .book-image-thumb
+        span.book-image-helper
+        img#imgPreview.book-image(ngf-thumbnail='newBook.file')
+    | &nbsp;
+
+    //- File buttons:
+    //- Works like pressing on #fileInput:
+    label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myBookEditForm.file.$valid') Add Photo
+    button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myBookEditForm.file.$valid') Remove Photo
+
+
+  br
+  br
+  button#bookSaveChanges.btn.btn-primary(ng-disabled='!myBookEditForm.$valid' ng-click='bookSaveChanges()') Save Changes
+  | &nbsp;
+  button#bookCancelChanges.btn.btn-primary(ng-click='bookCancelChanges()') Cancel Changes
+  | &nbsp;
+  button#bookDelete.btn.btn-primary(ng-click='bookDelete()') Delete Book
+  br

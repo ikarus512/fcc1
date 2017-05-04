@@ -23,22 +23,39 @@ var User = require('../models/users.js'),
 function dbInit(done) {
 
   var promises = [
-    User.createAdmin(),
-    User.createLocalUser({username: 'me', password: 'me', password2: 'me' }),
+
+    User.createAdmin()
+      .catch( function(err) { myErrorLog(null, err); return; }),
+
+    User.createLocalUser({username: 'me', password: 'me', password2: 'me' })
+      .catch( function(err) { myErrorLog(null, err); return; }),
+
+    User.createLocalUser({username: 'me1', password: 'me1', password2: 'me1' })
+      .catch( function(err) { myErrorLog(null, err); return; }),
+
+    User.createLocalUser({username: 'me2', password: 'me2', password2: 'me2' })
+      .catch( function(err) { myErrorLog(null, err); return; }),
+
+    User.createLocalUser({username: 'me3', password: 'me3', password2: 'me3' })
+      .catch( function(err) { myErrorLog(null, err); return; }),
+
   ];
 
+  setTimeout( function() {
+    Promise.all(promises)
 
-  return Promise.all(promises)
+    .then( function() {
+      return done();
+    })
 
-  .then( function() {
-    return done();
-  })
+    .catch( function(err) {
+      // no throw to ignore errors
+      myErrorLog(null, err);
+      return done();
+    });
+  }, 5000);
 
-  .catch( function(err) {
-    // no throw to ignore errors
-    myErrorLog(null, err);
-    return done();
-  });
+  return Promise.resolve();
 }
 
 module.exports = dbInit;
