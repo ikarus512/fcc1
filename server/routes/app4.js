@@ -164,7 +164,7 @@ router.post('/api/books', upload.single('file'), function(req, res, next) {
 
 });
 
-// POST /app4/api/books/:id/bid - add bid
+// POST /app4/api/books/:id/bid {price} - add bid
 router.post('/api/books/:id/bid', function(req, res, next) {
 
   var uid;
@@ -192,5 +192,32 @@ router.post('/api/books/:id/bid', function(req, res, next) {
 
 });
 
+// POST /app4/api/books/:bookId/choose {bidOwnerId} - choose bid to finish trade
+router.post('/api/books/:bookId/choose', function(req, res, next) {
+
+  var uid;
+  if (req.isAuthenticated()) uid = req.user._id;
+
+  // Add bid
+  Book.chooseBid(req.params.bookId, req.body.bidOwnerId, uid)
+
+  // Send the response back
+  .then( function(book) {
+    return res.status(200).json(book);
+  })
+
+  // On fail, send error response
+  .catch( PublicError, function(err) {
+    return res.status(400).json({message:err.toString()});
+  })
+
+  // Internal error
+  .catch( function(err) {
+    var message = 'Internal error e0000011.';
+    myErrorLog(null, err, message);
+    return res.status(400).json({message: message});
+  });
+
+});
 
 module.exports = router;

@@ -75,7 +75,7 @@ form#bookEditForm(name='myBookEditForm' novalidate)
     | &nbsp;
 
     //- File buttons:
-    //- Works like pressing on #fileInput:
+    //- Pressing this label works like pressing on #fileInput:
     label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myBookEditForm.file.$valid') Add Photo
     button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myBookEditForm.file.$valid') Remove Photo
 

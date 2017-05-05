@@ -13,8 +13,6 @@
    *
    */
 
-h1(ng-show='curBook.tradeFinished') Trade Finished
-
 .row(style='border: 1px solid grey' ng-cloak)
   //- --------------------
   //- --  curBook
@@ -32,15 +30,22 @@ h1(ng-show='curBook.tradeFinished') Trade Finished
           .media-body
             h4.media-heading {{curBook.title}}
             | &nbsp;
-            p
+            div(ng-show='{{curBook.tradeFinished}}')
+              .bid-chosen Trade Finished
+              br
+              br
+            div
               b Keywords:
               |  {{curBook.keywords}}
-            p
+            br
+            div
               b Price:
               |  ${{curBook.price}}
-            p
+            br
+            div
               b Owner:
               |  {{curBook.ownerName}}
+            br
 
   .col-sm-12
     p: b Description:

@@ -44,6 +44,7 @@ var BookSchema = new Schema({
   bids: [{
     by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     price: {type: Number, required: true},
+    chosen: {type: Boolean, required: true, default: false},
     msgs: [{
       at: Date,
       by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -73,6 +74,7 @@ BookSchema.statics.getBooks = function() {
       newBook.price = book.price;
       newBook.keywords = book.keywords ? book.keywords.join(', ') : '';
       newBook.description = book.description;
+      newBook.tradeFinished = book.tradeFinished;
       if (book.createdBy) {
         newBook.ownerId = book.createdBy._id;
         newBook.ownerName = book.createdBy.name;
@@ -112,6 +114,7 @@ BookSchema.statics.getBook = function(bookId,uid) {
     newBook.price = book.price;
     newBook.keywords = book.keywords ? book.keywords.join(', ') : '';
     newBook.description = book.description;
+    newBook.tradeFinished = book.tradeFinished;
     if (book.createdBy) {
       newBook.ownerId = book.createdBy._id;
       newBook.ownerName = book.createdBy.name;
@@ -130,6 +133,7 @@ BookSchema.statics.getBook = function(bookId,uid) {
           name: bid.by.name,
         },
         price: bid.price,
+        chosen: bid.chosen,
         //msgs: bid.msgs.map
       };
     })
@@ -199,7 +203,7 @@ BookSchema.statics.addBook = function(book) {
 };
 
 
-// addBook
+// addBid
 BookSchema.statics.addBid = function(bookId, bidPrice, uid) {
 
   return BookModel().findOne({_id:bookId}).exec()
@@ -218,6 +222,36 @@ BookSchema.statics.addBid = function(bookId, bidPrice, uid) {
     } else {
       book.bids.push({by:uid, price:bidPrice});
     }
+
+    return book.save();
+
+  });
+
+};
+
+
+// chooseBid
+BookSchema.statics.chooseBid = function(bookId, bidOwnerId, uid) {
+
+  return BookModel().findOne({_id:bookId}).exec()
+
+  .then( function(book) {
+
+    if(!book) throw new PublicError('No book with _id='+bookId+'.');
+
+    if(!uid.equals(book.createdBy)) throw new PublicError('Only book owner can finish trade.');
+
+
+    // Find bid
+    var bidIdx;
+    var found = book.bids.some( function(bid,idx) {
+      bidIdx = idx;
+      return bid.by.equals(bidOwnerId);
+    });
+    if (!found) throw new PublicError('Book (id='+bookId+') does not have bid by user with _id='+bidOwnerId+'.');
+
+    book.tradeFinished = true;
+    book.bids[bidIdx].chosen = true;
 
     return book.save();
 

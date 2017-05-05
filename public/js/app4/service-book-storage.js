@@ -62,6 +62,14 @@
           });
         },
 
+        chooseBid: function (bookId, bidOwnerId) {
+          return $http({
+            method: 'POST',
+            data: {bidOwnerId:bidOwnerId},
+            url: '/app4/api/books/'+bookId+'/choose'
+          });
+        },
+
       };
 
   }]); // .factory('bookStorage', ...

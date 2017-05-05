@@ -44,7 +44,7 @@ block content
     //- //////////////////////////////////////////////////////////
 
     #modeAddBookButtonDiv.well(ng-show="mode=='books' && logintype")
-      button#modeAddBookButton.btn.btn-primary(ng-click='modeAddBook()') Add Book
+      button#modeAddBookButton.btn.btn-primary(type='button' ng-click='modeAddBook()') Add Book
 
     #noBooks.well(ng-show="mode=='books' && !books.length" ng-cloak): label No books.
 
@@ -64,6 +64,7 @@ block content
           .media-body
             h4.media-heading
               a(href='/app4/books/{{book._id}}') {{book.title}}
+            div: .bid-chosen(ng-show='{{book.tradeFinished}}') Trade Finished
             p Keywords: {{book.keywords}}
             p Price: ${{book.price}}
             p Owner: {{book.ownerName}}
@@ -133,12 +134,12 @@ block content
           //- File buttons:
           //- Works like pressing on #fileInput:
           label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myAddBookForm.file.$valid') Add Photo
-          button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myAddBookForm.file.$valid') Remove Photo
+          button.btn.btn-default(type='button' ng-click='clearFile()' ng-show='newBook.file || !myAddBookForm.file.$valid') Remove Photo
 
 
         br
         br
-        button.btn.btn-primary(ng-click='modeAddBookCancel()') Cancel
+        button.btn.btn-primary(type='button' ng-click='modeAddBookCancel()') Cancel
         | &nbsp;
-        button#newBookAdd.btn.btn-primary(ng-disabled='!myAddBookForm.$valid' ng-click='newBookAdd()') Add
+        button#newBookAdd.btn.btn-primary(type='button' ng-disabled='!myAddBookForm.$valid' ng-click='newBookAdd()') Add
         br

@@ -19,12 +19,12 @@ h3.alert.alert-danger(ng-show='curBook.tradeFinished') Trade Finished
 //- //  add bid form
 //- //////////////////////////////////////////////////////////
 
-form#addBidForm(name='addBidForm' novalidate ng-show='uid!==curBook.ownerId && !curBook.hasBid')
+form#addBidForm(name='addBidForm' novalidate ng-show='uid!==curBook.ownerId && !curBook.hasBid && !curBook.tradeFinished')
 
   //- addBidForm.price
   .form-group.has-feedback(ng-class="{'has-error': !addBidForm.price.$valid, 'has-success': addBidForm.price.$valid}")
     label.control-label(for='inputPrice') *Bid price ($): &nbsp;
-    input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='newBidPrice' min='0' required my-focus='1')
+    input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='newBidPrice' min='0' required my-focus='uid!==curBook.ownerId && !curBook.hasBid && !curBook.tradeFinished' my-enter='addBid()')
 
     span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='addBidForm.price.$valid')
     span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!addBidForm.price.$valid')
@@ -34,7 +34,7 @@ form#addBidForm(name='addBidForm' novalidate ng-show='uid!==curBook.ownerId && !
       +myMessage('min'     , 'Bid price must be non-negative.')
       +myMessage('number'  , 'Bid price must be number.')
 
-  button#addBid.btn.btn-primary(ng-disabled='!addBidForm.$valid' ng-click='addBid()') Add Bid
+  button#addBid.btn.btn-primary(type='button' ng-disabled='!addBidForm.$valid' ng-click='addBid()') Add Bid
 
 
 //- //////////////////////////////////////////////////////////
@@ -43,24 +43,38 @@ form#addBidForm(name='addBidForm' novalidate ng-show='uid!==curBook.ownerId && !
 
 form.form-inline#updateBidForm(name='updateBidForm' novalidate): .bids(ng-repeat='bid in curBook.bids' ng-cloak)
 
+  //- Bid view for non-owner
   .bid.bid-bg-gray(ng-show='uid!==bid.by._id')
     .bid-price ${{bid.price}} &nbsp;
     .bid-user {{bid.by.name}} &nbsp;
 
+    //- Book owner can choose the bid to finish trade
+    button.btn.btn-primary.btn-xs(type='button' id='chooseBidButton{{$index}}' ng-show='!curBook.tradeFinished && uid===curBook.ownerId' ng-click='chooseBid($index)') Choose this Bid to Finish Trade
+    | &nbsp;
+
+    .bid-chosen(ng-show='bid.chosen') Chosen Bid
+    | &nbsp;
+
+  //- Bid view for bid owner
   .bid(ng-show='uid===bid.by._id')
     .bid-price ${{bid.price}} &nbsp;
     .bid-user you &nbsp;
 
-    - var priceError = 'updateBidForm[\'price\'+$index].$error';
-    - var selector = '#updatePriceInput{{$index}}';
-    +myMessagePopover('priceRequired{{$index}}', '#msg1', priceError+'.required', 'required field')
-      +myMessagePopover('priceMin{{$index}}'     , '#msg2', priceError+'.min'     , 'must be non-negative')
-        +myMessagePopover('priceNumber{{$index}}'  , '#msg3', priceError+'.number'  , 'must be number')
-          input.input-sm.def-colors(id='updatePriceInput{{$index}}' type='number' placeholder='Bid Price' name='price{{$index}}' ng-model='bid.updateBidPrice' min='0' required my-focus='1' my-enter='updateBid(bid.price,bid.updateBidPrice)')
+    //- Bid owner can change his bid
+    span(ng-show='!curBook.tradeFinished')
+      - var priceError = 'updateBidForm[\'price\'+$index].$error';
+      - var selector = '#updatePriceInput{{$index}}';
+      +myMessagePopover('priceRequired{{$index}}', '#msg1', priceError+'.required', 'required field')
+        +myMessagePopover('priceMin{{$index}}'     , '#msg2', priceError+'.min'     , 'must be non-negative')
+          +myMessagePopover('priceNumber{{$index}}'  , '#msg3', priceError+'.number'  , 'must be number')
+            input.input-sm.def-colors(id='updatePriceInput{{$index}}' type='number' placeholder='Bid Price' name='price{{$index}}' ng-model='bid.updateBidPrice' min='0' required my-focus='!curBook.tradeFinished' my-enter='updateBid(bid.price,bid.updateBidPrice)')
 
+            | &nbsp;
+
+    span(ng-show='!curBook.tradeFinished')
+      button.btn.btn-primary.btn-xs(type='button' id='updateBidButton{{$index}}' ng-disabled='!updateBidForm[\'price\'+$index].$valid || bid.price===bid.updateBidPrice' ng-click='updateBid(bid.price,bid.updateBidPrice)') Update Bid Price
+
+      | &nbsp;
+
+    .bid-chosen(ng-show='bid.chosen') Chosen Bid
     | &nbsp;
-
-    button.btn.btn-primary.btn-xs(id='updateBidButton{{$index}}' ng-disabled='!updateBidForm[\'price\'+$index].$valid || bid.price===bid.updateBidPrice' ng-click='updateBid(bid.price,bid.updateBidPrice)') Update Bid Price
-    | &nbsp;
-
-    .bid-user you &nbsp;

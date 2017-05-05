@@ -22,7 +22,7 @@
 
       bookRefresh();
 
-      function bookRefresh() {
+      function bookRefresh(noreset) {
 
         $scope.bidIdx = -1;
 
@@ -114,7 +114,7 @@
                 ); // scope.$watch('data',...)
             }
 
-            $scope.bookCancelChanges(); // reset newBook=curBook
+            if(!noreset) $scope.bookCancelChanges(); // reset newBook=curBook
           })
 
           .catch( function(res) {
@@ -126,6 +126,18 @@
         }
 
       } // function bookRefresh(...)
+
+      $scope.chooseBid = function(bidIdx) {
+
+        if (confirm('Do you really want to finish trade with price $'+
+          $scope.curBook.bids[bidIdx].price+'?'))
+        {
+          bookStorage.chooseBid($scope.curBook._id, $scope.curBook.bids[bidIdx].by._id)
+          .then( function(res) { bookRefresh(); })
+          .catch( function(res) { MyError.alert(res); });
+        }
+
+      }; // $scope.chooseBid = function(...)
 
       $scope.addBid = function() {
 

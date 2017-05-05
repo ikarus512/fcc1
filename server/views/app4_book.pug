@@ -52,7 +52,7 @@ block content
     //- //  book trade
     //- //////////////////////////////////////////////////////////
 
-    .well
+    .well(ng-show='curBook')
       h3 Trade:
 
       include ./app4_book-trade.pug
@@ -61,7 +61,7 @@ block content
     //- //  book edit
     //- //////////////////////////////////////////////////////////
 
-    .well(ng-show='uid===curBook.ownerId')
+    .well(ng-show='curBook && !curBook.tradeFinished && uid===curBook.ownerId')
       h3 Change Book Details:
 
       include ./app4_book-edit.pug
