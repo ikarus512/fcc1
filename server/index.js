@@ -197,32 +197,20 @@ if (!isHeroku()) {
       });
     }));
 
-    promises.push( dbInit( function() { console.log('DB initialized.'); }) );
+    if (process.env.NODE_ENV.match(/^test/)) {
+      promises.push( dbInit( function() { console.log('DB initialized.'); }) );
+    }
 
     Promise.all(promises)
     .then( function() {
       console.log('Server ready.');
 
-      if (process.env.NODE_ENV !== 'production') {
-
-        // Start cocket.io server
-
-        // Using socket.io during tests to:
-        // 1) stop server in response to the npmStop signal,
-        // 2) answer to client in response to npmServerRequest signal.
-        var io = require('socket.io')(server);
-        io.on('connection', function(socketServer) { // Here if new client connected
-          socketServer.on('npmStop', function() {
-            console.log('Server received npmStop.');
-            process.exit(0); // Stop server
-          });
-          socketServer.on('npmServerRequest', function(data) {
-            console.log('Server received request: ', data);
-            socketServer.emit('new message', 'Server is ready.'); // Answer to client
-          });
-        });
-
+      if (!process.env.NODE_ENV.match(/^test/)) {
+        dbInit( function() { console.log('DB initialized.'); });
       }
+
+      // Start socket.io server
+      require('./modules/socket-io-server.js')(server);
 
       // Start webSocket server
       require('./utils/app3/web-sockets.js')(server);
