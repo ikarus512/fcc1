@@ -21,7 +21,7 @@
         APP3_STOCK_MAX_LENGTH = 4 * APP3_STOCK_PORTION_LENGTH;
 
       function initData() {
-        var i,j, d = new Date(), data = {}, stockNames = ['stock1', 'stock2', 'stock3'];
+        var i,j, d = new Date(), data = {}, stockNames = ['initialZeroLine'];
 
         data.x = [];
         for (i=0; i<APP3_STOCK_MAX_LENGTH; i++ ) {

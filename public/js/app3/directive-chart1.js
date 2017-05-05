@@ -245,7 +245,9 @@
             .datum( function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
               .attr('x', 10)
               .attr('transform', function(d) { return 'translate(' + x(d.value.x) + ',' + y(d.value.y) + ')'; })
-              .text( function(d) { return d.id; });
+              .text( function(d) {
+                if (d.id !== 'initialZeroLine') return d.id; // do not label initialZeroLine
+              });
 
           } // function chartUpdate(...)
 
