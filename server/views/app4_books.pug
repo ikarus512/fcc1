@@ -64,7 +64,7 @@ block content
           .media-body
             h4.media-heading
               a(href='/app4/books/{{book._id}}') {{book.title}}
-            div: .bid-chosen(ng-show='{{book.tradeFinished}}') Trade Finished
+            div: .bid-chosen(ng-show='book.tradeFinished') Trade Finished
             p Keywords: {{book.keywords}}
             p Price: ${{book.price}}
             p Owner: {{book.ownerName}}

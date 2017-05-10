@@ -30,7 +30,7 @@
           .media-body
             h4.media-heading {{curBook.title}}
             | &nbsp;
-            div(ng-show='{{curBook.tradeFinished}}')
+            div(ng-show='curBook.tradeFinished')
               .bid-chosen Trade Finished
               br
               br
@@ -49,13 +49,13 @@
 
   .col-sm-12
     p: b Description:
-    p(style='white-space: pre-line;')
-      span(ng-show='curBook.noShort')
-        span {{curBook.description}}
-      span(ng-show='!curBook.noShort && !curBook.short')
-        span {{curBook.description}}
-        p: a(ng-show='!curBook.short' ng-click='curBook.short = !curBook.short;') &lt;show less&gt;
-      span(ng-show='!curBook.noShort && curBook.short')
-        span {{curBook.descriptionShort}}
-        span ...&nbsp;
-        a(ng-click='curBook.short = !curBook.short;') &lt;show more&gt;
+    p(ng-show='curBook.short')
+      span(style='white-space: pre-line;') {{curBook.descriptionShort}}
+      span ... &nbsp;
+      a(ng-click='curBook.short = !curBook.short;') &lt;show more&gt;
+    p(ng-show='!curBook.short')
+      span(ng-show='curBook.descriptionShort')
+        a(ng-click='curBook.short = !curBook.short;') &lt;show less&gt;
+        br
+        br
+      span(style='white-space: pre-line;') {{curBook.description}}

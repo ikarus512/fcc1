@@ -65,18 +65,4 @@ module.exports = function(server) {
     });
   });
 
-
-
-  setInterval( function() {
-    try {
-      var newData = wsStore.getNewData();
-      // wss.clients.forEach( function(client) {
-      registeredClients.forEach( function(client) {
-        client.send(JSON.stringify({msgtype: 'stocks-data', data: newData}));
-      });
-    } catch(err) {
-      myErrorLog(null, err);
-    }
-  }, 0.5*1000 * APPCONST.APP3_STOCK_PORTION_LENGTH);
-
 };

@@ -39,9 +39,6 @@
               if (s.length > 200) {
                 $scope.curBook.descriptionShort = s.substr(0, 200);
                 $scope.curBook.short = true;
-                $scope.curBook.noShort = false;
-              } else {
-                $scope.curBook.noShort = true;
               }
             }
 

@@ -15,11 +15,13 @@
 
 h3.alert.alert-danger(ng-show='curBook.tradeFinished') Trade Finished
 
+h3.alert.alert-danger(ng-show='!curBook.tradeFinished && !logintype') Please log in to participate in the trade.
+
 //- //////////////////////////////////////////////////////////
 //- //  add bid form
 //- //////////////////////////////////////////////////////////
 
-form#addBidForm(name='addBidForm' novalidate ng-show='uid!==curBook.ownerId && !curBook.hasBid && !curBook.tradeFinished')
+form#addBidForm(name='addBidForm' novalidate ng-show='uid!==curBook.ownerId && !curBook.hasBid && !curBook.tradeFinished && logintype')
 
   //- addBidForm.price
   .form-group.has-feedback(ng-class="{'has-error': !addBidForm.price.$valid, 'has-success': addBidForm.price.$valid}")
@@ -58,7 +60,7 @@ form.form-inline#updateBidForm(name='updateBidForm' novalidate): .bids(ng-repeat
   //- Bid view for bid owner
   .bid(ng-show='uid===bid.by._id')
     .bid-price ${{bid.price}} &nbsp;
-    .bid-user you &nbsp;
+    .bid-user {{bid.by.name}} (you) &nbsp;
 
     //- Bid owner can change his bid
     span(ng-show='!curBook.tradeFinished')
