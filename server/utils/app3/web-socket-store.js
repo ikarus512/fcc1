@@ -1,9 +1,9 @@
-/* file: web-sockets-store.js */
+/* file: web-socket-store.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: App3 Web Sockets Store
+ * DESCRIPTION: App3 Web Socket Store
  * AUTHOR: ikarus512
  * CREATED: 2017/04/14
  *

@@ -26,14 +26,14 @@ block scriptBeforeBody
   script(src='/js/app3/controller-main.js')
   script(src='/js/app3/directive-chart1.js')
   script(src='/js/app3/service-rest.js')
-  script(src='/js/app3/service-websockets.js')
+  script(src='/js/app3/service-websocket.js')
   script(src='/js/service-my-error.js')
 
 
 block content
   .well
     h3 Chart the Stock Market
-    p Using WebSockets, Angular, D3.
+    p Using WebSocket, Angular, D3.
 
   .well
     div(class='ng-app' ng-app='myapp' ng-controller='myApp3ControllerMain' ng-init="init('"+logintype+"','"+username+"')" ng-cloak)

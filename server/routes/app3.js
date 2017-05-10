@@ -18,7 +18,7 @@
 var express = require('express'),
   router = express.Router(),
   path = require('path'),
-  wsStore = require('./../utils/app3/web-sockets-store.js'),
+  wsStore = require('./../utils/app3/web-socket-store.js'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
   createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
   PublicError = require('../utils/public-error.js'),

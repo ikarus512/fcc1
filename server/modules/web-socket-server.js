@@ -1,9 +1,9 @@
-/* file: web-sockets-server.js */
+/* file: web-socket-server.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: App3 Web Sockets Service
+ * DESCRIPTION: App3 Web Socket Service
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *
@@ -16,7 +16,7 @@
 'use strict';
 
 var
-  wsStore = require('./web-sockets-store.js'),
+  wsStore = require('./web-socket-store.js'),
   APPCONST = require('./../../config/constants.js'),
   myErrorLog = require('./../../utils/my-error-log.js'),
   registeredClients = [];

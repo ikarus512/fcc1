@@ -213,7 +213,7 @@ if (!isHeroku()) {
       require('./modules/socket-io-server.js')(server);
 
       // Start webSocket server
-      require('./utils/app3/web-sockets.js')(server);
+      require('./utils/app3/web-socket.js')(server);
 
       if (done) return done();
       return;
@@ -242,7 +242,7 @@ if (!isHeroku()) {
       console.log('Heroku app listening on port '+app.get('port')+'.');
     });
     dbInit( function() {});
-    require('./utils/app3/web-sockets.js')(server);
+    require('./utils/app3/web-socket.js')(server);
   };
 
   shutdown = function() {
