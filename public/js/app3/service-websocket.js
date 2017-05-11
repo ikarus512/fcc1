@@ -24,7 +24,7 @@
         var wsTicket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
         // Register WebSocket ticket (to be able to receive messages from server)
         setTimeout( function() {
-          ws.send(JSON.stringify({msgtype:'check-ticket',ticket:wsTicket}));
+          ws.send(JSON.stringify({msgtype:'app3-check-ticket',ticket:wsTicket}));
         },1500); // Delay for heroku.com
       })
       .catch( function(res) {
@@ -43,11 +43,11 @@
       };
 
       Service.addStockName = function(stockName) {
-        ws.send(JSON.stringify({msgtype: 'add-stock-name', stockName: stockName}));
+        ws.send(JSON.stringify({msgtype: 'app3-add-stock-name', stockName: stockName}));
       };
 
       Service.removeStockName = function(stockName) {
-        ws.send(JSON.stringify({msgtype: 'remove-stock-name', stockName: stockName}));
+        ws.send(JSON.stringify({msgtype: 'app3-remove-stock-name', stockName: stockName}));
       };
 
       return Service;

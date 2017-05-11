@@ -9,6 +9,7 @@
  *
  * MODIFICATION HISTORY
  *  2017/04/04, ikarus512. Added copyright header.
+ *  2017/05/11, ikarus512. Web socker server formed as module.
  *
  */
 
@@ -19,42 +20,33 @@ var
   wsStore = require('./web-socket-store.js'),
   APPCONST = require('./../../config/constants.js'),
   myErrorLog = require('./../../utils/my-error-log.js'),
-  registeredClients = [];
+  registeredClients = [],
 
-module.exports = function(server) {
+  wsHandlers = {
 
-  var
-    SocketServer = require('ws').Server,
-    wss = new SocketServer({server:server});
-
-  wss.on('error', function (err) {
-    myErrorLog(null, err);
-  });
-
-  wss.on('connection', function(ws) {
-
-    ws.on('message', function(msg) {
-      try {
-        var data = JSON.parse(msg);
-        if (data.msgtype === 'check-ticket') {
-          if(wsStore.ticketCheck(data.ticket)) { // If ticket ok
-            // Save ticket
-            ws.myTicket = data.ticket;
-            // Save client
-            registeredClients.push(ws);
-          }
-        } else if (ws.myTicket && data.msgtype === 'add-stock-name') {
-          wsStore.addStockName(data.stockName);
-        } else if (ws.myTicket && data.msgtype === 'remove-stock-name') {
-          wsStore.removeStockName(data.stockName);
-        }
-      } catch(err) {
-        myErrorLog(null, err);
+    'app3-check-ticket': function(ws, data) {
+      if(wsStore.ticketCheck(data.ticket)) { // If ticket ok
+        // Save ticket
+        ws.myTicket = data.ticket;
+        // Save client
+        registeredClients.push(ws);
       }
-    });
+    },
 
-    ws.on('close', function() {
-      var i=registeredClients.indexOf(ws);
+    'app3-add-stock-name': function(ws, data) {
+      if(ws.myTicket) { // If ticket ok
+        wsStore.addStockName(data.stockName);
+      }
+    },
+
+    'app3-remove-stock-name': function(ws, data) {
+      if(ws.myTicket) { // If ticket ok
+        wsStore.removeStockName(data.stockName);
+      }
+    },
+
+    'onClose': function(ws) {
+      var i = registeredClients.indexOf(ws);
       if (i>=0) {
         // Remove ticket
         wsStore.ticketRemove(registeredClients[i].myTicket);
@@ -62,21 +54,20 @@ module.exports = function(server) {
         // Remove client
         registeredClients.splice(i,1);
       }
+    },
+
+  };
+
+setInterval( function() {
+  try {
+    var newData = wsStore.getNewData();
+    // wss.clients.forEach( function(client) {
+    registeredClients.forEach( function(client) {
+      client.send(JSON.stringify({msgtype: 'stocks-data', data: newData}));
     });
-  });
+  } catch(err) {
+    myErrorLog(null, err);
+  }
+}, 0.5*1000 * APPCONST.APP3_STOCK_PORTION_LENGTH);
 
-
-
-  setInterval( function() {
-    try {
-      var newData = wsStore.getNewData();
-      // wss.clients.forEach( function(client) {
-      registeredClients.forEach( function(client) {
-        client.send(JSON.stringify({msgtype: 'stocks-data', data: newData}));
-      });
-    } catch(err) {
-      myErrorLog(null, err);
-    }
-  }, 0.5*1000 * APPCONST.APP3_STOCK_PORTION_LENGTH);
-
-};
+module.exports = wsHandlers;
