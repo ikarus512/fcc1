@@ -290,7 +290,7 @@
             at: new Date(),
             text: bid.newMsg,
           };
-          WebSocketService.sendMessage($scope.curBook._id,from,to,new Date(),bid.newMsg)
+          WebSocketService.sendMessage($scope.curBook._id,from,to,new Date(),bid.newMsg);
           bid.msgs.push(msg);
           bid.newMsg = '';
         }
