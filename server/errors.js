@@ -16,6 +16,7 @@
 'use strict';
 
 var internalErrors = {
+  'e0000012': 'Error during GET /app4/api/get-ws-ticket',
   'e0000011': 'Error during POST /settings/api/books/:id/bid',
   'e0000010': 'Error during DELETE /settings/api/users/:id',
   'e000000f': 'Error during GET /settings/api/users/:id',

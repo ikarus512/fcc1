@@ -8,7 +8,7 @@
  * CREATED: 2017/05/11
  *
  * MODIFICATION HISTORY
- *  2017/05/11, ikarus512. Web socker server formed as module.
+ *  2017/05/11, ikarus512. Web socket server formed as module.
  *
  */
 

@@ -1,0 +1,32 @@
+//-
+  /* file: app4_book-trade-talk.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: App4 Bid Owner Talk with Book Owner
+   * AUTHOR: ikarus512
+   * CREATED: 2017/05/02
+   *
+   * MODIFICATION HISTORY
+   *  2017/05/02, ikarus512. Initial version.
+   *
+   */
+
+button.btn.btn-primary.btn-xs(type='button' id='showPrivateTalkBidder{{$index}}' ng-show='uid===bid.by._id' ng-click='bid.showBidderTalk = !bid.showBidderTalk;') Hide/Show Private Talk
+br
+
+.talk(ng-show='uid===bid.by._id && bid.showBidderTalk')
+  .msgs(id='msgs{{$index}}' my-scroll-bottom='bid.msgs')
+    .msg(ng-repeat='msg in bid.msgs')
+      .msg-by-me(ng-show='msg.by._id === uid') {{msg.by.name}}
+      .msg-by(   ng-hide='msg.by._id === uid') {{msg.by.name}}
+      b , &nbsp;
+      .msg-at {{msg.at | msgtime}}
+      b : &nbsp;
+      .msg-text {{msg.text}}
+
+  label New Message:
+  br
+  textarea.form-control(id='newMsg{{$index}}' ng-model='bid.newMsg' rows='3' my-enter='sendMsg(bid, uid, curBook.ownerId)')
+  button.btn.btn-primary(type='button' id='btnSendMsgBidder{{$index}}' ng-click='sendMsg(bid, uid, curBook.ownerId)') Send

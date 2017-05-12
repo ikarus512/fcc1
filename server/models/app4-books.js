@@ -95,7 +95,7 @@ BookSchema.statics.getBooks = function() {
     return filteredBooks;
   });
 
-};
+}; // getBooks
 
 
 // getBook
@@ -103,7 +103,7 @@ BookSchema.statics.getBook = function(bookId,uid) {
 
   var newBook;
 
-  return BookModel().findOne({_id:bookId}).populate(['createdBy','bids.by']).exec()
+  return BookModel().findOne({_id:bookId}).populate(['createdBy','bids.by','bids.msgs.by']).exec()
 
   // Filter book data
   .then( function(book) {
@@ -127,6 +127,21 @@ BookSchema.statics.getBook = function(bookId,uid) {
     newBook.bids = book.bids
 
     .map( function(bid) {
+
+      // Msgs can be seen only by bidder and book owner
+      var msgs = [];
+      if ( uid.equals(bid.by._id) || uid.equals(newBook.ownerId) ) {
+        if (bid.msgs) {
+          msgs = bid.msgs.map( function(msg) {
+            return {
+              by: {_id: msg.by._id, name: msg.by.name},
+              at: msg.at,
+              text: msg.text,
+            };
+          });
+        }
+      }
+
       return {
         by: {
           _id: bid.by._id,
@@ -134,7 +149,7 @@ BookSchema.statics.getBook = function(bookId,uid) {
         },
         price: bid.price,
         chosen: bid.chosen,
-        //msgs: bid.msgs.map
+        msgs: msgs,
       };
     })
 
@@ -153,7 +168,7 @@ BookSchema.statics.getBook = function(bookId,uid) {
     return newBook;
   });
 
-};
+}; // getBook
 
 // removeBook
 BookSchema.statics.removeBook = function(bookId,uid) {
@@ -166,7 +181,7 @@ BookSchema.statics.removeBook = function(bookId,uid) {
     return BookModel().findOneAndRemove({_id:bookId}).exec();
   });
 
-};
+}; // removeBook
 
 // addBook
 BookSchema.statics.addBook = function(book) {
@@ -200,7 +215,7 @@ BookSchema.statics.addBook = function(book) {
 
   });
 
-};
+}; // addBook
 
 
 // addBid
@@ -227,7 +242,45 @@ BookSchema.statics.addBid = function(bookId, bidPrice, uid) {
 
   });
 
-};
+}; // addBid
+
+
+// addMsg
+BookSchema.statics.addMsg = function(bookId, from, to, time, text) {
+
+  return BookModel().findOne({_id:bookId}).exec()
+
+  .then( function(book) {
+    if(!book) throw new PublicError('No book with _id='+bookId+'.');
+
+    if(!book.createdBy.equals(from) && !book.createdBy.equals(to))
+      throw new PublicError('Incorrect from/to fields.');
+
+    var bidId = (book.createdBy.equals(from)) ? to : from;
+
+    // Find/update bid
+    var bidIdx;
+    var found = book.bids.some( function(bid,idx) {
+      bidIdx = idx;
+      return bid.by.equals(bidId);
+    });
+    if (found) {
+      book.bids[bidIdx].msgs = book.bids[bidIdx].msgs || [];
+      var msg = {
+        at: time,
+        by: from,
+        text: text,
+      };
+      book.bids[bidIdx].msgs.push(msg);
+    } else {
+      throw new PublicError('Incorrect from/to fields (no such bid).');
+    }
+
+    return book.save();
+
+  });
+
+}; // addMsg
 
 
 // chooseBid
@@ -257,7 +310,7 @@ BookSchema.statics.chooseBid = function(bookId, bidOwnerId, uid) {
 
   });
 
-};
+}; // chooseBid
 
 
 ////////////////////////////////////////////////////////////////

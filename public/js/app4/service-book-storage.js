@@ -70,6 +70,13 @@
           });
         },
 
+        getWsTicket: function () {
+          return $http({
+            method: 'GET',
+            data:{},
+            url: '/app4/api/get-ws-ticket'
+          });
+        },
       };
 
   }]); // .factory('bookStorage', ...

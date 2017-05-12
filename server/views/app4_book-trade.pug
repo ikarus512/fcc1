@@ -59,6 +59,8 @@ form.form-inline#updateBidForm(name='updateBidForm' novalidate): .bids(ng-repeat
     .bid-chosen(ng-show='bid.chosen') Chosen Bid
     | &nbsp;
 
+    include ./app4_book-trade-talk-owner.pug
+
   //- Bid view for bid owner
   .bid(ng-show='uid===bid.by._id')
     .bid-price ${{bid.price}} &nbsp;
@@ -82,3 +84,5 @@ form.form-inline#updateBidForm(name='updateBidForm' novalidate): .bids(ng-repeat
 
     .bid-chosen(ng-show='bid.chosen') Chosen Bid
     | &nbsp;
+
+    include ./app4_book-trade-talk-bidder.pug

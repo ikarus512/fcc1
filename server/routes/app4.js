@@ -19,6 +19,7 @@
 var express = require('express'),
   router = express.Router(),
   path = require('path'),
+  wsStore = require('./../utils/app4/web-socket-store.js'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
   Promise = require('bluebird'),
   PublicError = require('../utils/public-error.js'),
@@ -217,6 +218,33 @@ router.post('/api/books/:bookId/choose', function(req, res, next) {
     myErrorLog(null, err, message);
     return res.status(400).json({message: message});
   });
+
+});
+
+// RESTAPI GET    /app4/api/get-ws-ticket - get web socket ticket
+router.get('/api/get-ws-ticket', function(req, res, next) {
+
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({message:'Error: Only authorized person can get Web Socket ticket.'});
+  }
+
+  try {
+
+    var ticket = wsStore.ticketGenerate(req.user.name);
+
+    return res.status(200).json({ticket: ticket});
+
+  } catch(err) {
+
+    if (err instanceof PublicError) {
+      return res.status(400).json({message:err.toString()});
+    } else {
+      var message = 'Internal error e0000012.';
+      myErrorLog(null, err, message);
+      return res.status(400).json({message:message});
+    }
+
+  }
 
 });
 

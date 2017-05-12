@@ -9,7 +9,7 @@
  *
  * MODIFICATION HISTORY
  *  2017/04/04, ikarus512. Added copyright header.
- *  2017/05/11, ikarus512. Web socker server formed as module.
+ *  2017/05/11, ikarus512. Web socket server formed as module.
  *
  */
 

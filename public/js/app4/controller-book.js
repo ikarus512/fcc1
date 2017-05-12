@@ -10,12 +10,13 @@
   angular.module('myapp')
 
   .controller('myApp4ControllerBook', [
-    '$scope', '$window', '$timeout', 'bookStorage', 'MyError',
-    function ($scope, $window, $timeout, bookStorage, MyError) {
+    '$scope', '$window', '$timeout', 'bookStorage', 'WebSocketService', 'MyError',
+    function ($scope, $window, $timeout, bookStorage, WebSocketService, MyError) {
 
-      $scope.init = function(logintype,uid,bookId) {
+      $scope.init = function(logintype,uid,username,bookId) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
         $scope.uid = uid==='undefined' ? '' : uid;
+        $scope.username = username==='undefined' ? '' : username;
         $scope.bookId = bookId==='undefined' ? '' : bookId;
         bookRefresh();
       };
@@ -31,25 +32,34 @@
           bookStorage.getBook($scope.bookId)
 
           .then( function(res) {
-            $scope.curBook = res.data;
+            var cur = $scope.curBook;
+            var curBook = res.data;
 
             // description: show more/show less
-            if ($scope.curBook) {
-              var s = String($scope.curBook.description);
+            if (curBook) {
+              var s = String(curBook.description);
               if (s.length > 200) {
-                $scope.curBook.descriptionShort = s.substr(0, 200);
-                $scope.curBook.short = true;
+                curBook.descriptionShort = s.substr(0, 200);
+                curBook.short = true;
               }
             }
 
             // Filter bids
-            if ($scope.curBook.bids) {
+            if (curBook.bids) {
+
+              // Filter bid.msgs
+              curBook.bids.forEach( function(bid) {
+                if (!bid.msgs) bid.msgs = [];
+                // bid.msgs.forEach( function(msg) {
+                //   msg.time = new Date(msg.time);
+                // });
+              });
 
               // Prepare bid price for update
-              $scope.curBook.bids.forEach( function(bid) { bid.updateBidPrice = bid.price; });
+              curBook.bids.forEach( function(bid) { bid.updateBidPrice = bid.price; });
 
               // Check if user has bid
-              $scope.curBook.hasBid = $scope.curBook.bids.some( function(bid,idx) {
+              curBook.hasBid = curBook.bids.some( function(bid,idx) {
                 var found = bid.by._id === $scope.uid;
                 if (found) {
                   $scope.bidIdx = idx;
@@ -111,6 +121,8 @@
                 ); // scope.$watch('data',...)
             }
 
+            $scope.curBook = curBook;
+
             if(!noreset) $scope.bookCancelChanges(); // reset newBook=curBook
           })
 
@@ -118,6 +130,14 @@
             $scope.curBook = null;
             $scope.newBook = null;
             MyError.alert(res);
+          })
+
+          .then( function() {
+            WebSocketService.subscribe(
+              $scope.bookId,
+              $scope.uid,
+              receiveMessage
+            );
           });
 
         }
@@ -225,7 +245,57 @@
 
       $scope.goBooksPage = function() {
         $window.location.href = '/app4/books'; // return to books page
-      };
+      }; // $scope.goBooksPage = function(...)
+
+
+      function receiveMessage(data) {
+        var bidId, msgBy;
+        if (data.msgtype==='app4-message') {
+          if ($scope.curBook.ownerId === data.to) {
+            // Message from bidder to book owner
+            bidId = data.from;
+
+            var name;
+            $scope.curBook.bids.some( function(bid) { name = bid.by.name; return bid.by._id === bidId; });
+            msgBy = {_id: data.from, name: name};
+          } else {
+            // Message from book owner to bidder
+            bidId = data.to;
+            msgBy = {_id: data.from, name: $scope.curBook.ownerName};
+          }
+
+          // Filter bid.msgs
+          var bidIdx;
+          var found = $scope.curBook.bids.some( function(bid,idx) {
+            bidIdx = idx;
+            return bid.by._id === bidId;
+          });
+          if (found) {
+            var msg = {
+              by: msgBy,
+              at: data.time,
+              text: data.text,
+            };
+            $scope.curBook.bids[bidIdx].msgs.push(msg);
+            $scope.$apply();
+          }
+
+        }
+      }
+
+      $scope.sendMsg = function(bid, from, to) {
+        if (bid.newMsg) {
+          var msg = {
+            by: {_id: $scope.uid, name: $scope.username},
+            at: new Date(),
+            text: bid.newMsg,
+          };
+          WebSocketService.sendMessage($scope.curBook._id,from,to,new Date(),bid.newMsg)
+          bid.msgs.push(msg);
+          bid.newMsg = '';
+        }
+      }; // $scope.sendMsg = function(...)
+
 
   }]); // .controller('myApp4ControllerBook', ...
 
