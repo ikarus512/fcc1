@@ -43,10 +43,21 @@ block content
     //- //  book view
     //- //////////////////////////////////////////////////////////
 
-    #books.well(ng-show='curBook' ng-cloak)
+    #books.well(ng-show='curBook && (uid!==curBook.ownerId || curBook.tradeFinished)' ng-cloak)
       h3 Book:
 
       include ./app4_book-view.pug
+
+
+    //- //////////////////////////////////////////////////////////
+    //- //  book edit
+    //- //////////////////////////////////////////////////////////
+
+    .well(ng-show='curBook && !curBook.tradeFinished && uid===curBook.ownerId')
+      h3 Book:
+
+      include ./app4_book-edit.pug
+
 
     //- //////////////////////////////////////////////////////////
     //- //  book trade
@@ -56,15 +67,6 @@ block content
       h3 Trade:
 
       include ./app4_book-trade.pug
-
-    //- //////////////////////////////////////////////////////////
-    //- //  book edit
-    //- //////////////////////////////////////////////////////////
-
-    .well(ng-show='curBook && !curBook.tradeFinished && uid===curBook.ownerId')
-      h3 Change Book Details:
-
-      include ./app4_book-edit.pug
 
 
     //- //////////////////////////////////////////////////////////
