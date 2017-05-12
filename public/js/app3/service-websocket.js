@@ -33,7 +33,7 @@
 
       ws.onmessage = function(message) {
         var data = JSON.parse(message.data);
-        if (Service.callback && data.msgtype==='stocks-data') {
+        if (Service.callback && data.msgtype==='app3-stocks-data') {
           Service.callback(data.data);
         }
       };
