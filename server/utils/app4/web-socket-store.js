@@ -61,10 +61,7 @@ wsStore.broadcastRefreshBids = function(bookId) {
   var wsClients = wsStore.wsClients;
 
   if (wsClients[bookId]) {
-console.log('bookId=',bookId,' num clients =',Object.keys(wsClients[bookId]).length)
     for (var ticket in wsClients[bookId]) {
-console.log('  uid=',wsClients[bookId][ticket].uid)
-console.log('  sending refresh-bids to ticket ',ticket)
       wsClients[bookId][ticket].send(JSON.stringify({
         msgtype: 'app4-broadcast-refresh-bids',
       }));
