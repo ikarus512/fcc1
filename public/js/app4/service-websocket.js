@@ -29,18 +29,20 @@
 
         if (!subscribed) {
 
+          subscribed = true;
+
           // Get WebSocket ticket
           bookStorage.getWsTicket()
 
           .then( function(data) {
-            var wsTicket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
+            var ticket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
             // Register WebSocket ticket (to be able to receive messages from server)
             setTimeout( function() {
               ws.send(JSON.stringify({
                 msgtype: 'app4-check-ticket',
                 bookId: bookId,
                 uid: uid,
-                ticket: wsTicket,
+                ticket: ticket,
               }));
             },1500); // Delay for heroku.com
 

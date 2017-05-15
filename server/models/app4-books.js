@@ -130,7 +130,7 @@ BookSchema.statics.getBook = function(bookId,uid) {
 
       // Msgs can be seen only by bidder and book owner
       var msgs = [];
-      if ( uid.equals(bid.by._id) || uid.equals(newBook.ownerId) ) {
+      if ( bid.by._id.equals(uid) || newBook.ownerId.equals(uid) ) {
         if (bid.msgs) {
           msgs = bid.msgs.map( function(msg) {
             return {
@@ -143,6 +143,7 @@ BookSchema.statics.getBook = function(bookId,uid) {
       }
 
       return {
+        _id: bid._id,
         by: {
           _id: bid.by._id,
           name: bid.by.name,
@@ -292,7 +293,7 @@ BookSchema.statics.chooseBid = function(bookId, bidOwnerId, uid) {
 
     if(!book) throw new PublicError('No book with _id='+bookId+'.');
 
-    if(!uid.equals(book.createdBy)) throw new PublicError('Only book owner can finish trade.');
+    if(!book.createdBy.equals(uid)) throw new PublicError('Only book owner can finish trade.');
 
 
     // Find bid

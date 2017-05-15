@@ -18,13 +18,14 @@
         $scope.uid = uid==='undefined' ? '' : uid;
         $scope.username = username==='undefined' ? '' : username;
         $scope.bookId = bookId==='undefined' ? '' : bookId;
-        bookRefresh();
+        bookRefresh({details:1, bids:1});
       };
 
-      bookRefresh();
+      bookRefresh({details:1, bids:1});
 
-      function bookRefresh(noreset) {
+      function bookRefresh(opts) {
 
+        $scope.oldBidIdx = $scope.bidIdx;
         $scope.bidIdx = -1;
 
         if ($scope.bookId) {
@@ -33,22 +34,54 @@
 
           .then( function(res) {
             var cur = $scope.curBook;
-            var curBook = res.data;
+            var newData = res.data;
 
-            // description: show more/show less
-            if (curBook) {
-              var s = String(curBook.description);
+            if (!$scope.curBook) $scope.curBook = {};
+
+
+            // Get book details
+            if (opts && opts.details && newData) {
+
+              $scope.curBook.title        = newData.title;
+              $scope.curBook._id          = newData._id;
+              $scope.curBook.price        = newData.price;
+              $scope.curBook.ownerId      = newData.ownerId;
+              $scope.curBook.ownerName    = newData.ownerName;
+              $scope.curBook.keywords     = newData.keywords;
+              $scope.curBook.description  = newData.description;
+              $scope.curBook.photoId      = newData.photoId;
+
+
+              // description: show more/show less
+              var s = String($scope.curBook.description);
               if (s.length > 200) {
-                curBook.descriptionShort = s.substr(0, 200);
-                curBook.short = true;
+                $scope.curBook.descriptionShort = s.substr(0, 200);
+                $scope.curBook.short = true;
               }
             }
 
-            // Filter bids
-            if (curBook.bids) {
+            // Get bids
+            if (opts && opts.bids && newData && newData.bids) {
+
+              if (!$scope.curBook.bids) $scope.curBook.bids = [];
+
+              // Add new bid or refresh existing bid
+              newData.bids.forEach( function(newBid) {
+                var foundBidIdx;
+                var found = $scope.curBook.bids.some( function(oldBid, idx) {
+                  foundBidIdx = idx;
+                  return oldBid._id === newBid._id;
+                });
+                if(!found) { // Add new bid
+                  $scope.curBook.bids.push(newBid);
+                } else { // refresh existing bid
+                  $scope.curBook.bids[foundBidIdx].price = newBid.price;
+                }
+              });
+
 
               // Filter bid.msgs
-              curBook.bids.forEach( function(bid) {
+              $scope.curBook.bids.forEach( function(bid) {
                 if (!bid.msgs) bid.msgs = [];
                 // bid.msgs.forEach( function(msg) {
                 //   msg.time = new Date(msg.time);
@@ -56,10 +89,10 @@
               });
 
               // Prepare bid price for update
-              curBook.bids.forEach( function(bid) { bid.updateBidPrice = bid.price; });
+              $scope.curBook.bids.forEach( function(bid) { bid.updateBidPrice = bid.price; });
 
               // Check if user has bid
-              curBook.hasBid = curBook.bids.some( function(bid,idx) {
+              $scope.curBook.hasBid = $scope.curBook.bids.some( function(bid,idx) {
                 var found = bid.by._id === $scope.uid;
                 if (found) {
                   $scope.bidIdx = idx;
@@ -68,62 +101,10 @@
               });
             }
 
-            // Error messages processing for updating price
-            if ($scope.bidIdx >= 0) {
 
-              var priceRequiredId = '#priceRequired'+$scope.bidIdx,
-                priceMinId = '#priceMin'+$scope.bidIdx,
-                priceNumberId = '#priceNumber'+$scope.bidIdx,
-                popoverIds = [priceRequiredId, priceMinId, priceNumberId];
+            myMessageProcessingInit();
 
-              if ($scope.clearPreviousWatch) {
-                $scope.clearPreviousWatch();
-
-                // Destroy popovers
-                popoverIds.forEach( function(id) { $(id).popover('destroy'); });
-              }
-
-              // Init popovers
-              popoverIds.forEach( function(id) { $(id).popover(); });
-
-              // Hide/show popovers
-              $scope.clearPreviousWatch =
-                $scope.$watch(
-                  'updateBidForm[\'price'+$scope.bidIdx+'\'].$error',
-                  function(newData, oldData) {
-
-                    if (!(oldData && oldData.required) && newData && newData.required) {
-                      $(priceRequiredId).popover('show');
-                      $(priceMinId)     .popover('hide');
-                      $(priceNumberId)  .popover('hide');
-                    }
-
-                    if (!(oldData && oldData.min) && newData && newData.min) {
-                      $(priceRequiredId).popover('hide');
-                      $(priceMinId)     .popover('show');
-                      $(priceNumberId)  .popover('hide');
-                    }
-
-                    if (!(oldData && oldData.number) && newData && newData.number) {
-                      $(priceRequiredId).popover('hide');
-                      $(priceMinId)     .popover('hide');
-                      $(priceNumberId)  .popover('show');
-                    }
-
-                    if (newData && !newData.required && !newData.min && !newData.number) {
-                      $(priceRequiredId).popover('hide');
-                      $(priceMinId)     .popover('hide');
-                      $(priceNumberId)  .popover('hide');
-                    }
-
-                  },
-                  true
-                ); // scope.$watch('data',...)
-            }
-
-            $scope.curBook = curBook;
-
-            if(!noreset) $scope.bookCancelChanges(); // reset newBook=curBook
+            if(opts && !opts.noreset) $scope.bookEditCancelChanges(); // reset newBook=curBook
           })
 
           .catch( function(res) {
@@ -144,13 +125,70 @@
 
       } // function bookRefresh(...)
 
+      function myMessageProcessingInit() {
+        // Error messages processing for updating price
+        if ($scope.bidIdx >= 0) {
+
+          var priceRequiredId = '#priceRequired'+$scope.bidIdx,
+            priceMinId = '#priceMin'+$scope.bidIdx,
+            priceNumberId = '#priceNumber'+$scope.bidIdx,
+            popoverIds = [priceRequiredId, priceMinId, priceNumberId];
+
+          if ($scope.clearPreviousWatch) {
+            $scope.clearPreviousWatch();
+
+            // Destroy old popovers
+            if ($scope.oldPopoverIds)
+              $scope.oldPopoverIds.forEach( function(id) { $(id).popover('destroy'); });
+          }
+          $scope.oldPopoverIds = popoverIds;
+
+          // Init new popovers
+          popoverIds.forEach( function(id) { $(id).popover(); });
+
+          // Hide/show popovers
+          $scope.clearPreviousWatch =
+            $scope.$watch(
+              'updateBidForm[\'price'+$scope.bidIdx+'\'].$error',
+              function(newData, oldData) {
+
+                if (!(oldData && oldData.required) && newData && newData.required) {
+                  $(priceRequiredId).popover('show');
+                  $(priceMinId)     .popover('hide');
+                  $(priceNumberId)  .popover('hide');
+                }
+
+                if (!(oldData && oldData.min) && newData && newData.min) {
+                  $(priceRequiredId).popover('hide');
+                  $(priceMinId)     .popover('show');
+                  $(priceNumberId)  .popover('hide');
+                }
+
+                if (!(oldData && oldData.number) && newData && newData.number) {
+                  $(priceRequiredId).popover('hide');
+                  $(priceMinId)     .popover('hide');
+                  $(priceNumberId)  .popover('show');
+                }
+
+                if (newData && !newData.required && !newData.min && !newData.number) {
+                  $(priceRequiredId).popover('hide');
+                  $(priceMinId)     .popover('hide');
+                  $(priceNumberId)  .popover('hide');
+                }
+
+              },
+              true // deep watch
+            ); // scope.$watch('data',...)
+        }
+      } // function myMessageProcessingInit(...)
+
       $scope.chooseBid = function(bidIdx) {
 
         if (confirm('Do you really want to finish trade with price $'+
           $scope.curBook.bids[bidIdx].price+'?'))
         {
           bookStorage.chooseBid($scope.curBook._id, $scope.curBook.bids[bidIdx].by._id)
-          .then( function(res) { bookRefresh(); })
+          .then( function(res) { bookRefresh({bids:1}); })
           .catch( function(res) { MyError.alert(res); });
         }
 
@@ -159,7 +197,7 @@
       $scope.addBid = function() {
 
         bookStorage.addBid($scope.curBook._id, $scope.newBidPrice)
-        .then( function(res) { bookRefresh(); })
+        .then( function(res) { bookRefresh({bids:1}); })
         .catch( function(res) { MyError.alert(res); });
 
       }; // $scope.addBid = function(...)
@@ -167,12 +205,12 @@
       $scope.updateBid = function(curPrice, newPrice) {
         if (curPrice !== newPrice) {
           bookStorage.addBid($scope.curBook._id, newPrice)
-          .then( function(res) { bookRefresh(); })
+          .then( function(res) { bookRefresh({bids:1}); })
           .catch( function(res) { MyError.alert(res); });
         }
       }; // $scope.updateBid = function(...)
 
-      $scope.bookCancelChanges = function() {
+      $scope.bookEditCancelChanges = function() {
 
         if ($scope.curBook) {
 
@@ -190,7 +228,7 @@
 
         }
 
-      }; // $scope.bookCancelChanges = function(...)
+      }; // $scope.bookEditCancelChanges = function(...)
 
       $scope.clearFile = function() {
         $scope.myBookEditForm.file.$setValidity("maxSize", true);
@@ -208,7 +246,7 @@
           bookStorage.postBook($scope.newBook)
 
           .then( function(res) {
-            bookRefresh();
+            bookRefresh({details:1});
           })
 
           .catch( function(res) {
@@ -250,7 +288,11 @@
 
       function receiveMessage(data) {
         var bidId, msgBy;
-        if (data.msgtype==='app4-message') {
+        if (data.msgtype==='app4-broadcast-refresh-bids') {
+          bookRefresh({bids:1});
+        } else if (data.msgtype==='app4-broadcast-refresh-details') {
+          bookRefresh({details:1});
+        } else if (data.msgtype==='app4-message') {
           if ($scope.curBook.ownerId === data.to) {
             // Message from bidder to book owner
             bidId = data.from;

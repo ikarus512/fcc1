@@ -36,11 +36,11 @@ wsStore.ticketGenerate = function(userinfo) {
   tickets.push({ticket: ticket, userinfo: userinfo});
 
   return ticket;
-};
+}; // wsStore.ticketGenerate = function(...)
 
 wsStore.ticketCheck = function(ticket) {
   return tickets.some( function(el) { return (el.ticket===ticket); });
-};
+}; // wsStore.ticketCheck = function(...)
 
 wsStore.ticketRemove = function(ticket) {
   var
@@ -50,13 +50,39 @@ wsStore.ticketRemove = function(ticket) {
   if (found) {
     tickets.splice(i,1);
   }
-};
+}; // wsStore.ticketRemove = function(...)
 
 
 
 
 wsStore.wsClients = {};
 
+wsStore.broadcastRefreshBids = function(bookId) {
+  var wsClients = wsStore.wsClients;
+
+  if (wsClients[bookId]) {
+console.log('bookId=',bookId,' num clients =',Object.keys(wsClients[bookId]).length)
+    for (var ticket in wsClients[bookId]) {
+console.log('  uid=',wsClients[bookId][ticket].uid)
+console.log('  sending refresh-bids to ticket ',ticket)
+      wsClients[bookId][ticket].send(JSON.stringify({
+        msgtype: 'app4-broadcast-refresh-bids',
+      }));
+    }
+  }
+}; // wsStore.broadcastRefreshBids = function(...)
+
+wsStore.broadcastRefreshDetails = function(bookId) {
+  var wsClients = wsStore.wsClients;
+
+  if (wsClients[bookId]) {
+    for (var ticket in wsClients[bookId]) {
+      wsClients[bookId][ticket].send(JSON.stringify({
+        msgtype: 'app4-broadcast-refresh-details',
+      }));
+    }
+  }
+}; // wsStore.broadcastRefreshBids = function(...)
 
 wsStore.sendMessage = function(bookId, from, to, time, text) {
 
@@ -91,7 +117,7 @@ wsStore.sendMessage = function(bookId, from, to, time, text) {
     myErrorLog(null, err, message);
   });
 
-};
+}; // wsStore.sendMessage = function(...)
 
 
 module.exports = wsStore;

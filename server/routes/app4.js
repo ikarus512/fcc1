@@ -148,6 +148,7 @@ router.post('/api/books', upload.single('file'), function(req, res, next) {
 
   // Send the response back
   .then( function(book) {
+    wsStore.broadcastRefreshDetails(book._id);
     return res.status(200).json(book);
   })
 
@@ -168,14 +169,17 @@ router.post('/api/books', upload.single('file'), function(req, res, next) {
 // POST /app4/api/books/:id/bid {price} - add bid
 router.post('/api/books/:id/bid', function(req, res, next) {
 
+  var bookId = req.params.id;
+
   var uid;
   if (req.isAuthenticated()) uid = req.user._id;
 
   // Add bid
-  Book.addBid(req.params.id, req.body.price, uid)
+  Book.addBid(bookId, req.body.price, uid)
 
   // Send the response back
   .then( function(book) {
+    wsStore.broadcastRefreshBids(book._id);
     return res.status(200).json(book);
   })
 
@@ -196,14 +200,17 @@ router.post('/api/books/:id/bid', function(req, res, next) {
 // POST /app4/api/books/:bookId/choose {bidOwnerId} - choose bid to finish trade
 router.post('/api/books/:bookId/choose', function(req, res, next) {
 
+  var bookId = req.params.id;
+
   var uid;
   if (req.isAuthenticated()) uid = req.user._id;
 
   // Add bid
-  Book.chooseBid(req.params.bookId, req.body.bidOwnerId, uid)
+  Book.chooseBid(bookId, req.body.bidOwnerId, uid)
 
   // Send the response back
   .then( function(book) {
+    wsStore.broadcastRefreshDetails(bookId);
     return res.status(200).json(book);
   })
 
@@ -214,7 +221,7 @@ router.post('/api/books/:bookId/choose', function(req, res, next) {
 
   // Internal error
   .catch( function(err) {
-    var message = 'Internal error e0000011.';
+    var message = 'Internal error e0000012.';
     myErrorLog(null, err, message);
     return res.status(400).json({message: message});
   });
@@ -239,7 +246,7 @@ router.get('/api/get-ws-ticket', function(req, res, next) {
     if (err instanceof PublicError) {
       return res.status(400).json({message:err.toString()});
     } else {
-      var message = 'Internal error e0000012.';
+      var message = 'Internal error e0000013.';
       myErrorLog(null, err, message);
       return res.status(400).json({message:message});
     }

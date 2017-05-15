@@ -45,7 +45,7 @@ form#addBidForm(name='addBidForm' novalidate ng-show='uid!==curBook.ownerId && !
 //- //  bids
 //- //////////////////////////////////////////////////////////
 
-form.form-inline#updateBidForm(name='updateBidForm' novalidate): .bids(ng-repeat='bid in curBook.bids' ng-cloak)
+form.form-inline#updateBidForm(name='updateBidForm' novalidate): .bids(ng-repeat='bid in curBook.bids | orderBy : \'price\' : reverse' ng-cloak)
 
   //- Bid view for non-owner
   .bid.bid-bg-gray(ng-show='uid!==bid.by._id')
