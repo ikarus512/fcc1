@@ -30,11 +30,31 @@ block content
           form(action='/auth/local/signup' method='POST')
             .form-group
               label.sr-only(for='loginUsername') User
-              input#loginUsername.form-control(name='username' type='text' placeholder='User Name' autofocus tabindex='1' value=username?username:'' required)
+              input#loginUsername.form-control(
+                name='username'
+                type='text'
+                placeholder='User Name'
+                autofocus
+                tabindex='1'
+                value=username?username:''
+                required
+              )
             .form-group
               label.sr-only(for='loginPassword') Password
-              input#loginPassword.form-control(name='password' type='password' placeholder='Password' tabindex='2' required)
+              input#loginPassword.form-control(
+                name='password'
+                type='password'
+                placeholder='Password'
+                tabindex='2'
+                required
+              )
             .form-group
               label.sr-only(for='loginPassword2') Repeat Passwort
-              input#loginPassword2.form-control(name='password2' type='password' placeholder='Repeat Password' tabindex='3' required)
+              input#loginPassword2.form-control(
+                name='password2'
+                type='password'
+                placeholder='Repeat Password'
+                tabindex='3'
+                required
+              )
             button.btn.btn-primary.form-control(type='submit' tabindex='4') Sign Me Up!

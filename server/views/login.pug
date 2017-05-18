@@ -35,27 +35,63 @@ block content
           form(action='/auth/local' method='POST')
             .form-group
               label.sr-only(for='loginUsername') User
-              input#loginUsername.form-control(name='username' type='text' placeholder='User Name' autofocus tabindex='1' required)
+              input#loginUsername.form-control(
+                name='username'
+                type='text'
+                placeholder='User Name'
+                autofocus
+                tabindex='1'
+                required
+              )
             .form-group
               label.sr-only(for='loginPassword') Password
-              input#loginPassword.form-control(name='password' type='password' placeholder='Password' tabindex='2' required)
-            button#loginButton.btn.btn-primary.form-control(type='submit' tabindex='3') Log In
+              input#loginPassword.form-control(
+                name='password'
+                type='password'
+                placeholder='Password'
+                tabindex='2'
+                required
+              )
+            button#loginButton.btn.btn-primary.form-control(
+              type='submit'
+              tabindex='3'
+            ) Log In
 
     .col-sm-6.col-md-4
       .panel.panel-default
         .panel-heading
           h2 Create New Local Account:
         .panel-body
-          a.btn.btn-primary.form-control(href='/signup'  tabindex='4' title='Sign Up' aria-label='Sign Up') Sign Up
+          a.btn.btn-primary.form-control(
+            href='/signup'
+            tabindex='4'
+            title='Sign Up'
+            aria-label='Sign Up'
+          ) Sign Up
 
     .col-sm-6.col-md-4
       .panel.panel-default
         .panel-heading
           h2 Log In Using External Account:
         .panel-body
-          a.btn.btn-primary.btn-xs(href='/auth/facebook'  tabindex='4' title='Facebook' aria-label='Facebook'): .fa.fa-2x.fa-facebook(aria-hidden='true')
+          a.btn.btn-primary.btn-xs(
+            href='/auth/facebook'
+            tabindex='4'
+            title='Facebook'
+            aria-label='Facebook'
+          ): .fa.fa-2x.fa-facebook(aria-hidden='true')
           | 
-          a.btn.btn-primary.btn-xs(href='/auth/github'  tabindex='4' title='GitHub' aria-label='GitHub'): .fa.fa-2x.fa-github(aria-hidden='true')
+          a.btn.btn-primary.btn-xs(
+            href='/auth/github'
+            tabindex='4'
+            title='GitHub'
+            aria-label='GitHub'
+          ): .fa.fa-2x.fa-github(aria-hidden='true')
           | 
-          a.btn.btn-primary.btn-xs(href='/auth/twitter' tabindex='5'  title='Twitter' aria-label='Twitter'): .fa.fa-2x.fa-twitter(aria-hidden='true')
+          a.btn.btn-primary.btn-xs(
+            href='/auth/twitter'
+            tabindex='5'
+            title='Twitter'
+            aria-label='Twitter'
+          ): .fa.fa-2x.fa-twitter(aria-hidden='true')
           | 

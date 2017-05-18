@@ -33,14 +33,20 @@ block content
   .well.my-opacity-08
     h3 Voting App
 
-  div(class="ng-app" ng-app="myapp" ng-controller="ControllerPolls" ng-init="init('"+logintype+"')" ng-cloak)
+  div(
+    class='ng-app'
+    ng-app='myapp'
+    ng-controller='ControllerPolls'
+    ng-init="init('"+logintype+"')"
+    ng-cloak
+  )
 
     //- //////////////////////////////////////////////////////////
     //- //  polls list
     //- //////////////////////////////////////////////////////////
     #polls.well.my-opacity-08(ng-show="view=='polls' && polls.length" ng-cloak)
       h3 Polls:
-      div(ng-repeat="poll in polls" ng-cloak)
+      div(ng-repeat='poll in polls' ng-cloak)
         a.btn.btn-primary.form-control(href='/app1/polls/{{poll._id}}') {{poll.title}}
 
     #noPolls.well.my-opacity-08(ng-show="view=='polls' && !polls.length" ng-cloak)
@@ -57,7 +63,13 @@ block content
       h3 Creating New Poll...
       div
         label New Poll Title: &nbsp;
-        input.form-control(placeholder="New Poll Title" ng-model="newPollTitle" my-escape="newPollCancel()" my-enter="newPollCreate()" my-focus="view=='newPoll'")
+        input.form-control(
+          placeholder='New Poll Title'
+          ng-model='newPollTitle'
+          my-escape='newPollCancel()'
+          my-enter='newPollCreate()'
+          my-focus="view=='newPoll'"
+        )
         br
         br
         button.btn.btn-primary(ng-click='newPollCancel()') Cancel

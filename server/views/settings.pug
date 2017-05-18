@@ -49,7 +49,13 @@ block content
                 input.form-control(type='text' readonly disabled value=username)
 
 
-  .row(class='ng-app' ng-app='myapp' ng-controller='ctrSettings' ng-init="init('"+logintype+"','"+uid+"')" ng-cloak)
+  .row(
+    class='ng-app'
+    ng-app='myapp'
+    ng-controller='ctrSettings'
+    ng-init="init('"+logintype+"','"+uid+"')"
+    ng-cloak
+  )
     .col-sm-12
       .panel.panel-default
         .panel-heading
@@ -59,19 +65,23 @@ block content
 
             .form-group
               label.col-sm-3.control-label Full Name:
-              .col-sm-9: input.form-control(type='text' ng-model='newSettings.fullName' my-focus='true')
+              .col-sm-9: input.form-control(type='text'
+                ng-model='newSettings.fullName' my-focus='true')
 
             .form-group
               label.col-sm-3.control-label City/Town:
-              .col-sm-9: input.form-control(type='text' ng-model='newSettings.city')
+              .col-sm-9: input.form-control(type='text'
+                ng-model='newSettings.city')
 
             .form-group
               label.col-sm-3.control-label State/Region:
-              .col-sm-9: input.form-control(type='text' ng-model='newSettings.state')
+              .col-sm-9: input.form-control(type='text'
+                ng-model='newSettings.state')
 
             .form-group
               label.col-sm-3.control-label Country:
-              .col-sm-9: input.form-control(type='text' ng-model='newSettings.country')
+              .col-sm-9: input.form-control(type='text'
+                ng-model='newSettings.country')
 
             br
             br

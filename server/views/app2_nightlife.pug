@@ -28,13 +28,30 @@ block scriptBeforeBody
   script(src='/js/service-my-error.js')
 
 block scriptAfterBody
-  script(src='https://maps.googleapis.com/maps/api/js?key='+process.env.APP_GOOGLE_MAPS_API_KEY+'&libraries=places,geometry')
+  script(
+    src='https://maps.googleapis.com/maps/api/js?key='+
+      process.env.APP_GOOGLE_MAPS_API_KEY+
+      '&libraries=places,geometry'
+  )
 
 block content
   .well
     h3 Nightlife Coordination App
 
-  div(class="ng-app" ng-app="myapp" ng-controller="myApp2ControllerMain" ng-init="init('"+logintype+"','"+username+"','"+app2state_lat+"','"+app2state_lng+"','"+app2state_zoom+"','"+app2state_radius+"','"+app2state_selectedCafeId+"')" ng-cloak)
+  div(
+    class='ng-app'
+    ng-app='myapp'
+    ng-controller='myApp2ControllerMain'
+    ng-init="init('"+
+      logintype+"','"+
+      username+"','"+
+      app2state_lat+"','"+
+      app2state_lng+"','"+
+      app2state_zoom+"','"+
+      app2state_radius+"','"+
+      app2state_selectedCafeId+"')"
+    ng-cloak
+  )
 
     .row
       //- //////////////////////////////////////////////////////////
@@ -42,7 +59,17 @@ block content
       //- //////////////////////////////////////////////////////////
       .col-sm-5
         .well
-          my-google-map(map-cafes='cafes' map-selected-cafe-id='selectedCafeId' map-center='center' map-zoom='zoom' style='width:100%;height:300px;' map-moved='mapMoved(newOpts)' map-selected-cafe='mapSelectedCafe(cafeId)' on-map-init='onMapInit()' cafes-unselect='cafesUnselect()')
+          my-google-map(
+            map-cafes='cafes'
+            map-selected-cafe-id='selectedCafeId'
+            map-center='center'
+            map-zoom='zoom'
+            style='width:100%;height:300px;'
+            map-moved='mapMoved(newOpts)'
+            map-selected-cafe='mapSelectedCafe(cafeId)'
+            on-map-init='onMapInit()'
+            cafes-unselect='cafesUnselect()'
+          )
 
       //- //////////////////////////////////////////////////////////
       //- //  cafesList
@@ -83,8 +110,14 @@ block content
                     div
                       span(ng-show='!timeslot.planned') Not planned by you. &nbsp;
                       span(ng-show='timeslot.planned') Planned by you. &nbsp;
-                      button.btn.btn-primary.btn-xs(ng-show='!timeslot.planned' ng-click='onPlan(cafe, timeslot)')  plan
-                      button.btn.btn-danger.btn-xs(ng-show='timeslot.planned' ng-click='onUnplan(cafe, timeslot)')  unplan
+                      button.btn.btn-primary.btn-xs(
+                        ng-show='!timeslot.planned'
+                        ng-click='onPlan(cafe, timeslot)'
+                      )  plan
+                      button.btn.btn-danger.btn-xs(
+                        ng-show='timeslot.planned'
+                        ng-click='onUnplan(cafe, timeslot)'
+                      )  unplan
                     div.cafe-no-visitors-msg(ng-show='!timeslot.users.length') Planned by nobody.
                     div(ng-show='timeslot.users.length') Planned by:
                       span(ng-repeat='user in timeslot.users')

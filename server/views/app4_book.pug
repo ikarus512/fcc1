@@ -26,22 +26,28 @@ block scriptBeforeBody
   script(src='/lib/angular-animate.min.js')
   script(src='/lib/angular-messages.min.js')
   script(src='/lib/ng-file-upload-all.min.js')
-  script(src='/js/app4/app.js')
+  script(src='/js/app4/app-book.js')
   script(src='/js/app4/controller-book.js')
   script(src='/js/app4/filter-msgtime.js')
   script(src='/js/app4/filter-photo.js')
   script(src='/js/app4/service-book-storage.js')
   script(src='/js/app4/service-websocket.js')
+  script(src='/js/components/inputPriceUpdate.js')
   script(src='/js/directive-my-enter.js')
   script(src='/js/directive-my-escape.js')
   script(src='/js/directive-my-focus.js')
   script(src='/js/directive-my-scroll-bottom.js')
   script(src='/js/service-my-error.js')
-  script(src='/js/components/inputPriceUpdate.js')
 
 block content
 
-  div(class='ng-app' ng-app='myapp' ng-controller='myApp4ControllerBook' ng-init="init('"+logintype+"','"+uid+"','"+username+"','"+bookId+"')" ng-cloak)
+  div(
+    class='ng-app'
+    ng-app='myapp'
+    ng-controller='myApp4ControllerBook'
+    ng-init="init('"+logintype+"','"+uid+"','"+username+"','"+bookId+"')"
+    ng-cloak
+  )
 
     //- //////////////////////////////////////////////////////////
     //- //  book view

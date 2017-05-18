@@ -1,4 +1,4 @@
-/* file: app.js */
+/* file: app-book.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git

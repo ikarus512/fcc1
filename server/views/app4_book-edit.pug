@@ -16,9 +16,17 @@
 form#bookEditForm(name='myBookEditForm' novalidate)
 
   //- myBookEditForm.title
-  .form-group.has-feedback(ng-class="{'has-error': !myBookEditForm.title.$valid, 'has-success': myBookEditForm.title.$valid}")
+  .form-group.has-feedback(
+    ng-class="{'has-error': !myBookEditForm.title.$valid, 'has-success': myBookEditForm.title.$valid}"
+  )
     label.control-label(for='inputTitle') *Title: &nbsp;
-    input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='newBook.title' required)
+    input#inputTitle.form-control(
+      type='text'
+      placeholder='Title'
+      name='title'
+      ng-model='newBook.title'
+      required
+    )
 
     span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myBookEditForm.title.$valid')
     span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myBookEditForm.title.$valid')
@@ -27,9 +35,18 @@ form#bookEditForm(name='myBookEditForm' novalidate)
       +myMessage('required', 'Title is required field.')
 
   //- myBookEditForm.price
-  .form-group.has-feedback(ng-class="{'has-error': !myBookEditForm.price.$valid, 'has-success': myBookEditForm.price.$valid}")
+  .form-group.has-feedback(
+    ng-class="{'has-error': !myBookEditForm.price.$valid, 'has-success': myBookEditForm.price.$valid}"
+  )
     label.control-label(for='inputPrice') *Price ($): &nbsp;
-    input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='newBook.price' min='0' required)
+    input#inputPrice.form-control(
+      type='number'
+      placeholder='Price'
+      name='price'
+      ng-model='newBook.price'
+      min='0'
+      required
+    )
 
     span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myBookEditForm.price.$valid')
     span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myBookEditForm.price.$valid')
@@ -62,10 +79,21 @@ form#bookEditForm(name='myBookEditForm' novalidate)
 
     //- myBookEditForm.file
     label Photo: &nbsp;
-    input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'100KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
+    input#fileInput.myinputfile(
+      type='file'
+      name='file'
+      ngf-select
+      ngf-accept="'.jpg,.png'"
+      ngf-max-size="'100KB'"
+      ngf-model-invalid='errorFile'
+      ng-model='newBook.file'
+    )
 
     ng-messages(for='myBookEditForm.file.$error' role='alert')
-      +myMessage('maxSize', 'File too large: {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.')
+      +myMessage(
+        'maxSize',
+        'File too large: {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.'
+      )
 
     //- myBookEditForm.file preview
     .thumbnail(ng-show='newBook.file && myBookEditForm.file.$valid')
@@ -76,15 +104,26 @@ form#bookEditForm(name='myBookEditForm' novalidate)
 
     //- File buttons:
     //- Pressing this label works like pressing on #fileInput:
-    label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myBookEditForm.file.$valid') Add Photo
-    button.btn.btn-default(ng-click='clearFile()' ng-show='newBook.file || !myBookEditForm.file.$valid') Remove Photo
+    label.btn.btn-default(
+      for='fileInput'
+      ng-show='!newBook.file && myBookEditForm.file.$valid'
+    ) Add Photo
+    button.btn.btn-default(
+      ng-click='clearFile()'
+      ng-show='newBook.file || !myBookEditForm.file.$valid'
+    ) Remove Photo
 
 
   br
   br
-  button#bookSaveChanges.btn.btn-primary(ng-disabled='!myBookEditForm.$valid' ng-click='bookSaveChanges()') Save Changes
+  button#bookSaveChanges.btn.btn-primary(
+    ng-disabled='!myBookEditForm.$valid'
+    ng-click='bookSaveChanges()'
+  ) Save Changes
   | &nbsp;
-  button#bookEditCancelChanges.btn.btn-primary(ng-click='bookEditCancelChanges()') Cancel Changes
+  button#bookEditCancelChanges.btn.btn-primary(
+    ng-click='bookEditCancelChanges()'
+  ) Cancel Changes
   | &nbsp;
   //- button#bookDelete.btn.btn-primary(ng-click='bookDelete()') Delete Book
   br

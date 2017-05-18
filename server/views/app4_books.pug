@@ -24,7 +24,7 @@ block scriptBeforeBody
   script(src='/lib/angular-animate.min.js')
   script(src='/lib/angular-messages.min.js')
   script(src='/lib/ng-file-upload-all.min.js')
-  script(src='/js/app4/app.js')
+  script(src='/js/app4/app-books.js')
   script(src='/js/app4/controller-main.js')
   script(src='/js/app4/filter-photo.js')
   script(src='/js/app4/service-book-storage.js')
@@ -35,7 +35,13 @@ block scriptBeforeBody
 
 block content
 
-  div(class='ng-app' ng-app='myapp' ng-controller='myApp4Controller' ng-init="init('"+logintype+"')" ng-cloak)
+  div(
+    class='ng-app'
+    ng-app='myapp'
+    ng-controller='myApp4Controller'
+    ng-init="init('"+logintype+"')"
+    ng-cloak
+  )
 
     .well(ng-show="mode=='books'"): h3 Book Trading Club
 
@@ -82,23 +88,50 @@ block content
       form#newBookForm(name='myAddBookForm' novalidate)
 
         //- myAddBookForm.title
-        .form-group.has-feedback(ng-class="{'has-error': !myAddBookForm.title.$valid, 'has-success': myAddBookForm.title.$valid}")
+        .form-group.has-feedback(
+          ng-class="{'has-error': !myAddBookForm.title.$valid, 'has-success': myAddBookForm.title.$valid}"
+        )
           label.control-label(for='inputTitle') *Title: &nbsp;
-          input#inputTitle.form-control(type='text' placeholder='Title' name='title' ng-model='newBook.title' my-escape='modeAddBookCancel()' my-focus="mode=='addBook'" autocomplete='off' required)
+          input#inputTitle.form-control(
+            type='text'
+            placeholder='Title'
+            name='title'
+            ng-model='newBook.title'
+            my-escape='modeAddBookCancel()'
+            my-focus="mode=='addBook'"
+            autocomplete='off'
+            required
+          )
 
           span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myAddBookForm.title.$valid')
-          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myAddBookForm.title.$valid')
+          span.glyphicon.glyphicon-remove.form-control-feedback(
+            ng-show='!myAddBookForm.title.$valid'
+          )
 
           ng-messages(for='myAddBookForm.title.$error' role='alert')
             +myMessage('required', 'Title is required field.')
 
         //- myAddBookForm.price
-        .form-group.has-feedback(ng-class="{'has-error': !myAddBookForm.price.$valid, 'has-success': myAddBookForm.price.$valid}")
+        .form-group.has-feedback(
+          ng-class="{'has-error': !myAddBookForm.price.$valid, 'has-success': myAddBookForm.price.$valid}"
+        )
           label.control-label(for='inputPrice') *Price ($): &nbsp;
-          input#inputPrice.form-control(type='number' placeholder='Price' name='price' ng-model='newBook.price' my-escape='modeAddBookCancel()' min='0' required)
+          input#inputPrice.form-control(
+            type='number'
+            placeholder='Price'
+            name='price'
+            ng-model='newBook.price'
+            my-escape='modeAddBookCancel()'
+            min='0'
+            required
+          )
 
-          span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='myAddBookForm.price.$valid')
-          span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!myAddBookForm.price.$valid')
+          span.glyphicon.glyphicon-ok.form-control-feedback(
+            ng-show='myAddBookForm.price.$valid'
+          )
+          span.glyphicon.glyphicon-remove.form-control-feedback(
+            ng-show='!myAddBookForm.price.$valid'
+          )
 
           ng-messages(for='myAddBookForm.price.$error' role='alert')
             +myMessage('required', 'Price is required field.')
@@ -107,11 +140,20 @@ block content
 
         //- myAddBookForm.keywords
         label Keywords (comma separated): &nbsp;
-        input.form-control(placeholder='Keywords' ng-model='newBook.keywords' my-escape='modeAddBookCancel()')
+        input.form-control(
+          placeholder='Keywords'
+          ng-model='newBook.keywords'
+          my-escape='modeAddBookCancel()'
+        )
 
         //- myAddBookForm.description
         label Description: &nbsp;
-        textarea.form-control(placeholder='Description' ng-model='newBook.description' my-escape='modeAddBookCancel()' rows='6')
+        textarea.form-control(
+          placeholder='Description'
+          ng-model='newBook.description'
+          my-escape='modeAddBookCancel()'
+          rows='6'
+        )
 
 
         //- photo (file)
@@ -119,10 +161,21 @@ block content
 
           //- myAddBookForm.file
           label Photo: &nbsp;
-          input#fileInput.myinputfile(type='file' name='file' ngf-select ngf-accept="'.jpg,.png'" ngf-max-size="'100KB'" ngf-model-invalid='errorFile' ng-model='newBook.file')
+          input#fileInput.myinputfile(
+            type='file'
+            name='file'
+            ngf-select
+            ngf-accept="'.jpg,.png'"
+            ngf-max-size="'100KB'"
+            ngf-model-invalid='errorFile'
+            ng-model='newBook.file'
+          )
 
           ng-messages(for='myAddBookForm.file.$error' role='alert')
-            +myMessage('maxSize', 'File too large: {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.')
+            +myMessage(
+              'maxSize',
+              'File too large: {{errorFile.size / 1000|number:1}}KB. Allowed is 100KB.'
+            )
 
           //- myAddBookForm.file preview
           .thumbnail(ng-show='newBook.file && myAddBookForm.file.$valid')
@@ -133,13 +186,27 @@ block content
 
           //- File buttons:
           //- Works like pressing on #fileInput:
-          label.btn.btn-default(for='fileInput' ng-show='!newBook.file && myAddBookForm.file.$valid') Add Photo
-          button.btn.btn-default(type='button' ng-click='clearFile()' ng-show='newBook.file || !myAddBookForm.file.$valid') Remove Photo
+          label.btn.btn-default(
+            for='fileInput'
+            ng-show='!newBook.file && myAddBookForm.file.$valid'
+          ) Add Photo
+          button.btn.btn-default(
+            type='button'
+            ng-click='clearFile()'
+            ng-show='newBook.file || !myAddBookForm.file.$valid'
+          ) Remove Photo
 
 
         br
         br
-        button.btn.btn-primary(type='button' ng-click='modeAddBookCancel()') Cancel
+        button.btn.btn-primary(
+          type='button'
+          ng-click='modeAddBookCancel()'
+        ) Cancel
         | &nbsp;
-        button#newBookAdd.btn.btn-primary(type='button' ng-disabled='!myAddBookForm.$valid' ng-click='newBookAdd()') Add
+        button#newBookAdd.btn.btn-primary(
+          type='button'
+          ng-disabled='!myAddBookForm.$valid'
+          ng-click='newBookAdd()'
+        ) Add
         br
