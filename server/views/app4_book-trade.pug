@@ -105,7 +105,7 @@ form.form-inline#updateBidForm(
     //- Bid view for bid owner
     .bid(ng-show='uid===bid.by._id')
       .bid-price ${{bid.price}} &nbsp;
-      .bid-user {{bid.by.name}} (you) &nbsp;
+      .bid-user(style='color: red;') {{bid.by.name}} (you) &nbsp;
 
       //- Bid owner can change his bid
       span(ng-show='!curBook.tradeFinished')
