@@ -200,7 +200,7 @@ router.post('/api/books/:id/bid', function(req, res, next) {
 // POST /app4/api/books/:bookId/choose {bidOwnerId} - choose bid to finish trade
 router.post('/api/books/:bookId/choose', function(req, res, next) {
 
-  var bookId = req.params.id;
+  var bookId = req.params.bookId;
 
   var uid;
   if (req.isAuthenticated()) uid = req.user._id;
