@@ -1,4 +1,4 @@
-/* file: inputPriceUpdate.js */
+/* file: input-price-update.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -7,11 +7,9 @@
 ;( function() {
   'use strict';
 
-  angular.module('mycomp', []);
+  angular.module('myapp')
 
-  angular.module('mycomp')
-
-  .directive('inputPriceUpdate', function() {
+  .directive('inputPriceUpdate', ['$timeout', function($timeout) {
 
     return {
 
@@ -24,12 +22,28 @@
         ngModel: '=',
         myFocus: '=',
         myEnter: '&',
+
+        sortIndex: '@',
       },
 
-      templateUrl: '/js/components/inputPriceUpdate.html',
+      templateUrl: '/js/components/input-price-update.html',
 
       link: function(scope, element, attrs) {
 
+        ////////////////////////////////////////////////////////
+        // Keep Input Focused
+        ////////////////////////////////////////////////////////
+        scope.$watch('sortIndex', function(newVal, prevVal) {
+          if(scope.focusVar) {
+            $timeout(function(){
+              element.find('input').focus();
+            });
+          }
+        });
+
+        ////////////////////////////////////////////////////////
+        // Message Popup Handling
+        ////////////////////////////////////////////////////////
         var priceRequiredId = '#priceRequiredA',
           priceMinId = '#priceMinA',
           priceNumberId = '#priceNumberA',
@@ -67,6 +81,6 @@
 
     };
 
-  }); // .directive('inputPriceUpdate', ...
+  }]); // .directive('inputPriceUpdate', ...
 
 })();

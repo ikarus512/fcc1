@@ -25,8 +25,6 @@
 
       function bookRefresh(opts) {
 
-        $scope.bidIdx = -1;
-
         if ($scope.bookId) {
 
           bookStorage.getBook($scope.bookId)
@@ -95,7 +93,6 @@
               $scope.curBook.hasBid = $scope.curBook.bids.some( function(bid,idx) {
                 var found = bid.by._id === $scope.uid;
                 if (found) {
-                  $scope.bidIdx = idx;
                   if (!bid.focusMe) bid.focusMe = true;
                 }
                 return found;

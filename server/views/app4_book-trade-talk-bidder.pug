@@ -38,6 +38,12 @@ br
     ng-model='bid.newMsg'
     rows='3'
     my-enter='sendMsg(bid, uid, curBook.ownerId)'
+
+    keep-focus
+    keep-focus-var='{{bid.biddersEditMsgFocusVar}}'
+    keep-focus-index='{{$index}}'
+    ng-focus='bid.biddersEditMsgFocusVar=true;'
+    ng-blur='bid.biddersEditMsgFocusVar=false;'
   )
   button.btn.btn-primary(
     type='button'

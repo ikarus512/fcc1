@@ -117,6 +117,7 @@ form.form-inline#updateBidForm(
           my-enter='updateBid(updateBidForm[\'price\'+bid._id].$valid, '+
             'bid.price, bid.updateBidPrice)'
           my-focus='bid.focusMe'
+          sort-index='{{$index}}'
         )
 
       span(ng-show='!curBook.tradeFinished')
