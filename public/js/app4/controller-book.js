@@ -48,6 +48,7 @@
               $scope.curBook.keywords     = newData.keywords;
               $scope.curBook.description  = newData.description;
               $scope.curBook.photoId      = newData.photoId;
+              $scope.curBook.tradeFinished= newData.tradeFinished;
 
 
               // description: show more/show less
@@ -244,12 +245,21 @@
             return bid.by._id === bidById;
           });
           if (found) {
+            // Add incoming message to messages list
             var msg = {
               by: msgBy,
               at: data.time,
               text: data.text,
             };
             $scope.curBook.bids[bidIdx].msgs.push(msg);
+
+            // show talk:
+            if ($scope.curBook.ownerId === data.to) {
+              $scope.curBook.bids[bidIdx].showOwnerTalk = true;
+            } else {
+              $scope.curBook.bids[bidIdx].showBidderTalk = true;
+            }
+
             $scope.$apply();
           }
 
