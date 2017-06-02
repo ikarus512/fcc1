@@ -9,6 +9,7 @@
  *
  * MODIFICATION HISTORY
  *  2017/04/04, ikarus512. Added copyright header.
+ *  2017/06/02, ikarus512. Enable CORS.
  *
  */
 
@@ -34,7 +35,8 @@ var express = require('express'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
   shareit = require(path.join(__dirname, '../utils/shareit.js')),
   createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
-  Promise = require('bluebird');
+  Promise = require('bluebird'),
+  myEnableCORS = require('../middleware/my-enable-cors.js');
 
 var User = require('../models/users.js');
 var Poll = require('../models/app1-polls.js');
@@ -88,6 +90,9 @@ router.get('/polls/:id',
   }
 );
 
+
+
+router.all('/api/polls', myEnableCORS);
 
 // RESTAPI GET    /app1/api/polls - get polls
 router.get('/api/polls', function(req, res, next) {

@@ -9,6 +9,7 @@
  *
  * MODIFICATION HISTORY
  *  2017/04/04, ikarus512. Added copyright header.
+ *  2017/06/02, ikarus512. Enable CORS.
  *
  */
 
@@ -20,7 +21,8 @@
 var User = require('../models/users.js'),
   Promise = require('bluebird'),
   PublicError = require('../utils/public-error.js'),
-  myErrorLog = require('../utils/my-error-log.js');
+  myErrorLog = require('../utils/my-error-log.js'),
+  myEnableCORS = require('../middleware/my-enable-cors.js');
 
 module.exports = function (app, passport) {
 
@@ -47,12 +49,25 @@ module.exports = function (app, passport) {
   //
   //  Local Basic
   //
+
   app.route('/auth/local')
   .post( passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
   }));
+
+  // REST cross domain login
+  app.route('/auth/api/local')
+  .all(myEnableCORS)
+  .post( function(req, res, next) {
+    passport.authenticate('local-login', function (err, account) {
+      req.logIn(account, function() {
+        res.status(err ? 500 : 200)
+        .json(err ? err : account.local.username);
+      });
+    })(req, res, next);
+  });
 
   // Create new local user
   app.route('/auth/local/signup')

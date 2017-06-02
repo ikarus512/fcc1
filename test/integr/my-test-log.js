@@ -48,6 +48,6 @@ module.exports = function(obj) {
     }
   }
 
-  fs.appendFile(LOG_FILE_NAME, txt);
+  fs.appendFile(LOG_FILE_NAME, txt, function(){});
 
 };

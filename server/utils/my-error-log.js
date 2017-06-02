@@ -62,6 +62,6 @@ module.exports = function(req, err, message) {
         req.unauthorized_user.ip + '\n';
   }
 
-  fs.appendFile(LOG_FILE_NAME, txt);
+  fs.appendFile(LOG_FILE_NAME, txt, function(){});
 
 };
