@@ -9,13 +9,21 @@
 
   angular.module('myapp')
 
-  .factory('StoragePolls', ['$http', function ($http) {
+  .factory('StoragePolls', ['$http', 'MyConst', function ($http, MyConst) {
     return {
+      login: function () {
+        return $http({
+          method: 'POST',
+          data: {username:'me', password:'me'},
+          url: MyConst.serverUrl + '/auth/api/local'
+        });
+      },
+
       get: function () {
         return $http({
           method: 'GET',
           data:{},
-          url: '/app1/api/polls'
+          url: MyConst.serverUrl + '/app1/api/polls'
         });
       },
 
@@ -23,7 +31,7 @@
         return $http({
           method: 'POST',
           data:poll,
-          url: '/app1/api/polls'
+          url: MyConst.serverUrl + '/app1/api/polls'
         });
       },
 

@@ -9,13 +9,13 @@
 
   angular.module('myapp')
 
-  .factory('StoragePoll', ['$http', function ($http) {
+  .factory('StoragePoll', ['$http', 'MyConst', function ($http, MyConst) {
     return {
       get: function (poll_id) {
         return $http({
           method: 'GET',
           data: {},
-          url: '/app1/api/polls/'+poll_id
+          url: MyConst.serverUrl + '/app1/api/polls/'+poll_id
         });
       },
 
@@ -23,7 +23,7 @@
         return $http({
           method: 'DELETE',
           data: {},
-          url: '/app1/api/polls/'+poll_id
+          url: MyConst.serverUrl + '/app1/api/polls/'+poll_id
         });
       },
 
@@ -31,7 +31,7 @@
         return $http({
           method: 'POST',
           data: {title: title},
-          url: '/app1/api/polls/'+poll_id+'/options'
+          url: MyConst.serverUrl + '/app1/api/polls/'+poll_id+'/options'
         });
       },
 
@@ -39,7 +39,7 @@
         return $http({
           method: 'PUT',
           data: {},
-          url: '/app1/api/polls/'+poll_id+'/options/'+opt_id+'/vote'
+          url: MyConst.serverUrl + '/app1/api/polls/'+poll_id+'/options/'+opt_id+'/vote'
         });
       },
 

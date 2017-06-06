@@ -10,14 +10,15 @@
   angular.module('myapp')
 
   .controller('ControllerPolls', [
-    '$scope', 'StoragePolls', 'MyError',
-    function ($scope, StoragePolls, MyError) {
+    '$scope', 'StoragePolls', 'MyError', 'MyConst',
+    function ($scope, StoragePolls, MyError, MyConst) {
 
       $scope.view = 'polls'; // polls/newPoll
       $scope.newPollTitle = '';
       $scope.editedPoll = null;
 
       $scope.polls = [];
+      if (MyConst.mobileApp) StoragePolls.login().then( function(res) { console.log('logged in as: ' + res.data); } );
       StoragePolls.get().then( function(res) { $scope.polls=res.data; } );
 
       $scope.init = function(logintype) {

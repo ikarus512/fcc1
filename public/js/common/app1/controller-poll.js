@@ -11,7 +11,11 @@
 
   .controller('ControllerPoll', [
     '$scope', '$location', '$window', 'StoragePoll', 'MyError',
-    function ($scope, $location, $window, StoragePoll, MyError) {
+    '$routeParams', 'MyConst',
+    function ($scope, $location, $window, StoragePoll, MyError,
+      $routeParams, MyConst
+    )
+    {
 
       $scope.view = 'poll'; // poll/newOption
       $scope.newOptionTitle = '';
@@ -46,6 +50,10 @@
       $scope.init = function(logintype, poll_id) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
         $scope.poll_id = poll_id;
+        if (MyConst.mobileApp) {
+          $scope.poll_id = $routeParams.pollId; // #!app1/polls/:pollId
+          console.log('poll id: ' + $scope.poll_id);
+        }
         reloadPoll();
       };
 
@@ -53,7 +61,9 @@
         if (confirm('Do you really want to delete the poll?')) {
           StoragePoll.delete($scope.poll._id)
           .then( function onOk(res) { // Poll successfully deleted on server
-            $window.location.href = '/app1/polls'; // return to polls page
+            // return to polls page
+            if (MyConst.webApp) $window.location.href = '/app1/polls'; // web app
+            else $window.location.href = '#!app1/polls'; // mobile app
           }, function onErr(res) {
             // Report error during poll deletion
             MyError.alert(res);
@@ -98,6 +108,7 @@
         });
       };
 
-  }]);
+    }
+  ]);
 
 })();
