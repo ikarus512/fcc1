@@ -15,7 +15,7 @@
    *
    */
 
-extend ./common/layout.pug
+extend ./include/layout.pug
 
 block vars
   - var title = 'Books';
@@ -58,7 +58,7 @@ block content
     #books.well(ng-show='curBook && (uid!==curBook.ownerId || curBook.tradeFinished)' ng-cloak)
       h3 Book:
 
-      include ./app4_book-view.pug
+      include ./include/app4_book-view.pug
 
 
     //- //////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ block content
     .well(ng-show='curBook && !curBook.tradeFinished && uid===curBook.ownerId')
       h3 Book:
 
-      include ./app4_book-edit.pug
+      include ./include/app4_book-edit.pug
 
 
     //- //////////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ block content
     .well(ng-show='curBook')
       h3 Trade:
 
-      include ./app4_book-trade.pug
+      include ./include/app4_book-trade.pug
 
 
     //- //////////////////////////////////////////////////////////

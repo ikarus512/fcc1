@@ -63,7 +63,7 @@ app.set('port', (process.env.PORT || 5000));
 app.enable('trust proxy'); // to get req.ip
 
 app.set('view engine', 'pug');
-app.set('views',__dirname+'/views');
+app.set('views',__dirname+'./../src/views/common');
 
 
 dbConnect();
@@ -112,7 +112,7 @@ app.use(expressStatusMonitor);
 // Static
 app.use(express.static(path.join(__dirname, '../public')));
 // Less
-app.use('/less', expressLess(__dirname + '/less', {
+app.use('/less', expressLess(__dirname + './../src/less', {
   // compress: true,
   // cache: true,
   // debug: true,

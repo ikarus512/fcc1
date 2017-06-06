@@ -1,0 +1,89 @@
+//-
+  /* file: index.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: Common Page Layout
+   * AUTHOR: ikarus512
+   * CREATED: 2017/03/13
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/04, ikarus512. Added copyright header.
+   *
+   */
+
+doctype html
+
+html(lang='en')
+  //- //////////////////////////////////////////////////////////
+  //- //  head
+  //- //////////////////////////////////////////////////////////
+  head
+    //- 
+      Customize this policy to fit your own app's needs. For more guidance, see:
+        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+      Some notes:
+        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+          * Enable inline JS: add 'unsafe-inline' to default-src
+    meta(
+      http-equiv="Content-Security-Policy"
+      content=""+
+        "default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; "+
+        "style-src 'self' 'unsafe-inline'; "+
+        "media-src *; "+
+        "img-src 'self' data: content:; "+
+        "connect-src https://ikarus512-fcc1.herokuapp.com https://localhost:5000 'self';"
+    )
+    meta( name="format-detection" content="telephone=no")
+    meta( name="msapplication-tap-highlight" content="no")
+    meta( name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width")
+    link(rel="stylesheet" type="text/css" href='lib/bootstrap337.css')
+    link(rel="stylesheet" type="text/css" href='lib/font-awesome470.css')
+    link(rel="stylesheet" type="text/css" href='css/dynapps.css')
+    title DynApps
+
+  //- //////////////////////////////////////////////////////////
+  //- //  body
+  //- //////////////////////////////////////////////////////////
+  body(ng-app='myapp')
+
+
+
+
+    include ./include/header.pug
+
+    ng-view
+
+    include ./include/footer.pug
+
+
+
+
+
+
+    script(src="/cordova.js")
+    script(src='/lib/jquery311.js')
+    script(src='/lib/bootstrap337.js')
+    script(src='/lib/angular.min.js')
+    script(src='/lib/angular-route.min.js')
+
+    script(src='/js/mobile/app.js')
+    script(src='/js/mobile/config-httpProvider.js')
+    script(src='/js/mobile/config-routes.js')
+    script(src='/js/mobile/service-myConst.js')
+
+    //- app1 polls
+    script(src='/js/common/app1/controller-polls.js')
+    script(src='/js/common/app1/factory-storage-polls.js')
+    script(src='/js/common/directive-my-enter.js')
+    script(src='/js/common/directive-my-escape.js')
+    script(src='/js/common/directive-my-focus.js')
+    script(src='/js/common/factory-my-error.js')
+    //- app1 poll
+    script(src='/js/common/app1/controller-poll.js')
+    script(src='/js/common/app1/factory-storage-poll.js')
+    script(src='/lib/Chart.bundle.min.js')
+    script(src='/lib/angular-chart.min.js')
