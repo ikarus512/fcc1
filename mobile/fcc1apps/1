@@ -1,0 +1,44 @@
+git clone https://github.com/ikarus512/fcc1apps.git & cd fcc1apps & cordova prepare
+
+set PATH=%CD%\node_modules\.bin;%PATH%
+
+.\node_modules\.bin\gulp build && cordova run browser
+npm cache verify && npm i -S gulp-less
+
+cordova create fcc1apps com.fcc1.dynapps DynApps
+cd fcc1apps
+cordova platform add browser --save && cordova platform add android --save && cordova plugin save && cordova platform save
+
+
+
+cordova platform ls
+cordova requirements
+cordova build android
+cordova build
+npm install -g cordova-browser
+cordova emulate browser
+cordova emulate android
+cordova run android
+
+
+# cloning, and restoring platforms/plugins:
+git clone https://github.com/ikarus512/fcc1apps.git  & cd fcc1apps & cordova prepare
+
+
+cordova plugin add cordova-plugin-dialogs      ## navigator.notification.alert()
+cordova plugin ls
+
+npm i -g cordova-jquery
+cordova-jquery   ## insert jquery mobile into current project
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+./node_modules/.bin/jsdoc -d ./out -c ./node_modules/ink-docstrap/template/jsdoc.conf.json  -r ./www/js
+
+cordova plugin add cordova-plugin-media
+npm i --save-dev gulp gulp-less gulp-pug gulp-util
