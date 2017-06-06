@@ -1,4 +1,4 @@
-/* file: service-websocket.js */
+/* file: factory-websocket.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
