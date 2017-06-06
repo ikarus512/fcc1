@@ -34,6 +34,10 @@ function greet(req,o2,o3) {
     //o.greeting='(Not logged in.)';
   }
 
+  // Indicate if it is web or mobile application
+  o.webApp = true;
+  o.mobileApp = false;
+
   extend(o,o2,o3);
 
 

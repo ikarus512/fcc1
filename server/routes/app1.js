@@ -31,9 +31,8 @@
 
 var express = require('express'),
   router = express.Router(),
-  path = require('path'),
-  greet = require(path.join(__dirname, '../utils/greet.js')),
-  shareit = require(path.join(__dirname, '../utils/shareit.js')),
+  greet = require('../utils/greet.js'),
+  shareit = require('../utils/shareit.js'),
   createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
   Promise = require('bluebird'),
   myEnableCORS = require('../middleware/my-enable-cors.js');
@@ -91,8 +90,12 @@ router.get('/polls/:id',
 );
 
 
-
+// Enable CORS on selected REST API
 router.all('/api/polls', myEnableCORS);
+router.all('/api/polls/:id', myEnableCORS);
+router.all('/api/polls/:id/options', myEnableCORS);
+router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
+
 
 // RESTAPI GET    /app1/api/polls - get polls
 router.get('/api/polls', function(req, res, next) {

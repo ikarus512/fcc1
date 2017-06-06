@@ -46,8 +46,10 @@ html(lang='en')
     link(rel='stylesheet', href='/less/_dynapps.css')
     block css
 
-    script(src='/lib/jquery311.js')
-    script(src='/lib/bootstrap337.js')
+    if webApp
+      //- Here if webApp
+      script(src='/lib/jquery311.js')
+      script(src='/lib/bootstrap337.js')
     block scriptBeforeBody
 
 
@@ -60,7 +62,12 @@ html(lang='en')
     //- =   block header
     //- ========================================================
     block header
-      include ./nav.pug
+      if webApp
+        //- Here if webApp
+        include ./nav.pug
+      else
+        //- Here if mobileApp
+        //- include ./nav-mobile.pug
 
     //- ========================================================
     //- =   block content
@@ -91,14 +98,16 @@ html(lang='en')
     //- =   block footer
     //- ========================================================
     block footer
-      //- .bg-invert.text-center(style='color:#ccc')
-      footer.text-center
-        div
-          a(href='/') DynApps
-        div Repo:&nbsp;
-          a(href='https://github.com/ikarus512/fcc1' target='_blank') github.com/ikarus512/fcc1
-        div Author:&nbsp;
-          a(href='http://freecodecamp.com/ikarus512' target='_blank') ikarus512
-        .bg-footer-hands
+      if webApp
+        //- Here if webApp 
+        //- .bg-invert.text-center(style='color:#ccc')
+        footer.text-center
+          div
+            a(href='/') DynApps
+          div Repo:&nbsp;
+            a(href='https://github.com/ikarus512/fcc1' target='_blank') github.com/ikarus512/fcc1
+          div Author:&nbsp;
+            a(href='http://freecodecamp.com/ikarus512' target='_blank') ikarus512
+          .bg-footer-hands
 
   block scriptAfterBody

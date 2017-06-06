@@ -20,14 +20,16 @@ block vars
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_world.jpg);';
 
 block scriptBeforeBody
-  script(src='/lib/angular.min.js')
-  script(src='/js/app1/app-polls.js')
-  script(src='/js/app1/controller-polls.js')
-  script(src='/js/app1/service-storage-polls.js')
-  script(src='/js/directive-my-enter.js')
-  script(src='/js/directive-my-escape.js')
-  script(src='/js/directive-my-focus.js')
-  script(src='/js/service-my-error.js')
+  if webApp
+    //- Here if webApp
+    script(src='/lib/angular.min.js')
+    script(src='/js/app1/app-polls.js')
+    script(src='/js/app1/controller-polls.js')
+    script(src='/js/app1/service-storage-polls.js')
+    script(src='/js/directive-my-enter.js')
+    script(src='/js/directive-my-escape.js')
+    script(src='/js/directive-my-focus.js')
+    script(src='/js/service-my-error.js')
 
 block content
   .well.my-opacity-08
@@ -47,7 +49,12 @@ block content
     #polls.well.my-opacity-08(ng-show="view=='polls' && polls.length" ng-cloak)
       h3 Polls:
       div(ng-repeat='poll in polls' ng-cloak)
-        a.btn.btn-primary.form-control(href='/app1/polls/{{poll._id}}') {{poll.title}}
+        if webApp
+          //- Here if webApp
+          a.btn.btn-primary.form-control(href='/app1/polls/{{poll._id}}') {{poll.title}}
+        else
+          //- Here if mobileApp
+          a.btn.btn-primary.form-control(href='#!app1/polls/{{poll._id}}') {{poll.title}}
 
     #noPolls.well.my-opacity-08(ng-show="view=='polls' && !polls.length" ng-cloak)
       label No polls.

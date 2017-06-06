@@ -20,6 +20,7 @@
 
 var User = require('../models/users.js'),
   Promise = require('bluebird'),
+  greet = require('../utils/greet.js'),
   PublicError = require('../utils/public-error.js'),
   myErrorLog = require('../utils/my-error-log.js'),
   myEnableCORS = require('../middleware/my-enable-cors.js');
@@ -28,14 +29,16 @@ module.exports = function (app, passport) {
 
   app.route('/login')
   .get( function(req, res) {
-    res.render('login', {
+    if(req.isAuthenticated()) req.logout();
+    res.render('login', greet(req, {
       flashmessage: req.flash('message')[0] // Display flash messages if any
-    });
+    }));
   });
 
   app.route('/signup')
   .get( function(req, res) {
-    res.render('signup', {});
+    if(req.isAuthenticated()) req.logout();
+    res.render('signup', greet(req));
   });
 
   app.route('/logout')
@@ -57,7 +60,7 @@ module.exports = function (app, passport) {
     failureFlash: true
   }));
 
-  // REST cross domain login
+  // REST cross origin login
   app.route('/auth/api/local')
   .all(myEnableCORS)
   .post( function(req, res, next) {
@@ -91,13 +94,21 @@ module.exports = function (app, passport) {
 
     // On any error, return back to signup page
     .catch( PublicError, function(err) {
-      return res.status(400).render('signup', {lasterror: err.message, username: req.body.username});
+      return res.status(400)
+      .render('signup', greet(req, {
+        lasterror: err.message,
+        username: req.body.username,
+      }));
     })
 
     .catch( function(err) {
       var message = 'Internal error e0000006.';
       myErrorLog(req, err, message);
-      return res.status(500).render('signup', {lasterror: message, username: req.body.username});
+      return res.status(500)
+      .render('signup', greet(req, {
+        lasterror: err.message,
+        username: req.body.username,
+      }));
     });
 
   });

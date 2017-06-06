@@ -20,16 +20,18 @@ block vars
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_world.jpg);';
 
 block scriptBeforeBody
-  script(src='/lib/angular.min.js')
-  script(src='/lib/Chart.bundle.min.js')
-  script(src='/lib/angular-chart.min.js')
-  script(src='/js/app1/app-poll.js')
-  script(src='/js/app1/controller-poll.js')
-  script(src='/js/app1/service-storage-poll.js')
-  script(src='/js/directive-my-enter.js')
-  script(src='/js/directive-my-escape.js')
-  script(src='/js/directive-my-focus.js')
-  script(src='/js/service-my-error.js')
+  if webApp
+    //- Here if webApp
+    script(src='/lib/angular.min.js')
+    script(src='/lib/Chart.bundle.min.js')
+    script(src='/lib/angular-chart.min.js')
+    script(src='/js/app1/app-poll.js')
+    script(src='/js/app1/controller-poll.js')
+    script(src='/js/app1/service-storage-poll.js')
+    script(src='/js/directive-my-enter.js')
+    script(src='/js/directive-my-escape.js')
+    script(src='/js/directive-my-focus.js')
+    script(src='/js/service-my-error.js')
 
 
 block content
@@ -123,7 +125,12 @@ block content
       //- ==  close/delete poll buttons
       //- ========================================================
       div
-        a.btn.btn-primary(href='/app1/polls') Close
+        if webApp
+          //- Here if webApp
+          a.btn.btn-primary(href='/app1/polls') Close
+        else
+          //- Here if mobileApp
+          a.btn.btn-primary(href='#!app1/polls') Close
         | &nbsp;
         button.btn.btn-primary(ng-click='pollDelete()') Delete Poll
       br
