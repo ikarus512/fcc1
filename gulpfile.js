@@ -8,16 +8,15 @@ var
   util = require('gulp-util');
 
 var MOBILE_SRC = './';
-var MOBILE_WWW = 'mobile/fcc1apps/www/';
-
+var MOBILE_DST = 'mobile/fcc1apps/www/';
 var mobile_paths = {
   indexHtml: {
     src: MOBILE_SRC + 'src/views/mobile/index.pug',
-    dest: MOBILE_WWW,
+    dest: MOBILE_DST,
   },
   cordovaJs: {
     src: MOBILE_SRC + 'src/js/mobile/cordova.js',
-    dest: MOBILE_WWW,
+    dest: MOBILE_DST,
   },
   js: {
     src : [
@@ -40,7 +39,7 @@ var mobile_paths = {
       MOBILE_SRC + 'src/js/common/removeFacebookAppendedHash.js',
     ],
     base: MOBILE_SRC + 'src/js/',
-    dest: MOBILE_WWW + 'js/',
+    dest: MOBILE_DST + 'js/',
   },
   copy: {
     src : [
@@ -50,7 +49,7 @@ var mobile_paths = {
       MOBILE_SRC + 'public/img/*',
     ],
     base: MOBILE_SRC + 'public/',
-    dest: MOBILE_WWW,
+    dest: MOBILE_DST,
   },
   pug: {
     src: [
@@ -58,11 +57,11 @@ var mobile_paths = {
       MOBILE_SRC + 'src/views/common/app1_poll.pug',
       MOBILE_SRC + 'src/views/common/app1_polls.pug',
     ],
-    dest: MOBILE_WWW + 'views/',
+    dest: MOBILE_DST + 'views/',
   },
   less: {
     src: MOBILE_SRC + 'src/less/_dynapps.less',
-    dest: MOBILE_WWW + 'less/',
+    dest: MOBILE_DST + 'less/',
   },
 };
 
@@ -109,5 +108,24 @@ gulp.task('mobile-app1-prepare', [
 ]);
 
 
+var WEB_SRC = './';
+var WEB_DST = 'public/';
+var web_paths = {
+  js: {
+    src : [
+      WEB_SRC + 'src/js/common/**/*.js',
+      WEB_SRC + 'src/js/common/**/*.html', // angular templates
+      WEB_SRC + 'src/js/web/**/*.js',
+    ],
+    base: WEB_SRC + 'src/js/',
+    dest: WEB_DST + 'js/',
+  },
+};
 
-gulp.task('default', ['mobile-app1-prepare']);
+gulp.task('web-build-js', function buildPug() {
+  return gulp.src(web_paths.js.src, {base: web_paths.js.base})
+  .pipe(gulp.dest(web_paths.js.dest));
+});
+
+
+gulp.task('default', ['web-build-js', 'mobile-app1-prepare']);
