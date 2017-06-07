@@ -99,7 +99,7 @@ gulp.task('mobile-app1-less', function buildLess() {
   .pipe(gulp.dest(mobile_paths.less.dest));
 });
 
-gulp.task('mobile-app1-build', [
+gulp.task('mobile-app1-prepare', [
   'mobile-app1-copy',
   'mobile-app1-js',
   'mobile-app1-indexHtml',
@@ -108,4 +108,13 @@ gulp.task('mobile-app1-build', [
   'mobile-app1-less'
 ]);
 
+
+
+gulp.task('mobile-app1-build', function() {
+  return require('./gulp/mobile.js').browser;
+});
+
+// gulp.task('default', ['mobile-app1-prepare']);
+// gulp.task('default', ['mobile-app1-prepare', 'mobile-app1-build']);
+// gulp.task('default', []);
 gulp.task('default', ['mobile-app1-build']);

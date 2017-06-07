@@ -49,11 +49,13 @@ Read next:
 
 ------------------------------------------------
  npm i
- npm i --only=dev
+ npm i --dev        # recoursive, deprecated?
+ npm i --only=dev   # removes production dependencies
 ------------------------------------------------
 In case of 'npm i' problems:
  use LTS version of node (currently 6.10.3)
  npm cache verify
+ npm cache clean
  npm i -g npm
 Should help in case 
  ... npm\node_modules\npm\node_modules\ssri\index.js ...
