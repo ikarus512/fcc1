@@ -61,6 +61,7 @@
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
     "gulp-copy": "^1.0.0",
+    "gulp-debug": "^3.1.0",
     "gulp-less": "^3.3.0",
     "gulp-pug": "^3.3.0",
     "gulp-util": "^3.0.8",

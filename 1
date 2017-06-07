@@ -41,4 +41,22 @@ https://ikarus512-fcc1.herokuapp.com
 
 
 Read next:
-https://github.com/shippableSamples/node-with-parallel-tests-coverage
+ tests:
+  https://github.com/shippableSamples/node-with-parallel-tests-coverage
+ taco:
+  https://taco.visualstudio.com/en-us/docs/tutorial-gulp-readme/#build
+  https://github.com/Microsoft/taco-team-build
+
+------------------------------------------------
+In case of 'npm i' problems:
+ use LTS version of node (currently 6.10.3)
+ npm cache verify
+ npm i -g npm
+Should help in case 
+ ... npm\node_modules\npm\node_modules\ssri\index.js ...
+ 4551 error Cannot read property 'find' of undefined
+------------------------------------------------
+After 'npm i':
+ before protractor run:
+  [11:36:30] E/direct - Error message: Could not find chromedriver at C:\1\projects\js\fcc1\node_modules\protractor\node_modules\webdriver-manager\selenium\chromedriver_2.26.exe. Run 'webdriver-manager update' to download binaries.
+  node_modules\.bin\webdriver-manager update

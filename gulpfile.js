@@ -15,81 +15,84 @@ var
   // sourcemaps = require('gulp-sourcemaps'),
   // del = require('del'),
 
+var MOBILE_SRC = ''; //'../fcc1/';
+var MOBILE_WWW = 'mobile/fcc1apps/www/'; //'www/';
+
 var mobile_paths = {
   // scripts: ['client/js/**/*.coffee', '!client/external/**/*.coffee'],
   indexHtml: {
-    src: '../fcc1/src/views/mobile/index.pug',
-    dest: 'www/',
+    src: MOBILE_SRC + 'src/views/mobile/index.pug',
+    dest: MOBILE_WWW,
   },
   cordovaJs: {
-    src: '../fcc1/src/js/mobile/cordova.js',
-    dest: 'www/',
+    src: MOBILE_SRC + 'src/js/mobile/cordova.js',
+    dest: MOBILE_WWW,
   },
   js: {
     src : [
       // mobile app:
-      '../fcc1/src/js/mobile/app.js',
-      '../fcc1/src/js/mobile/config-routes.js',
-      '../fcc1/src/js/mobile/config-httpProvider.js',
-      '../fcc1/src/js/mobile/service-myConst.js',
+      MOBILE_SRC + 'src/js/mobile/app.js',
+      MOBILE_SRC + 'src/js/mobile/config-routes.js',
+      MOBILE_SRC + 'src/js/mobile/config-httpProvider.js',
+      MOBILE_SRC + 'src/js/mobile/service-myConst.js',
       // common:
-      '../fcc1/src/js/common/app1/controller-poll.js',
-      '../fcc1/src/js/common/app1/controller-polls.js',
-      '../fcc1/src/js/common/app1/factory-storage-poll.js',
-      '../fcc1/src/js/common/app1/factory-storage-polls.js',
-      '../fcc1/src/js/common/directive-keep-focus.js',
-      '../fcc1/src/js/common/directive-my-enter.js',
-      '../fcc1/src/js/common/directive-my-escape.js',
-      '../fcc1/src/js/common/directive-my-focus.js',
-      '../fcc1/src/js/common/directive-my-scroll-bottom.js',
-      '../fcc1/src/js/common/factory-my-error.js',
-      '../fcc1/src/js/common/removeFacebookAppendedHash.js',
+      MOBILE_SRC + 'src/js/common/app1/controller-poll.js',
+      MOBILE_SRC + 'src/js/common/app1/controller-polls.js',
+      MOBILE_SRC + 'src/js/common/app1/factory-storage-poll.js',
+      MOBILE_SRC + 'src/js/common/app1/factory-storage-polls.js',
+      MOBILE_SRC + 'src/js/common/directive-keep-focus.js',
+      MOBILE_SRC + 'src/js/common/directive-my-enter.js',
+      MOBILE_SRC + 'src/js/common/directive-my-escape.js',
+      MOBILE_SRC + 'src/js/common/directive-my-focus.js',
+      MOBILE_SRC + 'src/js/common/directive-my-scroll-bottom.js',
+      MOBILE_SRC + 'src/js/common/factory-my-error.js',
+      MOBILE_SRC + 'src/js/common/removeFacebookAppendedHash.js',
     ],
-    base: '../fcc1/src/js/',
-    dest: 'www/js/',
+    base: MOBILE_SRC + 'src/js/',
+    dest: MOBILE_WWW + 'js/',
   },
   copy: {
     src : [
-      './../fcc1/public/lib/*',
-      './../fcc1/public/css/*',
-      './../fcc1/public/fonts/*',
-      './../fcc1/public/img/*',
+      MOBILE_SRC + 'public/lib/*',
+      MOBILE_SRC + 'public/css/*',
+      MOBILE_SRC + 'public/fonts/*',
+      MOBILE_SRC + 'public/img/*',
     ],
-    base: './../fcc1/public/',
-    dest: 'www/',
+    base: MOBILE_SRC + 'public/',
+    dest: MOBILE_WWW,
   },
   pug: {
     src: [
-      '../fcc1/src/views/mobile/home.pug',
-      '../fcc1/src/views/common/app1_poll.pug',
-      '../fcc1/src/views/common/app1_polls.pug',
+      MOBILE_SRC + 'src/views/mobile/home.pug',
+      MOBILE_SRC + 'src/views/common/app1_poll.pug',
+      MOBILE_SRC + 'src/views/common/app1_polls.pug',
     ],
-    dest: 'www/views/',
+    dest: MOBILE_WWW + 'views/',
   },
   less: {
-    src: '../fcc1/src/less/_dynapps.less',
-    dest: 'www/less/',
+    src: MOBILE_SRC + 'src/less/_dynapps.less',
+    dest: MOBILE_WWW + 'less/',
   },
   // images: 'client/img/**/*',
 };
 
 gulp.task('mobile-app1-copy', function buildPug() {
   return gulp.src(mobile_paths.copy.src, {base: mobile_paths.copy.base})
-  .pipe(gulp.dest(mobile_paths.copy.dest))
+  .pipe(gulp.dest(mobile_paths.copy.dest));
   // .pipe(debug({verbose: true}))
   // .pipe(notify({ message: 'Finished COPY Gulp Tasks'}));
 });
 
 gulp.task('mobile-app1-js', function buildPug() {
   return gulp.src(mobile_paths.js.src, {base: mobile_paths.js.base})
-  .pipe(gulp.dest(mobile_paths.js.dest))
+  .pipe(gulp.dest(mobile_paths.js.dest));
   // .pipe(debug({verbose: true}))
   // .pipe(notify({ message: 'Finished JS Gulp Tasks'}));
 });
 
 gulp.task('mobile-app1-cordovaJs', function buildPug() {
   return gulp.src(mobile_paths.cordovaJs.src)
-  .pipe(gulp.dest(mobile_paths.cordovaJs.dest))
+  .pipe(gulp.dest(mobile_paths.cordovaJs.dest));
   // .pipe(debug({verbose: true}))
   // .pipe(notify({ message: 'Finished cordovaJs Gulp Tasks'}));
 });
@@ -99,7 +102,7 @@ gulp.task('mobile-app1-indexHtml', function buildPug() {
   .pipe(pug({
     // Your options in here. 
   }))
-  .pipe(gulp.dest(mobile_paths.indexHtml.dest))
+  .pipe(gulp.dest(mobile_paths.indexHtml.dest));
   // .pipe(notify({ message: 'Finished indexHtml Gulp Tasks'}));
 });
 
@@ -108,7 +111,7 @@ gulp.task('mobile-app1-pug', function buildPug() {
   .pipe(pug({
     // Your options in here. 
   }))
-  .pipe(gulp.dest(mobile_paths.pug.dest))
+  .pipe(gulp.dest(mobile_paths.pug.dest));
   // .pipe(notify({ message: 'Finished PUG Gulp Tasks'}));
 });
 
@@ -116,7 +119,7 @@ gulp.task('mobile-app1-less', function buildLess() {
   return gulp.src(mobile_paths.less.src)
   .pipe(less().on('error', util.log))
   // .pipe(concat('master.css')) // concatenate to 
-  .pipe(gulp.dest(mobile_paths.less.dest))
+  .pipe(gulp.dest(mobile_paths.less.dest));
   // .pipe(notify({ message: 'Finished LESS Gulp Tasks'}));
 });
 
@@ -166,4 +169,4 @@ gulp.task('mobile-app1-build', [
   'mobile-app1-less'
 ]);
 
-gulp.task('default', ['mobile-app1-build']);
+//gulp.task('default', ['mobile-app1-build']);
