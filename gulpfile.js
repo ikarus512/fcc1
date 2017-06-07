@@ -110,11 +110,4 @@ gulp.task('mobile-app1-prepare', [
 
 
 
-gulp.task('mobile-app1-build', function() {
-  return require('./gulp/mobile.js').browser;
-});
-
-// gulp.task('default', ['mobile-app1-prepare']);
-// gulp.task('default', ['mobile-app1-prepare', 'mobile-app1-build']);
-// gulp.task('default', []);
-gulp.task('default', ['mobile-app1-build']);
+gulp.task('default', ['mobile-app1-prepare']);

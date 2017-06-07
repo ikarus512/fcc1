@@ -80,7 +80,6 @@
     "mongodb": "^2.2.25",
     "protractor": "^4.0.14",
     "requirejs": "^2.3.3",
-    "superagent": "^3.5.2",
-    "taco-team-build": "^0.2.5"
+    "superagent": "^3.5.2"
   }
 }

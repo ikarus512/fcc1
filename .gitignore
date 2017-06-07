@@ -45,5 +45,3 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
-
-_tmp_cordova_cache/
