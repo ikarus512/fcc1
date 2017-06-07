@@ -1,13 +1,18 @@
-git clone https://github.com/ikarus512/fcc1apps.git & cd fcc1apps & cordova prepare
+cordova prepare
+cordova run android
+cordova run browser
 
-set PATH=%CD%\node_modules\.bin;%PATH%
 
-.\node_modules\.bin\gulp build && cordova run browser
-npm cache verify && npm i -S gulp-less
 
-cordova create fcc1apps com.fcc1.dynapps DynApps
-cd fcc1apps
-cordova platform add browser --save && cordova platform add android --save && cordova plugin save && cordova platform save
+======================================
+The application was created by running:
+  cordova create fcc1apps com.fcc1.dynapps DynApps
+  cd fcc1apps
+  cordova platform add browser --save
+  cordova platform add android --save
+  cordova plugin save
+  cordova platform save
+
 
 
 
@@ -21,8 +26,6 @@ cordova emulate android
 cordova run android
 
 
-# cloning, and restoring platforms/plugins:
-git clone https://github.com/ikarus512/fcc1apps.git  & cd fcc1apps & cordova prepare
 
 
 cordova plugin add cordova-plugin-dialogs      ## navigator.notification.alert()
