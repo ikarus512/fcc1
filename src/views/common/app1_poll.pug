@@ -39,7 +39,7 @@ block content
 
   div(
     class='ng-app'
-    ng-app='myapp'
+    ng-app=(webApp?'myapp':false)
     ng-controller='ControllerPoll'
     ng-init="init('"+logintype+"','"+poll_id+"')"
     ng-cloak
@@ -128,12 +128,7 @@ block content
       //- ==  close/delete poll buttons
       //- ========================================================
       div
-        if webApp
-          //- Here if webApp
-          a.btn.btn-primary(href='/app1/polls') Close
-        else
-          //- Here if mobileApp
-          a.btn.btn-primary(href='#!app1/polls') Close
+        a.btn.btn-primary(href='{{urlPrefix}}app1/polls') Close
         | &nbsp;
         button.btn.btn-primary(ng-click='pollDelete()') Delete Poll
       br

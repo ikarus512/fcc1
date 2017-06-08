@@ -20,13 +20,15 @@ block vars
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_world.jpg);';
 
 block scriptBeforeBody
-  script(src='/lib/angular.min.js')
-  script(src='/js/common/app2/app.js')
-  script(src='/js/common/app2/controller-main.js')
-  script(src='/js/common/app2/directive-map.js')
-  script(src='/js/common/app2/factory-cafe-storage.js')
-  script(src='/js/common/factory-my-error.js')
-  script(src='/js/web/service-myConst.js')
+  if webApp
+    //- Here if webApp
+    script(src='/lib/angular.min.js')
+    script(src='/js/common/app2/app.js')
+    script(src='/js/common/app2/controller-main.js')
+    script(src='/js/common/app2/directive-map.js')
+    script(src='/js/common/app2/factory-cafe-storage.js')
+    script(src='/js/common/factory-my-error.js')
+    script(src='/js/web/service-myConst.js')
 
 block scriptAfterBody
   script(
@@ -41,7 +43,7 @@ block content
 
   div(
     class='ng-app'
-    ng-app='myapp'
+    ng-app=(webApp?'myapp':false)
     ng-controller='myApp2ControllerMain'
     ng-init="init('"+
       logintype+"','"+

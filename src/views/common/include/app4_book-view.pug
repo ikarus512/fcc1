@@ -26,7 +26,7 @@
             .thumbnail
               .book-image-thumb
                 span.book-image-helper
-                img.book-image(ng-src='{{curBook.photoId | photo}}' alt='No photo')
+                img.book-image(ng-src='{{serverUrl}}{{curBook.photoId | photo}}' alt='No photo')
           .media-body
             h4.media-heading {{curBook.title}}
             | &nbsp;

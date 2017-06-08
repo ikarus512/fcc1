@@ -5,13 +5,20 @@ var
   pug = require('gulp-pug'),
   less = require('gulp-less'),
   path = require('path'),
+  rename = require('gulp-rename'),
   util = require('gulp-util');
 
 var MOBILE_SRC = './';
 var MOBILE_DST = 'mobile/fcc1apps/www/';
 var mobile_paths = {
   indexHtml: {
-    src: MOBILE_SRC + 'src/views/mobile/index.pug',
+    src: MOBILE_SRC + 'src/views/mobile/_app_index.pug',
+    rename_src: '_app_index',
+    rename_dst: 'index',
+    dest: MOBILE_DST,
+  },
+  favicon: {
+    src: MOBILE_SRC + 'public/favicon.ico',
     dest: MOBILE_DST,
   },
   cordovaJs: {
@@ -25,18 +32,36 @@ var mobile_paths = {
       MOBILE_SRC + 'src/js/mobile/config-routes.js',
       MOBILE_SRC + 'src/js/mobile/config-httpProvider.js',
       MOBILE_SRC + 'src/js/mobile/service-myConst.js',
+      MOBILE_SRC + 'src/js/mobile/autologin/controller-autologin.js',
+      MOBILE_SRC + 'src/js/mobile/autologin/factory-storage-autologin.js',
       // common:
       MOBILE_SRC + 'src/js/common/app1/controller-poll.js',
       MOBILE_SRC + 'src/js/common/app1/controller-polls.js',
       MOBILE_SRC + 'src/js/common/app1/factory-storage-poll.js',
       MOBILE_SRC + 'src/js/common/app1/factory-storage-polls.js',
+      MOBILE_SRC + 'src/js/common/app2/controller-main.js',
+      MOBILE_SRC + 'src/js/common/app2/directive-map.js',
+      MOBILE_SRC + 'src/js/common/app2/factory-cafe-storage.js',
+      MOBILE_SRC + 'src/js/common/app3/controller-main.js',
+      MOBILE_SRC + 'src/js/common/app3/directive-chart1.js',
+      MOBILE_SRC + 'src/js/common/app3/factory-rest.js',
+      MOBILE_SRC + 'src/js/common/app3/factory-websocket.js',
+      MOBILE_SRC + 'src/js/common/app4/controller-book.js',
+      MOBILE_SRC + 'src/js/common/app4/factory-book-storage.js',
+      MOBILE_SRC + 'src/js/common/app4/factory-websocket.js',
+      MOBILE_SRC + 'src/js/common/app4/filter-msgtime.js',
+      MOBILE_SRC + 'src/js/common/app4/filter-photo.js',
+      MOBILE_SRC + 'src/js/common/components/input-price-update.js',
+      MOBILE_SRC + 'src/js/common/app4/controller-main.js',
+      MOBILE_SRC + 'src/js/common/app4/factory-book-storage.js',
+      MOBILE_SRC + 'src/js/common/app4/filter-photo.js',
+
       MOBILE_SRC + 'src/js/common/directive-keep-focus.js',
       MOBILE_SRC + 'src/js/common/directive-my-enter.js',
       MOBILE_SRC + 'src/js/common/directive-my-escape.js',
       MOBILE_SRC + 'src/js/common/directive-my-focus.js',
       MOBILE_SRC + 'src/js/common/directive-my-scroll-bottom.js',
       MOBILE_SRC + 'src/js/common/factory-my-error.js',
-      MOBILE_SRC + 'src/js/common/removeFacebookAppendedHash.js',
     ],
     base: MOBILE_SRC + 'src/js/',
     dest: MOBILE_DST + 'js/',
@@ -51,11 +76,17 @@ var mobile_paths = {
     base: MOBILE_SRC + 'public/',
     dest: MOBILE_DST,
   },
-  pug: {
+  views: {
     src: [
       MOBILE_SRC + 'src/views/mobile/home.pug',
+      MOBILE_SRC + 'src/views/mobile/autologin.pug',
       MOBILE_SRC + 'src/views/common/app1_poll.pug',
       MOBILE_SRC + 'src/views/common/app1_polls.pug',
+      MOBILE_SRC + 'src/views/common/app2_nightlife.pug',
+      MOBILE_SRC + 'src/views/common/app3_stock.pug',
+      MOBILE_SRC + 'src/views/common/app4_book.pug',
+      MOBILE_SRC + 'src/views/common/app4_books.pug',
+      MOBILE_SRC + 'src/views/common/app5_pinter.pug',
     ],
     dest: MOBILE_DST + 'views/',
   },
@@ -80,16 +111,26 @@ gulp.task('mobile-app1-cordovaJs', function buildPug() {
   .pipe(gulp.dest(mobile_paths.cordovaJs.dest));
 });
 
-gulp.task('mobile-app1-indexHtml', function buildPug() {
+gulp.task('mobile-app1-indexHtml', function() {
   return gulp.src(mobile_paths.indexHtml.src)
   .pipe(pug({}))
+  .pipe(rename( function(path) {
+    if (path.basename === mobile_paths.indexHtml.rename_src) {
+      path.basename = mobile_paths.indexHtml.rename_dst;
+    }
+  }))
   .pipe(gulp.dest(mobile_paths.indexHtml.dest));
 });
 
-gulp.task('mobile-app1-pug', function buildPug() {
-  return gulp.src(mobile_paths.pug.src)
+gulp.task('mobile-app1-favicon', function() {
+  return gulp.src(mobile_paths.favicon.src)
+  .pipe(gulp.dest(mobile_paths.favicon.dest));
+});
+
+gulp.task('mobile-app1-views', function buildPug() {
+  return gulp.src(mobile_paths.views.src)
   .pipe(pug({}))
-  .pipe(gulp.dest(mobile_paths.pug.dest));
+  .pipe(gulp.dest(mobile_paths.views.dest));
 });
 
 gulp.task('mobile-app1-less', function buildLess() {
@@ -102,8 +143,9 @@ gulp.task('mobile-app1-prepare', [
   'mobile-app1-copy',
   'mobile-app1-js',
   'mobile-app1-indexHtml',
+  'mobile-app1-favicon',
   'mobile-app1-cordovaJs',
-  'mobile-app1-pug',
+  'mobile-app1-views',
   'mobile-app1-less'
 ]);
 

@@ -9,12 +9,12 @@
 
   angular.module('myapp')
 
-  .factory('cafeStorage', ['$http', function ($http) {
+  .factory('cafeStorage', ['$http', 'MyConst', function ($http, MyConst) {
     return {
       get: function(location, radius, zoom, selectedCafeId) {
         return $http({
           method: 'GET',
-          url: '/app2/api/cafes' +
+          url: MyConst.serverUrl + '/app2/api/cafes' +
             '?lat='     + encodeURIComponent(location.lat) +
             '&lng='     + encodeURIComponent(location.lng) +
             '&zoom='    + encodeURIComponent(zoom) +
@@ -27,7 +27,7 @@
       updateSessionState: function(location, radius, zoom, selectedCafeId) {
         return $http({
           method: 'PUT',
-          url: '/app2/api/cafes' +
+          url: MyConst.serverUrl + '/app2/api/cafes' +
             '?lat='     + encodeURIComponent(location?location.lat:undefined) +
             '&lng='     + encodeURIComponent(location?location.lng:undefined) +
             '&zoom='    + encodeURIComponent(zoom) +
@@ -41,7 +41,7 @@
         return $http({
           method: 'PUT',
           data: {},
-          url: '/app2/api/cafes/'+cafeId+'/timeslots/'+encodeURIComponent(timeslotStart.toUTCString())+'/plan'
+          url: MyConst.serverUrl + '/app2/api/cafes/'+cafeId+'/timeslots/'+encodeURIComponent(timeslotStart.toUTCString())+'/plan'
         });
       },
 
@@ -49,7 +49,7 @@
         return $http({
           method: 'PUT',
           data: {},
-          url: '/app2/api/cafes/'+cafeId+'/timeslots/'+encodeURIComponent(timeslotStart.toUTCString())+'/unplan'
+          url: MyConst.serverUrl + '/app2/api/cafes/'+cafeId+'/timeslots/'+encodeURIComponent(timeslotStart.toUTCString())+'/unplan'
         });
       },
 

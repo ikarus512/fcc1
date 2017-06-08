@@ -22,7 +22,8 @@ var express = require('express'),
   greet = require(path.join(__dirname, '../utils/greet.js')),
   createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
   PublicError = require('../utils/public-error.js'),
-  myErrorLog = require('../utils/my-error-log.js');
+  myErrorLog = require('../utils/my-error-log.js'),
+  myEnableCORS = require('../middleware/my-enable-cors.js');
 
 
 // /app3
@@ -31,6 +32,10 @@ router.get('/',
     res.render('app3_stock', greet(req));
   }
 );
+
+
+// Enable CORS on selected REST API
+router.all('/api/get-ws-ticket', myEnableCORS);
 
 // RESTAPI GET    /app3/api/get-ws-ticket - get web socket ticket
 router.get('/api/get-ws-ticket', function(req, res, next) {

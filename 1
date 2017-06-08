@@ -46,8 +46,9 @@ Read next:
  taco (failed to run):
   https://taco.visualstudio.com/en-us/docs/tutorial-gulp-readme/#build
   https://github.com/Microsoft/taco-team-build
- cordova-tasks:
+ cordova-tasks?:
   https://www.npmjs.com/package/cordova-tasks
+
 
 ------------------------------------------------
  npm i
@@ -68,3 +69,13 @@ After 'npm i':
  before protractor run:
   [11:36:30] E/direct - Error message: Could not find chromedriver at C:\1\projects\js\fcc1\node_modules\protractor\node_modules\webdriver-manager\selenium\chromedriver_2.26.exe. Run 'webdriver-manager update' to download binaries.
   node_modules\.bin\webdriver-manager update
+------------------------------------------------
+Console debug.
+Log $scope:
+ $('.ng-app').scope().updateBidForm.price59156f7013780f12845ef8bd.$error;
+ $('body').scope();
+ (Selector chooses element with ng application ng-app='')
+Log service:
+ angular.element(document.body).injector().get('serviceName')
+ $('.ng-app').injector().get('MyConst');
+ $('body').injector().get('MyConst');

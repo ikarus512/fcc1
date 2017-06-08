@@ -1,10 +1,10 @@
 //-
-  /* file: index.pug */
+  /* file: _app_index.pug */
   /*!
    * Copyright 2017 ikarus512
    * https://github.com/ikarus512/fcc1.git
    *
-   * DESCRIPTION: Common Page Layout
+   * DESCRIPTION: Mobile App Main Page
    * AUTHOR: ikarus512
    * CREATED: 2017/03/13
    *
@@ -31,11 +31,40 @@ html(lang='en')
     meta(
       http-equiv="Content-Security-Policy"
       content=""+
-        "default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; "+
-        "style-src 'self' 'unsafe-inline'; "+
-        "media-src *; "+
-        "img-src 'self' data: content:; "+
-        "connect-src https://ikarus512-fcc1.herokuapp.com https://localhost:5000 'self';"
+        "default-src"+
+          " 'self'"+
+          " data:"+
+          " gap:"+
+          " https://ssl.gstatic.com"+
+          " 'unsafe-eval'"+
+          ";"+
+        "script-src "+
+          " 'self'"+
+          " https://maps.googleapis.com"+
+          ";"+
+        "connect-src "+
+          " https://ikarus512-fcc1.herokuapp.com"+
+          "   wss://ikarus512-fcc1.herokuapp.com"+
+          " https://localhost:5000"+
+          "   wss://localhost:5000"+
+          " 'self'"+
+          ";"+
+        "style-src"+
+          " 'self'"+
+          " 'unsafe-inline'"+
+          ";"+
+        "media-src"+
+          " *"+
+          ";"+
+        "img-src"+
+          " 'self'"+
+          " data:"+
+          " content:"+
+          " https://ikarus512-fcc1.herokuapp.com"+
+          " https://localhost:5000"+
+          " https://maps.gstatic.com"+
+          ";"+
+        ""
     )
     meta( name="format-detection" content="telephone=no")
     meta( name="msapplication-tap-highlight" content="no")
@@ -57,7 +86,7 @@ html(lang='en')
 
     ng-view
 
-    include ./include/footer.pug
+    //- include ./include/footer.pug
 
 
 
@@ -75,15 +104,49 @@ html(lang='en')
     script(src='/js/mobile/config-routes.js')
     script(src='/js/mobile/service-myConst.js')
 
-    //- app1 polls
-    script(src='/js/common/app1/controller-polls.js')
-    script(src='/js/common/app1/factory-storage-polls.js')
+    script(src='/js/mobile/autologin/controller-autologin.js')
+    script(src='/js/mobile/autologin/factory-storage-autologin.js')
+
+
+    script(src='/js/common/directive-keep-focus.js')
     script(src='/js/common/directive-my-enter.js')
     script(src='/js/common/directive-my-escape.js')
     script(src='/js/common/directive-my-focus.js')
     script(src='/js/common/factory-my-error.js')
+    script(src='/js/common/directive-my-scroll-bottom.js')
+
+    //- app1 polls
+    script(src='/js/common/app1/controller-polls.js')
+    script(src='/js/common/app1/factory-storage-polls.js')
     //- app1 poll
     script(src='/js/common/app1/controller-poll.js')
     script(src='/js/common/app1/factory-storage-poll.js')
     script(src='/lib/Chart.bundle.min.js')
     script(src='/lib/angular-chart.min.js')
+
+    //- app2
+    script(src='/js/common/app2/controller-main.js')
+    script(src='/js/common/app2/directive-map.js')
+    script(src='/js/common/app2/factory-cafe-storage.js')
+
+    //- app3
+    script(src='/lib/d3.v4.min.js')
+    script(src='/js/common/app3/controller-main.js')
+    script(src='/js/common/app3/directive-chart1.js')
+    script(src='/js/common/app3/factory-rest.js')
+    script(src='/js/common/app3/factory-websocket.js')
+
+    //- app4 books
+    script(src='/lib/angular-animate.min.js')
+    script(src='/lib/angular-messages.min.js')
+    script(src='/lib/ng-file-upload-all.min.js')
+    script(src='/js/common/app4/controller-book.js')
+    script(src='/js/common/app4/factory-book-storage.js')
+    script(src='/js/common/app4/factory-websocket.js')
+    script(src='/js/common/app4/filter-msgtime.js')
+    script(src='/js/common/app4/filter-photo.js')
+    script(src='/js/common/components/input-price-update.js')
+    //- app4 book
+    script(src='/js/common/app4/controller-main.js')
+    script(src='/js/common/app4/factory-book-storage.js')
+    script(src='/js/common/app4/filter-photo.js')

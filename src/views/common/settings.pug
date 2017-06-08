@@ -52,7 +52,7 @@ block content
 
   .row(
     class='ng-app'
-    ng-app='myapp'
+    ng-app=(webApp?'myapp':false)
     ng-controller='ctrSettings'
     ng-init="init('"+logintype+"','"+uid+"')"
     ng-cloak

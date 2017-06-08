@@ -7,6 +7,12 @@
 ;( function() {
   'use strict';
 
-  angular.module('myapp', ['chart.js', 'ngRoute']);
+  angular.module('myapp', [
+    'chart.js',
+    'ngRoute',
+    'ngAnimate',
+    'ngMessages',
+    'ngFileUpload'
+  ]);
 
 })();

@@ -22,7 +22,8 @@ var express = require('express'),
   Cafe = require('./../models/app2-cafes.js'),
   PublicError = require('../utils/public-error.js'),
   getCafes = require('../utils/app2/get-cafes.js'),
-  myErrorLog = require('../utils/my-error-log.js');
+  myErrorLog = require('../utils/my-error-log.js'),
+  myEnableCORS = require('../middleware/my-enable-cors.js');
 
 
 
@@ -51,6 +52,12 @@ router.get('/cafes', function(req, res) {
 
 });
 
+
+
+// Enable CORS on selected REST API
+router.all('/api/cafes', myEnableCORS);
+router.all('/api/cafes/:cafeId/timeslots/:startTime/plan', myEnableCORS);
+router.all('/api/cafes/:cafeId/timeslots/:startTime/unplan', myEnableCORS);
 
 
 // RESTAPI GET    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - get cafes

@@ -71,7 +71,7 @@ form#bookEditForm(name='myBookEditForm' novalidate)
     .thumbnail
       .book-image-thumb
         span.book-image-helper
-        img.book-image(ng-src='{{newBook.photoId | photo}}' alt='No photo')
+        img.book-image(ng-src='{{serverUrl}}{{newBook.photoId | photo}}' alt='No photo')
     button.btn.btn-default(ng-click='newBook.photoId = null;') Remove Photo
 
   //- new photo (file)

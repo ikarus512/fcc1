@@ -10,8 +10,11 @@
   angular.module('myapp')
 
   .controller('myApp4Controller', [
-    '$scope', 'bookStorage', 'MyError',
-    function ($scope, bookStorage, MyError) {
+    '$scope', 'bookStorage', 'MyError', 'MyConst',
+    function ($scope, bookStorage, MyError, MyConst) {
+
+      $scope.urlPrefix = MyConst.urlPrefix;
+      $scope.serverUrl = MyConst.serverUrl;
 
       $scope.mode = 'books'; // books/addBook
       $scope.newBook = null;

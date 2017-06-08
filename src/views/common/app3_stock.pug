@@ -20,15 +20,17 @@ block vars
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_world.jpg);';
 
 block scriptBeforeBody
-  script(src='/lib/angular.min.js')
-  script(src='/lib/d3.v4.min.js')
-  script(src='/js/common/app3/app.js')
-  script(src='/js/common/app3/controller-main.js')
-  script(src='/js/common/app3/directive-chart1.js')
-  script(src='/js/common/app3/factory-rest.js')
-  script(src='/js/common/app3/factory-websocket.js')
-  script(src='/js/common/factory-my-error.js')
-  script(src='/js/web/service-myConst.js')
+  if webApp
+    //- Here if webApp
+    script(src='/lib/angular.min.js')
+    script(src='/lib/d3.v4.min.js')
+    script(src='/js/common/app3/app.js')
+    script(src='/js/common/app3/controller-main.js')
+    script(src='/js/common/app3/directive-chart1.js')
+    script(src='/js/common/app3/factory-rest.js')
+    script(src='/js/common/app3/factory-websocket.js')
+    script(src='/js/common/factory-my-error.js')
+    script(src='/js/web/service-myConst.js')
 
 
 block content
@@ -39,7 +41,7 @@ block content
   .well
     div(
       class='ng-app'
-      ng-app='myapp'
+      ng-app=(webApp?'myapp':false)
       ng-controller='myApp3ControllerMain'
       ng-init="init('"+logintype+"','"+username+"')"
       ng-cloak

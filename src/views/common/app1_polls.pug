@@ -38,7 +38,7 @@ block content
 
   div(
     class='ng-app'
-    ng-app='myapp'
+    ng-app=(webApp?'myapp':false)
     ng-controller='ControllerPolls'
     ng-init="init('"+logintype+"')"
     ng-cloak
@@ -50,12 +50,8 @@ block content
     #polls.well.my-opacity-08(ng-show="view=='polls' && polls.length" ng-cloak)
       h3 Polls:
       div(ng-repeat='poll in polls' ng-cloak)
-        if webApp
-          //- Here if webApp
-          a.btn.btn-primary.form-control(href='/app1/polls/{{poll._id}}') {{poll.title}}
-        else
-          //- Here if mobileApp
-          a.btn.btn-primary.form-control(href='#!app1/polls/{{poll._id}}') {{poll.title}}
+        a.btn.btn-primary.form-control(href='{{urlPrefix}}/app1/polls/{{poll._id}}')
+          | {{poll.title}}
 
     #noPolls.well.my-opacity-08(ng-show="view=='polls' && !polls.length" ng-cloak)
       label No polls.

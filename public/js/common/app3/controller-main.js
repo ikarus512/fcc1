@@ -10,8 +10,8 @@
   angular.module('myapp')
 
   .controller('myApp3ControllerMain',
-    ['$scope', 'RestService', 'WebSocketService',
-    function ($scope, RestService, WebSocketService) {
+    ['$scope', 'App3WebSocketService',
+    function ($scope, App3WebSocketService) {
 
       $scope.init = function(logintype,username) {
         $scope.logintype = logintype==='undefined' ? undefined : logintype;
@@ -54,14 +54,14 @@
 
 
       $scope.addStockName = function(stockName) {
-        WebSocketService.addStockName(stockName);
+        App3WebSocketService.addStockName(stockName);
       };
 
       $scope.removeStockName = function(stockName) {
-        WebSocketService.removeStockName(stockName);
+        App3WebSocketService.removeStockName(stockName);
       };
 
-      WebSocketService.subscribe( function(newDataPortion) {
+      App3WebSocketService.subscribe( function(newDataPortion) {
         var key, newData = $scope.chart1Data;
 
         // newDataPortion update: convert all dates from String() to Date()

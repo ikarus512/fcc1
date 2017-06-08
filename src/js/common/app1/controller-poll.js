@@ -17,6 +17,8 @@
     )
     {
 
+      $scope.urlPrefix = MyConst.urlPrefix;
+
       $scope.view = 'poll'; // poll/newOption
       $scope.newOptionTitle = '';
 
@@ -62,8 +64,7 @@
           StoragePoll.delete($scope.poll._id)
           .then( function onOk(res) { // Poll successfully deleted on server
             // return to polls page
-            if (MyConst.webApp) $window.location.href = '/app1/polls'; // web app
-            else $window.location.href = '#!app1/polls'; // mobile app
+            $window.location.href = MyConst.urlPrefix + '/app1/polls';
           }, function onErr(res) {
             // Report error during poll deletion
             MyError.alert(res);

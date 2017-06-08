@@ -1,0 +1,52 @@
+//-
+  /* file: nav-mobile.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: Common Menu
+   * AUTHOR: ikarus512
+   * CREATED: 2017/03/13
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/04, ikarus512. Added copyright header.
+   *
+   */
+
+.navbar.navbar-default.navbar-fixed-top
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle(type='button' data-toggle='collapse' data-target='#myNavbar')
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='#!/') DynApps
+
+    .collapse.navbar-collapse#myNavbar
+      ul.nav.navbar-nav
+        li(class=title=='Home'     ?'active':''):   a(href='#!/')           Home
+        li(class=title=='Voting'   ?'active':''):   a(href='#!/app1/polls') Voting
+        li(class=title=='Nightlife'?'active':''):   a(href='#!/app2/cafes') Nightlife
+        li(class=title=='Stock'    ?'active':''):   a(href='#!/app3')       Stock
+        li(class=title=='Books'    ?'active':''):   a(href='#!/app4/books') Books
+        li(class=title=='Pinter'   ?'active':''):   a(href='#!/app5')       Pinter
+
+        li(class=title=='Pinter'   ?'active':''):   a(href='#!/autologin')  Autologin
+
+      //- ul.nav.navbar-nav.navbar-right
+      //-   unless(logintype)
+      //-     li(class=title=='Login'  ?'active':''):   a(href='/login')  Log In
+      //-     li(class=title=='Signup' ?'active':''):   a(href='/signup') Sign Up
+
+      //-   if(logintype)
+      //-     li.dropdown
+      //-       a.dropdown-toggle(data-toggle='dropdown',href='#')
+      //-         | #{logintype} / #{username}
+      //-         span.caret
+      //-       ul.dropdown-menu
+      //-         li(class=title=='Settings'    ?'active':'')
+      //-           a(href='/settings') Settings
+      //-         if(logintype=='local' && username=='admin')
+      //-           li: a(href='/statmon') StatMon
+      //-         li
+      //-           a(href='/logout')   Log Out

@@ -9,17 +9,16 @@
 
   angular.module('myapp')
 
-  .factory('WebSocketService', [
-    'RestService', 'MyError',
-    function(RestService, MyError) {
+  .factory('App3WebSocketService', [
+    'App3RestService', 'MyError', 'MyConst',
+    function(App3RestService, MyError, MyConst) {
 
       var Service = {};
 
-      var HOST = (window.document.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.document.location.host;
-      var ws = new WebSocket(HOST);
+      var ws = new WebSocket(MyConst.webSocketHost);
 
       // Get WebSocket ticket
-      RestService.getWsTicket()
+      App3RestService.getWsTicket()
       .then( function(data) {
         var wsTicket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
         // Register WebSocket ticket (to be able to receive messages from server)
@@ -52,6 +51,6 @@
 
       return Service;
 
-  }]); // .factory('WebSocketService', ...
+  }]); // .factory('App3WebSocketService', ...
 
 })();

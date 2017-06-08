@@ -25,7 +25,8 @@ var express = require('express'),
   PublicError = require('../utils/public-error.js'),
   myErrorLog = require('../utils/my-error-log.js'),
   Book = require('../models/app4-books.js'),
-  upload = require('multer')({ dest: path.join(__dirname, '../../_tmp') });
+  upload = require('multer')({ dest: path.join(__dirname, '../../_tmp') }),
+  myEnableCORS = require('../middleware/my-enable-cors.js');
 
 
 
@@ -48,6 +49,12 @@ router.get('/books/:id', function(req, res) {
 
 
 
+// Enable CORS on selected REST API
+router.all('/api/books', myEnableCORS);
+router.all('/api/books/:id', myEnableCORS);
+router.all('/api/books/:id/bid', myEnableCORS);
+router.all('/api/books/:bookId/choose', myEnableCORS);
+router.all('/api/get-ws-ticket', myEnableCORS);
 
 // GET /app4/api/books - get books
 router.get('/api/books', function(req, res, next) {

@@ -11,10 +11,10 @@
 
   .factory('StoragePolls', ['$http', 'MyConst', function ($http, MyConst) {
     return {
-      login: function () {
+      loginLocal: function(username, password) {
         return $http({
           method: 'POST',
-          data: {username:'me', password:'me'},
+          data: {username: username, password: password},
           url: MyConst.serverUrl + '/auth/api/local'
         });
       },

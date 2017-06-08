@@ -9,26 +9,19 @@
 
   angular.module('myapp')
 
-  .factory('RestService', ['$http', function ($http) {
+  .factory('App3RestService', ['$http', 'MyConst', function ($http, MyConst) {
     return {
+
       getWsTicket: function () {
         return $http({
           method: 'GET',
           data:{},
-          url: '/app3/api/get-ws-ticket'
+          url: MyConst.serverUrl + '/app3/api/get-ws-ticket'
         });
       },
 
-      // post: function (poll) {
-      //   return $http({
-      //     method: 'POST',
-      //     data:poll,
-      //     url: '/app1/api/polls'
-      //   });
-      // },
-
     };
 
-  }]); // .factory('RestService', ...
+  }]); // .factory('App3RestService', ...
 
 })();

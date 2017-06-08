@@ -22,30 +22,32 @@ block vars
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_world.jpg);';
 
 block scriptBeforeBody
-  script(src='/lib/angular.min.js')
-  script(src='/lib/angular-animate.min.js')
-  script(src='/lib/angular-messages.min.js')
-  script(src='/lib/ng-file-upload-all.min.js')
-  script(src='/js/common/app4/app.js')
-  script(src='/js/common/app4/controller-book.js')
-  script(src='/js/common/app4/factory-book-storage.js')
-  script(src='/js/common/app4/factory-websocket.js')
-  script(src='/js/common/app4/filter-msgtime.js')
-  script(src='/js/common/app4/filter-photo.js')
-  script(src='/js/common/components/input-price-update.js')
-  script(src='/js/common/directive-keep-focus.js')
-  script(src='/js/common/directive-my-enter.js')
-  script(src='/js/common/directive-my-escape.js')
-  script(src='/js/common/directive-my-focus.js')
-  script(src='/js/common/directive-my-scroll-bottom.js')
-  script(src='/js/common/factory-my-error.js')
-  script(src='/js/web/service-myConst.js')
+  if webApp
+    //- Here if webApp
+    script(src='/lib/angular.min.js')
+    script(src='/lib/angular-animate.min.js')
+    script(src='/lib/angular-messages.min.js')
+    script(src='/lib/ng-file-upload-all.min.js')
+    script(src='/js/common/app4/app.js')
+    script(src='/js/common/app4/controller-book.js')
+    script(src='/js/common/app4/factory-book-storage.js')
+    script(src='/js/common/app4/factory-websocket.js')
+    script(src='/js/common/app4/filter-msgtime.js')
+    script(src='/js/common/app4/filter-photo.js')
+    script(src='/js/common/components/input-price-update.js')
+    script(src='/js/common/directive-keep-focus.js')
+    script(src='/js/common/directive-my-enter.js')
+    script(src='/js/common/directive-my-escape.js')
+    script(src='/js/common/directive-my-focus.js')
+    script(src='/js/common/directive-my-scroll-bottom.js')
+    script(src='/js/common/factory-my-error.js')
+    script(src='/js/web/service-myConst.js')
 
 block content
 
   div(
     class='ng-app'
-    ng-app='myapp'
+    ng-app=(webApp?'myapp':false)
     ng-controller='myApp4ControllerBook'
     ng-init="init('"+logintype+"','"+uid+"','"+username+"','"+bookId+"')"
     ng-cloak

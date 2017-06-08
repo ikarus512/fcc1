@@ -10,15 +10,15 @@
   angular.module('myapp')
 
   .factory('bookStorage',
-    ['$http', 'Upload',
-    function ($http, Upload) {
+    ['$http', 'Upload', 'MyConst',
+    function ($http, Upload, MyConst) {
 
       return {
         getBook: function(id) {
           return $http({
             method: 'GET',
             data:{},
-            url: '/app4/api/books/'+id
+            url: MyConst.serverUrl + '/app4/api/books/'+id
           });
         },
 
@@ -26,7 +26,7 @@
           return $http({
             method: 'DELETE',
             data:{},
-            url: '/app4/api/books/'+id
+            url: MyConst.serverUrl + '/app4/api/books/'+id
           });
         },
 
@@ -34,7 +34,7 @@
           return $http({
             method: 'GET',
             data:{},
-            url: '/app4/api/books'
+            url: MyConst.serverUrl + '/app4/api/books'
           });
         },
 
@@ -43,13 +43,13 @@
             return Upload.upload({
               method: 'POST',
               data: book,
-              url: '/app4/api/books'
+              url: MyConst.serverUrl + '/app4/api/books'
             });
           } else {
             return $http({
               method: 'POST',
               data: book,
-              url: '/app4/api/books'
+              url: MyConst.serverUrl + '/app4/api/books'
             });
           }
         },
@@ -58,7 +58,7 @@
           return $http({
             method: 'POST',
             data: {price:price},
-            url: '/app4/api/books/'+id+'/bid'
+            url: MyConst.serverUrl + '/app4/api/books/'+id+'/bid'
           });
         },
 
@@ -66,7 +66,7 @@
           return $http({
             method: 'POST',
             data: {bidOwnerId:bidOwnerId},
-            url: '/app4/api/books/'+bookId+'/choose'
+            url: MyConst.serverUrl + '/app4/api/books/'+bookId+'/choose'
           });
         },
 
@@ -74,7 +74,7 @@
           return $http({
             method: 'GET',
             data:{},
-            url: '/app4/api/get-ws-ticket'
+            url: MyConst.serverUrl + '/app4/api/get-ws-ticket'
           });
         },
       };

@@ -10,14 +10,25 @@
   angular.module('myapp')
 
   .controller('myApp4ControllerBook', [
-    '$scope', '$window', '$timeout', 'bookStorage', 'WebSocketService', 'MyError',
-    function ($scope, $window, $timeout, bookStorage, WebSocketService, MyError) {
+    '$scope', '$window', '$timeout', 'bookStorage', 'App3WebSocketService',
+    'MyError', '$routeParams', 'MyConst',
+    function ($scope, $window, $timeout, bookStorage, App3WebSocketService,
+      MyError, $routeParams, MyConst
+    )
+    {
+
+      $scope.urlPrefix = MyConst.urlPrefix;
+      $scope.serverUrl = MyConst.serverUrl;
 
       $scope.init = function(logintype,uid,username,bookId) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
         $scope.uid = uid==='undefined' ? '' : uid;
         $scope.username = username==='undefined' ? '' : username;
         $scope.bookId = bookId==='undefined' ? '' : bookId;
+        if (MyConst.mobileApp) {
+          $scope.bookId = $routeParams.bookId; // #!app4/books/:bookId
+          console.log('poll id: ' + $scope.bookId);
+        }
         bookRefresh({details:1, bids:1});
       };
 
@@ -110,7 +121,7 @@
           })
 
           .then( function() {
-            WebSocketService.subscribe(
+            App3WebSocketService.subscribe(
               $scope.bookId,
               $scope.uid,
               receiveMessage
@@ -214,7 +225,8 @@
       }; // $scope.bookDelete = function(...)
 
       $scope.goBooksPage = function() {
-        $window.location.href = '/app4/books'; // return to books page
+        // return to books page
+        $window.location.href = MyConst.urlPrefix + '/app4/books';
       }; // $scope.goBooksPage = function(...)
 
 
@@ -273,13 +285,14 @@
             at: new Date(),
             text: bid.newMsg,
           };
-          WebSocketService.sendMessage($scope.curBook._id,from,to,new Date(),bid.newMsg);
+          App3WebSocketService.sendMessage($scope.curBook._id,from,to,new Date(),bid.newMsg);
           bid.msgs.push(msg);
           bid.newMsg = '';
         }
       }; // $scope.sendMsg = function(...)
 
 
-  }]); // .controller('myApp4ControllerBook', ...
+    }
+  ]); // .controller('myApp4ControllerBook', ...
 
 })();

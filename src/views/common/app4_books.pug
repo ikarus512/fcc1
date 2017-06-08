@@ -20,25 +20,27 @@ block vars
   - var background = 'background-color: #444; background-image: url(/img/pixabay_com_world.jpg);';
 
 block scriptBeforeBody
-  script(src='/lib/angular.min.js')
-  script(src='/lib/angular-animate.min.js')
-  script(src='/lib/angular-messages.min.js')
-  script(src='/lib/ng-file-upload-all.min.js')
-  script(src='/js/common/app4/app.js')
-  script(src='/js/common/app4/controller-main.js')
-  script(src='/js/common/app4/factory-book-storage.js')
-  script(src='/js/common/app4/filter-photo.js')
-  script(src='/js/common/directive-my-enter.js')
-  script(src='/js/common/directive-my-escape.js')
-  script(src='/js/common/directive-my-focus.js')
-  script(src='/js/common/factory-my-error.js')
-  script(src='/js/web/service-myConst.js')
+  if webApp
+    //- Here if webApp
+    script(src='/lib/angular.min.js')
+    script(src='/lib/angular-animate.min.js')
+    script(src='/lib/angular-messages.min.js')
+    script(src='/lib/ng-file-upload-all.min.js')
+    script(src='/js/common/app4/app.js')
+    script(src='/js/common/app4/controller-main.js')
+    script(src='/js/common/app4/factory-book-storage.js')
+    script(src='/js/common/app4/filter-photo.js')
+    script(src='/js/common/directive-my-enter.js')
+    script(src='/js/common/directive-my-escape.js')
+    script(src='/js/common/directive-my-focus.js')
+    script(src='/js/common/factory-my-error.js')
+    script(src='/js/web/service-myConst.js')
 
 block content
 
   div(
     class='ng-app'
-    ng-app='myapp'
+    ng-app=(webApp?'myapp':false)
     ng-controller='myApp4Controller'
     ng-init="init('"+logintype+"')"
     ng-cloak
@@ -63,14 +65,15 @@ block content
         //- --------------------
         .media(style='border: 1px solid grey')
           .media-left
-            a(href='/app4/books/{{book._id}}')
+            a(href='{{urlPrefix}}/app4/books/{{book._id}}')
               .thumbnail
                 .book-image-thumb
                   span.book-image-helper
-                  img.book-image(ng-src='{{book.photoId | photo}}' alt='No photo')
+                  img.book-image(ng-src='{{serverUrl}}{{book.photoId | photo}}' alt='No photo')
           .media-body
             h4.media-heading
-              a(href='/app4/books/{{book._id}}') {{book.title}}
+              a(href='{{urlPrefix}}/app4/books/{{book._id}}')
+                | {{book.title}}
             div: .bid-chosen(ng-show='book.tradeFinished') Trade Finished
             p Keywords: {{book.keywords}}
             p Price: ${{book.price}}
