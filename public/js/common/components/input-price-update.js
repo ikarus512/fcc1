@@ -26,7 +26,7 @@
         sortIndex: '@',
       },
 
-      templateUrl: '/js/components/input-price-update.html',
+      templateUrl: '/js/common/components/input-price-update.html',
 
       link: function(scope, element, attrs) {
 

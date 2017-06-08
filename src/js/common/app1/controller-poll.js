@@ -11,9 +11,9 @@
 
   .controller('ControllerPoll', [
     '$scope', '$location', '$window', 'StoragePoll', 'MyError',
-    '$routeParams', 'MyConst',
+    'MyRouteParams', 'MyConst', 'User',
     function ($scope, $location, $window, StoragePoll, MyError,
-      $routeParams, MyConst
+      MyRouteParams, MyConst, User
     )
     {
 
@@ -52,10 +52,15 @@
       $scope.init = function(logintype, poll_id) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
         $scope.poll_id = poll_id;
+
         if (MyConst.mobileApp) {
-          $scope.poll_id = $routeParams.pollId; // #!app1/polls/:pollId
+          $scope.logintype = User.type;
+          console.log('logged in as: ', User.type, User.name, User.uid);
+
+          $scope.poll_id = MyRouteParams.pollId; // #!app1/polls/:pollId
           console.log('poll id: ' + $scope.poll_id);
         }
+
         reloadPoll();
       };
 

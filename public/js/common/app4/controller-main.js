@@ -10,8 +10,8 @@
   angular.module('myapp')
 
   .controller('myApp4Controller', [
-    '$scope', 'bookStorage', 'MyError', 'MyConst',
-    function ($scope, bookStorage, MyError, MyConst) {
+    '$scope', 'bookStorage', 'MyError', 'MyConst', 'User',
+    function ($scope, bookStorage, MyError, MyConst, User) {
 
       $scope.urlPrefix = MyConst.urlPrefix;
       $scope.serverUrl = MyConst.serverUrl;
@@ -35,6 +35,12 @@
       $scope.init = function(logintype,uid) {
         $scope.logintype = logintype==='undefined' ? '' : logintype;
         $scope.uid = uid==='undefined' ? '' : uid;
+
+        if (MyConst.mobileApp) {
+          $scope.logintype = User.type;
+          $scope.uid = User.uid;
+          console.log('logged in as: ', User.type, User.name, User.uid);
+        }
       };
 
       $scope.modeAddBook = function(book) {

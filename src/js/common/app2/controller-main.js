@@ -10,8 +10,8 @@
   angular.module('myapp')
 
   .controller('myApp2ControllerMain', [
-    '$scope', 'cafeStorage', 'MyError',
-    function($scope, cafeStorage, MyError) {
+    '$scope', 'cafeStorage', 'MyError', 'MyConst', 'User',
+    function($scope, cafeStorage, MyError, MyConst, User) {
 
       var APP2_MAX_TIMESLOTS = 4;
       var APP2_TIMESLOT_LENGTH = 30; // timeslot length in minutes (must divide 60)
@@ -27,19 +27,29 @@
       $scope.init = function(logintype,username,lat,lng,zoom,radius,selectedCafeId) {
         $scope.logintype = logintype;
         $scope.username = username;
-        lat=Number(lat); lng=Number(lng); zoom=Number(zoom); radius=Number(radius);
-        if (isFinite(lat)) $scope.center.lat = lat;
-        if (isFinite(lng)) $scope.center.lng = lng;
-        if (isFinite(zoom)) $scope.zoom = zoom;
-        if (isFinite(radius)) $scope.radius = radius;
-        if (selectedCafeId && selectedCafeId !== 'undefined') {
-          var interval = setInterval( function() { // Wait until map ready
-            if ($scope.mapInit) {
-              $scope.listSelectedCafe(selectedCafeId); // select cafe when map ready
-              clearInterval(interval);
-            }
-          }, 100);
+
+        if (MyConst.mobileApp) {
+          $scope.logintype = User.type;
+          $scope.username = User.name;
+          console.log('logged in as: ', User.type, User.name, User.uid);
         }
+
+        if (MyConst.webApp) {
+          lat=Number(lat); lng=Number(lng); zoom=Number(zoom); radius=Number(radius);
+          if (isFinite(lat)) $scope.center.lat = lat;
+          if (isFinite(lng)) $scope.center.lng = lng;
+          if (isFinite(zoom)) $scope.zoom = zoom;
+          if (isFinite(radius)) $scope.radius = radius;
+          if (selectedCafeId && selectedCafeId !== 'undefined') {
+            var interval = setInterval( function() { // Wait until map ready
+              if ($scope.mapInit) {
+                $scope.listSelectedCafe(selectedCafeId); // select cafe when map ready
+                clearInterval(interval);
+              }
+            }, 100);
+          }
+        }
+
         cafesRefresh();
       }; // $scope.init(...)
 
@@ -219,6 +229,6 @@
 
     }
 
-  ]); // app.controller('myApp2ControllerMain', ...
+  ]); // .controller('myApp2ControllerMain', ...
 
 })();

@@ -11,9 +11,9 @@
 
   .controller('myApp4ControllerBook', [
     '$scope', '$window', '$timeout', 'bookStorage', 'App3WebSocketService',
-    'MyError', '$routeParams', 'MyConst',
+    'MyError', 'MyRouteParams', 'MyConst', 'User',
     function ($scope, $window, $timeout, bookStorage, App3WebSocketService,
-      MyError, $routeParams, MyConst
+      MyError, MyRouteParams, MyConst, User
     )
     {
 
@@ -25,10 +25,17 @@
         $scope.uid = uid==='undefined' ? '' : uid;
         $scope.username = username==='undefined' ? '' : username;
         $scope.bookId = bookId==='undefined' ? '' : bookId;
+
         if (MyConst.mobileApp) {
-          $scope.bookId = $routeParams.bookId; // #!app4/books/:bookId
+          $scope.bookId = MyRouteParams.bookId; // #!app4/books/:bookId
           console.log('poll id: ' + $scope.bookId);
+
+          $scope.logintype = User.type;
+          $scope.uid = User.uid;
+          $scope.username = User.name;
+          console.log('logged in as: ', User.type, User.name, User.uid);
         }
+
         bookRefresh({details:1, bids:1});
       };
 

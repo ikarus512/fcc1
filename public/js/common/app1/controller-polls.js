@@ -10,8 +10,8 @@
   angular.module('myapp')
 
   .controller('ControllerPolls', [
-    '$scope', 'StoragePolls', 'MyError', 'MyConst',
-    function ($scope, StoragePolls, MyError, MyConst) {
+    '$scope', 'StoragePolls', 'MyError', 'MyConst', 'User',
+    function ($scope, StoragePolls, MyError, MyConst, User) {
 
       $scope.urlPrefix = MyConst.urlPrefix;
 
@@ -26,12 +26,8 @@
         $scope.logintype = logintype==='undefined' ? '' : logintype;
 
         if (MyConst.mobileApp) {
-          StoragePolls.loginLocal('me','me')
-          .then( function(res) {
-            $scope.logintype = res.data.type;
-            // $scope.loginname = res.data.name;
-            console.log('logged in as: ', res.data);
-          });
+          $scope.logintype = User.type;
+          console.log('logged in as: ', User.type, User.name, User.uid);
         }
       };
 
@@ -63,6 +59,7 @@
         }
       };
 
-  }]); // app.controller('ControllerPolls', ...
+    }
+  ]); // .controller('ControllerPolls', ...
 
 })();

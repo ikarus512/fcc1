@@ -55,6 +55,6 @@
 
     };
 
-  }]); // app.factory('cafeStorage', ...
+  }]); // .factory('cafeStorage', ...
 
 })();

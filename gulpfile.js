@@ -25,15 +25,20 @@ var mobile_paths = {
     src: MOBILE_SRC + 'src/js/mobile/cordova.js',
     dest: MOBILE_DST,
   },
+  // jsComponents: {
+  //       MOBILE_SRC + 'src/js/common/components/input-price-update.html',
+  // },
   js: {
     src : [
       // mobile app:
+      MOBILE_SRC + 'src/js/mobile/autologin/controller-autologin.js',
       MOBILE_SRC + 'src/js/mobile/app.js',
       MOBILE_SRC + 'src/js/mobile/config-routes.js',
       MOBILE_SRC + 'src/js/mobile/config-httpProvider.js',
+      MOBILE_SRC + 'src/js/mobile/factory-login.js',
+      MOBILE_SRC + 'src/js/mobile/factory-myRouteParams.js',
       MOBILE_SRC + 'src/js/mobile/service-myConst.js',
-      MOBILE_SRC + 'src/js/mobile/autologin/controller-autologin.js',
-      MOBILE_SRC + 'src/js/mobile/autologin/factory-storage-autologin.js',
+      MOBILE_SRC + 'src/js/mobile/service-user.js',
       // common:
       MOBILE_SRC + 'src/js/common/app1/controller-poll.js',
       MOBILE_SRC + 'src/js/common/app1/controller-polls.js',
@@ -52,6 +57,7 @@ var mobile_paths = {
       MOBILE_SRC + 'src/js/common/app4/filter-msgtime.js',
       MOBILE_SRC + 'src/js/common/app4/filter-photo.js',
       MOBILE_SRC + 'src/js/common/components/input-price-update.js',
+        MOBILE_SRC + 'src/js/common/components/input-price-update.html',
       MOBILE_SRC + 'src/js/common/app4/controller-main.js',
       MOBILE_SRC + 'src/js/common/app4/factory-book-storage.js',
       MOBILE_SRC + 'src/js/common/app4/filter-photo.js',

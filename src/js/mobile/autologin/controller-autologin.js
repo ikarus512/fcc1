@@ -10,16 +10,18 @@
   angular.module('myapp')
 
   .controller('ControllerAutologin', [
-    '$scope', 'StorageAutologin', 'MyConst',
-    function ($scope, StorageAutologin, MyConst) {
+    '$scope', 'User', 'MyConst',
+    function ($scope, User, MyConst) {
 
-      StorageAutologin.loginLocal('me','me')
+      User.loginLocal('me','me')
       .then( function(res) {
-        $scope.logintype = res.data.type;
-        $scope.loginname = res.data.name;
+        $scope.logintype = User.type;
+        $scope.uid = User.uid;
+        $scope.username = User.name;
+        console.log('logged in as: ', User.type, User.name, User.uid);
       });
 
     }
-  ]); // app.controller('ControllerPolls', ...
+  ]); // .controller('ControllerAutologin', ...
 
 })();

@@ -10,11 +10,18 @@
   angular.module('myapp')
 
   .controller('myApp3ControllerMain',
-    ['$scope', 'App3WebSocketService',
-    function ($scope, App3WebSocketService) {
+    ['$scope', 'App3WebSocketService', 'MyConst', 'User',
+    function ($scope, App3WebSocketService, MyConst, User) {
 
       $scope.init = function(logintype,username) {
+
         $scope.logintype = logintype==='undefined' ? undefined : logintype;
+
+        if (MyConst.mobileApp) {
+          $scope.logintype = User.type;
+          console.log('logged in as: ', User.type, User.name, User.uid);
+        }
+
       }; // $scope.init(...)
 
       var APP3_STOCK_PORTION_LENGTH = 5,

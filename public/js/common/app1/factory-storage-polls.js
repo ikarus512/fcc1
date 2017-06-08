@@ -10,14 +10,8 @@
   angular.module('myapp')
 
   .factory('StoragePolls', ['$http', 'MyConst', function ($http, MyConst) {
+
     return {
-      loginLocal: function(username, password) {
-        return $http({
-          method: 'POST',
-          data: {username: username, password: password},
-          url: MyConst.serverUrl + '/auth/api/local'
-        });
-      },
 
       get: function () {
         return $http({
@@ -37,6 +31,6 @@
 
     };
 
-  }]); // app.factory('StoragePolls', ...
+  }]); // .factory('StoragePolls', ...
 
 })();
