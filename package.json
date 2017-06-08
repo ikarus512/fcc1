@@ -9,7 +9,7 @@
     "lint": "jshint .",
     "build": "gulp",
     "mobile": "gulp && cd mobile/fcc1apps && cordova run browser",
-    "android": "gulp && cd mobile/fcc1apps && cordova run android",
+    "android": "gulp && cd mobile/fcc1apps && cordova run android --debug",
     "test": "npm run lint && npm run test-int && npm run test-e2e",
     "test-e2e": "SET NODE_ENV=test-e2e&&    protractor test/e2e/protractor-conf.js",
     "pretest-e2e": "SET NODE_ENV=test-e2e&&    npm run stop && start /MIN node server/index.js && node server/wait.js",

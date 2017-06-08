@@ -29,7 +29,7 @@ html(lang='en')
         * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
           * Enable inline JS: add 'unsafe-inline' to default-src
     meta(
-      http-equiv="Content-Security-Policy"
+      http-equiv='Content-Security-Policy'
       content=""+
         "default-src"+
           " 'self'"+
@@ -66,12 +66,12 @@ html(lang='en')
           ";"+
         ""
     )
-    meta( name="format-detection" content="telephone=no")
-    meta( name="msapplication-tap-highlight" content="no")
-    meta( name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width")
-    link(rel="stylesheet" type="text/css" href='lib/bootstrap337.css')
-    link(rel="stylesheet" type="text/css" href='lib/font-awesome470.css')
-    link(rel="stylesheet" type="text/css" href='css/dynapps.css')
+    meta( name='format-detection' content='telephone=no')
+    meta( name='msapplication-tap-highlight' content='no')
+    meta( name='viewport' content='user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width')
+    link(rel='stylesheet' type='text/css' href='lib/bootstrap337.css')
+    link(rel='stylesheet' type='text/css' href='lib/font-awesome470.css')
+    link(rel='stylesheet' type='text/css' href='css/dynapps.css')
     title DynApps
 
   //- //////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ html(lang='en')
 
 
 
-    script(src="/cordova.js")
+    script(src='/cordova.js')
     script(src='/lib/jquery311.js')
     script(src='/lib/bootstrap337.js')
     script(src='/lib/angular.min.js')
