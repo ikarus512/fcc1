@@ -9,7 +9,7 @@
 
   angular.module('myapp')
 
-  .factory('userService', ['$rootScope', function ($rootScope) {
+  .service('userService', ['$rootScope', function ($rootScope) {
 
     var service = {
 
@@ -19,13 +19,16 @@
       //   uid: '',
       // },
 
-      SaveState: function (data) {
+      SaveState: function () {
+        // sessionStorage cleaned on app close
+        // localStorage persists
+
         // sessionStorage.userService = angular.toJson(service.model);
         if(typeof(localStorage) !== "undefined") {
-          // console.log('save model=',service.model);
-          // localStorage.setItem('model',JSON.stringify(service.model));
-          console.log('save model=',data);
-          localStorage.setItem('model',JSON.stringify(data));
+          console.log('save model=',service.model);
+          localStorage.setItem('model',JSON.stringify(service.model));
+          // console.log('save model=',data);
+          // localStorage.setItem('model',JSON.stringify(data));
         }
       },
 
@@ -49,15 +52,6 @@
         }
           console.log('3 restored model=',service.model);
 
-
-        // service.model = angular.fromJson(sessionStorage.userService);
-        // if (!service.model || !service.model.type) {
-        //   service.model = {
-        //     type: '',
-        //     name: '',
-        //     uid: '',
-        //   };
-        // }
       }
     };
 
@@ -82,10 +76,10 @@ userService.RestoreState();
       this.loginLocal = function(username, password) {
         return LoginFactory.loginLocal(username, password)
         .then( function(res) {
-          // userService.model.type = res.data.type;
-          // userService.model.name = res.data.name;
-          // userService.model.uid = res.data.uid;
-userService.SaveState(res.data);
+          userService.model.type = res.data.type;
+          userService.model.name = res.data.name;
+          userService.model.uid = res.data.uid;
+userService.SaveState();
           console.log('a logged in as: ', res.data);
           return res;
         });
