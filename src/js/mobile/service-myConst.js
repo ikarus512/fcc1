@@ -9,6 +9,11 @@
 
   angular.module('myapp')
 
+  // Parameters from web backend (not used in mobile app)
+  .value('init_logintype', 'undefined')
+  .value('init_username' , 'undefined')
+  .value('init_uid'      , 'undefined')
+
   .service('MyConst', function() {
 
     var host = 'ikarus512-fcc1.herokuapp.com'; // production
