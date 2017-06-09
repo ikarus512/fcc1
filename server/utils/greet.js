@@ -15,7 +15,8 @@
 /*jshint node: true*/
 'use strict';
 
-var extend = require('extend');
+var extend = require('extend'),
+  pugParams = require('../../src/views/pug-params.js').web;
 
 function greet(req,o2,o3) {
   var o={};
@@ -34,13 +35,7 @@ function greet(req,o2,o3) {
     //o.greeting='(Not logged in.)';
   }
 
-  // Indicate if it is web or mobile application
-  o.webApp = true;
-  o.mobileApp = false;
-
-  extend(o,o2,o3);
-
-
+  extend(o,o2,o3,pugParams);
 
   return o;
 }

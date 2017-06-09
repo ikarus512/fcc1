@@ -3,6 +3,7 @@ var
   debug = require('gulp-debug'), // .pipe(debug({verbose: true}))
   gulp = require('gulp'),
   pug = require('gulp-pug'),
+  pugParams = require('./src/views/pug-params.js').mobile,
   less = require('gulp-less'),
   path = require('path'),
   rename = require('gulp-rename'),
@@ -119,7 +120,7 @@ gulp.task('mobile-app1-cordovaJs', function buildPug() {
 
 gulp.task('mobile-app1-indexHtml', function() {
   return gulp.src(mobile_paths.indexHtml.src)
-  .pipe(pug({}))
+  .pipe(pug({locals: pugParams}))
   .pipe(rename( function(path) {
     if (path.basename === mobile_paths.indexHtml.rename_src) {
       path.basename = mobile_paths.indexHtml.rename_dst;
@@ -135,7 +136,7 @@ gulp.task('mobile-app1-favicon', function() {
 
 gulp.task('mobile-app1-views', function buildPug() {
   return gulp.src(mobile_paths.views.src)
-  .pipe(pug({}))
+  .pipe(pug({locals: pugParams}))
   .pipe(gulp.dest(mobile_paths.views.dest));
 });
 

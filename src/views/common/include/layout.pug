@@ -40,16 +40,18 @@ html(lang='en')
     block title
       title #{title}
 
-    link(rel='stylesheet', href='/lib/bootstrap337.css')
-    link(rel='stylesheet', href='/lib/font-awesome470.css')
-    link(rel='stylesheet', href='/css/dynapps.css')
-    link(rel='stylesheet', href='/less/_dynapps.css')
+    if webApp
+      //- Here if webApp
+      link(rel='stylesheet', href=urlPref+'lib/bootstrap337.css')
+      link(rel='stylesheet', href=urlPref+'lib/font-awesome470.css')
+      link(rel='stylesheet', href=urlPref+'css/dynapps.css')
+      link(rel='stylesheet', href=urlPref+'less/_dynapps.css')
     block css
 
     if webApp
       //- Here if webApp
-      script(src='/lib/jquery311.js')
-      script(src='/lib/bootstrap337.js')
+      script(src=urlPref+'lib/jquery311.js')
+      script(src=urlPref+'lib/bootstrap337.js')
     block scriptBeforeBody
 
 
