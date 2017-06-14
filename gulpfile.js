@@ -1,13 +1,27 @@
+/* file: gulpfile.js */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: gulpfile.js
+ * AUTHOR: ikarus512
+ * CREATED: 2017/06/01
+ *
+ * MODIFICATION HISTORY
+ *  2017/06/01, ikarus512. Initial version.
+ *
+ */
+
 var
   browserSync   = require('browser-sync'),
-//cssLint       = require('gulp-csslint'),
-//cssMin        = require('gulp-clean-css'),
-//changed       = require('gulp-changed'),
-  debug         = require('gulp-debug'), // .pipe(debug({verbose: true}))
-//es            = require('event-stream'), // For working with streams rather than temp dirs
-//footer        = require('gulp-footer'),
+  // cssLint       = require('gulp-csslint'),
+  // cssMin        = require('gulp-clean-css'),
+  changed       = require('gulp-changed'),
+  // debug         = require('gulp-debug'), // .pipe(debug({verbose: true}))
+  // es            = require('event-stream'), // For working with streams rather than temp dirs
   gulp          = require('gulp'),
   gutil         = require('gulp-util'),
+  headerfooter  = require('gulp-headerfooter'),
   jshint        = require('gulp-jshint'),
   nodemon       = require('gulp-nodemon'),
   pug           = require('gulp-pug'),
@@ -109,12 +123,14 @@ gulp.task('mobile-app1-favicon', function() {
 
 gulp.task('mobile-app1-views', function() {
   return gulp.src(mobile_paths.views.src)
+  // .pipe(changed(mobile_paths.views.dest, {extension: '.html'}))
   .pipe(pug({locals: pugParams}))
   .pipe(gulp.dest(mobile_paths.views.dest));
 });
 
 gulp.task('mobile-app1-less', function() {
   return gulp.src(mobile_paths.less.src)
+  // .pipe(changed(mobile_paths.less.dest, {extension: '.css'}))
   .pipe(less().on('error', gutil.log))
   .pipe(gulp.dest(mobile_paths.less.dest));
 });
@@ -132,7 +148,8 @@ gulp.task('mobile-app1-prepare', [
 
 var WEB_SRC = './';
 var WEB_DST = 'public/';
-var web_paths = {
+var devserver_paths = {
+  jsHeader: '/*! Copyright 2017 ikarus512 https://github.com/ikarus512/fcc1.git */',
   publicJs: {
     src : [
       WEB_SRC + 'src/js/common/**/*.js',
@@ -154,65 +171,50 @@ var web_paths = {
 };
 
 
-gulp.task('web-public-html', function() { // jshint/minify/copy to public
-  return gulp.src(web_paths.publicHtml.src, {base: web_paths.publicHtml.base})
-  .pipe(gulp.dest(web_paths.publicHtml.dest))
+gulp.task('devserver-public-html', function() { // jshint/minify/copy to public
+  return gulp.src(devserver_paths.publicHtml.src, {base: devserver_paths.publicHtml.base})
+  .pipe(gulp.dest(devserver_paths.publicHtml.dest))
   .on('error', gutil.log);
 });
 
-gulp.task('web-public-js', function() { // jshint/minify/copy to public
-  return gulp.src(web_paths.publicJs.src, {base: web_paths.publicJs.base})
+gulp.task('devserver-public-js', function() { // jshint/minify/copy to public
+  return gulp.src(devserver_paths.publicJs.src, {base: devserver_paths.publicJs.base})
+  .pipe(changed(devserver_paths.publicJs.dest))
   .pipe(jshint())
   .pipe(jshint.reporter(require('jshint-stylish')))
   // .pipe(uglify())
-//.pipe(footer(CONFIG.FOOTER_TEXT))        // Add footer to script
-  .pipe(gulp.dest(web_paths.publicJs.dest))
+  // .pipe(headerfooter.header(devserver_paths.jsHeader))
+  .pipe(gulp.dest(devserver_paths.publicJs.dest))
   .on('error', gutil.log);
 });
 
-gulp.task('web-server-js', function() { // Only syntax check
-  return gulp.src(web_paths.serverJs.src)
+gulp.task('devserver-server-js', function() { // Only syntax check
+  return gulp.src(devserver_paths.serverJs.src)
+  .pipe(changed(devserver_paths.serverJs.src))
   .pipe(jshint())
   .pipe(jshint.reporter(require('jshint-stylish')))
   .on('error', gutil.log);
 });
 
-gulp.task('web-nodemon', function (cb) {
-  var called = false;
-  return nodemon({
-    script: 'server/index.js',            // The entry point
-    watch: [ // The files to watch for changes in
-      'server/**/*',
-      'public/**/*',
-      'src/**/*',
-    ],
-  })
-  .on('start', function onStart() {
-    if (!called) { cb(); }          // To stop it constantly restarting
-    called = true;
-  })
-  .on('restart', function onRestart() {
-    setTimeout(function reload() {  // reload after short pause
-      browserSync.reload({
-        stream: false
-      });
-    }, 500);
-  });
-});
+gulp.task('devserver',
+  ['devserver-public-html', 'devserver-public-js', 'devserver-server-js'],
+  function(cb) {
+    var called = false;
 
-gulp.task('web', ['web-nodemon', 'web-public-html', 'web-public-js', 'web-server-js'], function () {
-  browserSync.init({
-    files: ['server/**/*.*', 'public/**/*.*'],
-    proxy: 'https://localhost:5000',
-    port: 5001,
-    browser: ['chrome']   // Default browser to open
-  });
-  gulp.watch(web_paths.serverJs.src, ['web-server-js']);    // Watch and update scripts
-  gulp.watch(web_paths.publicJs.src, ['web-public-js']);    // Watch and update scripts
-  // gulp.watch(CONFIG.SOURCE_ROOT+'/**/*.{css,less}',  ['styles']);     // Watch and update styles
-  gulp.watch(['server/**/*', 'public/**/*']).on('change', browserSync.reload);  // Refresh the browser when any of the sources changes
-  gulp.watch(['src/**/*.{pug,less}']).on('change', browserSync.reload);           // Refresh browser when jade views change
-});
+    return nodemon({
+      script: 'server/index.js',            // The entry point
+      watch: [ // The files to watch for changes in
+        'server/**/*',
+        // 'public/**/*',
+        'src/**/*',
+      ],
+    })
+    .on('start', function() {
+      if (!called) { cb(); } // To stop it constantly restarting
+      called = true;
+    })
+    .on('restart', ['devserver-public-html', 'devserver-public-js', 'devserver-server-js']);
+  }
+);
 
-
-gulp.task('default', ['web-public-js', 'mobile-app1-prepare']);
+gulp.task('default', ['mobile-app1-prepare']);

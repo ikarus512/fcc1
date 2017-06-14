@@ -16,8 +16,8 @@
 
   .service('MyConst', function() {
 
-    var host = 'ikarus512-fcc1.herokuapp.com'; // production
-    // var host = 'localhost:5000'; // developement
+    // var host = 'ikarus512-fcc1.herokuapp.com'; // production
+    var host = 'localhost:5000'; // developement
 
     this.urlPref = '';
     this.urlPrefix = '#!';
