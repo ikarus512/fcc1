@@ -30,6 +30,7 @@ block scriptBeforeBody
     script(src='/js/common/app3/factory-rest.js')
     script(src='/js/common/app3/factory-websocket.js')
     script(src='/js/common/factory-my-error.js')
+    script(src='/js/common/components/ajax-loading-spinner.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
 
@@ -92,3 +93,5 @@ block content
         ) Remove stock5
 
       p(ng-show='!logintype') Please log in, in order to view stock data chart.
+
+    ajax-loading-spinner(ajax-loading-var='{{ajaxLoadingSpinner}}')

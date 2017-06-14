@@ -23,6 +23,7 @@ block scriptBeforeBody
   if webApp
     //- Here if webApp
     script(src='/lib/angular.min.js')
+    script(src='/lib/angular-route.min.js')
     script(src='/lib/angular-animate.min.js')
     script(src='/lib/angular-messages.min.js')
     script(src='/lib/ng-file-upload-all.min.js')
@@ -30,6 +31,7 @@ block scriptBeforeBody
     script(src='/js/common/app4/controller-main.js')
     script(src='/js/common/app4/factory-book-storage.js')
     script(src='/js/common/app4/filter-photo.js')
+    script(src='/js/common/components/ajax-loading-spinner.js')
     script(src='/js/common/directive-my-enter.js')
     script(src='/js/common/directive-my-escape.js')
     script(src='/js/common/directive-my-focus.js')
@@ -215,3 +217,5 @@ block content
           ng-click='newBookAdd()'
         ) Add
         br
+
+    ajax-loading-spinner(ajax-loading-var='{{ajaxLoadingSpinner}}')

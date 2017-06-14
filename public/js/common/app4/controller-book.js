@@ -11,9 +11,9 @@
 
   .controller('myApp4ControllerBook', [
     '$scope', '$window', '$timeout', 'bookStorage', 'App3WebSocketService',
-    'MyError', 'MyRouteParams', 'MyConst', 'User',
+    'MyError', '$routeParams', 'MyConst', 'User',
     function ($scope, $window, $timeout, bookStorage, App3WebSocketService,
-      MyError, MyRouteParams, MyConst, User
+      MyError, $routeParams, MyConst, User
     )
     {
 
@@ -27,7 +27,7 @@
         $scope.bookId = bookId==='undefined' ? '' : bookId;
 
         if (MyConst.mobileApp) {
-          $scope.bookId = MyRouteParams.bookId; // #!app4/books/:bookId
+          $scope.bookId = $routeParams.bookId; // #!app4/books/:bookId
           console.log('poll id: ' + $scope.bookId);
 
           $scope.logintype = User.type;

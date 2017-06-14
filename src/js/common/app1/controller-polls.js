@@ -26,12 +26,18 @@
       }
       $scope.urlPrefix = MyConst.urlPrefix;
 
+      $scope.ajaxLoadingSpinner = 0;
+
       $scope.view = 'polls'; // polls/newPoll
       $scope.newPollTitle = '';
       $scope.editedPoll = null;
 
       $scope.polls = [];
-      StoragePolls.get().then( function(res) { $scope.polls=res.data; } );
+      $scope.ajaxLoadingSpinner++;
+      StoragePolls.get()
+      .then( function(res) { $scope.polls=res.data; } )
+      .catch( function(err) { MyError.alert(err); } )
+      .finally( function() {$scope.ajaxLoadingSpinner--;});
 
 
       $scope.newPollMode = function() {
@@ -46,7 +52,9 @@
         var title=$scope.newPollTitle.trim();
 
         if (title) {
+          $scope.ajaxLoadingSpinner++;
           StoragePolls.post({title: title})
+          .finally( function() {$scope.ajaxLoadingSpinner--;})
           .then( function onOk(res) {
             var poll = res.data;
 
@@ -54,10 +62,9 @@
 
             $scope.newPollTitle = '';
             $scope.view = 'polls';
-          }, function onErr(res) {
-            // Report error during poll creation
-            MyError.alert(res);
-          });
+          })
+          .catch( function(err) { MyError.alert(err); } )
+          .finally( function() {$scope.ajaxLoadingSpinner--;});
 
         }
       };

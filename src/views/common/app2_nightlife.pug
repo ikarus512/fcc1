@@ -27,6 +27,7 @@ block scriptBeforeBody
     script(src='/js/common/app2/controller-main.js')
     script(src='/js/common/app2/directive-map.js')
     script(src='/js/common/app2/factory-cafe-storage.js')
+    script(src='/js/common/components/ajax-loading-spinner.js')
     script(src='/js/common/factory-my-error.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
@@ -159,3 +160,5 @@ block content
           b Note 5:
           |  We use free DB service with limited DB size.
           |  Hence we limited total number of cafes to 100000.
+
+    ajax-loading-spinner(ajax-loading-var='{{ajaxLoadingSpinner}}')

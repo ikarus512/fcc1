@@ -11,9 +11,9 @@
 
   .controller('ControllerPoll', [
     '$scope', '$location', '$window', 'StoragePoll', 'MyError',
-    'MyRouteParams', 'MyConst', 'User',
+    '$routeParams', 'MyConst', 'User',
     function ($scope, $location, $window, StoragePoll, MyError,
-      MyRouteParams, MyConst, User
+      $routeParams, MyConst, User
     )
     {
 
@@ -21,6 +21,8 @@
 
       $scope.view = 'poll'; // poll/newOption
       $scope.newOptionTitle = '';
+
+      $scope.ajaxLoadingSpinner = 0;
 
       $scope.poll = null;
       $scope.poll_id = undefined;
@@ -32,6 +34,7 @@
       };
 
       function reloadPoll() {
+        $scope.ajaxLoadingSpinner++;
         StoragePoll.get($scope.poll_id)
         .then( function(res) {
           $scope.poll = res.data;
@@ -46,7 +49,9 @@
             $scope.chartData.push(option.votes.length);
           });
 
-        });
+        })
+        .catch( function(err) { MyError.alert(err); } )
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
       }
 
       $scope.init = function(logintype, poll_id) {
@@ -57,7 +62,7 @@
           $scope.logintype = User.type;
           console.log('logged in as: ', User.type, User.name, User.uid);
 
-          $scope.poll_id = MyRouteParams.pollId; // #!app1/polls/:pollId
+          $scope.poll_id = $routeParams.pollId; // #!app1/polls/:pollId
           console.log('poll id: ' + $scope.poll_id);
         }
 
@@ -66,14 +71,14 @@
 
       $scope.pollDelete = function() {
         if (confirm('Do you really want to delete the poll?')) {
+          $scope.ajaxLoadingSpinner++;
           StoragePoll.delete($scope.poll._id)
-          .then( function onOk(res) { // Poll successfully deleted on server
+          .then( function(res) { // Poll successfully deleted on server
             // return to polls page
             $window.location.href = MyConst.urlPrefix + '/app1/polls';
-          }, function onErr(res) {
-            // Report error during poll deletion
-            MyError.alert(res);
-          });
+          })
+          .catch( function(err) { MyError.alert(err); } )
+          .finally( function() {$scope.ajaxLoadingSpinner--;});
         }
       };
 
@@ -90,28 +95,28 @@
         var title=$scope.newOptionTitle.trim();
 
         if (title) {
+          $scope.ajaxLoadingSpinner++;
           StoragePoll.post($scope.poll._id, title)
-          .then( function onOk(res) {
+          .then( function(res) {
             reloadPoll();
 
             $scope.newOptionTitle = '';
             $scope.view = 'poll';
-          }, function onErr(res) {
-            // Report error during poll creation
-            MyError.alert(res);
-          });
+          })
+          .catch( function(err) { MyError.alert(err); } )
+          .finally( function() {$scope.ajaxLoadingSpinner--;});
 
         }
       };
 
       $scope.optionVote = function(option) {
+        $scope.ajaxLoadingSpinner++;
         StoragePoll.put($scope.poll._id, option._id)
-        .then( function onOk(res) {
+        .then( function(res) {
           reloadPoll();
-        }, function onErr(res) {
-          // Report error during poll creation
-          MyError.alert(res);
-        });
+        })
+        .catch( function(err) { MyError.alert(err); } )
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
       };
 
     }

@@ -23,16 +23,17 @@ block scriptBeforeBody
   if webApp
     //- Here if webApp
     script(src='/lib/angular.min.js')
+    script(src='/lib/angular-route.min.js')
     script(src='/lib/Chart.bundle.min.js')
     script(src='/lib/angular-chart.min.js')
     script(src='/js/common/app1/app-poll.js')
     script(src='/js/common/app1/controller-poll.js')
     script(src='/js/common/app1/factory-storage-poll.js')
+    script(src='/js/common/components/ajax-loading-spinner.js')
     script(src='/js/common/directive-my-enter.js')
     script(src='/js/common/directive-my-escape.js')
     script(src='/js/common/directive-my-focus.js')
     script(src='/js/common/factory-my-error.js')
-    script(src='/js/web/factory-myRouteParams.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
 
@@ -120,7 +121,7 @@ block content
           //- ----------------------------------------------------
           //- --  chart
           //- ----------------------------------------------------
-          canvas.chart.chart-doughnut.my-opacity-1(
+          canvas.chart.chart-doughnut(
             chart-data='chartData'
             chart-labels='chartLabels'
             chart-options='chartOptions'
@@ -154,3 +155,5 @@ block content
       | &nbsp;
       button.btn.btn-primary(ng-click='newOptionCreate()') Create
       br
+
+    ajax-loading-spinner(ajax-loading-var='{{ajaxLoadingSpinner}}')

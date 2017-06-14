@@ -23,9 +23,11 @@ block scriptBeforeBody
   if webApp
     //- Here if webApp
     script(src='/lib/angular.min.js')
+    script(src='/lib/angular-route.min.js')
     script(src='/js/common/app1/app-polls.js')
     script(src='/js/common/app1/controller-polls.js')
     script(src='/js/common/app1/factory-storage-polls.js')
+    script(src='/js/common/components/ajax-loading-spinner.js')
     script(src='/js/common/directive-my-enter.js')
     script(src='/js/common/directive-my-escape.js')
     script(src='/js/common/directive-my-focus.js')
@@ -39,8 +41,6 @@ block scriptBeforeBody
         .value('init_uid'      , '#{uid}'      );
 
 block content
-  .well.my-opacity-08
-    h3 Voting App
 
   div(
     class='ng-app'
@@ -52,23 +52,23 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  polls list
     //- //////////////////////////////////////////////////////////
-    #polls.well.my-opacity-08(ng-show="view=='polls' && polls.length" ng-cloak)
+    #polls.well(ng-show="view=='polls' && polls.length" ng-cloak)
       h3 Polls:
       div(ng-repeat='poll in polls' ng-cloak)
         a.btn.btn-primary.form-control(href='{{urlPrefix}}/app1/polls/{{poll._id}}')
           | {{poll.title}}
 
-    #noPolls.well.my-opacity-08(ng-show="view=='polls' && !polls.length" ng-cloak)
+    #noPolls.well(ng-show="view=='polls' && !polls.length" ng-cloak)
       label No polls.
 
 
     //- //////////////////////////////////////////////////////////
     //- //  creating new poll
     //- //////////////////////////////////////////////////////////
-    #newPollButtonDiv.well.my-opacity-08(ng-show="view=='polls' && logintype")
+    #newPollButtonDiv.well(ng-show="view=='polls' && logintype")
       button#createNewPollButton.btn.btn-primary(ng-click='newPollMode()') Create New Poll
 
-    #newPoll.well.my-opacity-08(ng-show="view=='newPoll'")
+    #newPoll.well(ng-show="view=='newPoll'")
       h3 Creating New Poll...
       div
         label New Poll Title: &nbsp;
@@ -85,3 +85,5 @@ block content
         | &nbsp;
         button#newPollCreate.btn.btn-primary(ng-click='newPollCreate()') Create
         br
+
+    ajax-loading-spinner(ajax-loading-var='{{ajaxLoadingSpinner}}')

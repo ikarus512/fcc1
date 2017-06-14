@@ -11,6 +11,7 @@
 
   .service('MyConst', function() {
 
+    this.urlPref = '/';
     this.urlPrefix = '';
     this.serverUrl = '';
     this.webSocketHost = 'wss://' + window.document.location.host;

@@ -25,6 +25,7 @@ block scriptBeforeBody
   if webApp
     //- Here if webApp
     script(src='/lib/angular.min.js')
+    script(src='/lib/angular-route.min.js')
     script(src='/lib/angular-animate.min.js')
     script(src='/lib/angular-messages.min.js')
     script(src='/lib/ng-file-upload-all.min.js')
@@ -35,13 +36,13 @@ block scriptBeforeBody
     script(src='/js/common/app4/filter-msgtime.js')
     script(src='/js/common/app4/filter-photo.js')
     script(src='/js/common/components/input-price-update.js')
+    script(src='/js/common/components/ajax-loading-spinner.js')
     script(src='/js/common/directive-keep-focus.js')
     script(src='/js/common/directive-my-enter.js')
     script(src='/js/common/directive-my-escape.js')
     script(src='/js/common/directive-my-focus.js')
     script(src='/js/common/directive-my-scroll-bottom.js')
     script(src='/js/common/factory-my-error.js')
-    script(src='/js/web/factory-myRouteParams.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
 
@@ -92,3 +93,5 @@ block content
     .well
       h3 Return back to books list
       button#back.btn.btn-primary(ng-click='goBooksPage()') Back
+
+    ajax-loading-spinner(ajax-loading-var='{{ajaxLoadingSpinner}}')

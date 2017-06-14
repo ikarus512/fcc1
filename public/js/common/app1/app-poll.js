@@ -7,6 +7,6 @@
 ;( function() {
   'use strict';
 
-  angular.module('myapp', ['chart.js']);
+  angular.module('myapp', ['chart.js', 'ngRoute']);
 
 })();
