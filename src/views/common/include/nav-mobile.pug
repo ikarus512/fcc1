@@ -13,16 +13,36 @@
    *
    */
 
-.navbar.navbar-default.navbar-fixed-top
-  .container-fluid
-    .navbar-header
-      button.navbar-toggle(type='button' data-toggle='collapse' data-target='#myNavbar')
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand(href='#!/') DynApps
 
+.navbar-fixed-top
+  button(type='button' data-toggle='collapse' data-target='#myNavbar')
+    span.glyphicon.glyphicon-menu-hamburger
+
+.collapse.mycollapse#myNavbar
+  .navbar.navbar-default.navbar-fixed-top
+
+    button(type='button' data-toggle='collapse' data-target='#myNavbar')
+      span.glyphicon.glyphicon-menu-hamburger
+
+    p.navbar-text DynApps
+    p.navbar-text.my-nav-user(ng-show='logintype') User: {{logintype}} / {{username}}
+    p.navbar-text.my-nav-user(ng-hide='logintype') User: not logged in.
+
+    ul.nav.navbar-nav
+      li(class=title=='Home'     ?'active':''):   a(href='#!/')           Home
+
+      li(class=title=='Voting'   ?'active':''):   a(href='#!/app1/polls') Voting
+      li(class=title=='Nightlife'?'active':''):   a(href='#!/app2/cafes') Nightlife
+      li(class=title=='Stock'    ?'active':''):   a(href='#!/app3')       Stock
+      li(class=title=='Books'    ?'active':''):   a(href='#!/app4/books') Books
+      li(class=title=='Pinter'   ?'active':''):   a(href='#!/app5')       Pinter
+
+      li(class=title=='Pinter'   ?'active':''):   a(href='#!/autologin')  Autologin
+
+//- .navbar.navbar-default.navbar-fixed-top
+  .container-fluid
     .collapse.navbar-collapse#myNavbar
+      a.navbar-brand(href='#') DynApps
       ul.nav.navbar-nav
         li(class=title=='Home'     ?'active':''):   a(href='#!/')           Home
         li(class=title=='Voting'   ?'active':''):   a(href='#!/app1/polls') Voting

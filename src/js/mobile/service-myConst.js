@@ -9,10 +9,7 @@
 
   angular.module('myapp')
 
-  // Parameters from web backend (not used in mobile app)
-  .value('init_logintype', 'undefined')
-  .value('init_username' , 'undefined')
-  .value('init_uid'      , 'undefined')
+  .value('backendParams', {}) // not used in mobile app
 
   .service('MyConst', function() {
 

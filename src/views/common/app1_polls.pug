@@ -36,9 +36,10 @@ block scriptBeforeBody
     script(src='/js/web/service-user.js')
     script.
       angular.module('myapp')
-        .value('init_logintype', '#{logintype}')
-        .value('init_username' , '#{username}' )
-        .value('init_uid'      , '#{uid}'      );
+      .value('backendParams', {
+        logintype: '#{logintype}',
+        username:  '#{username}',
+      });
 
 block content
 
@@ -48,6 +49,9 @@ block content
     ng-controller='ControllerPolls'
     ng-cloak
   )
+
+    if mobileApp
+      include ./include/nav-mobile.pug
 
     //- //////////////////////////////////////////////////////////
     //- //  polls list

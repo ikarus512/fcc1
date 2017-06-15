@@ -38,6 +38,12 @@ block scriptBeforeBody
     script(src='/js/common/factory-my-error.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
+    script.
+      angular.module('myapp')
+      //- Get express.js server pug view parameters:
+      .value('init_logintype', '#{logintype}')
+      .value('init_username' , '#{username}' )
+      .value('init_uid'      , '#{uid}'      );
 
 block content
 
@@ -45,7 +51,6 @@ block content
     class='ng-app'
     ng-app=(webApp?'myapp':false)
     ng-controller='myApp4Controller'
-    ng-init="init('"+logintype+"')"
     ng-cloak
   )
 

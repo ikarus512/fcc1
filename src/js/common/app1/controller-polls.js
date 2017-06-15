@@ -11,18 +11,26 @@
 
   .controller('ControllerPolls', [
     '$scope', 'StoragePolls', 'MyError', 'MyConst', 'User',
-    'init_logintype',
+    'backendParams',
     function ($scope, StoragePolls, MyError, MyConst, User,
-      init_logintype
+      backendParams
     )
     {
 
       // Init params from backend
       if (MyConst.webApp) {
-        $scope.logintype = init_logintype==='undefined' ? '' : init_logintype;
+        $scope.logintype =
+          (backendParams.logintype && backendParams.logintype!=='undefined') ?
+          backendParams.logintype :
+          '';
+        $scope.username =
+          (backendParams.username && backendParams.username!=='undefined') ?
+          backendParams.username :
+          '';
       } else {
         $scope.logintype = User.getType();
-        console.log('logged in as: ', User.getType(), User.getName(), User.getUid());
+        $scope.username  = User.getName();
+        console.log('app1 logged in as: ', User.getType(), User.getName(), User.getUid());
       }
       $scope.urlPrefix = MyConst.urlPrefix;
 

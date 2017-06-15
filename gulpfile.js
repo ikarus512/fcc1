@@ -85,7 +85,8 @@ var mobile_paths = {
     dest: MOBILE_DST + 'views/',
   },
   less: {
-    src: MOBILE_SRC + 'src/less/_dynapps.less',
+    src: [ MOBILE_SRC + 'src/less/_dynapps.less',
+           MOBILE_SRC + 'src/less/_mobile.less',],
     dest: MOBILE_DST + 'less/',
   },
 };

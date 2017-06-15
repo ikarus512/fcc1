@@ -36,6 +36,13 @@ block scriptBeforeBody
     script(src='/js/common/factory-my-error.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
+    script.
+      angular.module('myapp')
+      .value('backendParams', {
+        logintype: '#{logintype}',
+        username:  '#{username}',
+        pollId:    '#{poll_id}',
+      });
 
 
 block content
@@ -44,7 +51,6 @@ block content
     class='ng-app'
     ng-app=(webApp?'myapp':false)
     ng-controller='ControllerPoll'
-    ng-init="init('"+logintype+"','"+poll_id+"')"
     ng-cloak
   )
 

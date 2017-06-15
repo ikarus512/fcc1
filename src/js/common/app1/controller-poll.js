@@ -11,11 +11,30 @@
 
   .controller('ControllerPoll', [
     '$scope', '$location', '$window', 'StoragePoll', 'MyError',
-    '$routeParams', 'MyConst', 'User',
+    '$routeParams', 'MyConst', 'User', 'backendParams',
     function ($scope, $location, $window, StoragePoll, MyError,
-      $routeParams, MyConst, User
+      $routeParams, MyConst, User, backendParams
     )
     {
+
+      // Init params from backend
+      if (MyConst.webApp) {
+        $scope.logintype =
+          (backendParams.logintype && backendParams.logintype!=='undefined') ?
+          backendParams.logintype : '';
+        $scope.username =
+          (backendParams.username && backendParams.username!=='undefined') ?
+          backendParams.username : '';
+        $scope.pollId =
+          (backendParams.pollId && backendParams.pollId!=='undefined') ?
+          backendParams.pollId : '';
+      } else {
+        $scope.logintype = User.getType();
+        $scope.username  = User.getName();
+        $scope.pollId = $routeParams.pollId; // #!app1/polls/:pollId
+        console.log('app1 logged in as: ', User.getType(), User.getName(), User.getUid());
+        console.log('poll id: ' + $scope.pollId);
+      }
 
       $scope.urlPrefix = MyConst.urlPrefix;
 
@@ -25,7 +44,6 @@
       $scope.ajaxLoadingSpinner = 0;
 
       $scope.poll = null;
-      $scope.poll_id = undefined;
       $scope.chartLabels = [];
       $scope.chartData = [];
       $scope.chartOptions = {
@@ -33,9 +51,11 @@
         legend: { display: true, position: 'bottom', },
       };
 
+      reloadPoll();
+
       function reloadPoll() {
         $scope.ajaxLoadingSpinner++;
-        StoragePoll.get($scope.poll_id)
+        StoragePoll.get($scope.pollId)
         .then( function(res) {
           $scope.poll = res.data;
 
@@ -53,21 +73,6 @@
         .catch( function(err) { MyError.alert(err); } )
         .finally( function() {$scope.ajaxLoadingSpinner--;});
       }
-
-      $scope.init = function(logintype, poll_id) {
-        $scope.logintype = logintype==='undefined' ? '' : logintype;
-        $scope.poll_id = poll_id;
-
-        if (MyConst.mobileApp) {
-          $scope.logintype = User.type;
-          console.log('logged in as: ', User.type, User.name, User.uid);
-
-          $scope.poll_id = $routeParams.pollId; // #!app1/polls/:pollId
-          console.log('poll id: ' + $scope.poll_id);
-        }
-
-        reloadPoll();
-      };
 
       $scope.pollDelete = function() {
         if (confirm('Do you really want to delete the poll?')) {
