@@ -54,7 +54,6 @@
         if (title) {
           $scope.ajaxLoadingSpinner++;
           StoragePolls.post({title: title})
-          .finally( function() {$scope.ajaxLoadingSpinner--;})
           .then( function onOk(res) {
             var poll = res.data;
 
