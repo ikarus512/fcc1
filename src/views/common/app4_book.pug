@@ -47,11 +47,12 @@ block scriptBeforeBody
     script(src='/js/web/service-user.js')
     script.
       angular.module('myapp')
-      //- Get express.js server pug view parameters:
-      .value('init_logintype', '#{logintype}')
-      .value('init_username' , '#{username}' )
-      .value('init_uid'      , '#{uid}'      )
-      .value('init_bookid'   , '#{bookId}'   );
+      .value('backendParams', {
+        logintype: '#{logintype}',
+        username:  '#{username}',
+        uid:       '#{uid}',
+        bookId:    '#{bookId}',
+      });
 
 block content
 
@@ -61,6 +62,9 @@ block content
     ng-controller='myApp4ControllerBook'
     ng-cloak
   )
+
+    if mobileApp
+      include ./include/nav-mobile.pug
 
     //- //////////////////////////////////////////////////////////
     //- //  book view

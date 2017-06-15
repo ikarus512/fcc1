@@ -10,9 +10,24 @@
   angular.module('myapp')
 
   .controller('myApp4Controller', [
-    '$scope', 'bookStorage', 'MyError', 'MyConst', 'User',
-    function ($scope, bookStorage, MyError, MyConst, User) {
+    '$scope', 'bookStorage', 'MyError', 'MyConst', 'User', 'backendParams',
+    function ($scope, bookStorage, MyError, MyConst, User, backendParams) {
 
+      // Init params from backend
+      if (MyConst.webApp) {
+        $scope.logintype =
+          (backendParams.logintype && backendParams.logintype!=='undefined') ?
+          backendParams.logintype : '';
+        $scope.username =
+          (backendParams.username && backendParams.username!=='undefined') ?
+          backendParams.username : '';
+      } else {
+        User.check()
+        .then( function() {
+          $scope.logintype = User.type;
+          $scope.username  = User.name;
+        });
+      }
       $scope.urlPrefix = MyConst.urlPrefix;
       $scope.serverUrl = MyConst.serverUrl;
 
@@ -30,17 +45,6 @@
       $scope.clearFile = function() {
         $scope.myAddBookForm.file.$setValidity("maxSize", true);
         $scope.newBook.file = null;
-      };
-
-      $scope.init = function(logintype,uid) {
-        $scope.logintype = logintype==='undefined' ? '' : logintype;
-        $scope.uid = uid==='undefined' ? '' : uid;
-
-        if (MyConst.mobileApp) {
-          $scope.logintype = User.type;
-          $scope.uid = User.uid;
-          console.log('logged in as: ', User.type, User.name, User.uid);
-        }
       };
 
       $scope.modeAddBook = function(book) {

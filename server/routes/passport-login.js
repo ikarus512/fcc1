@@ -76,6 +76,23 @@ module.exports = function (app, passport) {
     })(req, res, next);
   });
 
+  // REST: check if user logged in
+  app.route('/auth/api/check')
+  .all(myEnableCORS)
+  .get( function(req, res, next) {
+    if (!req.isAuthenticated()) {
+      return res.status(401)
+      .json({message:'User not logged in.'});
+    } else {
+      return res.status(200)
+      .json({
+        type: req.user.type,
+        name: req.user.name,
+        uid: req.user._id,
+      });
+    }
+  });
+
   // Create new local user
   app.route('/auth/local/signup')
   .post( function(req, res, next) {

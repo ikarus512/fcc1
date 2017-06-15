@@ -31,6 +31,17 @@ block scriptBeforeBody
     script(src='/js/common/factory-my-error.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
+    script.
+      angular.module('myapp')
+      .value('backendParams', {
+        logintype: '#{logintype}',
+        username:  '#{username}',
+        lat:            '#{app2state_lat}',
+        lng:            '#{app2state_lng}',
+        zoom:           '#{app2state_zoom}',
+        radius:         '#{app2state_radius}',
+        selectedCafeId: '#{app2state_selectedCafeId}',
+      });
 
 block scriptAfterBody
   script(
@@ -47,16 +58,11 @@ block content
     class='ng-app'
     ng-app=(webApp?'myapp':false)
     ng-controller='myApp2ControllerMain'
-    ng-init="init('"+
-      logintype+"','"+
-      username+"','"+
-      app2state_lat+"','"+
-      app2state_lng+"','"+
-      app2state_zoom+"','"+
-      app2state_radius+"','"+
-      app2state_selectedCafeId+"')"
     ng-cloak
   )
+
+    if mobileApp
+      include ./include/nav-mobile.pug
 
     .row
       //- //////////////////////////////////////////////////////////

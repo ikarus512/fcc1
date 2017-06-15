@@ -21,16 +21,16 @@
       if (MyConst.webApp) {
         $scope.logintype =
           (backendParams.logintype && backendParams.logintype!=='undefined') ?
-          backendParams.logintype :
-          '';
+          backendParams.logintype : '';
         $scope.username =
           (backendParams.username && backendParams.username!=='undefined') ?
-          backendParams.username :
-          '';
+          backendParams.username : '';
       } else {
-        $scope.logintype = User.getType();
-        $scope.username  = User.getName();
-        console.log('app1 logged in as: ', User.getType(), User.getName(), User.getUid());
+        User.check()
+        .then( function() {
+          $scope.logintype = User.type;
+          $scope.username  = User.name;
+        });
       }
       $scope.urlPrefix = MyConst.urlPrefix;
 

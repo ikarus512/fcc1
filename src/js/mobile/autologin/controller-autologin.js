@@ -13,15 +13,21 @@
     '$scope', 'User', 'MyConst',
     function ($scope, User, MyConst) {
 
-      $scope.logintype = User.getType();
-      $scope.uid = User.getUid();
-      $scope.username = User.getName();
-      console.log('logged in as: ', User.getType(), User.getName(), User.getUid());
+      User.check()
+      .then( function() {
+        $scope.logintype = User.type;
+        $scope.username  = User.name;
+        $scope.uid       = User.uid;
+        console.log('autologin check: ', User.type, User.name, User.uid);
+      });
 
       $scope.login = function() {
         User.loginLocal('me','me')
-        .then( function(res) {
-          console.log('now logged in as: ', User.getType(), User.getName(), User.getUid());
+        .then( function() {
+          $scope.logintype = User.type;
+          $scope.username  = User.name;
+          $scope.uid       = User.uid;
+          console.log('autologin login: ', User.type, User.name, User.uid);
         });
       };
 

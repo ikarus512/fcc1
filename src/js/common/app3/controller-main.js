@@ -10,19 +10,24 @@
   angular.module('myapp')
 
   .controller('myApp3ControllerMain',
-    ['$scope', 'App3WebSocketService', 'MyConst', 'User',
-    function ($scope, App3WebSocketService, MyConst, User) {
+    ['$scope', 'App3WebSocketService', 'MyConst', 'User', 'backendParams',
+    function ($scope, App3WebSocketService, MyConst, User, backendParams) {
 
-      $scope.init = function(logintype,username) {
-
-        $scope.logintype = logintype==='undefined' ? undefined : logintype;
-
-        if (MyConst.mobileApp) {
+      // Init params from backend
+      if (MyConst.webApp) {
+        $scope.logintype =
+          (backendParams.logintype && backendParams.logintype!=='undefined') ?
+          backendParams.logintype : '';
+        $scope.username =
+          (backendParams.username && backendParams.username!=='undefined') ?
+          backendParams.username : '';
+      } else {
+        User.check()
+        .then( function() {
           $scope.logintype = User.type;
-          console.log('logged in as: ', User.type, User.name, User.uid);
-        }
-
-      }; // $scope.init(...)
+          $scope.username  = User.name;
+        });
+      }
 
       var APP3_STOCK_PORTION_LENGTH = 5,
         APP3_STOCK_MAX_LENGTH = 4 * APP3_STOCK_PORTION_LENGTH;

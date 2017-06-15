@@ -15,6 +15,14 @@
 
       return {
 
+        check: function() {
+          return $http({
+            method: 'GET',
+            data: {},
+            url: MyConst.serverUrl + '/auth/api/check'
+          });
+        },
+
         loginLocal: function(username, password) {
           return $http({
             method: 'POST',

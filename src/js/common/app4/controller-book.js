@@ -11,33 +11,37 @@
 
   .controller('myApp4ControllerBook', [
     '$scope', '$window', '$timeout', 'bookStorage', 'App3WebSocketService',
-    'MyError', '$routeParams', 'MyConst', 'User',
+    'MyError', '$routeParams', 'MyConst', 'User', 'backendParams',
     function ($scope, $window, $timeout, bookStorage, App3WebSocketService,
-      MyError, $routeParams, MyConst, User
+      MyError, $routeParams, MyConst, User, backendParams
     )
     {
 
+      // Init params from backend
+      if (MyConst.webApp) {
+        $scope.logintype =
+          (backendParams.logintype && backendParams.logintype!=='undefined') ?
+          backendParams.logintype : '';
+        $scope.username =
+          (backendParams.username && backendParams.username!=='undefined') ?
+          backendParams.username : '';
+        $scope.uid =
+          (backendParams.uid && backendParams.uid!=='undefined') ?
+          backendParams.uid : '';
+        $scope.bookId =
+          (backendParams.bookId && backendParams.bookId!=='undefined') ?
+          backendParams.bookId : '';
+      } else {
+        User.check()
+        .then( function() {
+          $scope.logintype = User.type;
+          $scope.username  = User.name;
+          $scope.uid       = User.uid;
+        });
+        $scope.bookId = $routeParams.bookId; // #!app4/books/:bookId
+      }
       $scope.urlPrefix = MyConst.urlPrefix;
       $scope.serverUrl = MyConst.serverUrl;
-
-      $scope.init = function(logintype,uid,username,bookId) {
-        $scope.logintype = logintype==='undefined' ? '' : logintype;
-        $scope.uid = uid==='undefined' ? '' : uid;
-        $scope.username = username==='undefined' ? '' : username;
-        $scope.bookId = bookId==='undefined' ? '' : bookId;
-
-        if (MyConst.mobileApp) {
-          $scope.bookId = $routeParams.bookId; // #!app4/books/:bookId
-          console.log('poll id: ' + $scope.bookId);
-
-          $scope.logintype = User.type;
-          $scope.uid = User.uid;
-          $scope.username = User.name;
-          console.log('logged in as: ', User.type, User.name, User.uid);
-        }
-
-        bookRefresh({details:1, bids:1});
-      };
 
       bookRefresh({details:1, bids:1});
 

@@ -10,9 +10,9 @@ The application was created by running:
   cd fcc1apps
   cordova platform add browser --save
   cordova platform add android --save
-  cordova plugin save
   cordova platform save
-
+  cordova plugin add cordova-plugin-websocket
+  cordova plugin save
 
 
 

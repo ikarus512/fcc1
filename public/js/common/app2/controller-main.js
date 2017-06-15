@@ -10,8 +10,8 @@
   angular.module('myapp')
 
   .controller('myApp2ControllerMain', [
-    '$scope', 'cafeStorage', 'MyError', 'MyConst', 'User',
-    function($scope, cafeStorage, MyError, MyConst, User) {
+    '$scope', 'cafeStorage', 'MyError', 'MyConst', 'User', 'backendParams',
+    function($scope, cafeStorage, MyError, MyConst, User, backendParams) {
 
       var APP2_MAX_TIMESLOTS = 4;
       var APP2_TIMESLOT_LENGTH = 30; // timeslot length in minutes (must divide 60)
@@ -21,37 +21,46 @@
       $scope.zoom = 16;
       $scope.center = { lat: 56.312956, lng: 43.989955 }; // Nizhny
       $scope.radius = 188.796;
-      $scope.logintype = '';
-      $scope.username = '';
 
-      $scope.init = function(logintype,username,lat,lng,zoom,radius,selectedCafeId) {
-        $scope.logintype = logintype;
-        $scope.username = username;
+      // Init params from backend
+      if (MyConst.webApp) {
+        $scope.logintype =
+          (backendParams.logintype && backendParams.logintype!=='undefined') ?
+          backendParams.logintype : '';
+        $scope.username =
+          (backendParams.username && backendParams.username!=='undefined') ?
+          backendParams.username : '';
 
-        if (MyConst.mobileApp) {
+
+        var p = backendParams,
+          lat = (p.lat && p.lat!=='undefined') ? p.lat : '',
+          lng = (p.lng && p.lng!=='undefined') ? p.lng : '',
+          zoom = (p.zoom && p.zoom!=='undefined') ? p.zoom : '',
+          radius = (p.radius && p.radius!=='undefined') ? p.radius : '';
+        lat=Number(lat); lng=Number(lng); zoom=Number(zoom); radius=Number(radius);
+        if (isFinite(lat)) $scope.center.lat = lat;
+        if (isFinite(lng)) $scope.center.lng = lng;
+        if (isFinite(zoom)) $scope.zoom = zoom;
+        if (isFinite(radius)) $scope.radius = radius;
+
+        if (p.selectedCafeId && p.selectedCafeId !== 'undefined') {
+          var interval = setInterval( function() { // Wait until map ready
+            if ($scope.mapInit) {
+              $scope.listSelectedCafe(p.selectedCafeId); // select cafe when map ready
+              clearInterval(interval);
+            }
+          }, 100);
+        }
+
+      } else {
+        User.check()
+        .then( function() {
           $scope.logintype = User.type;
-          $scope.username = User.name;
-          console.log('logged in as: ', User.type, User.name, User.uid);
-        }
+          $scope.username  = User.name;
+        });
+      }
 
-        if (MyConst.webApp) {
-          lat=Number(lat); lng=Number(lng); zoom=Number(zoom); radius=Number(radius);
-          if (isFinite(lat)) $scope.center.lat = lat;
-          if (isFinite(lng)) $scope.center.lng = lng;
-          if (isFinite(zoom)) $scope.zoom = zoom;
-          if (isFinite(radius)) $scope.radius = radius;
-          if (selectedCafeId && selectedCafeId !== 'undefined') {
-            var interval = setInterval( function() { // Wait until map ready
-              if ($scope.mapInit) {
-                $scope.listSelectedCafe(selectedCafeId); // select cafe when map ready
-                clearInterval(interval);
-              }
-            }, 100);
-          }
-        }
-
-        cafesRefresh();
-      }; // $scope.init(...)
+      cafesRefresh();
 
       $scope.onMapInit = function() { $scope.mapInit = true; };
 

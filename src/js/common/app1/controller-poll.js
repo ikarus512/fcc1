@@ -29,11 +29,12 @@
           (backendParams.pollId && backendParams.pollId!=='undefined') ?
           backendParams.pollId : '';
       } else {
-        $scope.logintype = User.getType();
-        $scope.username  = User.getName();
+        User.check()
+        .then( function() {
+          $scope.logintype = User.type;
+          $scope.username  = User.name;
+        });
         $scope.pollId = $routeParams.pollId; // #!app1/polls/:pollId
-        console.log('app1 logged in as: ', User.getType(), User.getName(), User.getUid());
-        console.log('poll id: ' + $scope.pollId);
       }
 
       $scope.urlPrefix = MyConst.urlPrefix;
