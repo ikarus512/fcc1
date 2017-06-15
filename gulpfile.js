@@ -142,7 +142,7 @@ gulp.task('mobile-app1-prepare', [
   'mobile-app1-favicon',
   'mobile-app1-cordovaJs',
   'mobile-app1-views',
-  'mobile-app1-less'
+  'mobile-app1-less',
 ]);
 
 
@@ -196,25 +196,31 @@ gulp.task('devserver-server-js', function() { // Only syntax check
   .on('error', gutil.log);
 });
 
-gulp.task('devserver',
-  ['devserver-public-html', 'devserver-public-js', 'devserver-server-js'],
-  function(cb) {
-    var called = false;
+gulp.task('devserver-build', [
+  'devserver-public-html',
+  'devserver-public-js',
+  'devserver-server-js',
+]);
 
-    return nodemon({
-      script: 'server/index.js',            // The entry point
-      watch: [ // The files to watch for changes in
-        'server/**/*',
-        // 'public/**/*',
-        'src/**/*',
-      ],
-    })
-    .on('start', function() {
-      if (!called) { cb(); } // To stop it constantly restarting
-      called = true;
-    })
-    .on('restart', ['devserver-public-html', 'devserver-public-js', 'devserver-server-js']);
-  }
-);
+gulp.task('devserver', ['devserver-build'], function(cb) {
+  var called = false;
 
-gulp.task('default', ['mobile-app1-prepare']);
+  return nodemon({
+    script: 'server/index.js',            // The entry point
+    watch: [ // The files to watch for changes in
+      'server/**/*',
+      // 'public/**/*',
+      'src/**/*',
+    ],
+  })
+  .on('start', function() {
+    if (!called) { cb(); } // To stop it constantly restarting
+    called = true;
+  })
+  .on('restart', ['devserver-build']);
+});
+
+gulp.task('default', [
+  'devserver-build',
+  'mobile-app1-prepare',
+]);
