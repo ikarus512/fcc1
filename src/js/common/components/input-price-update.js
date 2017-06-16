@@ -9,7 +9,7 @@
 
   angular.module('myapp')
 
-  .directive('inputPriceUpdate', ['$timeout', function($timeout) {
+  .directive('inputPriceUpdate', ['$timeout', 'MyConst', function($timeout,  MyConst) {
 
     return {
 
@@ -26,7 +26,7 @@
         sortIndex: '@',
       },
 
-      templateUrl: '/js/common/components/input-price-update.html',
+      templateUrl: MyConst.urlPref + 'js/common/components/input-price-update.html',
 
       link: function(scope, element, attrs) {
 
