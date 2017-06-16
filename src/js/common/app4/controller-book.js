@@ -10,9 +10,9 @@
   angular.module('myapp')
 
   .controller('myApp4ControllerBook', [
-    '$scope', '$window', '$timeout', 'bookStorage', 'App3WebSocketService',
+    '$scope', '$window', '$timeout', 'bookStorage', 'App4WebSocketService',
     'MyError', '$routeParams', 'MyConst', 'User', 'backendParams',
-    function ($scope, $window, $timeout, bookStorage, App3WebSocketService,
+    function ($scope, $window, $timeout, bookStorage, App4WebSocketService,
       MyError, $routeParams, MyConst, User, backendParams
     )
     {
@@ -132,7 +132,7 @@
           })
 
           .then( function() {
-            App3WebSocketService.subscribe(
+            App4WebSocketService.subscribe(
               $scope.bookId,
               $scope.uid,
               receiveMessage
@@ -296,7 +296,7 @@
             at: new Date(),
             text: bid.newMsg,
           };
-          App3WebSocketService.sendMessage($scope.curBook._id,from,to,new Date(),bid.newMsg);
+          App4WebSocketService.sendMessage($scope.curBook._id,from,to,new Date(),bid.newMsg);
           bid.msgs.push(msg);
           bid.newMsg = '';
         }

@@ -144,6 +144,8 @@ gulp.task('mobile-app1-prepare', [
   'mobile-app1-cordovaJs',
   'mobile-app1-views',
   'mobile-app1-less',
+      'devserver-public-html',
+      'devserver-public-js',
 ]);
 
 

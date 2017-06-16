@@ -10,43 +10,85 @@
   angular.module('myapp')
 
   .factory('App3WebSocketService', [
-    'App3RestService', 'MyError', 'MyConst',
-    function(App3RestService, MyError, MyConst) {
+    'App3RestService', 'MyError', 'MyConst', '$q',
+    function(App3RestService, MyError, MyConst, $q) {
 
       var Service = {};
+      var ws = null;
 
-      var ws = new WebSocket(MyConst.webSocketHost);
+      Service.open = function() {
 
-      // Get WebSocket ticket
-      App3RestService.getWsTicket()
-      .then( function(data) {
-        var wsTicket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
-        // Register WebSocket ticket (to be able to receive messages from server)
-        setTimeout( function() {
-          ws.send(JSON.stringify({msgtype:'app3-check-ticket',ticket:wsTicket}));
-        },1500); // Delay for heroku.com
-      })
-      .catch( function(res) {
-        MyError.log(res);
-      });
+        var deferred = $q.defer();
 
-      ws.onmessage = function(message) {
-        var data = JSON.parse(message.data);
-        if (Service.callback && data.msgtype==='app3-stocks-data') {
-          Service.callback(data.data);
+        if (!ws) {
+
+          ws = new WebSocket(MyConst.webSocketHost);
+
+          ws.onopen = function(event) {
+
+            // Get WebSocket ticket
+            App3RestService.getWsTicket()
+            .then( function(data) {
+              var wsTicket = (typeof(data)==='object' && data.data && data.data.ticket) ? data.data.ticket : '';
+              // Register WebSocket ticket (to be able to receive messages from server)
+              setTimeout( function() {
+                ws.send(JSON.stringify({msgtype:'app3-check-ticket',ticket:wsTicket}));
+                deferred.resolve(1);
+              },1500); // Delay for heroku.com
+            })
+            .catch( function(res) {
+              deferred.reject(0);
+              MyError.log(res);
+            });
+
+          };
+
+          ws.onerror = function(event) {
+            deferred.reject(0);
+          };
+
+          ws.onclose = function(event) {
+            deferred.reject(0);
+          };
+
+          ws.onmessage = function(message) {
+            var data = JSON.parse(message.data);
+            if (Service.callback && data.msgtype==='app3-stocks-data') {
+              Service.callback(data.data);
+            }
+          };
+
         }
-      };
+
+        return deferred.promise;
+
+      }; // Service.open = function(...)
+
+
+
 
       Service.subscribe = function(callback) {
         Service.callback = callback;
+        return Service.open();
       };
 
       Service.addStockName = function(stockName) {
-        ws.send(JSON.stringify({msgtype: 'app3-add-stock-name', stockName: stockName}));
+        if (ws) {
+          ws.send(JSON.stringify({msgtype: 'app3-add-stock-name', stockName: stockName}));
+        }
       };
 
       Service.removeStockName = function(stockName) {
-        ws.send(JSON.stringify({msgtype: 'app3-remove-stock-name', stockName: stockName}));
+        if (ws) {
+          ws.send(JSON.stringify({msgtype: 'app3-remove-stock-name', stockName: stockName}));
+        }
+      };
+
+      Service.close = function() {
+        if (ws) {
+          ws.close();
+          ws = null;
+        }
       };
 
       return Service;

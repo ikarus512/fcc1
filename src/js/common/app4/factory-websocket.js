@@ -9,13 +9,14 @@
 
   angular.module('myapp')
 
-  .factory('App3WebSocketService', [
+  .factory('App4WebSocketService', [
     'bookStorage', 'MyError', 'MyConst',
     function(bookStorage, MyError, MyConst) {
 
       var Service = {};
 
       var ws = new WebSocket(MyConst.webSocketHost);
+      // var ws = {};
 
       ws.onmessage = function(message) {
         var data = JSON.parse(message.data);
@@ -73,6 +74,6 @@
 
       return Service;
 
-  }]); // .factory('App3WebSocketService', ...
+  }]); // .factory('App4WebSocketService', ...
 
 })();

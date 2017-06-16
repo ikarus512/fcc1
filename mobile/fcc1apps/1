@@ -11,9 +11,15 @@ The application was created by running:
   cordova platform add browser --save
   cordova platform add android --save
   cordova platform save
-  cordova plugin add cordova-plugin-websocket
   cordova plugin save
 
+
+  websocket:
+  cordova plugin add cordova-plugin-websocket   ### not needed
+  cordova platform rm browser android && cordova platform add browser android  ### needed after removing plugin
+
+  debug:
+  cordova plugin add cordova-plugin-crosswalk-webview   ### needed only for debug (chrome://inspect)
 
 
 cordova platform ls

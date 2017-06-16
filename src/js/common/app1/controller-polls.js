@@ -17,6 +17,8 @@
     )
     {
 
+      $scope.ajaxLoadingSpinner = 0;
+
       // Init params from backend
       if (MyConst.webApp) {
         $scope.logintype =
@@ -26,15 +28,16 @@
           (backendParams.username && backendParams.username!=='undefined') ?
           backendParams.username : '';
       } else {
+        $scope.ajaxLoadingSpinner++;
         User.check()
         .then( function() {
           $scope.logintype = User.type;
           $scope.username  = User.name;
-        });
+        })
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
       }
       $scope.urlPrefix = MyConst.urlPrefix;
 
-      $scope.ajaxLoadingSpinner = 0;
 
       $scope.view = 'polls'; // polls/newPoll
       $scope.newPollTitle = '';

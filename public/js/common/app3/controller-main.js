@@ -22,11 +22,13 @@
           (backendParams.username && backendParams.username!=='undefined') ?
           backendParams.username : '';
       } else {
+        $scope.ajaxLoadingSpinner++;
         User.check()
         .then( function() {
           $scope.logintype = User.type;
           $scope.username  = User.name;
-        });
+        })
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
       }
 
       var APP3_STOCK_PORTION_LENGTH = 5,
@@ -63,7 +65,10 @@
       };
 
 
-
+      /* On app3 close: */
+      $scope.$on("$destroy", function(){
+        App3WebSocketService.close();
+      });
 
       $scope.addStockName = function(stockName) {
         App3WebSocketService.addStockName(stockName);
@@ -73,6 +78,7 @@
         App3WebSocketService.removeStockName(stockName);
       };
 
+      $scope.ajaxLoadingSpinner++;
       App3WebSocketService.subscribe( function(newDataPortion) {
         var key, newData = $scope.chart1Data;
 
@@ -115,7 +121,8 @@
 
         // Refresh scope
         $scope.$apply();
-      });
+      })
+      .finally( function() {$scope.ajaxLoadingSpinner--;});
 
   }]); // .controller('myApp3ControllerMain', ...
 
