@@ -22,11 +22,13 @@
           (backendParams.username && backendParams.username!=='undefined') ?
           backendParams.username : '';
       } else {
+        $scope.ajaxLoadingSpinner++;
         User.check()
         .then( function() {
           $scope.logintype = User.type;
           $scope.username  = User.name;
-        });
+        })
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
       }
       $scope.urlPrefix = MyConst.urlPrefix;
       $scope.serverUrl = MyConst.serverUrl;
@@ -37,9 +39,11 @@
 
       booksRefresh();
       function booksRefresh() {
+        $scope.ajaxLoadingSpinner++;
         bookStorage.getBooks()
         .then( function(res) { $scope.books=res.data; } )
-        .catch( function(res) { MyError.alert(res); } );
+        .catch( function(res) { MyError.alert(res); } )
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
       }
 
       $scope.clearFile = function() {
@@ -73,6 +77,8 @@
 
         if ($scope.newBook.title) {
 
+          $scope.ajaxLoadingSpinner++;
+
           bookStorage.postBook($scope.newBook)
 
           .then( function(res) {
@@ -83,7 +89,9 @@
           .catch( function(res) {
             // Report error during book creation
             MyError.alert(res);
-          });
+          })
+
+          .finally( function() {$scope.ajaxLoadingSpinner--;});
 
         }
 

@@ -32,12 +32,14 @@
           (backendParams.bookId && backendParams.bookId!=='undefined') ?
           backendParams.bookId : '';
       } else {
+        $scope.ajaxLoadingSpinner++;
         User.check()
         .then( function() {
           $scope.logintype = User.type;
           $scope.username  = User.name;
           $scope.uid       = User.uid;
-        });
+        })
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
         $scope.bookId = $routeParams.bookId; // #!app4/books/:bookId
       }
       $scope.urlPrefix = MyConst.urlPrefix;
@@ -48,6 +50,8 @@
       function bookRefresh(opts) {
 
         if ($scope.bookId) {
+
+          $scope.ajaxLoadingSpinner++;
 
           bookStorage.getBook($scope.bookId)
 
@@ -132,39 +136,54 @@
           })
 
           .then( function() {
+            $scope.ajaxLoadingSpinner++;
             App4WebSocketService.subscribe(
               $scope.bookId,
               $scope.uid,
               receiveMessage
-            );
-          });
+            )
+            .finally( function() {$scope.ajaxLoadingSpinner--;});
+          })
+
+          .finally( function() {$scope.ajaxLoadingSpinner--;});
 
         }
 
       } // function bookRefresh(...)
+
+      /* On app4 close: */
+      $scope.$on("$destroy", function(){
+        App4WebSocketService.close();
+      });
 
       $scope.chooseBid = function(bid) {
 
         if (confirm('Do you really want to finish trade with price $'+
           bid.price+'?'))
         {
+          $scope.ajaxLoadingSpinner++;
           bookStorage.chooseBid($scope.curBook._id, bid.by._id)
-          .catch( function(res) { MyError.alert(res); });
+          .catch( function(res) { MyError.alert(res); })
+          .finally( function() {$scope.ajaxLoadingSpinner--;});
         }
 
       }; // $scope.chooseBid = function(...)
 
       $scope.addBid = function() {
 
+        $scope.ajaxLoadingSpinner++;
         bookStorage.addBid($scope.curBook._id, $scope.newBidPrice)
-        .catch( function(res) { MyError.alert(res); });
+        .catch( function(res) { MyError.alert(res); })
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
 
       }; // $scope.addBid = function(...)
 
       $scope.updateBid = function(check, curPrice, newPrice) {
         if (check && curPrice !== newPrice) {
+          $scope.ajaxLoadingSpinner++;
           bookStorage.addBid($scope.curBook._id, newPrice)
-          .catch( function(res) { MyError.alert(res); });
+          .catch( function(res) { MyError.alert(res); })
+          .finally( function() {$scope.ajaxLoadingSpinner--;});
         }
       }; // $scope.updateBid = function(...)
 
@@ -201,12 +220,16 @@
 
         if ($scope.newBook.title) {
 
+          $scope.ajaxLoadingSpinner++;
+
           bookStorage.postBook($scope.newBook)
 
           .catch( function(res) {
             // Report error during book update
             MyError.alert(res);
-          });
+          })
+
+          .finally( function() {$scope.ajaxLoadingSpinner--;});
 
         }
 
@@ -218,6 +241,8 @@
 
           if (confirm('Do you really want to delete the book?')) {
 
+            $scope.ajaxLoadingSpinner++;
+
             bookStorage.bookDelete($scope.newBook._id)
 
             .then( function onOk(res) {
@@ -227,7 +252,9 @@
             .catch( function onErr(res) {
               // Report error during poll deletion
               MyError.alert(res);
-            });
+            })
+
+            .finally( function() {$scope.ajaxLoadingSpinner--;});
 
           }
 

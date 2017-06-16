@@ -10,26 +10,25 @@
   angular.module('myapp')
 
   .factory('App4WebSocketService', [
-    'bookStorage', 'MyError', 'MyConst',
-    function(bookStorage, MyError, MyConst) {
+    'bookStorage', 'MyError', 'MyConst', '$q',
+    function(bookStorage, MyError, MyConst, $q) {
 
       var Service = {};
-
-      var ws = new WebSocket(MyConst.webSocketHost);
-      // var ws = {};
-
-      ws.onmessage = function(message) {
-        var data = JSON.parse(message.data);
-        Service.callback(data);
-      };
-
-      var subscribed;
+      var ws = null;
 
       Service.subscribe = function(bookId, uid, callback) {
 
-        if (!subscribed) {
+        var deferred = $q.defer();
 
-          subscribed = true;
+        Service.callback = callback;
+
+        // Close WebSocket
+        Service.close();
+
+        // Open WebSocket
+        ws = new WebSocket(MyConst.webSocketHost);
+
+        ws.onopen = function(event) {
 
           // Get WebSocket ticket
           bookStorage.getWsTicket()
@@ -44,22 +43,34 @@
                 uid: uid,
                 ticket: ticket,
               }));
+              deferred.resolve(1);
             },1500); // Delay for heroku.com
 
-            Service.callback = callback;
           })
 
           .catch( function(res) {
+            deferred.reject(0);
             MyError.log(res);
           });
 
-        } else {
+        };
 
-            Service.callback = callback;
+        ws.onerror = function(event) {
+          deferred.reject(0);
+        };
 
-        }
+        ws.onclose = function(event) {
+          deferred.reject(0);
+        };
 
-      };
+        ws.onmessage = function(message) {
+          var data = JSON.parse(message.data);
+          Service.callback(data);
+        };
+
+        return deferred.promise;
+
+      }; // Service.subscribe = function(...)
 
       Service.sendMessage = function(bookId,from,to,time,text) {
         ws.send(JSON.stringify({
@@ -70,6 +81,13 @@
           time: time,
           text: text,
         }));
+      };
+
+      Service.close = function() {
+        if (ws) {
+          ws.close();
+          ws = null;
+        }
       };
 
       return Service;
