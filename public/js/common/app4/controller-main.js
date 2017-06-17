@@ -47,7 +47,7 @@
       }
 
       $scope.clearFile = function() {
-        $scope.myAddBookForm.file.$setValidity("maxSize", true);
+        $scope.myAddBookForm.file.$setValidity('maxSize', true);
         $scope.newBook.file = null;
       };
 

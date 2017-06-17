@@ -13,7 +13,7 @@
 
     return {
       scope: {
-        myScrollBottom: "="
+        myScrollBottom: '='
       },
       link: function ($scope, $element) {
         $scope.$watchCollection('myScrollBottom', function (newValue) {

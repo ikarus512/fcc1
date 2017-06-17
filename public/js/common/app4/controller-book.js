@@ -152,7 +152,7 @@
       } // function bookRefresh(...)
 
       /* On app4 close: */
-      $scope.$on("$destroy", function(){
+      $scope.$on('$destroy', function(){
         App4WebSocketService.close();
       });
 
@@ -208,7 +208,7 @@
       }; // $scope.bookEditCancelChanges = function(...)
 
       $scope.clearFile = function() {
-        $scope.myBookEditForm.file.$setValidity("maxSize", true);
+        $scope.myBookEditForm.file.$setValidity('maxSize', true);
         $scope.newBook.file = null;
       };
 

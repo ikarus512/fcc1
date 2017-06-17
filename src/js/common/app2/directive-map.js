@@ -264,7 +264,7 @@
     
     return {
       restrict: 'E',
-      template: '<div id="gmaps"></div>',
+      template: '<div id=\'gmaps\'></div>',
       replace: true,
       link: directiveLinkFunction
     };

@@ -66,7 +66,7 @@
 
 
       /* On app3 close: */
-      $scope.$on("$destroy", function(){
+      $scope.$on('$destroy', function(){
         App3WebSocketService.close();
       });
 
