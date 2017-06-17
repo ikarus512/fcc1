@@ -19,10 +19,12 @@ var
   changed       = require('gulp-changed'),
   // debug         = require('gulp-debug'), // .pipe(debug({verbose: true}))
   // es            = require('event-stream'), // For working with streams rather than temp dirs
+  exec          = require('child_process').exec,
   gulp          = require('gulp'),
   gutil         = require('gulp-util'),
   headerfooter  = require('gulp-headerfooter'),
   jshint        = require('gulp-jshint'),
+  mkdirs        = require('mkdirs'),
   nodemon       = require('gulp-nodemon'),
   pug           = require('gulp-pug'),
   pugParams     = require('./src/views/pug-params.js').mobile,
@@ -31,6 +33,16 @@ var
   rename        = require('gulp-rename'),
   uglify        = require('gulp-uglify'),
   zzz;
+
+var runCommand = function(command) {
+  exec(command, function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    if (err !== null) {
+      console.log('exec error: ' + err);
+    }
+  });
+};
 
 
 var MOBILE_SRC = './';
@@ -199,13 +211,33 @@ gulp.task('devserver-server-js', function() { // Only syntax check
   .on('error', gutil.log);
 });
 
+gulp.task('mongo-start', function() {
+  var paths = {
+    dbDir: './_tmp/dbDir',
+    dbLogs: './_tmp/dbLogs',
+  };
+  var command = ((process.platform === 'win32') ? 'start /MIN ' : '') +
+    ' mongod' +
+    ' --dbpath ' + process.cwd() + '/' + paths.dbDir + '/' +
+    ' --logpath ' + process.cwd() + '/' + paths.dbLogs + '/mongo.log';
+
+  mkdirs(paths.dbDir);
+  mkdirs(paths.dbLogs);
+  runCommand(command);
+});
+
+gulp.task('mongo-stop', function() {
+  var command = 'mongo admin --eval "db.shutdownServer();"'
+  runCommand(command);
+});
+
 gulp.task('devserver-build', [
   'devserver-public-html',
   'devserver-public-js',
   'devserver-server-js',
 ]);
 
-gulp.task('devserver', ['devserver-build'], function(cb) {
+gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
   var called = false;
 
   return nodemon({
