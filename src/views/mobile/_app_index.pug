@@ -71,6 +71,7 @@ html(lang='en')
     meta( name='viewport' content='user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width')
     link(rel='stylesheet' type='text/css' href=urlPref+'lib/bootstrap337.css')
     link(rel='stylesheet' type='text/css' href=urlPref+'lib/font-awesome470.css')
+    link(rel='stylesheet' type='text/css' href=urlPref+'lib/leaflet/leaflet.css')
     link(rel='stylesheet' type='text/css' href=urlPref+'css/dynapps.css')
     link(rel='stylesheet' type='text/css' href=urlPref+'less/_dynapps.css')
     link(rel='stylesheet' type='text/css' href=urlPref+'less/_mobile.css')
@@ -130,8 +131,9 @@ html(lang='en')
     script(src=urlPref+'lib/angular-chart.min.js')
 
     //- app2
+    script(src=urlPref+'lib/leaflet/leaflet.js')
     script(src=urlPref+'js/common/app2/controller-main.js')
-    script(src=urlPref+'js/common/app2/directive-map.js')
+    script(src=urlPref+'js/common/app2/directive-map-leaflet.js')
     script(src=urlPref+'js/common/app2/factory-cafe-storage.js')
 
     //- app3

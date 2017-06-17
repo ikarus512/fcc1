@@ -62,10 +62,10 @@ var mobile_paths = {
   },
   copy: {
     src : [
-      MOBILE_SRC + 'public/lib/*',
-      MOBILE_SRC + 'public/css/*',
-      MOBILE_SRC + 'public/fonts/*',
-      MOBILE_SRC + 'public/img/*',
+      MOBILE_SRC + 'public/lib/**/*',
+      MOBILE_SRC + 'public/css/**/*',
+      MOBILE_SRC + 'public/fonts/**/*',
+      MOBILE_SRC + 'public/img/**/*',
     ],
     base: MOBILE_SRC + 'public/',
     dest: MOBILE_DST,
