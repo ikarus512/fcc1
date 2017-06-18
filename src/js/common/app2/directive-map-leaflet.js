@@ -9,7 +9,7 @@
 
   angular.module('myapp')
 
-  .directive('myLeafletMap', ['MyConst', function(MyConst) {
+  .directive('myLeafletMap', ['$timeout', 'MyConst', function($timeout, MyConst) {
 
     var scope = {
       cafes: '=mapCafes',
@@ -31,9 +31,14 @@
 
       function initMap() {
 
+        scope.goOnline = function() {
+          console.log('goOnline()');
+        };
+
         if (!map) {
 
-          var map = L.map(element[0])
+          var map = L.map(element.find('#leaflet-map-canvas')[0])
+
           .setView([56.312956, 43.989955], 17);
 
           L.tileLayer(
@@ -49,11 +54,13 @@
       } // function initMap(...)
 
     } // function directiveLinkFunction(...)
-    
+
+   
     return {
       restrict: 'E',
-      template: '<div id=\'leaflet-map-canvas\'></div>',
+      template: '<div><button ng-click="goOnline();">Go Online</button><div id="leaflet-map-canvas" style="height:90%;width:100%;"></div></div>',
       replace: true,
+      scope: scope,
       link: directiveLinkFunction
     };
   }]);

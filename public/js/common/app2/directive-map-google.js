@@ -266,6 +266,7 @@
       restrict: 'E',
       template: '<div id=\'gmaps\'></div>',
       replace: true,
+      // scope: scope,
       link: directiveLinkFunction
     };
   });

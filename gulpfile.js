@@ -240,19 +240,49 @@ gulp.task('devserver-build', [
 gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
   var called = false;
 
+  gulp.watch(devserver_paths.publicHtml.src, ['devserver-public-html']);
+  gulp.watch(devserver_paths.publicJs.src, ['devserver-public-js']);
+
   return nodemon({
     script: 'server/index.js',            // The entry point
     watch: [ // The files to watch for changes in
       'server/**/*',
       // 'public/**/*',
-      'src/**/*',
+      // 'src/js/**/*',
+      'src/views/**/*',
+      'src/less/**/*',
     ],
+    // 'ignore': [ '.git' ],
+    // 'verbose': true,
+    // 'env': { 'NODE_ENV': 'development' },
+    ext: 'js pug less',
+    // tasks: ['devserver-build'],
+    tasks: function(changedFiles) {
+      var tasks = [];
+      if (!changedFiles) return tasks;
+      changedFiles.forEach( function(file) {
+        console.log('changed file: ' + file);
+        // if (file.match(/^src\/views/)) if (!~tasks.indexOf('lint')) tasks.push('lint');
+        // if (path.extname(file) === '.js' && !~tasks.indexOf('lint')) tasks.push('lint');
+        // if (path.extname(file) === '.css' && !~tasks.indexOf('cssmin')) tasks.push('cssmin');
+      });
+      return tasks;
+    },
+    // nodeArgs: ['--debug'],
+    // legacyWatch: true,
+    // options: '--delay 4', //'--delay 1500ms',
+    delay: 500, // to prevent restarting twice
   })
-  .on('start', function() {
-    if (!called) { cb(); } // To stop it constantly restarting
-    called = true;
-  })
-  .on('restart', ['devserver-build']);
+    // nodemon restarts twice:
+    //  - reinstall fsevents
+  // .on('start', function() {
+  //   if (!called) { cb(); } // To stop it constantly restarting
+  //   called = true;
+  // })
+  // .on('restart', ['devserver-build'])
+  // .on('start',  function(a) { console.log('-start!',a); }) //['watch'])
+  // .on('restart', function(a) { console.log('-restarted!',a); })
+  ;
 });
 
 gulp.task('default', [
