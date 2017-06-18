@@ -16,10 +16,11 @@
       selectedCafeId: '=mapSelectedCafeId',
       center: '=mapCenter',
       zoom: '=mapZoom',
-      mapMoved: '&',
-      onMapInit: '&',
-      mapSelectedCafe: '&',
-      cafesUnselect: '&',
+
+      mapMoved: '=',
+      onMapInit: '=',
+      mapSelectedCafe: '=',
+      cafesUnselect: '=',
     };
 
     // directive link function

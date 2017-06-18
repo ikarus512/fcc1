@@ -16,10 +16,11 @@
       selectedCafeId: '=mapSelectedCafeId',
       center: '=mapCenter',
       zoom: '=mapZoom',
-      mapMoved: '&',
-      onMapInit: '&',
-      mapSelectedCafe: '&',
-      cafesUnselect: '&',
+
+      mapMoved: '=',
+      onMapInit: '=',
+      mapSelectedCafe: '=',
+      cafesUnselect: '=',
     };
 
     // directive link function
@@ -266,7 +267,7 @@
       restrict: 'E',
       template: '<div id=\'gmaps\'></div>',
       replace: true,
-      // scope: scope,
+      scope: scope,
       link: directiveLinkFunction
     };
   });
