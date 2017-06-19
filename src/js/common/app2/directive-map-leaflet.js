@@ -48,13 +48,9 @@
       var mapOptions = {
         center: scope.center, // L.LatLng(scope.center.lat, scope.center.lng),
         zoom: scope.zoom,
-        // mapTypeId: google.maps.MapTypeId.ROADMAP,
-        // fullscreenControl: true,
-        // mapTypeControl: true,
-        // scaleControl: true,
-          // trackResize: true,
+        attributionControl: false, // no link to leaflet
         zoomControl: true,
-        doubleClickZoom: false, //disableDoubleClickZoom: true, // we do it manually
+        doubleClickZoom: false, // we do it manually
         layers: [layerOffline],
       };
 
@@ -97,7 +93,7 @@
             // Going to small screen.
             scope.fullscreenIcon = 'zoom_out_map';
             el.css(curOpts);
-            angular.element('body').css({overflow:'auto'})
+            angular.element('body').css({overflow:'auto'});
           } else {
             // Here if current map mode: small screen.
             // Going to fullscreen.
@@ -110,7 +106,7 @@
               width: '100%',
               'z-index':1500,
             });
-            angular.element('body').css({overflow:'hidden'})
+            angular.element('body').css({overflow:'hidden'});
           }
           fullscreen = !fullscreen;
         }; // scope.toggleFullscreen = function(...)
