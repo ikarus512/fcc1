@@ -1,0 +1,30 @@
+<!--
+/* file: directive-map-leaflet.html */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ */
+-->
+
+<div>
+
+  <div style='position:relative;height:100%;width:100%;'>
+
+    <div id='leaflet-map-canvas' style='height:100%;width:100%;'>
+    </div>
+
+    <button type='button' class='btn btn-default' ng-click='toggleFullscreen();'
+      style='position:absolute;height:25px;font-size:20px;padding:0;right:5px;top:5px;z-index:1000;'
+      >
+      <i class='material-icons'>{{fullscreenIcon}}</i>
+    </button>
+
+    <button type='button' class='btn btn-default' ng-click='toggleLayer();'
+      style='position:absolute;left:5px;bottom:5px;z-index:1000;'
+      >
+      {{nextLayerName}}
+    </button>
+
+  </div>
+
+</div>
