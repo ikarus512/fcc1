@@ -12,6 +12,8 @@
   .directive('myLeafletMap', ['MyConst', function(MyConst) {
 
     var
+      maxZoom = 17,
+
       scope = {
         cafes: '=mapCafes',
         selectedCafeId: '=mapSelectedCafeId',
@@ -28,14 +30,14 @@
         MyConst.urlPref + 'img/OSM5/{z}/{x}/{y}.png', {
           reuseTiles: true,
           updateWhenIdle: false,
-          maxZoom: 17,
+          maxZoom: maxZoom,
       }),
 
       layerOnline = L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           reuseTiles: true,
           updateWhenIdle: false,
-          maxZoom: 17,
+          maxZoom: maxZoom,
       }),
 
       iconBlue = L.icon({
@@ -107,6 +109,7 @@
           scope.fullscreenIcon = 'zoom_out_map';
           el.css(curOpts);
           angular.element('body').css({overflow:'auto'});
+          onFullScreen();
         } else {
           // Here if current map mode: small screen.
           // Going to fullscreen.
@@ -120,6 +123,7 @@
             'z-index':1500,
           });
           angular.element('body').css({overflow:'hidden'});
+          onFullScreen();
         }
         fullscreen = !fullscreen;
       }; // scope.toggleFullscreen = function(...)
@@ -132,31 +136,27 @@
         if (!map) {
 
           map = L.map(element.find('#leaflet-map-canvas')[0], mapOptions);
-//           map.on('dragend', onMapChangeRefreshScope);
-//           map.on('zoom_changed', onMapChangeRefreshScope);
-//           map.on('center_changed', onMapChangeRefreshScope);
-//           map.on('dblclick', onDblClick);
+          map.on('zoomend moveend', onMapChangeRefreshScope); //'dragend zoom_changed center_changed'
+          map.on('dblclick', onDblClick);
           map.on('click', onClick);
-//           $(document).on('webkitfullscreenchange ' +
-//             'mozfullscreenchange msfullscreenchange fullscreenchange', onFullScreen);
+          //onFullScreen() called manually
 
           // map.on('idle load viewreset', function(e) {
           // map.on('load', function(e) {
+          setTimeout( function() {
             if (!mapInit) {
               mapInit = true;
               scope.onMapInit();
             }
-          // });
+          },0);
 
-//           circle = new google.maps.Circle({
-//             strokeColor: '#FF0000',   strokeOpacity: 0.30,     strokeWeight: 2,
-//             fillColor: '#00FF00',     fillOpacity: 0.10,
-//             map: map,
-//             center: new google.maps.LatLng(scope.center.lat,scope.center.lng),
-//             radius: scope.radius,
-//           });
-//           circle.addListener('dblclick', onDblClick);
-//           circle.addListener('click', onClick);
+          circle = L.circle(scope.center,{
+            color: '#FF0000',   opacity: 0.30,     weight: 2,
+            fillColor: '#00FF00',     fillOpacity: 0.10,
+            radius: scope.radius ? scope.radius : 30,
+          }).addTo(map);
+          circle.on('dblclick', onDblClick);
+          circle.on('click', onClick);
 
           scope.cafes.forEach( function(cafe) {
             addMarker(cafe);
@@ -191,63 +191,62 @@
         });
       }
 
-//       function onDblClick(MouseEvent) {
-//         map.setZoom(map.getZoom()+1);
-//         setTimeout( function() {
-//           map.setCenter(MouseEvent.latLng);
-//           onMapChangeRefreshScope();
-//         }, 100);
-//       }
+      function onDblClick(MouseEvent) {
+        var z = map.getZoom();
+        z = (z<maxZoom) ? (z+1) : z;
+        setTimeout( function() {
+          map.flyTo(MouseEvent.latlng, z); //map.setCenter
+          onMapChangeRefreshScope();
+        }, 0);
+      }
 
-//       function onFullScreen() {
-//         var c = new google.maps.LatLng(scope.center.lat,scope.center.lng);
-//         setTimeout( function() {
-//           map.setCenter(c);
-//           onMapChangeRefreshScope();
-//         }, 100);
-//       }
+      function onFullScreen() {
+        setTimeout( function() {
+          map.panTo(scope.center); //map.setCenter
+          onMapChangeRefreshScope();
+        }, 100);
+      }
 
-//       // Detect current center and bounds, and refresh scope
-//       function onMapChangeRefreshScope() {
+      // Detect current center and bounds, and refresh scope
+      function onMapChangeRefreshScope() {
 
-//         if (mapReadyFlag) {
-//           mapReadyFlag = false;
+        if (mapReadyFlag) {
+          mapReadyFlag = false;
 
-//           setTimeout( function() {
-//             var z = map.getZoom();
-//             var c = map.getCenter();
-//             var r = map.getBounds(); // x1=b.f.f, y1=b.b.b, x2=b.f.b, y2=b.b.f
-//             if (r) {
-//               // Get r = 1/2 * min{width,height} of map window:
-//               var
-//                 pTopLeft     = new google.maps.LatLng(r.f.f, r.b.b),
-//                 pTopRight    = new google.maps.LatLng(r.f.b, r.b.b),
-//                 pBottomLeft  = new google.maps.LatLng(r.f.f, r.b.f),
-//                 pBottomRight = new google.maps.LatLng(r.f.b, r.b.f),
-//                 width  = google.maps.geometry.spherical.computeDistanceBetween(pTopLeft,pTopRight),
-//                 height = google.maps.geometry.spherical.computeDistanceBetween(pTopLeft,pBottomLeft);
-//               r = Math.min(width,height) * 0.5 * 0.95;
-//             } else {
-//               r = 500;
-//             }
+          setTimeout( function() {
+            var z = map.getZoom();
+            var c = map.getCenter();
+            var r = map.getBounds(); // x1=b.f.f, y1=b.b.b, x2=b.f.b, y2=b.b.f
+            if (r) {
+              // Get r = 1/2 * min{width,height} of map window:
+              var
+                pTopLeft     = r.getNorthWest(),
+                pTopRight    = r.getNorthEast(),
+                pBottomLeft  = r.getSouthWest(),
+                width  = map.distance(pTopLeft,pTopRight),
+                height = map.distance(pTopLeft,pBottomLeft);
+              r = Math.min(width,height) * 0.5 * 0.95;
+            } else {
+              r = 500;
+            }
 
-//             scope.$apply( function() {
-//               scope.mapMoved({
-//                 newZoom: z,
-//                 newRadius: r,
-//                 newCenter: {lat:c.lat(),lng:c.lng()},
-//               });
-//             });
+            scope.$apply( function() {
+              scope.mapMoved({
+                newZoom: z,
+                newRadius: r,
+                newCenter: c,
+              });
+            });
 
-//             circle.setCenter(c);
-//             circle.setRadius(r);
+            circle.setLatLng(c); //circle.setCenter
+            circle.setRadius(r);
 
-//             mapReadyFlag = true;
+            mapReadyFlag = true;
 
-//           }, 500); // Slow down map refresh (and hence
-//                    // lower server load by refresh requests)
-//         }
-//       } // function onMapChangeRefreshScope(...)
+          }, 500); // Slow down map refresh (and hence
+                   // lower server load by refresh requests)
+        }
+      } // function onMapChangeRefreshScope(...)
 
       function removeMarker(cafe) {
         var marker = markers[cafe._id];
@@ -278,10 +277,7 @@
         scope.cafes.forEach( function(c) { try {
           var marker = markers[c._id]; // Marker corresponding to cafe c
           if (marker && c._id !== cafe._id) {
-            var d = L.distance(
-              marker.position,
-              new google.maps.LatLng(position.lat, position.lng)
-            );
+            var d = map.distance(marker.position, position);
 console.log('d=',d);
             if (d<20) { // too close?
               position = shiftMarker(position);
@@ -334,22 +330,22 @@ console.log('d=',d);
 
       }); // scope.$watchCollection('cafes',...)
 
-//       scope.$watch('selectedCafeId', function(id) {
-//         // Select marker of selected cafe if any
-//         if (!id || id==='undefined') {
-//           selectedMarkerDeselect();
-//         } else {
-//           scope.cafes.some( function(cafe) {
-//             if (cafe.selected) {
-//               var marker = markers[cafe._id];
-//               markerSelect(marker,cafe._id,false);
-//               return true;
-//             }
-//             return false;
-//           });
-//         }
+      scope.$watch('selectedCafeId', function(id) {
+        // Select marker of selected cafe if any
+        if (!id || id==='undefined') {
+          selectedMarkerDeselect();
+        } else {
+          scope.cafes.some( function(cafe) {
+            if (cafe.selected) {
+              var marker = markers[cafe._id];
+              markerSelect(marker,cafe._id,false);
+              return true;
+            }
+            return false;
+          });
+        }
 
-//       }); // scope.$watch('selectedCafeId',...)
+      }); // scope.$watch('selectedCafeId',...)
 
     } // function directiveLinkFunction(...)
 

@@ -21,7 +21,8 @@ var
 
 module.exports = {
   APP2_MAX_CAFES: (isHeroku() ? 100000 : 100), // max size of cafes collection
-  APP2_GOOGLE_SEARCH_ENABLED: isHeroku(),
+  //APP2_GOOGLE_SEARCH_ENABLED: isHeroku(),
+    APP2_GOOGLE_SEARCH_ENABLED: true,
   APP2_MAX_TIMESLOTS: 4,
   APP2_TIMESLOT_LENGTH: 30, // timeslot length in minutes (must divide 60)
 
