@@ -53,7 +53,9 @@
           map.addListener('idle', function(e) { // When map first time loaded
             if (!mapInit) {
               mapInit = true;
-              scope.onMapInit();
+              setTimeout( function() {
+                scope.onMapInit();
+              },100);
               onMapChangeRefreshScope();
             }
           });

@@ -144,7 +144,9 @@
             layer.on('load', function(e) {
               if (!mapInit) {
                 mapInit = true;
-                scope.onMapInit();
+                setTimeout( function() {
+                  scope.onMapInit();
+                },100);
                 onMapChangeRefreshScope();
               }
               layer.off('load');
@@ -287,7 +289,7 @@
             }
           }
           marker = null;
-        } catch(err) {console.log(err);} });
+        } catch(err) {} });
 
 
         var markerOptions = {
