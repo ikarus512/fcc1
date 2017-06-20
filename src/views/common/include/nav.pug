@@ -30,14 +30,12 @@
       ul.nav.navbar-nav
 
         li(class=title=='Home'     ?'active':''):   a(href='/')     Home
-        hr
 
         li(class=title=='Voting'   ?'active':''):   a(href='/app1') Voting
         li(class=title=='Nightlife'?'active':''):   a(href='/app2') Nightlife
         li(class=title=='Stock'    ?'active':''):   a(href='/app3') Stock
         li(class=title=='Books'    ?'active':''):   a(href='/app4') Books
         li(class=title=='Pinter'   ?'active':''):   a(href='/app5') Pinter
-        hr
 
       ul.nav.navbar-nav.navbar-right
         unless(logintype)
