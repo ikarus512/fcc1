@@ -1,0 +1,70 @@
+//-
+  /* file: login.pug */
+  /*!
+   * Copyright 2017 ikarus512
+   * https://github.com/ikarus512/fcc1.git
+   *
+   * DESCRIPTION: Mobile App Log In Page
+   * AUTHOR: ikarus512
+   * CREATED: 2017/03/13
+   *
+   * MODIFICATION HISTORY
+   *  2017/04/04, ikarus512. Added copyright header.
+   *
+   */
+
+extend ../common/include/layout.pug
+
+block vars
+  - var title = 'Login';
+  - var background = 'background-color: #444; background-image: url('+urlPref+'img/pixabay_com_crowd.png);';
+
+block content
+
+  .row(
+    ng-controller='ControllerLoginMobile'
+  )
+
+    if mobileApp
+      include ../common/include/nav-mobile.pug
+
+    .col-sm-6.col-md-4
+      .panel.panel-default
+        .panel-heading
+          h2 Log In as Local User:
+        .panel-body
+
+            //- form(action='/auth/local' method='POST')
+
+            p(ng-show='logintype') Currently logged in as: {{logintype}} / {{username}}
+            p(ng-hide='logintype') Currently not logged in.
+
+            .form-group
+              label.sr-only(for='loginUsername') User
+              input#loginUsername.form-control(
+                name='username'
+                type='text'
+                placeholder='User Name'
+                autofocus
+                tabindex='1'
+                required
+                ng-model='usernameNew'
+              )
+            .form-group
+              label.sr-only(for='loginPassword') Password
+              input#loginPassword.form-control(
+                name='password'
+                type='password'
+                placeholder='Password'
+                tabindex='2'
+                ng-model='passwordNew'
+                required
+              )
+            button#loginButton.btn.btn-primary.form-control(
+              type='submit'
+              tabindex='3'
+              ng-click='login()'
+            ) Log In
+
+
+    ajax-loading-spinner(ajax-loading-var='{{ajaxLoadingSpinner}}')

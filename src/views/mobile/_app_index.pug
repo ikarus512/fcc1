@@ -62,7 +62,8 @@ html(lang='en')
           " content:"+
           " https://ikarus512-fcc1.herokuapp.com"+
           " https://localhost:5000"+
-          ' https://*.tile.openstreetmap.org"+
+          " https://maps.gstatic.com"+
+          " https://*.tile.openstreetmap.org"+
           ";"+
         ""
     )
@@ -109,7 +110,8 @@ html(lang='en')
     script(src=urlPref+'js/mobile/config-routes.js')
     script(src=urlPref+'js/mobile/service-myConst.js')
 
-    script(src=urlPref+'js/mobile/autologin/controller-autologin.js')
+    script(src=urlPref+'js/mobile/controller-login.js')
+    script(src=urlPref+'js/mobile/controller-home.js')
     script(src=urlPref+'js/mobile/factory-login.js')
     script(src=urlPref+'js/mobile/service-user.js')
 

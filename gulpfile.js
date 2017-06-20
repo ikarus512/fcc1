@@ -84,8 +84,8 @@ var mobile_paths = {
   },
   views: {
     src: [
-      MOBILE_SRC + 'src/views/mobile/home.pug',
-      MOBILE_SRC + 'src/views/mobile/autologin.pug',
+      MOBILE_SRC + 'src/views/common/home.pug',
+      MOBILE_SRC + 'src/views/mobile/login.pug',
       MOBILE_SRC + 'src/views/common/app1_poll.pug',
       MOBILE_SRC + 'src/views/common/app1_polls.pug',
       MOBILE_SRC + 'src/views/common/app2_nightlife.pug',

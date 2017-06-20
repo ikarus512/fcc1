@@ -15,15 +15,24 @@
 /*jshint node: true*/
 'use strict';
 
+    var host = 'ikarus512-fcc1.herokuapp.com'; // production
+    // var host = 'localhost:5000'; // developement
+
 module.exports = {
   web: {
     webApp: true,
     mobileApp: false,
     urlPref: '/',
+    urlPrefix: '',
+    serverUrl: '',
+    // webSocketHost: 'wss://' + window.document.location.host,
   },
   mobile: {
     webApp: false,
     mobileApp: true,
     urlPref: '',
+    urlPrefix: '#!',
+    serverUrl: 'https://' + host,
+    // webSocketHost: 'wss://' + host,
   },
 };

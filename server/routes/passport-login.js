@@ -65,13 +65,14 @@ module.exports = function (app, passport) {
   .all(myEnableCORS)
   .post( function(req, res, next) {
     passport.authenticate('local-login', function (err, account) {
-      req.logIn(account, function() {
-        res.status(err ? 500 : 200)
-        .json(err ? err : {
-          type: account.type,
-          name: account.name,
-          uid: account._id,
-        });
+      req.logIn(account, function(err) {
+        res.status(err ? 401 : 200)
+        .json(err ? {message: req.flash('message')[0]} : {
+            type: account.type,
+            name: account.name,
+            uid: account._id,
+          }
+        );
       });
     })(req, res, next);
   });

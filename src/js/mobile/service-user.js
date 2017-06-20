@@ -44,7 +44,7 @@
           self.type = undefined;
           self.name = undefined;
           self.uid = undefined;
-          return;
+          throw err;
         });
       };
 

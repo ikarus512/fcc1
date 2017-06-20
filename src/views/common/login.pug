@@ -20,7 +20,8 @@ block vars
   - var background = 'background-color: #444; background-image: url('+urlPref+'img/pixabay_com_crowd.png);';
 
 block css
-  link(rel='stylesheet', href='/lib/font-awesome470.css')
+  if webApp
+    link(rel='stylesheet', href='/lib/font-awesome470.css')
 
 
 
@@ -80,18 +81,18 @@ block content
             title='Facebook'
             aria-label='Facebook'
           ): .fa.fa-2x.fa-facebook(aria-hidden='true')
-          | 
+          | &nbsp;
           a.btn.btn-primary.btn-xs(
             href='/auth/github'
             tabindex='4'
             title='GitHub'
             aria-label='GitHub'
           ): .fa.fa-2x.fa-github(aria-hidden='true')
-          | 
+          | &nbsp;
           a.btn.btn-primary.btn-xs(
             href='/auth/twitter'
             tabindex='5'
             title='Twitter'
             aria-label='Twitter'
           ): .fa.fa-2x.fa-twitter(aria-hidden='true')
-          | 
+          | &nbsp;
