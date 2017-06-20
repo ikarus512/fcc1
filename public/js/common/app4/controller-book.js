@@ -17,6 +17,8 @@
     )
     {
 
+      $scope.ajaxLoadingSpinner = 0;
+
       // Init params from backend
       if (MyConst.webApp) {
         $scope.logintype =

@@ -20,7 +20,7 @@
       link: function(scope, element, attrs) {
         scope.urlPref = MyConst.urlPref;
         scope.$watch('ajaxLoadingVar', function(val) {
-          if (val > 0) {
+          if (val && (val > 0)) {
             $(element).show();
           } else {
             $(element).hide();

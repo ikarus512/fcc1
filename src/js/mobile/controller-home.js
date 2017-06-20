@@ -13,6 +13,8 @@
     '$scope', '$location', 'User', 'MyConst',
     function ($scope, $location, User, MyConst) {
 
+      $scope.ajaxLoadingSpinner = 0;
+
       User.check()
       .then( function() {
         $scope.logintype = User.type;

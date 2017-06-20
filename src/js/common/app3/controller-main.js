@@ -13,6 +13,8 @@
     ['$scope', 'App3WebSocketService', 'MyConst', 'User', 'backendParams',
     function ($scope, App3WebSocketService, MyConst, User, backendParams) {
 
+      $scope.ajaxLoadingSpinner = 0;
+
       // Init params from backend
       if (MyConst.webApp) {
         $scope.logintype =
@@ -22,13 +24,11 @@
           (backendParams.username && backendParams.username!=='undefined') ?
           backendParams.username : '';
       } else {
-        $scope.ajaxLoadingSpinner++;
         User.check()
         .then( function() {
           $scope.logintype = User.type;
           $scope.username  = User.name;
-        })
-        .finally( function() {$scope.ajaxLoadingSpinner--;});
+        });
       }
 
       var APP3_STOCK_PORTION_LENGTH = 5,
@@ -78,51 +78,53 @@
         App3WebSocketService.removeStockName(stockName);
       };
 
-      $scope.ajaxLoadingSpinner++;
-      App3WebSocketService.subscribe( function(newDataPortion) {
-        var key, newData = $scope.chart1Data;
+      if ($scope.logintype) {
+        $scope.ajaxLoadingSpinner++;
+        App3WebSocketService.subscribe( function(newDataPortion) {
+          var key, newData = $scope.chart1Data;
 
-        // newDataPortion update: convert all dates from String() to Date()
-        newDataPortion.data.x = newDataPortion.data.x.map( function(el) { return new Date(el); });
-        function cvtToDate(el) { el.x = new Date(el.x); }
-        for (key in newDataPortion.data.stocks) {
-          newDataPortion.data.stocks[key].values.forEach(cvtToDate);
-        }
-
-
-        // Remove old data portion
-        if (newData.data.x.length >= APP3_STOCK_MAX_LENGTH) {
-          newData.data.x.splice(0, APP3_STOCK_PORTION_LENGTH);
-        }
-        function isNew(el) { return (el.x.getTime() >= newData.data.x[0].getTime()); }
-        for (key in newData.data.stocks) {
-          // Filter out old stock data by date
-          newData.data.stocks[key].values = newData.data.stocks[key].values.filter(isNew);
-          // Remove empty stock data
-          if (newData.data.stocks[key].values.length < 2) {
-            delete newData.data.stocks[key];
+          // newDataPortion update: convert all dates from String() to Date()
+          newDataPortion.data.x = newDataPortion.data.x.map( function(el) { return new Date(el); });
+          function cvtToDate(el) { el.x = new Date(el.x); }
+          for (key in newDataPortion.data.stocks) {
+            newDataPortion.data.stocks[key].values.forEach(cvtToDate);
           }
-        }
 
 
-        // Add new data portion
-        newData.data.x = newData.data.x.concat(newDataPortion.data.x);
-        for (key in newDataPortion.data.stocks) {
-          // If key was absent
-          if (!newData.data.stocks[key])
-            newData.data.stocks[key] = {id: key, values: []};
+          // Remove old data portion
+          if (newData.data.x.length >= APP3_STOCK_MAX_LENGTH) {
+            newData.data.x.splice(0, APP3_STOCK_PORTION_LENGTH);
+          }
+          function isNew(el) { return (el.x.getTime() >= newData.data.x[0].getTime()); }
+          for (key in newData.data.stocks) {
+            // Filter out old stock data by date
+            newData.data.stocks[key].values = newData.data.stocks[key].values.filter(isNew);
+            // Remove empty stock data
+            if (newData.data.stocks[key].values.length < 2) {
+              delete newData.data.stocks[key];
+            }
+          }
 
-          newData.data.stocks[key].values = newData.data.stocks[key].values
-            .concat(newDataPortion.data.stocks[key].values);
-        }
+
+          // Add new data portion
+          newData.data.x = newData.data.x.concat(newDataPortion.data.x);
+          for (key in newDataPortion.data.stocks) {
+            // If key was absent
+            if (!newData.data.stocks[key])
+              newData.data.stocks[key] = {id: key, values: []};
+
+            newData.data.stocks[key].values = newData.data.stocks[key].values
+              .concat(newDataPortion.data.stocks[key].values);
+          }
 
 
-        $scope.chart1Data = newData;
+          $scope.chart1Data = newData;
 
-        // Refresh scope
-        $scope.$apply();
-      })
-      .finally( function() {$scope.ajaxLoadingSpinner--;});
+          // Refresh scope
+          $scope.$apply();
+        })
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
+      }
 
   }]); // .controller('myApp3ControllerMain', ...
 
