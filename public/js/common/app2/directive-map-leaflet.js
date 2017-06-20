@@ -41,13 +41,19 @@
       }),
 
       iconBlue = L.icon({
-        iconUrl: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+        iconUrl: MyConst.urlPref + 'img/app2/blue-dot.png',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+      }),
+
+      iconGreen = L.icon({
+        iconUrl: MyConst.urlPref + 'img/app2/green-dot.png',
         iconSize: [30, 30],
         iconAnchor: [15, 30],
       }),
 
       iconRed = L.icon({
-        iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+        iconUrl: MyConst.urlPref + 'img/app2/red-dot.png',
         iconSize: [30, 30],
         iconAnchor: [15, 30],
       });
