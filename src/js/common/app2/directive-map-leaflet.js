@@ -277,14 +277,13 @@
         scope.cafes.forEach( function(c) { try {
           var marker = markers[c._id]; // Marker corresponding to cafe c
           if (marker && c._id !== cafe._id) {
-            var d = map.distance(marker.position, position);
-console.log('d=',d);
+            var d = map.distance(marker.getLatLng(),position);
             if (d<20) { // too close?
               position = shiftMarker(position);
             }
           }
           marker = null;
-        } catch(err) {} });
+        } catch(err) {console.log(err);} });
 
 
         var markerOptions = {

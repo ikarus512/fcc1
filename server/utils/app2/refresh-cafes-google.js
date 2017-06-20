@@ -44,21 +44,21 @@ function googleRequest(lat, lng, radius, dataIn) {
 
     return new Promise( function(resolve, reject) {
 
-      request.get({
+      var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
+        '?key=' + process.env.APP_GOOGLE_PLACES_API_KEY +
+        '&location=' + lat + ',' + lng +
+        '&radius=' + radius +
+        '&rankby=distance' +
+        '&types=cafe|bar|restaurant' +
+        (dataIn.next_page_token ? ('&pagetoken=' + dataIn.next_page_token) : '') +
+        '';
 
-          url:
-            'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
-            '?key=' + process.env.APP_GOOGLE_PLACES_API_KEY +
-            '&location=' + lat + ',' + lng +
-            '&radius=' + radius +
-            '&types=cafe|bar|restaurant' +
-            (dataIn.next_page_token ? ('&pagetoken=' + dataIn.next_page_token) : '') +
-            '',
-
+      request.get(
+        {
+          url: url,
           headers: {
             referer : process.env.APP_GOOGLE_PLACES_API_REFERRER,
           },
-
         },
 
         function requestHandler(err, response, data) {
