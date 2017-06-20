@@ -66,5 +66,18 @@ block content
               ng-click='login()'
             ) Log In
 
+    .col-sm-6.col-md-4
+      .panel.panel-default
+        .panel-heading
+          h2 Create New Account Online:
+        .panel-body
+          a.btn.btn-primary.form-control(
+            href='https://ikarus512-fcc1.herokuapp.com/signup'
+            target='_blank'
+            tabindex='4'
+            title='Sign Up'
+            aria-label='Sign Up'
+          ) Sign Up Online
+
 
     ajax-loading-spinner(ajax-loading-var='{{ajaxLoadingSpinner}}')
