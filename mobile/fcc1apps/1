@@ -20,6 +20,13 @@ The application was created by running:
 
   debug:
   cordova plugin add cordova-plugin-crosswalk-webview   ### needed only for debug (chrome://inspect)
+  cordova plugin rm  cordova-plugin-crosswalk-webview --save
+
+  sign:
+  keytool -genkey -v -keystore <keystoreName>.keystore -alias <Keystore AliasName> -keyalg <Key algorithm> -keysize <Key size> -validity <Key Validity in Days>
+    set keystoreName=ikarus512-fcc1apps
+    set keystoreAlias=ikarus512fcc1apps
+    keytool -genkey -v -keystore %keystoreName%.keystore -alias %keystoreAlias% -keyalg RSA -keysize 2048 -validity 10000
 
 
 cordova platform ls

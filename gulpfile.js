@@ -183,7 +183,23 @@ var devserver_paths = {
   serverJs: {
     src : WEB_SRC + 'server/**/*.js',
   },
+  binaries: {
+    src: WEB_SRC + 'mobile/fcc1apps/platforms/android/build/outputs/apk/android-release-unsigned.apk',
+    rename_src: 'android-release-unsigned',
+    rename_dst: 'ikarus512-fcc1apps',
+    dest: WEB_DST + 'bin/',
+  },
 };
+
+gulp.task('devserver-binaries-update', function() {
+  return gulp.src(devserver_paths.binaries.src)
+  .pipe(rename( function(path) {
+    if (path.basename === devserver_paths.binaries.rename_src) {
+      path.basename = devserver_paths.binaries.rename_dst;
+    }
+  }))
+  .pipe(gulp.dest(devserver_paths.binaries.dest));
+});
 
 
 gulp.task('devserver-public-html', function() { // jshint/minify/copy to public
