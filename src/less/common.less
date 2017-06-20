@@ -116,8 +116,20 @@ footer * {
   padding: 30px;
   margin: 10px;
   text-align: center;
+  z-index: 1600;
   div {
     position: relative;
     top: 50%;
+  }
+  &.small{
+    padding: 5px;
+    text-align: unset;
+    left: unset;
+    right: 0;
+    height: unset;
+    width:  unset;
+    div {
+      top: unset;
+    }
   }
 }

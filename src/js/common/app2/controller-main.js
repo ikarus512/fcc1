@@ -16,6 +16,9 @@
       var APP2_MAX_TIMESLOTS = 4;
       var APP2_TIMESLOT_LENGTH = 30; // timeslot length in minutes (must divide 60)
 
+      $scope.ajaxLoadingSpinner = 0;
+      $scope.ajaxLoadingSpinnerSmall = 0;
+
       $scope.cafes = [];
       $scope.selectedCafeId = undefined;
       $scope.zoom = 16;
@@ -53,11 +56,13 @@
         }
 
       } else {
+        $scope.ajaxLoadingSpinner++;
         User.check()
         .then( function() {
           $scope.logintype = User.type;
           $scope.username  = User.name;
-        });
+        })
+        .finally( function() {$scope.ajaxLoadingSpinner--;});
       }
 
       cafesRefresh();
@@ -66,7 +71,9 @@
 
       $scope.onPlan = function(cafe, timeslot) {
         if ($scope.username) {
+          $scope.ajaxLoadingSpinner++;
           cafeStorage.planCafeTimeslot(cafe._id, timeslot.start)
+          .finally( function() {$scope.ajaxLoadingSpinner--;})
           .then( function(res) {
             timeslot.planned = true;
             timeslot.users.push($scope.username);
@@ -80,7 +87,9 @@
 
       $scope.onUnplan = function(cafe, timeslot) {
         if ($scope.username) {
+          $scope.ajaxLoadingSpinner++;
           cafeStorage.unplanCafeTimeslot(cafe._id, timeslot.start)
+          .finally( function() {$scope.ajaxLoadingSpinner--;})
           .then( function(res) {
             timeslot.planned = false;
             timeslot.users.splice(timeslot.users.indexOf($scope.username),1);
@@ -116,7 +125,9 @@
             cafe.show = cafe.selected = true;
           }
         });
-        cafeStorage.updateSessionState($scope.location, $scope.radius, $scope.zoom, $scope.selectedCafeId);
+        $scope.ajaxLoadingSpinnerSmall++;
+        cafeStorage.updateSessionState($scope.location, $scope.radius, $scope.zoom, $scope.selectedCafeId)
+        .finally( function() {$scope.ajaxLoadingSpinnerSmall--;});
 
         // Refresh timeslots in selected cafe
         refreshCafeTimeslots(selCafe);
@@ -182,7 +193,9 @@
             return cafe.selected;
           });
 
+          $scope.ajaxLoadingSpinnerSmall++;
           cafeStorage.get($scope.center, $scope.radius, $scope.zoom, $scope.selectedCafeId)
+          .finally( function() {$scope.ajaxLoadingSpinnerSmall--;})
 
           .then( function(res) {
             $scope.cafes = [];
