@@ -50,22 +50,25 @@
           map.addListener('click', onClick);
           $(document).on('webkitfullscreenchange ' +
             'mozfullscreenchange msfullscreenchange fullscreenchange', onFullScreen);
-          map.addListener('idle', function(e) {
+          map.addListener('idle', function(e) { // When map first time loaded
             if (!mapInit) {
               mapInit = true;
               scope.onMapInit();
+              onMapChangeRefreshScope();
             }
           });
+
 
           circle = new google.maps.Circle({
             strokeColor: '#FF0000',   strokeOpacity: 0.30,     strokeWeight: 2,
             fillColor: '#00FF00',     fillOpacity: 0.10,
             map: map,
             center: new google.maps.LatLng(scope.center.lat,scope.center.lng),
-            radius: scope.radius,
+            radius: scope.radius ? scope.radius : 10000,
           });
           circle.addListener('dblclick', onDblClick);
           circle.addListener('click', onClick);
+
 
           scope.cafes.forEach( function(cafe) {
             addMarker(cafe);

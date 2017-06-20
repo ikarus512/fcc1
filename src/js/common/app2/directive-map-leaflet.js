@@ -140,23 +140,26 @@
           map.on('dblclick', onDblClick);
           map.on('click', onClick);
           //onFullScreen() called manually
+          map.eachLayer(function(layer){ // When map first time loaded
+            layer.on('load', function(e) {
+              if (!mapInit) {
+                mapInit = true;
+                scope.onMapInit();
+                onMapChangeRefreshScope();
+              }
+              layer.off('load');
+            });
+          });
 
-          // map.on('idle load viewreset', function(e) {
-          // map.on('load', function(e) {
-          setTimeout( function() {
-            if (!mapInit) {
-              mapInit = true;
-              scope.onMapInit();
-            }
-          },0);
 
           circle = L.circle(scope.center,{
             color: '#FF0000',   opacity: 0.30,     weight: 2,
             fillColor: '#00FF00',     fillOpacity: 0.10,
-            radius: scope.radius ? scope.radius : 30,
+            radius: scope.radius ? scope.radius : 10000,
           }).addTo(map);
           circle.on('dblclick', onDblClick);
           circle.on('click', onClick);
+
 
           scope.cafes.forEach( function(cafe) {
             addMarker(cafe);
@@ -202,6 +205,7 @@
 
       function onFullScreen() {
         setTimeout( function() {
+          map.invalidateSize();
           map.panTo(scope.center); //map.setCenter
           onMapChangeRefreshScope();
         }, 100);
