@@ -42,58 +42,88 @@ block content
         p
           | Here are several applications according to FreeCodeCamp.com
           | tasks, within one Heroku application.
+        p(style='font-size:11px;') Server side on Node.js platform using
+          |  Express.js. References Google Places API, MongoDB
+          |  on mlab.com through Mongoose.
 
     .row
       .col-sm-6.col-md-4: .thumbnail: .caption: .myhome-thumbnail
-        h3 Voting App
-        p Accessible via 'Voting' menu or 'Go' button below.
+        h3
+          | Voting App
+          | &nbsp;
+          a.btn.btn-primary(href=urlPrefix+'/app1/polls') Go
+        p Accessible via menu 'Voting'.
+        p(style='font-size:11px;') Written using: Angular 1.5, Bootstrap, Chart.js.
+          |  Server keeps data in MongoDB.
         p Following user stories:
           a(href='https://freecodecamp.com/challenges/basejump-build-a-voting-app'
             target='_blank'
           )  fcc user stories.
-        p: a.btn.btn-primary(href=urlPrefix+'/app1/polls') Go
 
       .col-sm-6.col-md-4: .thumbnail: .caption: .myhome-thumbnail
-        h3 Nightlife Coordination App
-        p Accessible via 'Nightlife' menu or 'Go' button below.
+        h3
+          | Nightlife Coordination App
+          | &nbsp;
+          a.btn.btn-primary(href=urlPrefix+'/app2/cafes') Go
+        p Accessible via menu 'Nightlife'.
+        p(style='font-size:11px;') Written using: Angular 1.5, Bootstrap,
+          |  Google Places API (on server side), Google Maps API
+          |  (Leaflet.js with online/offline map used in mobile app).
         p Following user stories:
           a(href='https://www.freecodecamp.com/challenges/build-a-nightlife-coordination-app'
             target='_blank'
           )  fcc user stories
-        p: a.btn.btn-primary(href=urlPrefix+'/app2/cafes') Go
 
       .col-sm-6.col-md-4: .thumbnail: .caption: .myhome-thumbnail
-        h3 Chart the Stock Market
-        p Accessible via 'Stock' menu or 'Go' button below.
+        h3
+          | Chart the Stock Market
+          | &nbsp;
+          a.btn.btn-primary(href=urlPrefix+'/app3') Go
+        p Accessible via menu 'Stock'.
+        p(style='font-size:11px;') Written using: Angular 1.5, Bootstrap, WebSocket, D3.
         p Following user stories:
           a(href='https://www.freecodecamp.com/challenges/chart-the-stock-market'
             target='_blank'
           )  fcc user stories
-        p: a.btn.btn-primary(href=urlPrefix+'/app3') Go
 
       .col-sm-6.col-md-4: .thumbnail: .caption: .myhome-thumbnail
-        h3 Book Trading Club
-        p Accessible via 'Books' menu or 'Go' button below.
+        h3
+          | Book Trading Club
+          | &nbsp;
+          a.btn.btn-primary(href=urlPrefix+'/app4/books') Go
+        p Accessible via menu 'Books'.
+        p(style='font-size:11px;') Written using: Angular 1.5, Bootstrap, WebSocket.
         p Following user stories:
           a(href='https://www.freecodecamp.com/challenges/manage-a-book-trading-club'
             target='_blank'
           )  fcc user stories
-        p: a.btn.btn-primary(href=urlPrefix+'/app4/books') Go
 
       .col-sm-6.col-md-4: .thumbnail: .caption: .myhome-thumbnail
-        h3 Pinterest Clone
-        p Accessible via 'Pinter' menu or 'Go' button below.
+        h3
+          | Pinterest Clone
+          | &nbsp;
+          a.btn.btn-primary(href=urlPrefix+'/app5') Go
+        p Accessible via menu 'Pinter'.
         p Following user stories:
           a(href='https://www.freecodecamp.com/challenges/build-a-pinterest-clone'
             target='_blank'
           )  fcc user stories
-        p: a.btn.btn-primary(href=urlPrefix+'/app5') Go
+
 
     if webApp
       .row
         .well
-          h3 Android Application Available
-          p You can download Android application with same functionality.
+          h3
+            img(src='img/logo.png' width='25px')
+            | Android Application Available
+          p You can download Android application with same functionality here.
+          p(style='font-size:11px;') Written using Apache Cordova platform,
+           |  Angular 1.5, Bootstrap.
+           |  Using same JavaScript source and pug templates shared by both web
+           |  and mobile application. Hence also using: WebSocket,
+           |  D3, Chart.js, Leaflet.js with online/offline map.
+           |  Mobile application references same server REST API/Websocket API
+           |  that uses web application.
           p
             a.btn.btn-primary(
               href=urlPrefix+'/bin/ikarus512-fcc1apps.apk'
