@@ -10,6 +10,8 @@
    *
    * MODIFICATION HISTORY
    *  2017/04/04, ikarus512. Added copyright header.
+   *  2017/06/21, ikarus512. Fixes for Chrome hang when apk-file downloading
+   *    by adding target='_blank'.
    *
    */
 
@@ -90,8 +92,16 @@ block content
     if webApp
       .row
         .well
-          h3 Android Application
-          p: a.btn.btn-primary(href=urlPrefix+'/bin/ikarus512-fcc1apps.apk') Download
+          h3 Android Application Available
+          p You can download Android application with same functionality.
+          p
+            a.btn.btn-primary(
+              href=urlPrefix+'/bin/ikarus512-fcc1apps.apk'
+              type='application/vnd.android.package-archive'
+              target='_blank'
+              download
+              )
+              | Download (9MB)
           div(style='white-space:nowrap;overflow-y:hidden;')
             div(style='height:300px;')
               img(src='img/fcc1apps-screenshots/01.png' height='100%')
