@@ -6,7 +6,8 @@
     "node",
     "cordova",
     "android",
-    "angular1"
+    "angular1",
+    "javascript"
   ],
   "main": "server/index.js",
   "scripts": {
