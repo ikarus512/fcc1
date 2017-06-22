@@ -2,6 +2,12 @@
   "name": "fcc1",
   "version": "1.0.0",
   "description": "",
+  "keywords": [
+    "node",
+    "cordova",
+    "android",
+    "angular1"
+  ],
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
