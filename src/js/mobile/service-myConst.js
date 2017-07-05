@@ -13,8 +13,14 @@
 
   .service('MyConst', function() {
 
-    var host = 'ikarus512-fcc1.herokuapp.com'; // production
-    // var host = 'localhost:5000'; // developement
+    var host;
+
+    if (window && window.cordova && window.cordova.platformId === 'browser') {
+      host = 'localhost:5000'; // developement
+    } else {
+      // Here if run on devide (android)
+      host = 'ikarus512-fcc1.herokuapp.com'; // production
+    }
 
     this.urlPref = '';
     this.urlPrefix = '#!';
