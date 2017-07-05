@@ -12,6 +12,9 @@
  *
  */
 
+/*jshint node: true*/
+'use strict';
+
 var
   browserSync   = require('browser-sync'),
   // cssLint       = require('gulp-csslint'),

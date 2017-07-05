@@ -21,10 +21,14 @@ module.exports = function(session) {
   var MongoStore = require('connect-mongo')(session);
 
   var sessionOptions = {
-    secret: 'Yoursecret key7651894',
+    secret: 'Yoursecret key7651894', // Unsecure to keep it here:) But ok for education purposes.
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({ url: dbUrl }),
+    // cookieName: 'sessionName',
+    //httpOnly: true,  // dont let browser javascript access cookie ever
+    //secure: true, // only use cookie over https
+    //ephemeral: true // delete this cookie while browser close
   };
 
   return sessionOptions;
