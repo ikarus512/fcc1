@@ -23,26 +23,29 @@ var User = require('../models/users.js'),
   greet = require('../utils/greet.js'),
   PublicError = require('../utils/public-error.js'),
   myErrorLog = require('../utils/my-error-log.js'),
-  myEnableCORS = require('../middleware/my-enable-cors.js');
+  myEnableCORS = require('../middleware/my-enable-cors.js'),
+  rateLimitLogin = require('../middleware/security-rate-limit-login.js'),
+  csrfProtection = require('../middleware/security-csrf-protection.js');
 
 module.exports = function (app, passport) {
 
   app.route('/login')
-  .get( function(req, res) {
+  .get(csrfProtection, function(req, res) {
     if(req.isAuthenticated()) req.logout();
     res.render('login', greet(req, {
-      flashmessage: req.flash('message')[0] // Display flash messages if any
+      flashmessage: req.flash('message')[0], // Display flash messages if any
+      csrfToken: req.csrfToken(),
     }));
   });
 
   app.route('/signup')
-  .get( function(req, res) {
+  .get(csrfProtection, function(req, res) {
     if(req.isAuthenticated()) req.logout();
-    res.render('signup', greet(req));
+    res.render('signup', greet(req, {csrfToken: req.csrfToken()}));
   });
 
   app.route('/logout')
-  .get( function(req, res) {
+  .get(function(req, res) {
     req.logout();
     res.redirect('/');
   });
@@ -54,7 +57,9 @@ module.exports = function (app, passport) {
   //
 
   app.route('/auth/local')
-  .post( passport.authenticate('local-login', {
+  .all(rateLimitLogin)
+  .all(csrfProtection)
+  .post(passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
@@ -62,8 +67,9 @@ module.exports = function (app, passport) {
 
   // REST cross origin login
   app.route('/auth/api/local')
+  .all(rateLimitLogin)
   .all(myEnableCORS)
-  .post( function(req, res, next) {
+  .post(function(req, res, next) {
     passport.authenticate('local-login', function (err, account) {
       req.logIn(account, function(err) {
         res.status(err ? 401 : 200)
@@ -80,7 +86,7 @@ module.exports = function (app, passport) {
   // REST: check if user logged in
   app.route('/auth/api/check')
   .all(myEnableCORS)
-  .get( function(req, res, next) {
+  .get(function(req, res, next) {
     if (!req.isAuthenticated()) {
       return res.status(401)
       .json({message:'User not logged in.'});
@@ -96,7 +102,7 @@ module.exports = function (app, passport) {
 
   // Create new local user
   app.route('/auth/local/signup')
-  .post( function(req, res, next) {
+  .post(csrfProtection, function(req, res, next) {
 
     User.createLocalUser({
       username: req.body.username,
@@ -104,9 +110,9 @@ module.exports = function (app, passport) {
       password2: req.body.password2,
     })
 
-    .then( function(newUser) {
+    .then(function(newUser) {
       // login as new user
-      return new Promise( function(resolve, reject) {
+      return new Promise(function(resolve, reject) {
         req.login(newUser, function(err) {
           if (err) throw new Error('Internal error e0000000.');
           return resolve(res.redirect('/'));
@@ -115,7 +121,7 @@ module.exports = function (app, passport) {
     })
 
     // On any error, return back to signup page
-    .catch( PublicError, function(err) {
+    .catch(PublicError, function(err) {
       return res.status(400)
       .render('signup', greet(req, {
         lasterror: err.message,
@@ -123,7 +129,7 @@ module.exports = function (app, passport) {
       }));
     })
 
-    .catch( function(err) {
+    .catch(function(err) {
       var message = 'Internal error e0000006.';
       myErrorLog(req, err, message);
       return res.status(500)

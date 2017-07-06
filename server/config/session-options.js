@@ -25,10 +25,15 @@ module.exports = function(session) {
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({ url: dbUrl }),
-    // cookieName: 'sessionName',
-    //httpOnly: true,  // dont let browser javascript access cookie ever
-    //secure: true, // only use cookie over https
-    //ephemeral: true // delete this cookie while browser close
+
+    name: 'cookNm',
+    cookie: {
+      httpOnly: true,  // dont let browser javascript access cookie ever
+      secure: true, // only use cookie over https
+      // domain: 'example.com',
+      path: '/',
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
   };
 
   return sessionOptions;

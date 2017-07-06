@@ -29,7 +29,6 @@ var express = require('express'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
   expressLess = require('express-less'),
-  helmet = require('helmet'),
   herokuSslRedirect = require('./middleware/heroku-ssl-redirect.js'),
   greet = require('./utils/greet.js'),
   app1_voting    = require('./routes/app1.js'),
@@ -61,6 +60,7 @@ var express = require('express'),
 app.set('port', (process.env.PORT || 5000));
 
 app.enable('trust proxy'); // to get req.ip
+if (!isHeroku()) { appHttp.enable('trust proxy'); }
 
 app.set('view engine', 'pug');
 app.set('views',__dirname+'./../src/views/common');
@@ -80,20 +80,28 @@ fs.exists(tmpdir1, function(exists) { if (!exists) fs.mkdir(tmpdir1, function() 
 tmpdir1 = path.join(__dirname, '../public' + '/img/app4tmp/');
 fs.exists(tmpdir1, function(exists) { if (!exists) fs.mkdir(tmpdir1, function() {}); });
 
+
 // Logs before all middlewares
 if (!isHeroku()) {
-  // appHttp.use(helmet); // Node.js Security Tutorial
-
   if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
   var logStream = rfs('access.log', { interval: '1d', path: logDir });
   appHttp.use(morganLogger('combined', {stream: logStream, immediate:true})); // log requests to file
   app.use    (morganLogger('combined', {stream: logStream, immediate:true})); // log requests to file
 
-  appHttp.use(myRequestLogger({file: myLogFile, immediate: true, short: true}));
+  appHttp.use(myRequestLogger({file: myLogFile, immediate: true
+    // , short: true
+  }));
 }
+
+// security headers
+require('./middleware/security-headers-common.js')(app);
 
 // Redirect http GET to https
 if (!isHeroku()) {
+
+  // security headers
+  require('./middleware/security-headers-http.js')(appHttp);
+
   appHttp.get('*', function(req, res, next) {
     res.redirect('https://'+req.hostname+':'+app.get('port'));
   });
@@ -103,8 +111,11 @@ if (!isHeroku()) {
       req.protocol+'://'+req.headers.host+req.originalUrl+'. Use https.'
     });
   });
+
 } else {
+
   app.use(herokuSslRedirect());
+
 }
 
 app.use(expressStatusMonitor);
@@ -131,6 +142,9 @@ app.use(passport.session());
 if (!isHeroku()) {
   app.use(myRequestLogger({file: myLogFile, immediate: true}));
 }
+
+var rateLimitAll = require('./middleware/security-rate-limit-all.js');
+app.use(rateLimitAll);
 
 ////////////////////////////////////////////////////////////////
 //  Routes

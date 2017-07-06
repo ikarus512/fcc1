@@ -34,6 +34,7 @@ block content
           h2 Log In as Local User:
         .panel-body
           form(action='/auth/local' method='POST')
+            input(type="hidden" name="_csrf" value=csrfToken)
             .form-group
               label.sr-only(for='loginUsername') User
               input#loginUsername.form-control(
