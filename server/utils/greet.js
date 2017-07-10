@@ -16,7 +16,8 @@
 'use strict';
 
 var extend = require('extend'),
-  pugParams = require('../../src/views/pug-params.js').web;
+  pugParams = require('../../src/views/pug-params.js').web,
+  xss = require('../middleware/security-xss-protection.js');
 
 function greet(req,o2,o3) {
   var o={};
@@ -36,6 +37,9 @@ function greet(req,o2,o3) {
   }
 
   extend(o,o2,o3,pugParams);
+
+  // As all values from o will go to pug template html, sanitize all of them:
+  xss(o);
 
   return o;
 }

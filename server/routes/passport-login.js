@@ -37,6 +37,7 @@ module.exports = function (app, passport) {
     var csrfToken=req.csrfToken();
 
     // res.locals.csrfToken = csrfToken;
+    // xss(res.locals);
 
     res.render('login', greet(req, {
       flashmessage: req.flash('message')[0], // Display flash messages if any
