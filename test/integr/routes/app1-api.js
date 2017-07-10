@@ -3,7 +3,7 @@
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: 
+ * DESCRIPTION:
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *
@@ -29,6 +29,12 @@ var
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js'),
 
+  cheerio = require('cheerio'),
+  extractCsrfToken = function extractCsrfToken_(res) {
+    var $ = cheerio.load(res.text);
+    return $('[name=_csrf]').val();
+  },
+
   Poll = require('../../../server/models/app1-polls.js'),
   User = require('../../../server/models/users.js'),
   user,
@@ -39,8 +45,8 @@ var
 
 var poll0, poll1;
 
-before( function () {
-  return Poll.findOne({title: 'Poll 1'}).exec()
+before( function(done) {
+  Poll.findOne({title: 'Poll 1'}).exec()
   .then( function(poll) {
     if (!poll) throw Error('Poll 1 not found.');
     poll0 = poll;
@@ -49,6 +55,7 @@ before( function () {
   .then( function(poll) {
     if (!poll) throw Error('Poll 2 not found.');
     poll1 = poll;
+    return done();
   });
 });
 
@@ -56,42 +63,54 @@ before( function () {
 
 var userACookies;
 
-before( function(done) {
-  // Log out
-  request
-  .get(appUrl+'/logout')
-  .end( function(err, res) {
-    done();
-  });
-});
+// before( function(done) {
+//   // Log out
+//   request
+//   .get(appUrl+'/logout')
+//   .end( function(err, res) {
+//     done();
+//   });
+// });
 
 before( function(done) {
-  // Log in as user a, and get cookie with session id
-  request
-  .agent() // to make authenticated requests
-  .post(appUrl+'/auth/local')
-  .send({username:'a', password:'a'})
-  .end( function(err, res) {
-    userACookies = res.request.cookies;
+//   request
+//   .agent() // to make authenticated requests
+//   .get(appUrl+'/login')
+//   .end(function(err, res) {
+//     // this is the route which renders the HTML form that
+//     // asks for our username and password. Let’s retrieve
+//     // the token from that form:
+//     var csrfToken = extractCsrfToken(res);
+//     expect(err).to.equal(null);
+//     expect(res.status).to.equal(200);
 
-    expect(err).to.equal(null);
-    expect(res.status).to.equal(200);
+    // Log in as user a, and get cookie with session id
+    request
+    .agent() // to make authenticated requests
+    .post(appUrl+'/auth/local')
+    .send({username:'a', password:'a'})
+    // .send({username:'a', password:'a', _csrf: csrfToken})
+    .end( function(err, res) {
+      userACookies = res.request.cookies;
+      expect(err).to.equal(null);
+      expect(res.status).to.equal(200);
 
-    expect(res.text).to.contain('local / a');
+      expect(res.text).to.contain('local / a');
 
-    // and should redirect to home
-    expect(res.request.url).to.equal(appUrl+'/');
-    done();
-  });
+      // and should redirect to home
+      expect(res.request.url).to.equal(appUrl+'/');
+      done();
+    });
+  // });
 });
 
 
-parallel('app1 api', function () {
+parallel('app1-api', function() {
 
   //==========================================================
   //  unauth user
   //==========================================================
-  it('unauth user should view polls', function (done) {
+  it('unauth user should view polls', function(done) {
     request
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/api/polls')
@@ -105,7 +124,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('unauth user should not add poll', function (done) {
+  it('unauth user should not add poll', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/app1/api/polls')
@@ -118,7 +137,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('unauth user should not delete other\'s poll', function (done) {
+  it('unauth user should not delete other\'s poll', function(done) {
     request
     .agent() // to make authenticated requests
     .delete(appUrl+'/app1/api/polls/'+poll0._id)
@@ -131,7 +150,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('unauth user should view poll', function (done) {
+  it('unauth user should view poll', function(done) {
     request
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/api/polls/'+poll0._id)
@@ -144,7 +163,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('unauth user should not add poll option', function (done) {
+  it('unauth user should not add poll option', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/app1/api/polls/'+poll0._id+'/options')
@@ -157,7 +176,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('unauth user should not add existing poll option', function (done) {
+  it('unauth user should not add existing poll option', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/app1/api/polls/'+poll0._id+'/options')
@@ -170,7 +189,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('unauth user should vote', function (done) {
+  it('unauth user should vote', function(done) {
     request
     .agent() // to make authenticated requests
     .put(appUrl+'/app1/api/polls/'+poll0._id+'/options/'+poll0.options[0]._id+'/vote')
@@ -183,7 +202,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('unauth user should not vote twice', function (done) {
+  it('unauth user should not vote twice', function(done) {
     request
     .agent() // to make authenticated requests
     .put(appUrl+'/app1/api/polls/'+poll1._id+'/options/'+poll1.options[0]._id+'/vote')
@@ -201,7 +220,7 @@ parallel('app1 api', function () {
   //==========================================================
   //  auth user
   //==========================================================
-  it('auth user should view polls', function (done) {
+  it('auth user should view polls', function(done) {
     request
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/api/polls')
@@ -216,7 +235,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should add poll', function (done) {
+  it('auth user should add poll', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/app1/api/polls')
@@ -229,7 +248,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should not add existing poll', function (done) {
+  it('auth user should not add existing poll', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/app1/api/polls')
@@ -243,7 +262,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should delete his poll', function (done) {
+  it('auth user should delete his poll', function(done) {
     // Add Poll 4
     request
     .agent() // to make authenticated requests
@@ -270,7 +289,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should not delete other\'s poll', function (done) {
+  it('auth user should not delete other\'s poll', function(done) {
     request
     .agent() // to make authenticated requests
     .delete(appUrl+'/app1/api/polls/'+poll1._id)
@@ -285,7 +304,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should view poll', function (done) {
+  it('auth user should view poll', function(done) {
     request
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/api/polls/'+poll0._id)
@@ -299,7 +318,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should add poll option', function (done) {
+  it('auth user should add poll option', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/app1/api/polls/'+poll0._id+'/options')
@@ -312,7 +331,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should not add existing poll option', function (done) {
+  it('auth user should not add existing poll option', function(done) {
     request
     .agent() // to make authenticated requests
     .post(appUrl+'/app1/api/polls/'+poll0._id+'/options')
@@ -326,7 +345,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should vote', function (done) {
+  it('auth user should vote', function(done) {
     request
     .agent() // to make authenticated requests
     .put(appUrl+'/app1/api/polls/'+poll0._id+'/options/'+poll0.options[0]._id+'/vote')
@@ -339,7 +358,7 @@ parallel('app1 api', function () {
     });
   });
 
-  it('auth user should not vote twice', function (done) {
+  it('auth user should not vote twice', function(done) {
     request
     .agent() // to make authenticated requests
     .put(appUrl+'/app1/api/polls/'+poll1._id+'/options/'+poll1.options[0]._id+'/vote')

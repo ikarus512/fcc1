@@ -25,21 +25,28 @@ var User = require('../models/users.js'),
   myErrorLog = require('../utils/my-error-log.js'),
   myEnableCORS = require('../middleware/my-enable-cors.js'),
   rateLimitLogin = require('../middleware/security-rate-limit-login.js'),
-  csrfProtection = require('../middleware/security-csrf-protection.js');
+  csrf = require('../middleware/security-csrf-protection.js');
 
 module.exports = function (app, passport) {
 
   app.route('/login')
-  .get(csrfProtection, function(req, res) {
+  .all(csrf.protection)
+  .get(function(req, res) {
     if(req.isAuthenticated()) req.logout();
+
+    var csrfToken=req.csrfToken();
+
+    // res.locals.csrfToken = csrfToken;
+
     res.render('login', greet(req, {
       flashmessage: req.flash('message')[0], // Display flash messages if any
-      csrfToken: req.csrfToken(),
+      csrfToken: csrfToken,
     }));
   });
 
   app.route('/signup')
-  .get(csrfProtection, function(req, res) {
+  .all(csrf.protection)
+  .get(function(req, res) {
     if(req.isAuthenticated()) req.logout();
     res.render('signup', greet(req, {csrfToken: req.csrfToken()}));
   });
@@ -58,7 +65,8 @@ module.exports = function (app, passport) {
 
   app.route('/auth/local')
   .all(rateLimitLogin)
-  .all(csrfProtection)
+  .all(csrf.protection)
+  .all(csrf.errHandler)
   .post(passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/login',
@@ -74,11 +82,10 @@ module.exports = function (app, passport) {
       req.logIn(account, function(err) {
         res.status(err ? 401 : 200)
         .json(err ? {message: req.flash('message')[0]} : {
-            type: account.type,
-            name: account.name,
-            uid: account._id,
-          }
-        );
+          type: account.type,
+          name: account.name,
+          uid: account._id,
+        });
       });
     })(req, res, next);
   });
@@ -102,7 +109,7 @@ module.exports = function (app, passport) {
 
   // Create new local user
   app.route('/auth/local/signup')
-  .post(csrfProtection, function(req, res, next) {
+  .post(csrf.protection, function(req, res, next) {
 
     User.createLocalUser({
       username: req.body.username,

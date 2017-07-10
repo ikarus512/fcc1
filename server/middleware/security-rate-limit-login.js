@@ -17,15 +17,23 @@
 
 var RateLimit = require('express-rate-limit');
 
-var limiter = new RateLimit({
-  windowMs: 15*60*1000, // 15 minutes
-  max: 5, // limit each IP to 5 requests per windowMs
-  delayMs: 10*1000, // delay 10 s
+var limiter =
 
-  keyGenerator: function(req) {
-    return req.ip;
-  },
+  (process.env.NODE_ENV === 'production') ?
 
-});
+  // Here if production:
+  new RateLimit({
+    windowMs: 15*60*1000, // 15 minutes
+    max: 5, // limit each IP to 5 requests per windowMs
+    delayMs: 10*1000, // delay 10 s
+    keyGenerator: function(req) { return req.ip; }, // limit per each IP
+  })
+
+  :
+
+  // Here if test env:
+  function(err, req, res, next) {
+    return next(err);
+  };
 
 module.exports = limiter;

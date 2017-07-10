@@ -3,7 +3,7 @@
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: 
+ * DESCRIPTION:
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *
@@ -34,7 +34,7 @@ var
 
 
 
-before( function () {
+before( function() {
   return Poll.findOne({}).exec()
   .then( function(poll) {
     if (!poll) throw Error('Polls not found.');
@@ -67,16 +67,14 @@ before( function(done) {
 });
 
 
-parallel('app1', function () {
+parallel('app1', function() {
 
-  it('unauth user should be able to view polls', function (done) {
-    request
+  it('unauth user should be able to view polls', function() {
+    return request
     .agent() // to make authenticated requests
     .get(appUrl+'/app1')
     .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
-    .end( function(err, res) {
-
-      expect(err).to.equal(null);
+    .then( function(res) {
       expect(res.status).to.equal(200);
 
       expect(res.text).to.not.contain('local / a');
@@ -85,20 +83,15 @@ parallel('app1', function () {
       expect(res.request.url).to.equal(appUrl+'/app1/polls');
       expect(res.redirects).to.have.lengthOf(1);
       expect(res.redirects[0]).to.equal(appUrl+'/app1/polls');
-
-      done();
     });
   });
 
-  it('unauth user should be able to view poll details', function (done) {
-
-    request
+  it('unauth user should be able to view poll details', function() {
+    return request
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/polls/'+poll_id)
     .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
-    .end( function(err, res) {
-
-      expect(err).to.equal(null);
+    .then( function(res) {
       expect(res.status).to.equal(200);
 
       expect(res.text).to.not.contain('local / a');
@@ -106,8 +99,6 @@ parallel('app1', function () {
       // and should redirect to home
       expect(res.request.url).to.equal(appUrl+'/app1/polls/'+poll_id);
       expect(res.redirects).to.have.lengthOf(0);
-
-      done();
     });
 
   });
@@ -117,15 +108,12 @@ parallel('app1', function () {
 
 
 
-  it('auth user should be able to view polls', function (done) {
-
-    request
+  it('auth user should be able to view polls', function() {
+    return request
     .agent() // to make authenticated requests
     .get(appUrl+'/app1')
     .set('Cookie', userACookies) // authorize user a
-    .end( function(err, res) {
-
-      expect(err).to.equal(null);
+    .then( function(res) {
       expect(res.status).to.equal(200);
 
       expect(res.text).to.contain('local / a');
@@ -134,21 +122,16 @@ parallel('app1', function () {
       expect(res.request.url).to.equal(appUrl+'/app1/polls');
       expect(res.redirects).to.have.lengthOf(1);
       expect(res.redirects[0]).to.equal(appUrl+'/app1/polls');
-
-      done();
     });
 
   });
 
-  it('auth user should be able to view poll details', function (done) {
-
-    request
+  it('auth user should be able to view poll details', function() {
+    return request
     .agent() // to make authenticated requests
     .get(appUrl+'/app1/polls/'+poll_id)
     .set('Cookie', userACookies) // authorize user a
-    .end( function(err, res) {
-
-      expect(err).to.equal(null);
+    .then( function(res) {
       expect(res.status).to.equal(200);
 
       expect(res.text).to.contain('local / a');
@@ -156,8 +139,6 @@ parallel('app1', function () {
       // and should redirect to home
       expect(res.request.url).to.equal(appUrl+'/app1/polls/'+poll_id);
       expect(res.redirects).to.have.lengthOf(0);
-
-      done();
     });
 
   });

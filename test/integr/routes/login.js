@@ -3,7 +3,7 @@
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: 
+ * DESCRIPTION:
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *
@@ -29,18 +29,14 @@ var
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js');
 
+parallel('login', function() {
 
+  it('/login should allow GET', function() {
 
-parallel('login', function () {
-
-  it('/login should allow GET', function(done) {
-
-    request
+    return request
     .agent() // to make authenticated requests
     .get(appUrl+'/login')
-    .end( function(err, res) {
-
-      expect(err).to.equal(null);
+    .then( function(res) {
       expect(res.status).to.equal(200);
 
       var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
@@ -54,39 +50,32 @@ parallel('login', function () {
       // and should not redirect
       expect(res.request.url).to.equal(appUrl+'/login');
       expect(res.redirects).to.have.lengthOf(0);
-
-      done();
-
     });
 
   });
 
-  it('/login should not allow POST', function(done) {
+  it('/login should not allow POST', function() {
 
-    request
+    return request
     .agent() // to make authenticated requests
     .post(appUrl+'/login')
-    .end( function(err, res) {
-
+    .then( function(res) {
+      throw new Error("Not expected");
+    })
+    .catch( function(err) {
       expect(err).to.not.equal(null);
-      expect(res.status).to.not.equal(200);
-
-      done();
-
+      expect(err.status).to.not.equal(200);
     });
 
   });
 
 
-  it('/auth/local should allow correct login', function(done) {
-
-    request
+  it('/auth/local should allow correct login', function() {
+    return request
     .agent() // to make authenticated requests
     .post(appUrl+'/auth/local')
     .send({username:'admin', password:'1234'})
-    .end( function(err, res) {
-
-      expect(err).to.equal(null);
+    .then( function(res) {
       expect(res.status).to.equal(200);
 
       var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
@@ -101,9 +90,6 @@ parallel('login', function () {
       expect(res.request.url).to.equal(appUrl+'/');
       expect(res.redirects).to.have.lengthOf(1);
       expect(res.redirects[0]).to.equal(appUrl+'/');
-
-      done();
-
     });
 
   });
@@ -115,16 +101,14 @@ parallel('login', function () {
 
   wrongData.forEach( function(data, idx) {
 
-    it('/auth/local should not allow incorrect login (idx='+idx+')', function(done) {
-
-      request
+    it('/auth/local should not allow incorrect login (idx='+idx+')', function() {
+      return request
       .agent() // to make authenticated requests
       .post(appUrl+'/auth/local')
 
       .send({username:data.username, password:data.password})
-      .end( function(err, res) {
+      .then( function(res) {
 
-        expect(err).to.equal(null);
         expect(res.status).to.equal(200);
 
         var message = res.text.match(/<p class="alert alert-danger">[^>]+>/);
@@ -140,8 +124,6 @@ parallel('login', function () {
         expect(res.request.url).to.equal(appUrl+'/login');
         expect(res.redirects).to.have.lengthOf(1);
         expect(res.redirects[0]).to.equal(appUrl+'/login');
-
-        done();
 
       });
 

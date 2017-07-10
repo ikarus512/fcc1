@@ -17,12 +17,47 @@
 
 var
   csrf = require('csurf'),
-  csrfProtection = csrf({
+  myCsrf = {};
+
+
+myCsrf.protection =
+
+  (process.env.NODE_ENV === 'production') ?
+
+  // Here if production:
+  csrf({
     cookie: false, // Keep tocken secret in session, not in cookie
     key: '_csrf',
-
     httpOnly: true,  // dont let browser javascript access cookie ever
     secure: true, // only use cookie over https
-  });
+  })
 
-module.exports = csrfProtection;
+  :
+
+  // Here if test env:
+  // Switch off CSRF
+  function(req,res,next) {
+    req.csrfToken = function() { return 1; };
+    next();
+  };
+
+
+myCsrf.errHandler = function csrfErrorHandler(err, req, res, next) {
+  if (err && err.code === 'EBADCSRFTOKEN') {
+    // handle CSRF token errors here
+
+    // console.log('---File: '+new Error().stack.split('\n')[1]);
+    // console.log('req.session=',req.session)
+    // console.log('req.headers=',req.headers)
+    // console.log('res.headers=',res.headers)
+    myErrorLog(req, err);
+    // res.status(403)
+    // res.send('form tampered with')
+
+  }
+
+  return next(err);
+
+};
+
+module.exports = myCsrf;
