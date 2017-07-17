@@ -124,3 +124,22 @@ https://expressjs.com/en/advanced/best-practice-security.html
  session cookie sequrity -- added
  csrf -- added to web forms (not to CORS-opened REST API)
  xss -- helped by Angular.js automatic encoding (when data inserted into html page)
+--------------------------------
+SSL/TLS certificate generation instructions
+1) Generate cert:
+  ### Create self-signed cert for 127.0.0.1:
+  openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -sha256 -days 365 -out certificate.pem -subj "/C=RU/ST=RU/L=NNov/O=Company/OU=Org/CN=127.0.0.1"
+  ### Review:
+  #openssl x509 -text -noout -in certificate.pem
+  ### Combine your key and certificate in a PKCS#12 (P12) bundle:
+  #openssl pkcs12 -inkey key.pem -in certificate.pem -export -out certificate.p12
+  ### Validate your P2 file.
+  #openssl pkcs12 -in certificate.p12 -noout -info
+2) Put cert/key file to ./_certificate folder (for developement on local server).
+------------------------------------------------
+travis-ci.com
+  https://docs.travis-ci.com/user/languages/javascript-with-nodejs/
+coveralls.io
+  http://dsernst.com/2015/09/02/node-mocha-travis-istanbul-coveralls-unit-tests-coverage-for-your-open-source-project/
+  https://github.com/nickmerwin/node-coveralls
+  https://coveralls.zendesk.com/hc/en-us/articles/201769715-Javascript-Node

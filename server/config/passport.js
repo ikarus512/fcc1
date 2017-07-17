@@ -17,7 +17,9 @@
 
 // Example: https://gist.github.com/joshbirk/1732068
 
-var TwitterStrategy = require('passport-twitter').Strategy,
+var
+  APPCONST = require('./../config/constants.js'),
+  TwitterStrategy = require('passport-twitter').Strategy,
   FacebookStrategy = require('passport-facebook').Strategy,
   GitHubStrategy = require('passport-github').Strategy,
   LocalStrategy = require('passport-local').Strategy,
@@ -87,9 +89,9 @@ module.exports = function (passport) {
 
 
   passport.use(new FacebookStrategy({
-      clientID: process.env.APP_FACEBOOK_KEY,
-      clientSecret: process.env.APP_FACEBOOK_SECRET,
-      callbackURL: process.env.APP_URL + '/auth/facebook/callback',
+      clientID: APPCONST.env.APP_FACEBOOK_KEY,
+      clientSecret: APPCONST.env.APP_FACEBOOK_SECRET,
+      callbackURL: APPCONST.env.APP_URL + '/auth/facebook/callback',
       passReqToCallback: true
     },
     function facebookVerify(req, token, refreshToken, profile, done) {
@@ -128,9 +130,9 @@ module.exports = function (passport) {
   // Docs: https://dev.twitter.com/docs --> my apps / create app
   // My apps: https://apps.twitter.com/app
   passport.use(new TwitterStrategy({
-      consumerKey: process.env.APP_TWITTER_KEY,
-      consumerSecret: process.env.APP_TWITTER_SECRET,
-      callbackURL: process.env.APP_URL + '/auth/twitter/callback',
+      consumerKey: APPCONST.env.APP_TWITTER_KEY,
+      consumerSecret: APPCONST.env.APP_TWITTER_SECRET,
+      callbackURL: APPCONST.env.APP_URL + '/auth/twitter/callback',
       passReqToCallback: true
     },
     function twitterVerify(req, token, tokenSecret, profile, done) {
@@ -168,9 +170,9 @@ module.exports = function (passport) {
 
 
   passport.use(new GitHubStrategy({
-      clientID: process.env.APP_GITHUB_KEY,
-      clientSecret: process.env.APP_GITHUB_SECRET,
-      callbackURL: process.env.APP_URL + '/auth/github/callback',
+      clientID: APPCONST.env.APP_GITHUB_KEY,
+      clientSecret: APPCONST.env.APP_GITHUB_SECRET,
+      callbackURL: APPCONST.env.APP_URL + '/auth/github/callback',
       passReqToCallback: true
     },
     function githubVerify(req, token, refreshToken, profile, done) {

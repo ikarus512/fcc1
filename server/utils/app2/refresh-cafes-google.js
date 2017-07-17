@@ -45,7 +45,7 @@ function googleRequest(lat, lng, radius, dataIn) {
     return new Promise( function(resolve, reject) {
 
       var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
-        '?key=' + process.env.APP_GOOGLE_PLACES_API_KEY +
+        '?key=' + APPCONST.env.APP_GOOGLE_PLACES_API_KEY +
         '&location=' + lat + ',' + lng +
         '&radius=' + radius +
         '&rankby=distance' +
@@ -57,7 +57,7 @@ function googleRequest(lat, lng, radius, dataIn) {
         {
           url: url,
           headers: {
-            referer : process.env.APP_GOOGLE_PLACES_API_REFERRER,
+            referer : APPCONST.env.APP_GOOGLE_PLACES_API_REFERRER,
           },
         },
 

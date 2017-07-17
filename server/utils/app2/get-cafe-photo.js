@@ -17,6 +17,7 @@
 
 var
   request = require('request'),
+  // APPCONST = require('./../../config/constants.js'),
   Promise = require('bluebird');
 
 // Using Google Place Photos API
@@ -28,7 +29,7 @@ function getCafePhoto(googlePhotoRef) {
   //     'https://maps.googleapis.com/maps/api/place/photo' +
   //     '?maxwidth=50&maxheight=50' +
   //     '&photoreference=' + googlePhotoRef +
-  //     '?key=' + process.env.APP_GOOGLE_MAPS_API_KEY +
+  //     '?key=' + APPCONST.env.APP_GOOGLE_MAPS_API_KEY +
   //     '',
 
   //     function(err, response, data) {

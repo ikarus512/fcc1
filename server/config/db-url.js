@@ -16,10 +16,10 @@
 'use strict';
 
 var dbUrls = {
-  production: process.env.APP_MONGODB_URI,
+  production: process.env.APP_MONGODB_URI ? process.env.APP_MONGODB_URI : 'mongodb://localhost:27017/dbname',
   'test-int':     'mongodb://localhost:27017/dbname-test-int',
   'test-int-cov': 'mongodb://localhost:27017/dbname-test-int-cov',
   'test-e2e':     'mongodb://localhost:27017/dbname-test-e2e',
 };
 
-module.exports = dbUrls[process.env.NODE_ENV];
+module.exports = process.env.NODE_ENV ? dbUrls[process.env.NODE_ENV] : 'mongodb://localhost:27017/dbname';

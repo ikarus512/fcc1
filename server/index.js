@@ -16,6 +16,7 @@
 'use strict';
 
 var express = require('express'),
+  APPCONST = require('./config/constants.js'),
   app = express(),
   appHttp = express(),
   session = require('express-session'),
@@ -57,7 +58,7 @@ var express = require('express'),
 //  Settings
 ////////////////////////////////////////////////////////////////
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', APPCONST.env.PORT);
 
 app.enable('trust proxy'); // to get req.ip
 if (!isHeroku()) { appHttp.enable('trust proxy'); }
@@ -127,7 +128,7 @@ app.use('/less', expressLess(__dirname + './../src/less', {
   // compress: true,
   // cache: true,
   // debug: true,
-  debug: process.env.NODE_ENV !== 'production',
+  debug: APPCONST.env.NODE_ENV !== 'production',
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -196,7 +197,7 @@ if (!isHeroku()) {
 
     promises.push( new Promise( function(resolve, reject) {
       server.listen( app.get('port'), function (err) {
-        console.log('NODE_ENV = '+process.env.NODE_ENV);
+        console.log('NODE_ENV = '+APPCONST.env.NODE_ENV);
         if (err) throw err;
         console.log('Started https.');
         return resolve();
@@ -211,7 +212,7 @@ if (!isHeroku()) {
       });
     }));
 
-    if (process.env.NODE_ENV.match(/^test/)) {
+    if (APPCONST.env.NODE_ENV.match(/^test/)) {
       promises.push( dbInit( function() { console.log('DB initialized.'); }) );
     }
 
@@ -219,7 +220,7 @@ if (!isHeroku()) {
     .then( function() {
       console.log('Server ready.');
 
-      if (!process.env.NODE_ENV.match(/^test/)) {
+      if (!APPCONST.env.NODE_ENV.match(/^test/)) {
         dbInit( function() { console.log('DB initialized.'); });
       }
 

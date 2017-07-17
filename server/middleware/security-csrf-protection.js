@@ -17,7 +17,8 @@
 
 var
   csrf = require('csurf'),
-  myCsrf = {};
+  myCsrf = {},
+  myErrorLog = require('../utils/my-error-log.js');
 
 
 myCsrf.protection =
