@@ -36,6 +36,7 @@ APPCONST = {
     APP_MONGODB_URI: process.env.APP_MONGODB_URI || 'mongodb://localhost:27017/dbname',
 
     PORT: process.env.PORT || 5000,
+    PORT_HTTP: process.env.PORT_HTTP || 80,
     NODE_ENV: process.env.NODE_ENV || 'production',
 
     APP_FACEBOOK_KEY: process.env.APP_FACEBOOK_KEY || '1111111111111111',

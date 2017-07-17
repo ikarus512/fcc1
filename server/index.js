@@ -205,7 +205,7 @@ if (!isHeroku()) {
     }));
 
     promises.push( new Promise( function(resolve, reject) {
-      serverHttp.listen(80, function (err) {
+      serverHttp.listen(APPCONST.env.PORT_HTTP, function (err) {
         if (err) throw err;
         console.log('Started http.');
         return resolve();

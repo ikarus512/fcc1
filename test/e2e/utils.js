@@ -17,7 +17,5 @@
 'use strict';
 
 process.env.NODE_ENV = 'test';
-// if (!process.env.NODE_ENV.match(/^test-e2e/)) {
-//   throw Error('Incorrect NODE_ENV for test: '+process.env.NODE_ENV);
-// }
+process.env.PORT_HTTP = 8000;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // Ignore 'self-signed certificate' error

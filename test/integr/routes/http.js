@@ -30,7 +30,7 @@ var
   testLog = require('./../my-test-log.js');
 
 var
-  appHttpUrl = 'http:'+appUrl.replace(/https:/,'').replace(/\:.*$/,'');
+  appHttpUrl = 'http:'+appUrl.replace(/https:/,'').replace(/\:.*$/,':'+process.env.PORT_HTTP);
 
 
 parallel('http', function() {
