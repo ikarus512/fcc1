@@ -16,7 +16,8 @@
 /*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-if (!process.env.NODE_ENV.match(/^test-e2e/)) {
-  throw Error('Incorrect NODE_ENV for test: '+process.env.NODE_ENV);
-}
+process.env.NODE_ENV = 'test';
+// if (!process.env.NODE_ENV.match(/^test-e2e/)) {
+//   throw Error('Incorrect NODE_ENV for test: '+process.env.NODE_ENV);
+// }
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // Ignore 'self-signed certificate' error

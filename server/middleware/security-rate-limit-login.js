@@ -15,11 +15,13 @@
 /*jshint node: true*/
 'use strict';
 
-var RateLimit = require('express-rate-limit');
+var
+  APPCONST = require('./../config/constants.js'),
+  RateLimit = require('express-rate-limit');
 
 var limiter =
 
-  (process.env.NODE_ENV === 'production') ?
+  (APPCONST.env.NODE_ENV === 'production') ?
 
   // Here if production:
   new RateLimit({

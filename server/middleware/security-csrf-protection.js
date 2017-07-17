@@ -16,6 +16,7 @@
 'use strict';
 
 var
+  APPCONST = require('./../config/constants.js'),
   csrf = require('csurf'),
   myCsrf = {},
   myErrorLog = require('../utils/my-error-log.js');
@@ -23,7 +24,7 @@ var
 
 myCsrf.protection =
 
-  (process.env.NODE_ENV === 'production') ?
+  (APPCONST.env.NODE_ENV === 'production') ?
 
   // Here if production:
   csrf({

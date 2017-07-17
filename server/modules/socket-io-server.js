@@ -15,9 +15,11 @@
 /*jshint node: true*/
 'use strict';
 
+var APPCONST = require('./../config/constants.js');
+
 module.exports = function(server) {
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (APPCONST.env.NODE_ENV !== 'production') {
 
     // Using socket.io during tests to:
     // 1) stop server in response to the npmStop signal,

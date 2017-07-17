@@ -15,11 +15,8 @@
 /*jshint node: true*/
 'use strict';
 
-var dbUrls = {
-  production: process.env.APP_MONGODB_URI ? process.env.APP_MONGODB_URI : 'mongodb://localhost:27017/dbname',
-  'test-int':     'mongodb://localhost:27017/dbname-test-int',
-  'test-int-cov': 'mongodb://localhost:27017/dbname-test-int-cov',
-  'test-e2e':     'mongodb://localhost:27017/dbname-test-e2e',
-};
+var APPCONST = require('./../config/constants.js');
 
-module.exports = process.env.NODE_ENV ? dbUrls[process.env.NODE_ENV] : 'mongodb://localhost:27017/dbname';
+var dbUrl = APPCONST.env.APP_MONGODB_URI;
+
+module.exports = dbUrl;

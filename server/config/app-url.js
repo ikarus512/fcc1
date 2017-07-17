@@ -15,11 +15,8 @@
 /*jshint node: true*/
 'use strict';
 
-var appUrls = {
-  production:     process.env.APP_URL,
-  'test-int':     'https://127.0.0.1:5000',
-  'test-int-cov': 'https://127.0.0.1:5000',
-  'test-e2e':     'https://127.0.0.1:5000',
-};
+var APPCONST = require('./../config/constants.js');
 
-module.exports = appUrls[process.env.NODE_ENV];
+var appUrl = APPCONST.env.APP_URL;
+
+module.exports = appUrl;
