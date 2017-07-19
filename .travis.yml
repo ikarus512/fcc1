@@ -1,7 +1,23 @@
 language: node_js
 node_js:
   - "6"
-before_install:
-  - npm i -g npm@5
+# env:
+#   - TEST_DIR=.
+#   - TEST_DIR=mobile/fcc1apps
+# script: cd $TEST_DIR && npm install && npm test
+# before_install:
+#   - npm i -g npm@5
+
+
+branches:
+  only:
+  - master
+git:
+  depth: 5
+cache:
+  directories:
+  - node_modules
+
 services:
   - mongodb
+#  - redis-server

@@ -16,9 +16,9 @@
 /*global describe, it, before, beforeEach, after, afterEach */
 'use strict';
 
-process.env.NODE_ENV = 'test';
-process.env.PORT_HTTP = 8000;
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // Ignore 'self-signed certificate' error
+// process.env.NODE_ENV = 'test';
+// process.env.PORT_HTTP = 8000;
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; // Ignore 'self-signed certificate' error
 
 var server = require('./../../server/index.js');
 
