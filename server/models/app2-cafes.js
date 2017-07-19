@@ -40,8 +40,8 @@ var CafeSchema = new Schema({
     google: {
         id: String,
         icon: String,
-        photo_ref: String,
-        place_id: String,
+        photoRef: String,
+        placeId: String,
     },
 
     // Visit plans represented as 1-hour-length time slots

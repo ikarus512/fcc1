@@ -49,11 +49,11 @@ var runCommand = function(command) {
 
 var MOBILE_SRC = './';
 var MOBILE_DST = 'mobile/fcc1apps/www/';
-var mobile_paths = {
+var MOBILE_PATHS = {
     indexHtml: {
         src: MOBILE_SRC + 'src/views/mobile/_app_index.pug',
-        rename_src: '_app_index',
-        rename_dst: 'index',
+        srcRename: '_app_index',
+        dstRename: 'index',
         dest: MOBILE_DST,
     },
     favicon: {
@@ -68,14 +68,14 @@ var mobile_paths = {
     //       MOBILE_SRC + 'src/js/common/components/input-price-update.html',
     // },
     js: {
-        src : [
+        src: [
           MOBILE_SRC + 'src/js/**/*.{js,html}', // js and templates
         ],
         base: MOBILE_SRC + 'src/js/',
         dest: MOBILE_DST + 'js/',
     },
     copy: {
-        src : [
+        src: [
           MOBILE_SRC + 'public/lib/**/*',
           MOBILE_SRC + 'public/css/**/*',
           MOBILE_SRC + 'public/fonts/**/*',
@@ -106,48 +106,48 @@ var mobile_paths = {
 };
 
 gulp.task('mobile-app1-copy', function() {
-    return gulp.src(mobile_paths.copy.src, {base: mobile_paths.copy.base})
-    .pipe(gulp.dest(mobile_paths.copy.dest));
+    return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
+    .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
 });
 
 gulp.task('mobile-app1-js', function() {
-    return gulp.src(mobile_paths.js.src, {base: mobile_paths.js.base})
-    .pipe(gulp.dest(mobile_paths.js.dest));
+    return gulp.src(MOBILE_PATHS.js.src, {base: MOBILE_PATHS.js.base})
+    .pipe(gulp.dest(MOBILE_PATHS.js.dest));
 });
 
 gulp.task('mobile-app1-cordovaJs', function() {
-    return gulp.src(mobile_paths.cordovaJs.src)
-    .pipe(gulp.dest(mobile_paths.cordovaJs.dest));
+    return gulp.src(MOBILE_PATHS.cordovaJs.src)
+    .pipe(gulp.dest(MOBILE_PATHS.cordovaJs.dest));
 });
 
 gulp.task('mobile-app1-indexHtml', function() {
-    return gulp.src(mobile_paths.indexHtml.src)
+    return gulp.src(MOBILE_PATHS.indexHtml.src)
     .pipe(pug({locals: pugParams}))
     .pipe(rename(function(path) {
-        if (path.basename === mobile_paths.indexHtml.rename_src) {
-            path.basename = mobile_paths.indexHtml.rename_dst;
+        if (path.basename === MOBILE_PATHS.indexHtml.srcRename) {
+            path.basename = MOBILE_PATHS.indexHtml.dstRename;
         }
     }))
-    .pipe(gulp.dest(mobile_paths.indexHtml.dest));
+    .pipe(gulp.dest(MOBILE_PATHS.indexHtml.dest));
 });
 
 gulp.task('mobile-app1-favicon', function() {
-    return gulp.src(mobile_paths.favicon.src)
-    .pipe(gulp.dest(mobile_paths.favicon.dest));
+    return gulp.src(MOBILE_PATHS.favicon.src)
+    .pipe(gulp.dest(MOBILE_PATHS.favicon.dest));
 });
 
 gulp.task('mobile-app1-views', function() {
-    return gulp.src(mobile_paths.views.src)
-    // .pipe(changed(mobile_paths.views.dest, {extension: '.html'}))
+    return gulp.src(MOBILE_PATHS.views.src)
+    // .pipe(changed(MOBILE_PATHS.views.dest, {extension: '.html'}))
     .pipe(pug({locals: pugParams}))
-    .pipe(gulp.dest(mobile_paths.views.dest));
+    .pipe(gulp.dest(MOBILE_PATHS.views.dest));
 });
 
 gulp.task('mobile-app1-less', function() {
-    return gulp.src(mobile_paths.less.src)
-    // .pipe(changed(mobile_paths.less.dest, {extension: '.css'}))
+    return gulp.src(MOBILE_PATHS.less.src)
+    // .pipe(changed(MOBILE_PATHS.less.dest, {extension: '.css'}))
     .pipe(less().on('error', gutil.log))
-    .pipe(gulp.dest(mobile_paths.less.dest));
+    .pipe(gulp.dest(MOBILE_PATHS.less.dest));
 });
 
 gulp.task('mobile-app1-prepare', [
@@ -164,10 +164,10 @@ gulp.task('mobile-app1-prepare', [
 
 var WEB_SRC = './';
 var WEB_DST = 'public/';
-var devserver_paths = {
+var DEV_SERVER_PATHS = {
     jsHeader: '/*! Copyright 2017 ikarus512 https://github.com/ikarus512/fcc1.git */',
     publicJs: {
-        src : [
+        src: [
           WEB_SRC + 'src/js/common/**/*.js',
           WEB_SRC + 'src/js/web/**/*.js',
         ],
@@ -175,54 +175,54 @@ var devserver_paths = {
         dest: WEB_DST + 'js/',
     },
     publicHtml: {
-        src : [
+        src: [
           WEB_SRC + 'src/js/common/**/*.html', // angular templates
         ],
         base: WEB_SRC + 'src/js/',
         dest: WEB_DST + 'js/',
     },
     serverJs: {
-        src : WEB_SRC + 'server/**/*.js',
+        src: WEB_SRC + 'server/**/*.js',
     },
     binaries: {
         src: WEB_SRC + 'mobile/fcc1apps/platforms/android/' +
           'build/outputs/apk/android-release-unsigned.apk',
-        rename_src: 'android-release-unsigned',
-        rename_dst: 'ikarus512-fcc1apps',
+        srcRename: 'android-release-unsigned',
+        dstRename: 'ikarus512-fcc1apps',
         dest: WEB_DST + 'bin/',
     },
 };
 
 gulp.task('devserver-binaries-update', function() {
-    return gulp.src(devserver_paths.binaries.src)
+    return gulp.src(DEV_SERVER_PATHS.binaries.src)
     .pipe(rename(function(path) {
-        if (path.basename === devserver_paths.binaries.rename_src) {
-            path.basename = devserver_paths.binaries.rename_dst;
+        if (path.basename === DEV_SERVER_PATHS.binaries.srcRename) {
+            path.basename = DEV_SERVER_PATHS.binaries.dstRename;
         }
     }))
-    .pipe(gulp.dest(devserver_paths.binaries.dest));
+    .pipe(gulp.dest(DEV_SERVER_PATHS.binaries.dest));
 });
 
 gulp.task('devserver-public-html', function() { // jshint/minify/copy to public
-    return gulp.src(devserver_paths.publicHtml.src, {base: devserver_paths.publicHtml.base})
-    .pipe(gulp.dest(devserver_paths.publicHtml.dest))
+    return gulp.src(DEV_SERVER_PATHS.publicHtml.src, {base: DEV_SERVER_PATHS.publicHtml.base})
+    .pipe(gulp.dest(DEV_SERVER_PATHS.publicHtml.dest))
     .on('error', gutil.log);
 });
 
 gulp.task('devserver-public-js', function() { // jshint/minify/copy to public
-    return gulp.src(devserver_paths.publicJs.src, {base: devserver_paths.publicJs.base})
-    .pipe(changed(devserver_paths.publicJs.dest))
+    return gulp.src(DEV_SERVER_PATHS.publicJs.src, {base: DEV_SERVER_PATHS.publicJs.base})
+    .pipe(changed(DEV_SERVER_PATHS.publicJs.dest))
     .pipe(jshint())
     .pipe(jshint.reporter(require('jshint-stylish')))
     // .pipe(uglify())
-    // .pipe(headerfooter.header(devserver_paths.jsHeader))
-    .pipe(gulp.dest(devserver_paths.publicJs.dest))
+    // .pipe(headerfooter.header(DEV_SERVER_PATHS.jsHeader))
+    .pipe(gulp.dest(DEV_SERVER_PATHS.publicJs.dest))
     .on('error', gutil.log);
 });
 
 gulp.task('devserver-server-js', function() { // Only syntax check
-    return gulp.src(devserver_paths.serverJs.src)
-    .pipe(changed(devserver_paths.serverJs.src))
+    return gulp.src(DEV_SERVER_PATHS.serverJs.src)
+    .pipe(changed(DEV_SERVER_PATHS.serverJs.src))
     .pipe(jshint())
     .pipe(jshint.reporter(require('jshint-stylish')))
     .on('error', gutil.log);
@@ -256,8 +256,8 @@ gulp.task('devserver-build', [
 
 gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
 
-    gulp.watch(devserver_paths.publicHtml.src, ['devserver-public-html']);
-    gulp.watch(devserver_paths.publicJs.src, ['devserver-public-js']);
+    gulp.watch(DEV_SERVER_PATHS.publicHtml.src, ['devserver-public-html']);
+    gulp.watch(DEV_SERVER_PATHS.publicJs.src, ['devserver-public-js']);
 
     return nodemon({
         script: 'server/index.js',            // The entry point

@@ -4,20 +4,20 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .service('MyConst', function() {
+    .service('MyConst', function() {
 
-    this.urlPref = '/';
-    this.urlPrefix = '';
-    this.serverUrl = '';
-    this.webSocketHost = 'wss://' + window.document.location.host;
-    this.webApp = true;
-    this.mobileApp = !this.webApp;
+        this.urlPref = '/';
+        this.urlPrefix = '';
+        this.serverUrl = '';
+        this.webSocketHost = 'wss://' + window.document.location.host;
+        this.webApp = true;
+        this.mobileApp = !this.webApp;
 
-  }); // .service('MyConst', ...
+    }); // .service('MyConst', ...
 
 })();

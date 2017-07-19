@@ -31,7 +31,7 @@
         "catch"
     ],
     "requireOperatorBeforeLineBreak": true,
-    // "requireCamelCaseOrUpperCaseIdentifiers": true,
+    "requireCamelCaseOrUpperCaseIdentifiers": true,
     "maximumLineLength": {
       // "allowComments": true,
       // "allowRegex": true,

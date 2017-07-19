@@ -172,8 +172,8 @@ function cafeFilterAndSave(cafes) {
         try { newCafe.photo = cafe.icon; } catch (err) {}
         try { newCafe.google.icon = cafe.icon; } catch (err) {}
         try { newCafe.google.id = cafe.id; } catch (err) {}
-        try { newCafe.google.photo_reference = cafe.photos[0].photo_reference; } catch (err) {}
-        try { newCafe.google.place_id = cafe.place_id; } catch (err) {}
+        try { newCafe.google.photoRef = cafe.photos[0]['photo_reference']; } catch (err) {}
+        try { newCafe.google.placeId = cafe['place_id']; } catch (err) {}
 
         return newCafe;
 

@@ -25,18 +25,18 @@ var
   should = chai.should,
   // parallel = require('mocha.parallel'),
   // parallel = describe,
-  parallel = (process.env.running_under_istanbul) ? describe : require('mocha.parallel'),
+  parallel = (process.env.RUNNING_UNDER_ISTANBUL) ? describe : require('mocha.parallel'),
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js'),
 
   Poll = require('../../../server/models/app1-polls.js'),
-  poll_id;
+  pollId;
 
 before(function() {
     return Poll.findOne({}).exec()
     .then(function(poll) {
         if (!poll) { throw Error('Polls not found.'); }
-        poll_id = poll._id;
+        pollId = poll._id;
     });
 });
 
@@ -85,7 +85,7 @@ parallel('app1', function() {
     it('unauth user should be able to view poll details', function() {
         return request
         .agent() // to make authenticated requests
-        .get(appUrl + '/app1/polls/' + poll_id)
+        .get(appUrl + '/app1/polls/' + pollId)
         .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
         .then(function(res) {
             expect(res.status).to.equal(200);
@@ -93,7 +93,7 @@ parallel('app1', function() {
             expect(res.text).to.not.contain('local / a');
 
             // and should redirect to home
-            expect(res.request.url).to.equal(appUrl + '/app1/polls/' + poll_id);
+            expect(res.request.url).to.equal(appUrl + '/app1/polls/' + pollId);
             expect(res.redirects).to.have.lengthOf(0);
         });
 
@@ -120,7 +120,7 @@ parallel('app1', function() {
     it('auth user should be able to view poll details', function() {
         return request
         .agent() // to make authenticated requests
-        .get(appUrl + '/app1/polls/' + poll_id)
+        .get(appUrl + '/app1/polls/' + pollId)
         .set('Cookie', userACookies) // authorize user a
         .then(function(res) {
             expect(res.status).to.equal(200);
@@ -128,7 +128,7 @@ parallel('app1', function() {
             expect(res.text).to.contain('local / a');
 
             // and should redirect to home
-            expect(res.request.url).to.equal(appUrl + '/app1/polls/' + poll_id);
+            expect(res.request.url).to.equal(appUrl + '/app1/polls/' + pollId);
             expect(res.redirects).to.have.lengthOf(0);
         });
 

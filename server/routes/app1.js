@@ -60,7 +60,7 @@ router.get('/polls/:id',
         if (!poll) { // if found, add to req
             throw new Error('Poll not found.');
         } else { // if found, add to req
-            req.poll_title = poll.title;
+            req.pollTitle = poll.title;
             next();
         }
     })
@@ -75,10 +75,10 @@ router.get('/polls/:id',
   function(req, res, next) {
     res.render('app1_poll', greet(
       req,
-      {poll_id: req.params.id},
+      {pollId: req.params.id},
       shareit({
-        title: req.poll_title + ' (DynApps Poll)',
-        text: req.poll_title + ' (DynApps Poll)',
+        title: req.pollTitle + ' (DynApps Poll)',
+        text: req.pollTitle + ' (DynApps Poll)',
         img: req.protocol + '://' + req.headers.host + 'img/pixabay_com_world.jpg',
         url: req.protocol + '://' + req.headers.host + req.originalUrl,
     })

@@ -4,18 +4,18 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .service('User', function() {
+    .service('User', function() {
 
-    this.type = '';
-    this.name = '';
-    this.uid = '';
-    this.loginLocal = function(username, password) {};
+        this.type = '';
+        this.name = '';
+        this.uid = '';
+        this.loginLocal = function(username, password) {};
 
-  }); // .service('User', ...
+    }); // .service('User', ...
 
 })();

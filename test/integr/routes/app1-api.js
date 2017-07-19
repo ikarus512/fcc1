@@ -25,7 +25,7 @@ var
   should = chai.should,
   // parallel = require('mocha.parallel'),
   // parallel = describe,
-  parallel = (process.env.running_under_istanbul) ? describe : require('mocha.parallel'),
+  parallel = (process.env.RUNNING_UNDER_ISTANBUL) ? describe : require('mocha.parallel'),
   appUrl = require('./../../../server/config/app-url.js'),
   testLog = require('./../my-test-log.js'),
 

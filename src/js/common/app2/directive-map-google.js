@@ -78,13 +78,13 @@
 
             } // function initMap(...)
 
-            function markerSelect(marker, cafe_id, scopeApply) {
+            function markerSelect(marker, cafeId, scopeApply) {
                 selectedMarkerDeselect();
                 selectedMarker = marker;
                 marker.setIcon('https://maps.google.com/mapfiles/ms/icons/red-dot.png');
                 if (scopeApply) {
                     scope.$apply(function() {
-                        scope.mapSelectedCafe(cafe_id);
+                        scope.mapSelectedCafe(cafeId);
                     });
                 }
             } // function markerSelect(...)

@@ -11,40 +11,40 @@
 
     .factory('StoragePoll', ['$http', 'MyConst', function ($http, MyConst) {
         return {
-            get: function (poll_id) {
+            get: function (pollId) {
                 return $http({
                     method: 'GET',
                     data: {},
-                    url: MyConst.serverUrl + '/app1/api/polls/' + poll_id
+                    url: MyConst.serverUrl + '/app1/api/polls/' + pollId
                 });
             },
 
-            delete: function (poll_id) { // delete poll
+            delete: function (pollId) { // delete poll
                 return $http({
                     method: 'DELETE',
                     data: {},
-                    url: MyConst.serverUrl + '/app1/api/polls/' + poll_id
+                    url: MyConst.serverUrl + '/app1/api/polls/' + pollId
                 });
             },
 
-            post: function (poll_id,title) { // create new option
+            post: function (pollId, title) { // create new option
                 return $http({
                     method: 'POST',
                     data: {title: title},
-                    url: MyConst.serverUrl + '/app1/api/polls/' + poll_id + '/options'
+                    url: MyConst.serverUrl + '/app1/api/polls/' + pollId + '/options'
                 });
             },
 
-            put: function (poll_id, opt_id) { // vote for poll option
+            put: function (pollId, optId) { // vote for poll option
                 return $http({
                     method: 'PUT',
                     data: {},
                     url:
                         MyConst.serverUrl +
                         '/app1/api/polls/' +
-                        poll_id +
+                        pollId +
                         '/options/' +
-                        opt_id +
+                        optId +
                         '/vote'
                 });
             },

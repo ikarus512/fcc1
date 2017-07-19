@@ -4,16 +4,16 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .filter('photo', function() {
-    return function(text) {
-      if (!text) return text;
-      return '/img/app4tmp/' + text + '.jpg';
-    };
-  }); // .filter('photo', ...
+    .filter('photo', function() {
+        return function(text) {
+            if (!text) { return text; }
+            return '/img/app4tmp/' + text + '.jpg';
+        };
+    }); // .filter('photo', ...
 
 })();

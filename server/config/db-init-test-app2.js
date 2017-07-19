@@ -30,7 +30,7 @@ function myInit() {
     //   {
     //     '_id' : ObjectId('58eb402a407bb511d1d395f4'),
     //     'google' : {
-    //       'place_id' : 'ChIJt-EgPK7VUUERYudX_RPE3RE',
+    //       'placeId' : 'ChIJt-EgPK7VUUERYudX_RPE3RE',
     //       'id' : 'fe8bf96e3645f854f94544038c5b3f9577002620',
     //       'icon' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png'
     //     },
@@ -45,7 +45,7 @@ function myInit() {
     //   {
     //     '_id' : ObjectId('58eb402a407bb511d1d395f5'),
     //     'google' : {
-    //       'place_id' : 'ChIJKwnxFrLVUUERDPhRUvwYtIA',
+    //       'placeId' : 'ChIJKwnxFrLVUUERDPhRUvwYtIA',
     //       'id' : '46cf2155045818a88ce2c65ce6749c1809c02a93',
     //       'icon' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png'
     //     },
@@ -60,7 +60,7 @@ function myInit() {
     //   {
     //     '_id' : ObjectId('58eb402a407bb511d1d395f6'),
     //     'google' : {
-    //       'place_id' : 'ChIJm9ra8rHVUUER1VeM_z-g9m8',
+    //       'placeId' : 'ChIJm9ra8rHVUUER1VeM_z-g9m8',
     //       'id' : 'da32b63ab6bb0f5491432b6ad3ba97739624ed66',
     //       'icon' : 'https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png'
     //     },

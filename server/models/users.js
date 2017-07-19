@@ -309,13 +309,13 @@ UserSchema.statics.updateSettings = function(id,uid,settings) {
 //  (for example parameters can be moved to environment variables)
 ////////////////////////////////////////////////////////////////
 
-var pwd_suffix = 'sfv';
+var PWD_SUFFIX = 'sfv';
 
 function myHashEncode(str) {
     var
       roundsD = Math.ceil(Math.random() * 3), // We'll use   8 <= rounds <= 8+3
       // h1 == [ '', '2a', rr, '$'+53 symbols of hash string ]
-      h = bcrypt.hashSync(str + pwd_suffix, bcrypt.genSaltSync(8 + roundsD)),
+      h = bcrypt.hashSync(str + PWD_SUFFIX, bcrypt.genSaltSync(8 + roundsD)),
       h1 = h.split('$');
 
     if (h1[1] !== '2a') { return h1; } // No additional encoding on h1.
@@ -323,7 +323,7 @@ function myHashEncode(str) {
     // Here is what we have to encode:
     var hash1 = h1[3]; // 53 symbols of useful hash string.
     var hash2 = bcrypt.hashSync(
-      str + pwd_suffix,
+      str + PWD_SUFFIX,
       bcrypt.genSaltSync(8 + Math.ceil(Math.random() * 3))
     ).split('$')[3];
     var rounds = String.fromCharCode(
@@ -358,7 +358,7 @@ function myHashDecode(h) {
 }
 
 function myValidate(str, hash) {
-    var res = bcrypt.compareSync(str + pwd_suffix, myHashDecode(hash));
+    var res = bcrypt.compareSync(str + PWD_SUFFIX, myHashDecode(hash));
     return res;
 }
 
