@@ -1,7 +1,6 @@
 # fcc1
 
 [![Build Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1)
-[![Test Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1)
 
 FreeCodeCamp.com developement tasks. Running application available at https://ikarus512-fcc1.herokuapp.com
 
