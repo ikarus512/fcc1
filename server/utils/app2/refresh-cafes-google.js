@@ -26,212 +26,217 @@ var
 
 function googleRequest(lat, lng, radius, dataIn) {
 
-  // Delay between google requests
-  return new Promise( function(resolve, reject) {
-    if (dataIn.results.length) {
-      setTimeout( function() {
-        return resolve(dataIn);
-      }, GOOGLE_DELAY_BETWEEN_REQUESTS);
-    } else { // First requests in a loop -- no delay before it
-      return resolve(dataIn);
-    }
-  })
+    // Delay between google requests
+    return new Promise(function(resolve, reject) {
+        if (dataIn.results.length) {
+            setTimeout(function() {
+                return resolve(dataIn);
+            }, GOOGLE_DELAY_BETWEEN_REQUESTS);
+        } else { // First requests in a loop -- no delay before it
+            return resolve(dataIn);
+        }
+    })
 
-  .then( function() {
+    .then(function() {
 
-    ////////////////////////////////////////////////////////////
-    //
+        ////////////////////////////////////////////////////////////
+        //
 
-    return new Promise( function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
-      var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
-        '?key=' + APPCONST.env.APP_GOOGLE_PLACES_API_KEY +
-        '&location=' + lat + ',' + lng +
-        '&radius=' + radius +
-        '&rankby=distance' +
-        '&types=cafe|bar|restaurant' +
-        (dataIn.next_page_token ? ('&pagetoken=' + dataIn.next_page_token) : '') +
-        '';
+            var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
+              '?key=' + APPCONST.env.APP_GOOGLE_PLACES_API_KEY +
+              '&location=' + lat + ',' + lng +
+              '&radius=' + radius +
+              '&rankby=distance' +
+              '&types=cafe|bar|restaurant' +
+              (dataIn.next_page_token ? ('&pagetoken=' + dataIn.next_page_token) : '') +
+              '';
 
-      request.get(
-        {
-          url: url,
-          headers: {
-            referer : APPCONST.env.APP_GOOGLE_PLACES_API_REFERRER,
-          },
-        },
+            request.get(
+              {
+                url: url,
+                headers: {
+                    referer : APPCONST.env.APP_GOOGLE_PLACES_API_REFERRER,
+                },
+            },
 
-        function requestHandler(err, response, data) {
+              function requestHandler(err, response, data) {
 
-          try {
+                try {
 
-            if (err) throw err;
+                    if (err) { throw err; }
 
-            if (response.statusCode !== 200)
-              throw Error('Google Maps API response statusCode='+response.statusCode+'.');
+                    if (response.statusCode !== 200) {
+                        throw Error('Google Maps API response statusCode=' +
+                          response.statusCode + '.'
+                        );
+                    }
 
-            // New portion of results
-            var dataObj = JSON.parse(data);
+                    // New portion of results
+                    var dataObj = JSON.parse(data);
 
-            if (!dataObj.results)
-              throw Error('Google Maps API response without results: '+data+'.');
+                    if (!dataObj.results) {
+                        throw Error('Google Maps API response without results: ' + data + '.');
+                    }
 
-            if (dataObj.status && dataObj.status !== 'OK')
-              throw Error('Google Maps API error: '+data+'.');
+                    if (dataObj.status && dataObj.status !== 'OK') {
+                        throw Error('Google Maps API error: ' + data + '.');
+                    }
 
-            if (dataObj.results.length === 0)
-              throw Error('Google Maps API no results: '+data+'.');
+                    if (dataObj.results.length === 0) {
+                        throw Error('Google Maps API no results: ' + data + '.');
+                    }
 
-            // Concatenate with previous portion of results
-            dataObj.results = dataObj.results.concat(dataIn.results);
+                    // Concatenate with previous portion of results
+                    dataObj.results = dataObj.results.concat(dataIn.results);
 
-            if (dataObj.results.length >= MAPS_SEARCH_LIMIT) {
+                    if (dataObj.results.length >= MAPS_SEARCH_LIMIT) {
 
-              delete dataObj.next_page_token; // Stop request loop
+                        delete dataObj.next_page_token; // Stop request loop
 
-              dataObj.results = dataObj.results.filter( function(el,idx) {
-                return (idx < MAPS_SEARCH_LIMIT);
-              });
+                        dataObj.results = dataObj.results.filter(function(el,idx) {
+                            return (idx < MAPS_SEARCH_LIMIT);
+                        });
 
-            }
+                    }
 
-            return resolve(dataObj);
+                    return resolve(dataObj);
 
-          } catch(err) {
+                } catch (err) {
 
-            return reject(err);
+                    return reject(err);
 
-          }
+                }
 
-        } // function requestHandler(...)
+            } // function requestHandler(...)
 
-      ); // request.get(...)
+            ); // request.get(...)
 
+        });
+
+        //
+        ////////////////////////////////////////////////////////////
+
+    })
+
+    .then(function(data) {
+        return data;
     });
 
-    //
-    ////////////////////////////////////////////////////////////
-
-  })
-
-  .then( function(data) {
-    return data;
-  });
-
-  // .catch( function(err) {
-  //   myErrorLog(null, err);
-  //   return {results:[]};
-  // });
+    // .catch( function(err) {
+    //   myErrorLog(null, err);
+    //   return {results:[]};
+    // });
 
 } // function googleRequest(...)
 
 function googleRequestLoop(lat, lng, radius, dataIn) {
 
-  if (!dataIn) { // Here if first request
-    return googleRequest(lat, lng, radius, { results: [] })
-    .then( function(data) { // Make request loop
-      return googleRequestLoop(lat, lng, radius, data);
-    });
-  }
+    if (!dataIn) { // Here if first request
+        return googleRequest(lat, lng, radius, {results: []})
+        .then(function(data) { // Make request loop
+            return googleRequestLoop(lat, lng, radius, data);
+        });
+    }
 
-  // Here if further requests
-  if (dataIn.next_page_token) { // Continue requesting Google?
-    return googleRequest(lat, lng, radius, dataIn)
-    .then( function(data) { // Make request loop
-      return googleRequestLoop(lat, lng, radius, data);
-    });
-  }
+    // Here if further requests
+    if (dataIn.next_page_token) { // Continue requesting Google?
+        return googleRequest(lat, lng, radius, dataIn)
+        .then(function(data) { // Make request loop
+            return googleRequestLoop(lat, lng, radius, data);
+        });
+    }
 
-  return dataIn;
+    return dataIn;
 
 } // function googleRequestLoop(...)
 
 function cafeFilterAndSave(cafes) {
 
-  //
-  //  1) Filter cafes useful data
-  //
+    //
+    //  1) Filter cafes useful data
+    //
 
-  var filteredCafes1 = cafes
+    var filteredCafes1 = cafes
 
-  .map( function(cafe) {
+    .map(function(cafe) {
 
-    var newCafe = { google: {} };
+        var newCafe = {google: {}};
 
-    // newCafe._id = 0;
-    try{ newCafe.lat = cafe.geometry.location.lat; } catch(err) {}
-    try{ newCafe.lng = cafe.geometry.location.lng; } catch(err) {}
-    try{ newCafe.name = cafe.name; } catch(err) {}
-    try{ newCafe.text = cafe.vicinity; } catch(err) {} // address
-    try{ newCafe.photo = cafe.icon; } catch(err) {}
-    try{ newCafe.google.icon = cafe.icon; } catch(err) {}
-    try{ newCafe.google.id = cafe.id; } catch(err) {}
-    try{ newCafe.google.photo_reference = cafe.photos[0].photo_reference; } catch(err) {}
-    try{ newCafe.google.place_id = cafe.place_id; } catch(err) {}
+        // newCafe._id = 0;
+        try { newCafe.lat = cafe.geometry.location.lat; } catch (err) {}
+        try { newCafe.lng = cafe.geometry.location.lng; } catch (err) {}
+        try { newCafe.name = cafe.name; } catch (err) {}
+        try { newCafe.text = cafe.vicinity; } catch (err) {} // address
+        try { newCafe.photo = cafe.icon; } catch (err) {}
+        try { newCafe.google.icon = cafe.icon; } catch (err) {}
+        try { newCafe.google.id = cafe.id; } catch (err) {}
+        try { newCafe.google.photo_reference = cafe.photos[0].photo_reference; } catch (err) {}
+        try { newCafe.google.place_id = cafe.place_id; } catch (err) {}
 
-    return newCafe;
+        return newCafe;
 
-  });
+    });
 
-  //
-  //  2) save cafes to DB
-  //
-  var cafePromises = filteredCafes1.map( function(cafe) {
-    return Cafe.updateCafe(cafe)
-      .reflect(); // will wait until all promises finished
-  });
+    //
+    //  2) save cafes to DB
+    //
+    var cafePromises = filteredCafes1.map(function(cafe) {
+        return Cafe.updateCafe(cafe)
+          .reflect(); // will wait until all promises finished
+    });
 
-  //
-  //  3) Filter cafes
-  //
-  var filteredCafes2 = [];
+    //
+    //  3) Filter cafes
+    //
+    var filteredCafes2 = [];
 
-  return Promise.all(cafePromises)
+    return Promise.all(cafePromises)
 
-  .each(function(inspection) {
-    if (inspection.isFulfilled()) {
-      var cafe = inspection.value();
-      if (cafe) filteredCafes2.push(cafe);
-    } else {
-      myErrorLog(null, inspection.reason()); // log error
-    }
-  })
+    .each(function(inspection) {
+        if (inspection.isFulfilled()) {
+            var cafe = inspection.value();
+            if (cafe) { filteredCafes2.push(cafe); }
+        } else {
+            myErrorLog(null, inspection.reason()); // log error
+        }
+    })
 
-  .then( function() {
-    return filteredCafes2;
-  })
+    .then(function() {
+        return filteredCafes2;
+    })
 
-  .catch( function(err) {
-    myErrorLog(null, err); // log error
-    return [];
-  });
-
+    .catch(function(err) {
+        myErrorLog(null, err); // log error
+        return [];
+    });
 
 } // function cafeFilterAndSave(...)
 
 function refreshCafesGoogle(lat, lng, radius) {
 
-  if (APPCONST.APP2_GOOGLE_SEARCH_ENABLED) {
+    if (APPCONST.APP2_GOOGLE_SEARCH_ENABLED) {
 
-    return googleRequestLoop(lat, lng, radius)
+        return googleRequestLoop(lat, lng, radius)
 
-    .then( function(data) {
-      var cafes = data.results;
-      return cafeFilterAndSave(cafes);
-    })
+        .then(function(data) {
+            var cafes = data.results;
+            return cafeFilterAndSave(cafes);
+        })
 
-    .catch( function(err) {
-      myErrorLog(null, err);
-      return [];
-    });
+        .catch(function(err) {
+            myErrorLog(null, err);
+            return [];
+        });
 
-  } else {
+    } else {
 
-    var err = new Error('Google search disabled (APP2_GOOGLE_SEARCH_ENABLED == false).');
-    myErrorLog(null, err);
-    return Promise.resolve([]);
+        var err = new Error('Google search disabled (APP2_GOOGLE_SEARCH_ENABLED == false).');
+        myErrorLog(null, err);
+        return Promise.resolve([]);
 
-  }
+    }
 
 } // function refreshCafesGoogle(...)
 

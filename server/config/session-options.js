@@ -16,25 +16,25 @@
 'use strict';
 
 module.exports = function(session) {
-  var dbUrl = require('./../config/db-url.js');
+    var dbUrl = require('./../config/db-url.js');
 
-  var MongoStore = require('connect-mongo')(session);
+    var MongoStore = require('connect-mongo')(session);
 
-  var sessionOptions = {
-    secret: 'Yoursecret key7651894', // Unsecure to keep it here:) But ok for education purposes.
-    resave: false,
-    saveUninitialized: true,
-    store: new MongoStore({ url: dbUrl }),
+    var sessionOptions = {
+        secret: 'Yoursecret key7651894', // Unsecure to keep it here:) Ok for education purposes.
+        resave: false,
+        saveUninitialized: true,
+        store: new MongoStore({url: dbUrl}),
 
-    name: 'cookNm',
-    cookie: {
-      httpOnly: true,  // dont let browser javascript access cookie ever
-      secure: true, // only use cookie over https
-      // domain: 'example.com',
-      path: '/',
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-    },
-  };
+        name: 'cookNm',
+        cookie: {
+            httpOnly: true,  // dont let browser javascript access cookie ever
+            secure: true, // only use cookie over https
+            // domain: 'example.com',
+            path: '/',
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+        },
+    };
 
-  return sessionOptions;
+    return sessionOptions;
 };

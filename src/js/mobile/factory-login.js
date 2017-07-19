@@ -4,37 +4,37 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .factory('LoginFactory', [
-    '$http', 'MyConst',
-    function ($http, MyConst) {
+    .factory('LoginFactory', [
+      '$http', 'MyConst',
+      function ($http, MyConst) {
 
-      return {
+        return {
 
-        check: function() {
-          return $http({
-            method: 'GET',
-            data: {},
-            url: MyConst.serverUrl + '/auth/api/check'
-          });
-        },
+            check: function() {
+                return $http({
+                    method: 'GET',
+                    data: {},
+                    url: MyConst.serverUrl + '/auth/api/check'
+                });
+            },
 
-        loginLocal: function(username, password) {
-          return $http({
-            method: 'POST',
-            data: {username: username, password: password},
-            url: MyConst.serverUrl + '/auth/api/local'
-          });
-        },
+            loginLocal: function(username, password) {
+                return $http({
+                    method: 'POST',
+                    data: {username: username, password: password},
+                    url: MyConst.serverUrl + '/auth/api/local'
+                });
+            },
 
-      };
+        };
 
     }
 
-  ]); // .factory('LoginFactory', ...
+    ]); // .factory('LoginFactory', ...
 
 })();

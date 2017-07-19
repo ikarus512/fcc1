@@ -21,12 +21,11 @@ var
   wsApp3 = require('./../utils/app3/web-socket.js'),
   wsApp4 = require('./../utils/app4/web-socket.js');
 
-
 module.exports = function(options) {
 
-  if (options && options.server) wss.init(options.server);
+    if (options && options.server) { wss.init(options.server); }
 
-  wss.registerHandlers(wsApp3);
-  wss.registerHandlers(wsApp4);
+    wss.registerHandlers(wsApp3);
+    wss.registerHandlers(wsApp4);
 
 };

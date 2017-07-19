@@ -23,33 +23,33 @@ var
 // Using Google Place Photos API
 function getCafePhoto(googlePhotoRef) {
 
-  // return new Promise( function(resolve, reject) {
+    // return new Promise( function(resolve, reject) {
 
-  //   request.get(
-  //     'https://maps.googleapis.com/maps/api/place/photo' +
-  //     '?maxwidth=50&maxheight=50' +
-  //     '&photoreference=' + googlePhotoRef +
-  //     '?key=' + APPCONST.env.APP_GOOGLE_MAPS_API_KEY +
-  //     '',
+    //   request.get(
+    //     'https://maps.googleapis.com/maps/api/place/photo' +
+    //     '?maxwidth=50&maxheight=50' +
+    //     '&photoreference=' + googlePhotoRef +
+    //     '?key=' + APPCONST.env.APP_GOOGLE_MAPS_API_KEY +
+    //     '',
 
-  //     function(err, response, data) {
+    //     function(err, response, data) {
 
-  //       if (err) throw err;
+    //       if (err) throw err;
 
-  //       if (response.statusCode !== 200)
-  //         throw Error('Google Place Photo API response statusCode='+response.statusCode+'.');
+    //       if (response.statusCode !== 200)
+    //         throw Error('Google Place Photo API response statusCode='+response.statusCode+'.');
 
-  //       return resolve(JSON.parse(data));
-  //     }
+    //       return resolve(JSON.parse(data));
+    //     }
 
-  //   );
+    //   );
 
-  // })
+    // })
 
-  // .then( function(data) {
-  //   //data.next_page_token
-  //   return cafeFilter(data);
-  // });
+    // .then( function(data) {
+    //   //data.next_page_token
+    //   return cafeFilter(data);
+    // });
 
 }
 

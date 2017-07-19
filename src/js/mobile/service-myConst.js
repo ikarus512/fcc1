@@ -4,31 +4,31 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .value('backendParams', {}) // not used in mobile app
+    .value('backendParams', {}) // not used in mobile app
 
-  .service('MyConst', function() {
+    .service('MyConst', function() {
 
-    var host;
+        var host;
 
-    if (window && window.cordova && window.cordova.platformId === 'browser') {
-      host = 'localhost:5000'; // developement
-    } else {
-      // Here if run on devide (android)
-      host = 'ikarus512-fcc1.herokuapp.com'; // production
-    }
+        if (window && window.cordova && window.cordova.platformId === 'browser') {
+            host = 'localhost:5000'; // developement
+        } else {
+            // Here if run on devide (android)
+            host = 'ikarus512-fcc1.herokuapp.com'; // production
+        }
 
-    this.urlPref = '';
-    this.urlPrefix = '#!';
-    this.serverUrl = 'https://' + host;
-    this.webSocketHost = 'wss://' + host;
-    this.webApp = false;
-    this.mobileApp = !this.webApp;
+        this.urlPref = '';
+        this.urlPrefix = '#!';
+        this.serverUrl = 'https://' + host;
+        this.webSocketHost = 'wss://' + host;
+        this.webApp = false;
+        this.mobileApp = !this.webApp;
 
-  }); // .service('MyConst', ...
+    }); // .service('MyConst', ...
 
 })();

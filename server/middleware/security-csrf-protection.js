@@ -21,7 +21,6 @@ var
   myCsrf = {},
   myErrorLog = require('../utils/my-error-log.js');
 
-
 myCsrf.protection =
 
   (APPCONST.env.NODE_ENV === 'production') ?
@@ -32,7 +31,7 @@ myCsrf.protection =
     key: '_csrf',
     httpOnly: true,  // dont let browser javascript access cookie ever
     secure: true, // only use cookie over https
-  })
+})
 
   :
 
@@ -41,24 +40,23 @@ myCsrf.protection =
   function(req,res,next) {
     req.csrfToken = function() { return 1; };
     next();
-  };
-
+};
 
 myCsrf.errHandler = function csrfErrorHandler(err, req, res, next) {
-  if (err && err.code === 'EBADCSRFTOKEN') {
-    // handle CSRF token errors here
+    if (err && err.code === 'EBADCSRFTOKEN') {
+        // handle CSRF token errors here
 
-    // console.log('---File: '+new Error().stack.split('\n')[1]);
-    // console.log('req.session=',req.session)
-    // console.log('req.headers=',req.headers)
-    // console.log('res.headers=',res.headers)
-    myErrorLog(req, err);
-    // res.status(403)
-    // res.send('form tampered with')
+        // console.log('---File: '+new Error().stack.split('\n')[1]);
+        // console.log('req.session=',req.session)
+        // console.log('req.headers=',req.headers)
+        // console.log('res.headers=',res.headers)
+        myErrorLog(req, err);
+        // res.status(403)
+        // res.send('form tampered with')
 
-  }
+    }
 
-  return next(err);
+    return next(err);
 
 };
 

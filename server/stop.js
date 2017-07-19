@@ -18,14 +18,14 @@ var
   socketClient = io.connect(appUrl);
 
 socketClient.on('connect', function() {
-  socketClient.emit('npmStop');
-  setTimeout( function() {
-    console.log('Stopping http/https server.');
-    process.exit(0);
-  }, 1000);
+    socketClient.emit('npmStop');
+    setTimeout(function() {
+        console.log('Stopping http/https server.');
+        process.exit(0);
+    }, 1000);
 });
 
-setTimeout( function() {
-  console.log('Stopping http/https server. Server not found.');
-  process.exit(0);
+setTimeout(function() {
+    console.log('Stopping http/https server. Server not found.');
+    process.exit(0);
 }, 5000);

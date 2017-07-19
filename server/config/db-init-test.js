@@ -24,116 +24,115 @@ var
 
 function dbInit(done) {
 
-  var userA, userB, userU;
+    var userA, userB, userU;
 
-  //////////////////////////////////////////////////////////////
-  // Clear DB:
-  return new Promise( function(resolve) {
-    return clearSessionsCollection(resolve);
-  })
+    //////////////////////////////////////////////////////////////
+    // Clear DB:
+    return new Promise(function(resolve) {
+        return clearSessionsCollection(resolve);
+    })
 
-  .then( function() {
-    return new Promise( function(resolve) {
-      return clearDB(resolve);
+    .then(function() {
+        return new Promise(function(resolve) {
+            return clearDB(resolve);
+        });
+    })
+
+    //////////////////////////////////////////////////////////////
+    // Create users:
+    //  local.username=admin, password=1234
+    //  local.username=a, password=a
+    //  local.username=b, password=b
+    //  unauthorized.ip=x.x.x.y
+    .then(function() {
+
+        var promises = [
+
+          User.createAdmin(),
+
+          User.createLocalUser({username: 'a', password: 'a', password2: 'a'})
+          .then(function(createdUser) { userA = createdUser; }),
+
+          User.createLocalUser({username: 'b', password: 'b', password2: 'b'})
+          .then(function(createdUser) { userB = createdUser; }),
+
+          User.createUnauthorizedUser('x.x.x.y')
+          .then(function(createdUser) { userU = createdUser; }),
+
+        ];
+
+        return Promise.all(promises);
+
+    })
+
+    //////////////////////////////////////////////////////////////
+    // App test data
+    .then(function() {
+
+        var promises = [
+          require('./db-init-test-app1.js')(userA, userB, userU),
+          require('./db-init-test-app2.js')(),
+          // require('./db-init-test-app3.js')(),
+          // require('./db-init-test-app4.js')(),
+          // require('./db-init-test-app5.js')(),
+        ];
+
+        return Promise.all(promises);
+
+    })
+
+    .then(function() {
+        return done();
+    })
+
+    .catch(function(err) {
+        throw err;
     });
-  })
-
-  //////////////////////////////////////////////////////////////
-  // Create users:
-  //  local.username=admin, password=1234
-  //  local.username=a, password=a
-  //  local.username=b, password=b
-  //  unauthorized.ip=x.x.x.y
-  .then( function() {
-
-    var promises = [
-
-      User.createAdmin(),
-
-      User.createLocalUser({username: 'a', password: 'a', password2: 'a' })
-      .then( function(createdUser) { userA = createdUser; }),
-
-      User.createLocalUser({username: 'b', password: 'b', password2: 'b' })
-      .then( function(createdUser) { userB = createdUser; }),
-
-      User.createUnauthorizedUser('x.x.x.y')
-      .then( function(createdUser) { userU = createdUser; }),
-
-    ];
-
-    return Promise.all(promises);
-
-  })
-
-  //////////////////////////////////////////////////////////////
-  // App test data
-  .then( function() {
-
-    var promises = [
-      require('./db-init-test-app1.js')(userA, userB, userU),
-      require('./db-init-test-app2.js')(),
-      // require('./db-init-test-app3.js')(),
-      // require('./db-init-test-app4.js')(),
-      // require('./db-init-test-app5.js')(),
-    ];
-
-    return Promise.all(promises);
-
-  })
-
-  .then( function() {
-    return done();
-  })
-
-  .catch( function(err) {
-    throw err;
-  });
 }
 
-
-
 function clearSessionsCollection(callback) {
-  var MongoClient = require('mongodb').MongoClient;
-  MongoClient.connect(dbUrl, function(err, db) {
-    if (err) throw err;
-    db.collection('sessions').remove({}, function(err, result) {
-      if (err) throw err;
-      db.close(callback);
+    var MongoClient = require('mongodb').MongoClient;
+    MongoClient.connect(dbUrl, function(err, db) {
+        if (err) { throw err; }
+        db.collection('sessions').remove({}, function(err, result) {
+            if (err) { throw err; }
+            db.close(callback);
+        });
     });
-  });
 }
 
 function clearDB(callback) {
 
-  // function clearDBLoop() {
-  //   for (var i in mongoose.connection.collections) {
-  //     mongoose.connection.collections[i].remove( function() {} );
-  //   }
-  // }
+    // function clearDBLoop() {
+    //   for (var i in mongoose.connection.collections) {
+    //     mongoose.connection.collections[i].remove( function() {} );
+    //   }
+    // }
 
-  function clearDBLoop(callback) {
-    var val = 0,
-        i;
-    for (i in mongoose.connection.collections) val++;
-    for (i in mongoose.connection.collections) {
-      mongoose.connection.collections[i].remove(removeCallback);
+    function clearDBLoop(callback) {
+        var val = 0,
+            i;
+        for (i in mongoose.connection.collections) { val++; }
+        for (i in mongoose.connection.collections) {
+            mongoose.connection.collections[i].remove(removeCallback);
+        }
+
+        function removeCallback() {
+            val--; // (safe because no race condition in single-threaded node.js)
+            if (val === 0) {
+                if (callback) { callback(); }
+            }
+        }
     }
 
-    function removeCallback() {
-      val--; // (safe because no race condition in single-threaded node.js)
-      if (val===0)
-        if (callback) callback();
+    if (mongoose.connection.readyState === 0) {
+        mongoose.connect(dbUrl, function (err) {
+            if (err) { throw err; }
+            clearDBLoop(callback);
+        });
+    } else {
+        clearDBLoop(callback);
     }
-  }
-
-  if (mongoose.connection.readyState === 0) {
-    mongoose.connect(dbUrl, function (err) {
-      if (err) throw err;
-      clearDBLoop(callback);
-    });
-  } else {
-    clearDBLoop(callback);
-  }
 }
 
 module.exports = dbInit;

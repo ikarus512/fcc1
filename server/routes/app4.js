@@ -15,7 +15,6 @@
 /*jshint node: true*/
 'use strict';
 
-
 var express = require('express'),
   router = express.Router(),
   path = require('path'),
@@ -25,29 +24,27 @@ var express = require('express'),
   PublicError = require('../utils/public-error.js'),
   myErrorLog = require('../utils/my-error-log.js'),
   Book = require('../models/app4-books.js'),
-  upload = require('multer')({ dest: path.join(__dirname, '../../_tmp') }),
+  upload = require('multer')({dest: path.join(__dirname, '../../_tmp')}),
   myEnableCORS = require('../middleware/my-enable-cors.js');
-
-
 
 // GET /app4 - redirected to /app4/books
 router.get('/', function(req, res) {
-  res.redirect('/app4/books');
+    res.redirect('/app4/books');
 });
 
 // GET /app4/books - view books
 router.get('/books', function(req, res) {
-  res.render('app4_books', greet(req));
+    res.render('app4_books', greet(req));
 });
 
 // GET /app4/books/:id - view book
 router.get('/books/:id', function(req, res) {
-  var uid;
-  if (req.isAuthenticated()) uid = req.user._id;
-  res.render('app4_book', greet(req,{uid:uid, bookId:req.params.id}));
+    var uid;
+    if (req.isAuthenticated()) { uid = req.user._id; }
+    res.render('app4_book', greet(req,{uid:uid, bookId:req.params.id}));
 });
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Enable CORS on selected REST API
 router.all('/api/books', myEnableCORS);
@@ -59,206 +56,210 @@ router.all('/api/get-ws-ticket', myEnableCORS);
 // GET /app4/api/books - get books
 router.get('/api/books', function(req, res, next) {
 
-  Book.getBooks()
+    Book.getBooks()
 
-  // Send the response back
-  .then( function(books) {
-    return res.status(200).json(books);
-  })
+    // Send the response back
+    .then(function(books) {
+        return res.status(200).json(books);
+    })
 
-  // On fail, send error response
-  .catch( PublicError, function(err) {
-    return res.status(400).json({message:err.toString()});
-  })
+    // On fail, send error response
+    .catch(PublicError, function(err) {
+        return res.status(400).json({message:err.toString()});
+    })
 
-  // Internal error
-  .catch( function(err) {
-    var message = 'Internal error e000000b.';
-    myErrorLog(null, err, message);
-    return res.status(400).json({message: message});
-  });
+    // Internal error
+    .catch(function(err) {
+        var message = 'Internal error e000000b.';
+        myErrorLog(null, err, message);
+        return res.status(400).json({message: message});
+    });
 
 });
 
 // GET /app4/api/books/:id - get book
 router.get('/api/books/:id', function(req, res, next) {
 
-  var uid;
-  if (req.isAuthenticated()) uid = req.user._id;
+    var uid;
+    if (req.isAuthenticated()) { uid = req.user._id; }
 
-  // Find book by id
-  Book.getBook(req.params.id,uid)
+    // Find book by id
+    Book.getBook(req.params.id,uid)
 
-  // Send the response back
-  .then( function(book) {
-    return res.status(200).json(book);
-  })
+    // Send the response back
+    .then(function(book) {
+        return res.status(200).json(book);
+    })
 
-  // On fail, send error response
-  .catch( PublicError, function(err) {
-    return res.status(400).json({message:err.toString()});
-  })
+    // On fail, send error response
+    .catch(PublicError, function(err) {
+        return res.status(400).json({message:err.toString()});
+    })
 
-  // Internal error
-  .catch( function(err) {
-    var message = 'Internal error e000000c.';
-    myErrorLog(null, err, message);
-    return res.status(400).json({message: message});
-  });
+    // Internal error
+    .catch(function(err) {
+        var message = 'Internal error e000000c.';
+        myErrorLog(null, err, message);
+        return res.status(400).json({message: message});
+    });
 
 });
 
 // DELETE /app4/api/books/:id - delete book
 router.delete('/api/books/:id', function(req, res, next) {
 
-  var uid;
-  if (req.isAuthenticated()) uid = req.user._id;
+    var uid;
+    if (req.isAuthenticated()) { uid = req.user._id; }
 
-  Book.removeBook(req.params.id, uid)
+    Book.removeBook(req.params.id, uid)
 
-  // Send the response back
-  .then( function() {
-    return res.status(200).json();
-  })
+    // Send the response back
+    .then(function() {
+        return res.status(200).json();
+    })
 
-  // On fail, send error response
-  .catch( PublicError, function(err) {
-    return res.status(400).json({message:err.toString()});
-  })
+    // On fail, send error response
+    .catch(PublicError, function(err) {
+        return res.status(400).json({message:err.toString()});
+    })
 
-  // Internal error
-  .catch( function(err) {
-    var message = 'Internal error e000000d.';
-    myErrorLog(null, err, message);
-    return res.status(400).json({message: message});
-  });
+    // Internal error
+    .catch(function(err) {
+        var message = 'Internal error e000000d.';
+        myErrorLog(null, err, message);
+        return res.status(400).json({message: message});
+    });
 
 });
 
 // RESTAPI POST   /app4/api/books {title,...} - create/update book (authorized only)
 router.post('/api/books', upload.single('file'), function(req, res, next) {
 
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({message:'Error: Only authorized person can create/update a book.'});
-  }
+    if (!req.isAuthenticated()) {
+        return res.status(401).json({
+            message: 'Error: Only authorized person can create/update a book.'
+        });
+    }
 
-  Book.addBook({
-    _id: req.body._id,
-    title: req.body.title,
-    price: Number(req.body.price),
-    keywords: req.body.keywords,
-    description: req.body.description,
-    createdBy: req.user._id,
-    photoId: req.body.photoId,
-    file: req.file,
-  })
+    Book.addBook({
+        _id: req.body._id,
+        title: req.body.title,
+        price: Number(req.body.price),
+        keywords: req.body.keywords,
+        description: req.body.description,
+        createdBy: req.user._id,
+        photoId: req.body.photoId,
+        file: req.file,
+    })
 
-  // Send the response back
-  .then( function(book) {
-    wsStore.broadcastRefreshDetails(book._id);
-    return res.status(200).json(book);
-  })
+    // Send the response back
+    .then(function(book) {
+        wsStore.broadcastRefreshDetails(book._id);
+        return res.status(200).json(book);
+    })
 
-  // On fail, send error response
-  .catch( PublicError, function(err) {
-    return res.status(400).json({message:err.toString()});
-  })
+    // On fail, send error response
+    .catch(PublicError, function(err) {
+        return res.status(400).json({message:err.toString()});
+    })
 
-  // Internal error
-  .catch( function(err) {
-    var message = 'Internal error e000000a.';
-    myErrorLog(null, err, message);
-    return res.status(400).json({message: message});
-  });
+    // Internal error
+    .catch(function(err) {
+        var message = 'Internal error e000000a.';
+        myErrorLog(null, err, message);
+        return res.status(400).json({message: message});
+    });
 
 });
 
 // POST /app4/api/books/:id/bid {price} - add bid
 router.post('/api/books/:id/bid', function(req, res, next) {
 
-  var bookId = req.params.id;
+    var bookId = req.params.id;
 
-  var uid;
-  if (req.isAuthenticated()) uid = req.user._id;
+    var uid;
+    if (req.isAuthenticated()) { uid = req.user._id; }
 
-  // Add bid
-  Book.addBid(bookId, req.body.price, uid)
+    // Add bid
+    Book.addBid(bookId, req.body.price, uid)
 
-  // Send the response back
-  .then( function(book) {
-    wsStore.broadcastRefreshBids(book._id);
-    return res.status(200).json(book);
-  })
+    // Send the response back
+    .then(function(book) {
+        wsStore.broadcastRefreshBids(book._id);
+        return res.status(200).json(book);
+    })
 
-  // On fail, send error response
-  .catch( PublicError, function(err) {
-    return res.status(400).json({message:err.toString()});
-  })
+    // On fail, send error response
+    .catch(PublicError, function(err) {
+        return res.status(400).json({message:err.toString()});
+    })
 
-  // Internal error
-  .catch( function(err) {
-    var message = 'Internal error e0000011.';
-    myErrorLog(null, err, message);
-    return res.status(400).json({message: message});
-  });
+    // Internal error
+    .catch(function(err) {
+        var message = 'Internal error e0000011.';
+        myErrorLog(null, err, message);
+        return res.status(400).json({message: message});
+    });
 
 });
 
 // POST /app4/api/books/:bookId/choose {bidOwnerId} - choose bid to finish trade
 router.post('/api/books/:bookId/choose', function(req, res, next) {
 
-  var bookId = req.params.bookId;
+    var bookId = req.params.bookId;
 
-  var uid;
-  if (req.isAuthenticated()) uid = req.user._id;
+    var uid;
+    if (req.isAuthenticated()) { uid = req.user._id; }
 
-  // Add bid
-  Book.chooseBid(bookId, req.body.bidOwnerId, uid)
+    // Add bid
+    Book.chooseBid(bookId, req.body.bidOwnerId, uid)
 
-  // Send the response back
-  .then( function(book) {
-    wsStore.broadcastRefreshDetails(bookId);
-    return res.status(200).json(book);
-  })
+    // Send the response back
+    .then(function(book) {
+        wsStore.broadcastRefreshDetails(bookId);
+        return res.status(200).json(book);
+    })
 
-  // On fail, send error response
-  .catch( PublicError, function(err) {
-    return res.status(400).json({message:err.toString()});
-  })
+    // On fail, send error response
+    .catch(PublicError, function(err) {
+        return res.status(400).json({message:err.toString()});
+    })
 
-  // Internal error
-  .catch( function(err) {
-    var message = 'Internal error e0000012.';
-    myErrorLog(null, err, message);
-    return res.status(400).json({message: message});
-  });
+    // Internal error
+    .catch(function(err) {
+        var message = 'Internal error e0000012.';
+        myErrorLog(null, err, message);
+        return res.status(400).json({message: message});
+    });
 
 });
 
 // RESTAPI GET    /app4/api/get-ws-ticket - get web socket ticket
 router.get('/api/get-ws-ticket', function(req, res, next) {
 
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({message:'Error: Only authorized person can get Web Socket ticket.'});
-  }
-
-  try {
-
-    var ticket = wsStore.ticketGenerate(req.user.name);
-
-    return res.status(200).json({ticket: ticket});
-
-  } catch(err) {
-
-    if (err instanceof PublicError) {
-      return res.status(400).json({message:err.toString()});
-    } else {
-      var message = 'Internal error e0000013.';
-      myErrorLog(null, err, message);
-      return res.status(400).json({message:message});
+    if (!req.isAuthenticated()) {
+        return res.status(401).json({
+            message: 'Error: Only authorized person can get Web Socket ticket.'
+        });
     }
 
-  }
+    try {
+
+        var ticket = wsStore.ticketGenerate(req.user.name);
+
+        return res.status(200).json({ticket: ticket});
+
+    } catch (err) {
+
+        if (err instanceof PublicError) {
+            return res.status(400).json({message:err.toString()});
+        } else {
+            var message = 'Internal error e0000013.';
+            myErrorLog(null, err, message);
+            return res.status(400).json({message:message});
+        }
+
+    }
 
 });
 

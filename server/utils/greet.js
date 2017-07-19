@@ -20,28 +20,28 @@ var extend = require('extend'),
   xss = require('../middleware/security-xss-protection.js');
 
 function greet(req,o2,o3) {
-  var o={};
+    var o = {};
 
-  var uid;
-  if (req.isAuthenticated()) uid = req.user._id;
+    var uid;
+    if (req.isAuthenticated()) { uid = req.user._id; }
 
-  if (req.user) {
-    extend(o, {
-      //greeting : 'Hi, '+req.user.name+' ('+req.user.type+')!',
-      username : req.user.name,
-      logintype: req.user.type,
-      uid      : uid,
-    });
-  } else {
-    //o.greeting='(Not logged in.)';
-  }
+    if (req.user) {
+        extend(o, {
+            //greeting : 'Hi, '+req.user.name+' ('+req.user.type+')!',
+            username : req.user.name,
+            logintype: req.user.type,
+            uid      : uid,
+        });
+    } else {
+        //o.greeting='(Not logged in.)';
+    }
 
-  extend(o,o2,o3,pugParams);
+    extend(o,o2,o3,pugParams);
 
-  // As all values from o will go to pug template html, sanitize all of them:
-  xss(o);
+    // As all values from o will go to pug template html, sanitize all of them:
+    xss(o);
 
-  return o;
+    return o;
 }
 
 module.exports = greet;

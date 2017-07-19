@@ -25,17 +25,17 @@ var limiter =
 
   // Here if production:
   new RateLimit({
-    windowMs: 15*60*1000, // 15 minutes
+    windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 5 requests per windowMs
     delayMs: 0, // disable delaying - full speed until the max limit is reached
     keyGenerator: function(req) { return req.ip; }, // IP-related limit
-  })
+})
 
   :
 
   // Here if test env:
   function(err, req, res, next) {
     return next(err);
-  };
+};
 
 module.exports = limiter;

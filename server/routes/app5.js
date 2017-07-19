@@ -20,12 +20,9 @@ var express = require('express'),
   path = require('path'),
   greet = require(path.join(__dirname, '../utils/greet.js'));
 
-
 // /app5
 router.get('/', function(req, res) {
-  res.render('app5_pinter', greet(req));
+    res.render('app5_pinter', greet(req));
 });
-
-
 
 module.exports = router;

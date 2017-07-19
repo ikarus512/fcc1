@@ -24,49 +24,49 @@ var
 
 function pollsInit(opts) {
 
-  //  opts = {
-  //    userA, userB, userU, // a, b, unonimous
-  //    titles, // poll titles
-  //  }
+    //  opts = {
+    //    userA, userB, userU, // a, b, unonimous
+    //    titles, // poll titles
+    //  }
 
-  var promises = opts.titles.map(function(title,i) {
+    var promises = opts.titles.map(function(title,i) {
 
-    return Poll
+        return Poll
 
-    .findOneAndRemove({title:title}).exec()
-    .catch( function(err) { return; }) // Ignore if not found
+        .findOneAndRemove({title:title}).exec()
+        .catch(function(err) { return; }) // Ignore if not found
 
-    .then( function() {
-      var p = new Poll();
-      p.title = title;
+        .then(function() {
+            var p = new Poll();
+            p.title = title;
 
-      if ((i&1) === 0) { // even i
-        p.createdBy = opts.userA._id;
-        p.options = [
-          {title: 'Option 1', votes:[opts.userB._id]},
-          {title: 'Option 2', votes:[]},
-        ];
-      } else { // odd i
-        p.createdBy = opts.userB._id;
-        p.options = [
-          {title: 'Option 1', votes:[opts.userB._id,opts.userA._id]},
-          {title: 'Option 2', votes:[opts.userU._id]},
-        ];
-      }
-      return Promise.resolve(p.save());
-    })
-    .then( function(poll) {
-      polls[i] = JSON.parse(JSON.stringify(poll));
+            if ((i & 1) === 0) { // even i
+                p.createdBy = opts.userA._id;
+                p.options = [
+                  {title: 'Option 1', votes:[opts.userB._id]},
+                  {title: 'Option 2', votes:[]},
+                ];
+            } else { // odd i
+                p.createdBy = opts.userB._id;
+                p.options = [
+                  {title: 'Option 1', votes:[opts.userB._id,opts.userA._id]},
+                  {title: 'Option 2', votes:[opts.userU._id]},
+                ];
+            }
+            return Promise.resolve(p.save());
+        })
+        .then(function(poll) {
+            polls[i] = JSON.parse(JSON.stringify(poll));
+        });
     });
-  });
 
-  return Promise.all(promises)
+    return Promise.all(promises)
 
-  .then( function() {
-    return {
-      polls: polls,
-    };
-  });
+    .then(function() {
+        return {
+            polls: polls,
+        };
+    });
 
 }
 

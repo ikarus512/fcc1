@@ -25,14 +25,14 @@ var express = require('express'),
   myErrorLog = require('../utils/my-error-log.js'),
   myEnableCORS = require('../middleware/my-enable-cors.js');
 
-
 // /app3
 router.get('/',
   function(req, res) {
     res.render('app3_stock', greet(req));
-  }
+}
 );
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Enable CORS on selected REST API
 router.all('/api/get-ws-ticket', myEnableCORS);
@@ -40,30 +40,30 @@ router.all('/api/get-ws-ticket', myEnableCORS);
 // RESTAPI GET    /app3/api/get-ws-ticket - get web socket ticket
 router.get('/api/get-ws-ticket', function(req, res, next) {
 
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({message:'Error: Only authorized person can get Web Socket ticket.'});
-  }
-
-  try {
-
-    var ticket = wsStore.ticketGenerate(req.user.name);
-
-    return res.status(200).json({ticket: ticket});
-
-  } catch(err) {
-
-    if (err instanceof PublicError) {
-      return res.status(400).json({message:err.toString()});
-    } else {
-      var message = 'Internal error e0000009.';
-      myErrorLog(null, err, message);
-      return res.status(400).json({message:message});
+    if (!req.isAuthenticated()) {
+        return res.status(401).json({
+            message: 'Error: Only authorized person can get Web Socket ticket.'
+        });
     }
 
-  }
+    try {
+
+        var ticket = wsStore.ticketGenerate(req.user.name);
+
+        return res.status(200).json({ticket: ticket});
+
+    } catch (err) {
+
+        if (err instanceof PublicError) {
+            return res.status(400).json({message:err.toString()});
+        } else {
+            var message = 'Internal error e0000009.';
+            myErrorLog(null, err, message);
+            return res.status(400).json({message:message});
+        }
+
+    }
 
 });
-
-
 
 module.exports = router;

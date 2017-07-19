@@ -4,33 +4,33 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .factory('StoragePolls', ['$http', 'MyConst', function ($http, MyConst) {
+    .factory('StoragePolls', ['$http', 'MyConst', function ($http, MyConst) {
 
-    return {
+        return {
 
-      get: function () {
-        return $http({
-          method: 'GET',
-          data:{},
-          url: MyConst.serverUrl + '/app1/api/polls'
-        });
-      },
+            get: function () {
+                return $http({
+                    method: 'GET',
+                    data:{},
+                    url: MyConst.serverUrl + '/app1/api/polls'
+                });
+            },
 
-      post: function (poll) {
-        return $http({
-          method: 'POST',
-          data:poll,
-          url: MyConst.serverUrl + '/app1/api/polls'
-        });
-      },
+            post: function (poll) {
+                return $http({
+                    method: 'POST',
+                    data:poll,
+                    url: MyConst.serverUrl + '/app1/api/polls'
+                });
+            },
 
-    };
+        };
 
-  }]); // .factory('StoragePolls', ...
+    }]); // .factory('StoragePolls', ...
 
 })();

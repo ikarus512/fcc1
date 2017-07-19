@@ -20,18 +20,18 @@ var
 console.log('Waiting until http/https server starts.');
 
 socketClient.on('connect', function() {
-  socketClient.emit('npmServerRequest','Client asks if server ready.');
+    socketClient.emit('npmServerRequest','Client asks if server ready.');
 });
 
 // Wait for server response.
 socketClient.on('new message', function(data) {
-  // console.log('Answer from server: ',data);
-  console.log('Waiting stopped because server is ready.');
-  process.exit(0);
+    // console.log('Answer from server: ',data);
+    console.log('Waiting stopped because server is ready.');
+    process.exit(0);
 });
 
 // Stop waiting if server does not respond for too long.
-setTimeout( function() {
-  console.log('Waiting stopped because server did not respond for too long.');
-  process.exit(0);
+setTimeout(function() {
+    console.log('Waiting stopped because server did not respond for too long.');
+    process.exit(0);
 }, 30000);

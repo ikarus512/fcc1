@@ -16,14 +16,14 @@
 'use strict';
 
 module.exports = function(obj) {
-  for (var key in obj) {
-    // HTML sanitizers not used currently.
-    // Escape all non-character symbols.
-    // In fact, remove all unallowed symbols.
-    if (typeof(obj[key]) === 'string') {
-      obj[key] = obj[key].replace(/[^a-zA-Z0-9\_\-\ \.\,\:\'\"]/g,'');
+    for (var key in obj) {
+        // HTML sanitizers not used currently.
+        // Escape all non-character symbols.
+        // In fact, remove all unallowed symbols.
+        if (typeof(obj[key]) === 'string') {
+            obj[key] = obj[key].replace(/[^a-zA-Z0-9\_\-\ \.\,\:\'\"]/g,'');
+        }
     }
-  }
 
-  return;
+    return;
 };

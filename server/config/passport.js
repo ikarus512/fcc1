@@ -27,197 +27,191 @@ var
   myErrorLog = require('../utils/my-error-log.js'),
   User = require('../models/users.js');
 
-
-
 module.exports = function (passport) {
 
-  passport.serializeUser( function(req, user, done) {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser( function(req, id, done) {
-
-    User.findOneMy({ '_id': id })
-
-    .then( function(user) {
-      return done(null, user);
-    })
-
-    .catch( function(err) {
-      var message = 'Internal error e0000001.';
-      myErrorLog(req, err, message);
-      return done(null, false, req.flash('message', message ));
+    passport.serializeUser(function(req, user, done) {
+        done(null, user.id);
     });
 
-  });
+    passport.deserializeUser(function(req, id, done) {
 
+        User.findOneMy({'_id': id})
 
-  passport.use('local-login', new LocalStrategy({
-      usernameField : 'username',
-      passwordField : 'password',
-      passReqToCallback: true
+        .then(function(user) {
+            return done(null, user);
+        })
+
+        .catch(function(err) {
+            var message = 'Internal error e0000001.';
+            myErrorLog(req, err, message);
+            return done(null, false, req.flash('message', message));
+        });
+
+    });
+
+    passport.use('local-login', new LocalStrategy({
+        usernameField : 'username',
+        passwordField : 'password',
+        passReqToCallback: true
     },
-    function localVerify(req, username, password, done) {
+      function localVerify(req, username, password, done) {
 
-      var foundUser;
+        var foundUser;
 
-      User.findOneMy({'local.username': username})
+        User.findOneMy({'local.username': username})
 
-      .then( function(user) {
-        if (!user) throw new PublicError('Incorrect local user name.');
-        foundUser = user;
-        return user.validatePassword(password);
-      })
+        .then(function(user) {
+            if (!user) { throw new PublicError('Incorrect local user name.'); }
+            foundUser = user;
+            return user.validatePassword(password);
+        })
 
-      .then( function(validated) {
-        if (!validated) throw new PublicError('Incorrect local user\'s password.');
-        return done(null, foundUser);
-      })
+        .then(function(validated) {
+            if (!validated) { throw new PublicError('Incorrect local user\'s password.'); }
+            return done(null, foundUser);
+        })
 
-      .catch( PublicError, function(err) {
-        return done(null, false, req.flash('message', err.message ));
-      })
+        .catch(PublicError, function(err) {
+            return done(null, false, req.flash('message', err.message));
+        })
 
-      .catch( function(err) {
-        var message = 'Internal error e0000002.';
-        myErrorLog(req, err, message);
-        return done(null, false, req.flash('message', message ));
-      });
+        .catch(function(err) {
+            var message = 'Internal error e0000002.';
+            myErrorLog(req, err, message);
+            return done(null, false, req.flash('message', message));
+        });
 
     } // localVerify()
-  ));
+    ));
 
-
-  passport.use(new FacebookStrategy({
-      clientID: APPCONST.env.APP_FACEBOOK_KEY,
-      clientSecret: APPCONST.env.APP_FACEBOOK_SECRET,
-      callbackURL: APPCONST.env.APP_URL + '/auth/facebook/callback',
-      passReqToCallback: true
+    passport.use(new FacebookStrategy({
+        clientID: APPCONST.env.APP_FACEBOOK_KEY,
+        clientSecret: APPCONST.env.APP_FACEBOOK_SECRET,
+        callbackURL: APPCONST.env.APP_URL + '/auth/facebook/callback',
+        passReqToCallback: true
     },
-    function facebookVerify(req, token, refreshToken, profile, done) {
-      process.nextTick( function() {
+      function facebookVerify(req, token, refreshToken, profile, done) {
+        process.nextTick(function() {
 
-        User.findOneMy({ 'facebook.id': profile.id })
+            User.findOneMy({'facebook.id': profile.id})
 
-        .then( function(user) {
-          if (user) return user; // if user found in database
+            .then(function(user) {
+                if (user) { return user; } // if user found in database
 
-          // if user not found in database, add him there
-          var newUser = new User();
-          newUser.facebook.id          = profile.id;
-          // newUser.facebook.token       = profile.token;
-          newUser.facebook.displayName = profile.displayName;
-          newUser.facebook.username    = profile.username;
+                // if user not found in database, add him there
+                var newUser = new User();
+                newUser.facebook.id          = profile.id;
+                // newUser.facebook.token       = profile.token;
+                newUser.facebook.displayName = profile.displayName;
+                newUser.facebook.username    = profile.username;
 
-          return newUser.save();
-        })
+                return newUser.save();
+            })
 
-        .then( function(user) {
-          return done(null, user);
-        })
+            .then(function(user) {
+                return done(null, user);
+            })
 
-        .catch( function(err) {
-          var message = 'Internal error e0000003.';
-          myErrorLog(req, err, message);
-          return done(null, false, req.flash('message', message ));
+            .catch(function(err) {
+                var message = 'Internal error e0000003.';
+                myErrorLog(req, err, message);
+                return done(null, false, req.flash('message', message));
+            });
+
         });
-
-      });
     } // facebookVerify()
-  ));
+    ));
 
-  // Twitter
-  // Docs: https://dev.twitter.com/docs --> my apps / create app
-  // My apps: https://apps.twitter.com/app
-  passport.use(new TwitterStrategy({
-      consumerKey: APPCONST.env.APP_TWITTER_KEY,
-      consumerSecret: APPCONST.env.APP_TWITTER_SECRET,
-      callbackURL: APPCONST.env.APP_URL + '/auth/twitter/callback',
-      passReqToCallback: true
+    // Twitter
+    // Docs: https://dev.twitter.com/docs --> my apps / create app
+    // My apps: https://apps.twitter.com/app
+    passport.use(new TwitterStrategy({
+        consumerKey: APPCONST.env.APP_TWITTER_KEY,
+        consumerSecret: APPCONST.env.APP_TWITTER_SECRET,
+        callbackURL: APPCONST.env.APP_URL + '/auth/twitter/callback',
+        passReqToCallback: true
     },
-    function twitterVerify(req, token, tokenSecret, profile, done) {
-      process.nextTick( function() {
+      function twitterVerify(req, token, tokenSecret, profile, done) {
+        process.nextTick(function() {
 
-        User.findOneMy({ 'twitter.id': profile.id })
+            User.findOneMy({'twitter.id': profile.id})
 
-        .then( function(user) {
-          if (user) return user; // if user found in database
+            .then(function(user) {
+                if (user) { return user; } // if user found in database
 
-          // if user not found in database, add him there
-          var newUser = new User();
-          newUser.twitter.id          = profile.id;
-          // newUser.twitter.token       = token;
-          newUser.twitter.username    = profile.username;
-          newUser.twitter.displayName = profile.displayName;
+                // if user not found in database, add him there
+                var newUser = new User();
+                newUser.twitter.id          = profile.id;
+                // newUser.twitter.token       = token;
+                newUser.twitter.username    = profile.username;
+                newUser.twitter.displayName = profile.displayName;
 
-          return newUser.save();
-        })
+                return newUser.save();
+            })
 
-        .then( function(user) {
-          return done(null, user);
-        })
+            .then(function(user) {
+                return done(null, user);
+            })
 
-        .catch( function(err) {
-          var message = 'Internal error e0000004.';
-          myErrorLog(req, err, message);
-          return done(null, false, req.flash('message', message ));
+            .catch(function(err) {
+                var message = 'Internal error e0000004.';
+                myErrorLog(req, err, message);
+                return done(null, false, req.flash('message', message));
+            });
+
         });
-
-      });
     } // twitterVerify()
-  ));
+    ));
 
-
-
-  passport.use(new GitHubStrategy({
-      clientID: APPCONST.env.APP_GITHUB_KEY,
-      clientSecret: APPCONST.env.APP_GITHUB_SECRET,
-      callbackURL: APPCONST.env.APP_URL + '/auth/github/callback',
-      passReqToCallback: true
+    passport.use(new GitHubStrategy({
+        clientID: APPCONST.env.APP_GITHUB_KEY,
+        clientSecret: APPCONST.env.APP_GITHUB_SECRET,
+        callbackURL: APPCONST.env.APP_URL + '/auth/github/callback',
+        passReqToCallback: true
     },
-    function githubVerify(req, token, refreshToken, profile, done) {
-      process.nextTick( function() {
+      function githubVerify(req, token, refreshToken, profile, done) {
+        process.nextTick(function() {
 
-        User.findOneMy({ 'github.id': profile.id })
+            User.findOneMy({'github.id': profile.id})
 
-        .then( function(user) {
-          if (user) return user; // if user found in database
+            .then(function(user) {
+                if (user) { return user; } // if user found in database
 
-          // if user not found in database, add him there
-          var newUser = new User();
-          newUser.github.id          = profile.id;
-          newUser.github.username    = profile.username;
-          newUser.github.displayName = profile.displayName;
-          // newUser.github.publicRepos = profile._json.public_repos;
+                // if user not found in database, add him there
+                var newUser = new User();
+                newUser.github.id          = profile.id;
+                newUser.github.username    = profile.username;
+                newUser.github.displayName = profile.displayName;
+                // newUser.github.publicRepos = profile._json.public_repos;
 
-          return newUser.save();
-        })
+                return newUser.save();
+            })
 
-        .then( function(user) {
-          return done(null, user);
-        })
+            .then(function(user) {
+                return done(null, user);
+            })
 
-        .catch( function(err) {
-          var message = 'Internal error e0000005.';
-          myErrorLog(req, err, message);
-          return done(null, false, req.flash('message', message ));
+            .catch(function(err) {
+                var message = 'Internal error e0000005.';
+                myErrorLog(req, err, message);
+                return done(null, false, req.flash('message', message));
+            });
+
         });
-
-      });
     } // githubVerify()
-  ));
+    ));
 
-  return function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) { return next(null); }
+    return function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated()) { return next(null); }
 
-    // Remember curent url
-    if (req.originalUrl.search(/^app\d_/)) {
-      req.flash( 'savedUrl', req.originalUrl );
-    }
+        // Remember curent url
+        if (req.originalUrl.search(/^app\d_/)) {
+            req.flash('savedUrl', req.originalUrl);
+        }
 
-    // And ask user to login
-    res.redirect('/login');
+        // And ask user to login
+        res.redirect('/login');
 
-  };
+    };
 
 };

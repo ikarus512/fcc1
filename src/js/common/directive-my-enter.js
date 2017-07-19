@@ -4,27 +4,27 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .directive('myEnter', function () {
+    .directive('myEnter', function () {
 
-    var ENTER_KEY = 13;
+        var ENTER_KEY = 13;
 
-    return function (scope, elem, attrs) {
-      elem.bind('keyup', function (event) {
-        if (event.keyCode === ENTER_KEY) {
-          scope.$apply(attrs.myEnter);
-        }
-      });
+        return function (scope, elem, attrs) {
+            elem.bind('keyup', function (event) {
+                if (event.keyCode === ENTER_KEY) {
+                    scope.$apply(attrs.myEnter);
+                }
+            });
 
-      scope.$on('$destroy', function () {
-        elem.unbind('keyup');
-      });
-    };
+            scope.$on('$destroy', function () {
+                elem.unbind('keyup');
+            });
+        };
 
-  }); // .directive('myEnter', ...
+    }); // .directive('myEnter', ...
 
 })();

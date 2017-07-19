@@ -22,10 +22,10 @@
 
 var server = require('./../../server/index.js');
 
-before( function(done) {
-  server.boot(done);
+before(function(done) {
+    server.boot(done);
 });
 
-after( function(done) {
-  server.shutdown(done);
+after(function(done) {
+    server.shutdown(done);
 });

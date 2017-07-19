@@ -3,7 +3,7 @@
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: 
+ * DESCRIPTION:
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *
@@ -31,53 +31,52 @@ var
 
   User = require('../../../server/models/users.js');
 
-
 parallel('model User', function () {
 
-  it('admin should exist', function (done) {
+    it('admin should exist', function (done) {
 
-    User.findOneMy({'local.username': 'admin'})
+        User.findOneMy({'local.username': 'admin'})
 
-    .then( function(user) {
-      expect(user).to.not.equal(null);
-      expect(user.local).to.not.equal(null);
-      expect(user.local.username).to.equal('admin');
-      expect(user.local.password).to.not.equal(null);
-      return user.validatePassword('1234');
-    })
+        .then(function(user) {
+            expect(user).to.not.equal(null);
+            expect(user.local).to.not.equal(null);
+            expect(user.local.username).to.equal('admin');
+            expect(user.local.password).to.not.equal(null);
+            return user.validatePassword('1234');
+        })
 
-    .then( function(validated) {
-      expect(validated).to.equal(true);
-      return done();
-    })
+        .then(function(validated) {
+            expect(validated).to.equal(true);
+            return done();
+        })
 
-    .catch( function(err) {
-      return done(err);
+        .catch(function(err) {
+            return done(err);
+        });
+
     });
 
-  });
-
-  it('#save() should create a new User', function (done) {
-    User.generateHash('pass')
-    .then( function(pwdHash) {
-      var u = new User();
-      u.local = { username: 'model_user_me', password: pwdHash };
-      return u.save();
-    })
-    .then( function(user) {
-      expect(user).to.not.equal(null);
-      expect(user.local).to.not.equal(null);
-      expect(user.local.username).to.equal('model_user_me');
-      expect(user.local.password).to.not.equal(null);
-      return user.validatePassword('pass');
-    })
-    .then( function(validated) {
-      expect(validated).to.equal(true);
-      return done();
-    })
-    .catch( function(err) {
-      return done(err);
+    it('#save() should create a new User', function (done) {
+        User.generateHash('pass')
+        .then(function(pwdHash) {
+            var u = new User();
+            u.local = {username: 'model_user_me', password: pwdHash};
+            return u.save();
+        })
+        .then(function(user) {
+            expect(user).to.not.equal(null);
+            expect(user.local).to.not.equal(null);
+            expect(user.local.username).to.equal('model_user_me');
+            expect(user.local.password).to.not.equal(null);
+            return user.validatePassword('pass');
+        })
+        .then(function(validated) {
+            expect(validated).to.equal(true);
+            return done();
+        })
+        .catch(function(err) {
+            return done(err);
+        });
     });
-  });
 
 });

@@ -4,24 +4,24 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .factory('App3RestService', ['$http', 'MyConst', function ($http, MyConst) {
-    return {
+    .factory('App3RestService', ['$http', 'MyConst', function ($http, MyConst) {
+        return {
 
-      getWsTicket: function () {
-        return $http({
-          method: 'GET',
-          data:{},
-          url: MyConst.serverUrl + '/app3/api/get-ws-ticket'
-        });
-      },
+            getWsTicket: function () {
+                return $http({
+                    method: 'GET',
+                    data:{},
+                    url: MyConst.serverUrl + '/app3/api/get-ws-ticket'
+                });
+            },
 
-    };
+        };
 
-  }]); // .factory('App3RestService', ...
+    }]); // .factory('App3RestService', ...
 
 })();

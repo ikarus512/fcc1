@@ -3,7 +3,7 @@
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: 
+ * DESCRIPTION:
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *
@@ -24,30 +24,30 @@ var
   expect = chai.expect,
   appUrl = require('./../../../server/config/app-url.js');
 
-
 describe('app1', function() {
-  // https://github.com/sakshisingla/Protractor-Non-Angular-Tests/wiki/Creating-test-scripts-using-Protractor-for-non-angular-application
+    // https://github.com/sakshisingla/Protractor-Non-Angular-Tests/ ...
+    //     wiki/Creating-test-scripts-using-Protractor-for-non-angular-application
 
-  beforeEach( function() {
-    //browser().navigateTo('/services')
-    browser.ignoreSynchronization = true; // Do not wait for Angular on this page
-  });
+    beforeEach(function() {
+        //browser().navigateTo('/services')
+        browser.ignoreSynchronization = true; // Do not wait for Angular on this page
+    });
 
-  it('should accept admin login', function() {
-    browser.driver.get(appUrl+'/login');
-    element(by.id('loginUsername')).sendKeys('admin');
-    element(by.id('loginPassword')).sendKeys('1234');
-    element(by.id('loginButton')).click();
-    expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl+'/');
-  });
+    it('should accept admin login', function() {
+        browser.driver.get(appUrl + '/login');
+        element(by.id('loginUsername')).sendKeys('admin');
+        element(by.id('loginPassword')).sendKeys('1234');
+        element(by.id('loginButton')).click();
+        expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/');
+    });
 
-  it('should accept admin logout', function() {
-    browser.driver.get(appUrl+'/login');
-    element(by.id('loginUsername')).sendKeys('admin');
-    element(by.id('loginPassword')).sendKeys('1234');
-    element(by.id('loginButton')).click();
-    browser.driver.get(appUrl+'/logout');
-    expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl+'/');
-  });
+    it('should accept admin logout', function() {
+        browser.driver.get(appUrl + '/login');
+        element(by.id('loginUsername')).sendKeys('admin');
+        element(by.id('loginPassword')).sendKeys('1234');
+        element(by.id('loginButton')).click();
+        browser.driver.get(appUrl + '/logout');
+        expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/');
+    });
 
 });

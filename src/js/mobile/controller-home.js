@@ -4,25 +4,25 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .controller('ControllerHomeMobile', [
-    '$scope', '$location', 'User', 'MyConst',
-    function ($scope, $location, User, MyConst) {
+    .controller('ControllerHomeMobile', [
+      '$scope', '$location', 'User', 'MyConst',
+      function ($scope, $location, User, MyConst) {
 
-      $scope.ajaxLoadingSpinner = 0;
+        $scope.ajaxLoadingSpinner = 0;
 
-      User.check()
-      .then( function() {
-        $scope.logintype = User.type;
-        $scope.username  = User.name;
-        $scope.uid       = User.uid;
-      });
+        User.check()
+        .then(function() {
+            $scope.logintype = User.type;
+            $scope.username  = User.name;
+            $scope.uid       = User.uid;
+        });
 
     }
-  ]); // .controller('ControllerHomeMobile', ...
+    ]); // .controller('ControllerHomeMobile', ...
 
 })();

@@ -27,30 +27,29 @@ var
 
 mongoose.Promise = Promise;
 
-
 ////////////////////////////////////////////////////////////////
 //  BookSchema
 ////////////////////////////////////////////////////////////////
 
 var BookSchema = new Schema({
-  title: {type: String, required: true},
-  keywords: [String],
-  description: String,
-  createdBy: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
-  price: {type: Number, required: true},
-  photoId: {type: mongoose.Schema.Types.ObjectId, ref: 'BookPhoto'},
-
-  tradeFinished: {type: Boolean, required: true, default: false},
-  bids: [{
-    by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    title: {type: String, required: true},
+    keywords: [String],
+    description: String,
+    createdBy: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
     price: {type: Number, required: true},
-    chosen: {type: Boolean, required: true, default: false},
-    msgs: [{
-      at: Date,
-      by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-      text: String,
+    photoId: {type: mongoose.Schema.Types.ObjectId, ref: 'BookPhoto'},
+
+    tradeFinished: {type: Boolean, required: true, default: false},
+    bids: [{
+        by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        price: {type: Number, required: true},
+        chosen: {type: Boolean, required: true, default: false},
+        msgs: [{
+            at: Date,
+            by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+            text: String,
+        }],
     }],
-  }],
 });
 
 ////////////////////////////////////////////////////////////////
@@ -60,266 +59,274 @@ var BookSchema = new Schema({
 // getBooks
 BookSchema.statics.getBooks = function() {
 
-  var filteredBooks;
+    var filteredBooks;
 
-  return BookModel().find({}).populate('createdBy').exec()
+    return BookModel().find({}).populate('createdBy').exec()
 
-  // Filter book data
-  .then( function(books) {
-    var promises = [];
-    filteredBooks = books.map( function(book) {
-      var newBook = {};
-      newBook.title = book.title;
-      newBook._id = book._id;
-      newBook.price = book.price;
-      newBook.keywords = book.keywords ? book.keywords.join(', ') : '';
-      newBook.description = book.description;
-      newBook.tradeFinished = book.tradeFinished;
-      if (book.createdBy) {
-        newBook.ownerId = book.createdBy._id;
-        newBook.ownerName = book.createdBy.name;
-      } else {
-        newBook.ownerId = null;
-        newBook.ownerName = 'no user';
-      }
-      if (book.photoId) {
-        newBook.photoId = book.photoId;
-        promises.push(BookPhoto.getBookPhoto(book.photoId));
-      }
-      return newBook;
+    // Filter book data
+    .then(function(books) {
+        var promises = [];
+        filteredBooks = books.map(function(book) {
+            var newBook = {};
+            newBook.title = book.title;
+            newBook._id = book._id;
+            newBook.price = book.price;
+            newBook.keywords = book.keywords ? book.keywords.join(', ') : '';
+            newBook.description = book.description;
+            newBook.tradeFinished = book.tradeFinished;
+            if (book.createdBy) {
+                newBook.ownerId = book.createdBy._id;
+                newBook.ownerName = book.createdBy.name;
+            } else {
+                newBook.ownerId = null;
+                newBook.ownerName = 'no user';
+            }
+            if (book.photoId) {
+                newBook.photoId = book.photoId;
+                promises.push(BookPhoto.getBookPhoto(book.photoId));
+            }
+            return newBook;
+        });
+        return Promise.all(promises);
+    })
+
+    .then(function() {
+        return filteredBooks;
     });
-    return Promise.all(promises);
-  })
-
-  .then( function() {
-    return filteredBooks;
-  });
 
 }; // getBooks
-
 
 // getBook
 BookSchema.statics.getBook = function(bookId,uid) {
 
-  var newBook;
+    var newBook;
 
-  return BookModel().findOne({_id:bookId}).populate(['createdBy','bids.by','bids.msgs.by']).exec()
+    return BookModel().findOne({_id:bookId}).populate(['createdBy','bids.by','bids.msgs.by']).exec()
 
-  // Filter book data
-  .then( function(book) {
-    if(!book) throw new PublicError('No book with _id='+bookId+'.');
-    newBook = {};
-    newBook.title = book.title;
-    newBook._id = book._id;
-    newBook.price = book.price;
-    newBook.keywords = book.keywords ? book.keywords.join(', ') : '';
-    newBook.description = book.description;
-    newBook.tradeFinished = book.tradeFinished;
-    if (book.createdBy) {
-      newBook.ownerId = book.createdBy._id;
-      newBook.ownerName = book.createdBy.name;
-    } else {
-      newBook.ownerId = null;
-      newBook.ownerName = 'no user';
-    }
-
-    // Filter bids and messages
-    newBook.bids = book.bids
-
-    .map( function(bid) {
-
-      // Msgs can be seen only by bidder and book owner
-      var msgs = [];
-      if ( bid.by._id.equals(uid) || newBook.ownerId.equals(uid) ) {
-        if (bid.msgs) {
-          msgs = bid.msgs.map( function(msg) {
-            return {
-              by: {_id: msg.by._id, name: msg.by.name},
-              at: msg.at,
-              text: msg.text,
-            };
-          });
+    // Filter book data
+    .then(function(book) {
+        if (!book) { throw new PublicError('No book with _id=' + bookId + '.'); }
+        newBook = {};
+        newBook.title = book.title;
+        newBook._id = book._id;
+        newBook.price = book.price;
+        newBook.keywords = book.keywords ? book.keywords.join(', ') : '';
+        newBook.description = book.description;
+        newBook.tradeFinished = book.tradeFinished;
+        if (book.createdBy) {
+            newBook.ownerId = book.createdBy._id;
+            newBook.ownerName = book.createdBy.name;
+        } else {
+            newBook.ownerId = null;
+            newBook.ownerName = 'no user';
         }
-      }
 
-      return {
-        _id: bid._id,
-        by: {
-          _id: bid.by._id,
-          name: bid.by.name,
-        },
-        price: bid.price,
-        chosen: bid.chosen,
-        msgs: msgs,
-      };
+        // Filter bids and messages
+        newBook.bids = book.bids
+
+        .map(function(bid) {
+
+            // Msgs can be seen only by bidder and book owner
+            var msgs = [];
+            if (bid.by._id.equals(uid) || newBook.ownerId.equals(uid)) {
+                if (bid.msgs) {
+                    msgs = bid.msgs.map(function(msg) {
+                        return {
+                            by: {_id: msg.by._id, name: msg.by.name},
+                            at: msg.at,
+                            text: msg.text,
+                        };
+                    });
+                }
+            }
+
+            return {
+                _id: bid._id,
+                by: {
+                    _id: bid.by._id,
+                    name: bid.by.name,
+                },
+                price: bid.price,
+                chosen: bid.chosen,
+                msgs: msgs,
+            };
+        })
+
+        .sort(function(a,b) {
+            return b.price - a.price; // descending sort
+        });
+
+        if (book.photoId) {
+            newBook.photoId = book.photoId;
+            return BookPhoto.getBookPhoto(book.photoId);
+        }
+        return Promise.resolve();
     })
 
-    .sort( function(a,b) {
-      return b.price - a.price; // descending sort
+    .then(function() {
+        return newBook;
     });
-
-    if (book.photoId) {
-      newBook.photoId = book.photoId;
-      return BookPhoto.getBookPhoto(book.photoId);
-    }
-    return Promise.resolve();
-  })
-
-  .then( function() {
-    return newBook;
-  });
 
 }; // getBook
 
 // removeBook
 BookSchema.statics.removeBook = function(bookId,uid) {
 
-  return BookModel().findOne({_id:bookId}).exec()
+    return BookModel().findOne({_id:bookId}).exec()
 
-  .then( function(book) {
-    if (!book) throw new PublicError('No book with _id='+bookId+'.');
-    if (!book.createdBy.equals(uid)) throw new PublicError('Only creator can remove the book.');
-    return BookModel().findOneAndRemove({_id:bookId}).exec();
-  });
+    .then(function(book) {
+        if (!book) { throw new PublicError('No book with _id=' + bookId + '.'); }
+        if (!book.createdBy.equals(uid)) {
+            throw new PublicError('Only creator can remove the book.');
+        }
+        return BookModel().findOneAndRemove({_id:bookId}).exec();
+    });
 
 }; // removeBook
 
 // addBook
 BookSchema.statics.addBook = function(book) {
 
-  // Save photo file to DB if any, and return photoId
-  return BookPhoto.addBookPhoto(book.file, book.photoId)
+    // Save photo file to DB if any, and return photoId
+    return BookPhoto.addBookPhoto(book.file, book.photoId)
 
-  // Save book
-  .then( function(photoId) {
+    // Save book
+    .then(function(photoId) {
 
-    var newBook = {};
-    newBook.title = book.title;
-    newBook.price = book.price;
-    newBook.photoId = photoId;
-    newBook.createdBy = book.createdBy;
-    if (book.keywords) {
-      newBook.keywords = book.keywords.split(',').map( function(keyword) { return keyword.trim(); });
-    }
-    newBook.description = book.description;
+        var newBook = {};
+        newBook.title = book.title;
+        newBook.price = book.price;
+        newBook.photoId = photoId;
+        newBook.createdBy = book.createdBy;
+        if (book.keywords) {
+            newBook.keywords = book.keywords.split(',').map(function(keyword) {
+                return keyword.trim();
+            });
+        }
+        newBook.description = book.description;
 
+        if (book._id) {
+            return BookModel().findOneAndUpdate(
+              {_id: book._id}, // query
+              {$set: newBook}, // new document
+              {upsert:true, new:true} // insert if not found; return new document
+            ).exec();
+        } else {
+            return new BookModel()(newBook).save();
+        }
 
-    if (book._id) {
-      return BookModel().findOneAndUpdate(
-        { _id: book._id }, // query
-        { $set: newBook }, // new document
-        { upsert:true, new:true } // insert if not found; return new document
-      ).exec();
-    } else {
-      return new BookModel()(newBook).save();
-    }
-
-  });
+    });
 
 }; // addBook
-
 
 // addBid
 BookSchema.statics.addBid = function(bookId, bidPrice, uid) {
 
-  return BookModel().findOne({_id:bookId}).exec()
+    return BookModel().findOne({_id:bookId}).exec()
 
-  .then( function(book) {
-    if(!book) throw new PublicError('No book with _id='+bookId+'.');
+    .then(function(book) {
+        if (!book) { throw new PublicError('No book with _id=' + bookId + '.'); }
 
-    // Find/update bid
-    var bidIdx;
-    var found = book.bids.some( function(bid,idx) {
-      bidIdx = idx;
-      return bid.by.equals(uid);
+        // Find/update bid
+        var bidIdx;
+        var found = book.bids.some(function(bid,idx) {
+            bidIdx = idx;
+            return bid.by.equals(uid);
+        });
+        if (found) {
+            book.bids[bidIdx].price = bidPrice;
+        } else {
+            book.bids.push({by:uid, price:bidPrice});
+        }
+
+        return book.save();
+
     });
-    if (found) {
-      book.bids[bidIdx].price = bidPrice;
-    } else {
-      book.bids.push({by:uid, price:bidPrice});
-    }
-
-    return book.save();
-
-  });
 
 }; // addBid
-
 
 // addMsg
 BookSchema.statics.addMsg = function(bookId, from, to, time, text) {
 
-  return BookModel().findOne({_id:bookId}).exec()
+    return BookModel().findOne({_id:bookId}).exec()
 
-  .then( function(book) {
-    if(!book) throw new PublicError('No book with _id='+bookId+'.');
+    .then(function(book) {
+        if (!book) { throw new PublicError('No book with _id=' + bookId + '.'); }
 
-    if(!book.createdBy.equals(from) && !book.createdBy.equals(to))
-      throw new PublicError('Incorrect from/to fields.');
+        if (!book.createdBy.equals(from) && !book.createdBy.equals(to)) {
+            throw new PublicError('Incorrect from/to fields.');
+        }
 
-    var bidId = (book.createdBy.equals(from)) ? to : from;
+        var bidId = (book.createdBy.equals(from)) ? to : from;
 
-    // Find/update bid
-    var bidIdx;
-    var found = book.bids.some( function(bid,idx) {
-      bidIdx = idx;
-      return bid.by.equals(bidId);
+        // Find/update bid
+        var bidIdx;
+        var found = book.bids.some(function(bid,idx) {
+            bidIdx = idx;
+            return bid.by.equals(bidId);
+        });
+        if (found) {
+            book.bids[bidIdx].msgs = book.bids[bidIdx].msgs || [];
+            var msg = {
+                at: time,
+                by: from,
+                text: text,
+            };
+            book.bids[bidIdx].msgs.push(msg);
+        } else {
+            throw new PublicError('Incorrect from/to fields (no such bid).');
+        }
+
+        return book.save();
+
     });
-    if (found) {
-      book.bids[bidIdx].msgs = book.bids[bidIdx].msgs || [];
-      var msg = {
-        at: time,
-        by: from,
-        text: text,
-      };
-      book.bids[bidIdx].msgs.push(msg);
-    } else {
-      throw new PublicError('Incorrect from/to fields (no such bid).');
-    }
-
-    return book.save();
-
-  });
 
 }; // addMsg
-
 
 // chooseBid
 BookSchema.statics.chooseBid = function(bookId, bidOwnerId, uid) {
 
-  return BookModel().findOne({_id:bookId}).exec()
+    return BookModel().findOne({_id:bookId}).exec()
 
-  .then( function(book) {
+    .then(function(book) {
 
-    if(!book) throw new PublicError('No book with _id='+bookId+'.');
+        if (!book) { throw new PublicError('No book with _id=' + bookId + '.'); }
 
-    if(!book.createdBy.equals(uid)) throw new PublicError('Only book owner can finish trade.');
+        if (!book.createdBy.equals(uid)) {
+            throw new PublicError('Only book owner can finish trade.');
+        }
 
+        // Find bid
+        var bidIdx;
+        var found = book.bids.some(function(bid,idx) {
+            bidIdx = idx;
+            return bid.by.equals(bidOwnerId);
+        });
+        if (!found) {
+            throw new PublicError(
+              'Book (id=' +
+              bookId +
+              ') does not have bid by user with _id=' +
+              bidOwnerId +
+              '.'
+            );
+        }
 
-    // Find bid
-    var bidIdx;
-    var found = book.bids.some( function(bid,idx) {
-      bidIdx = idx;
-      return bid.by.equals(bidOwnerId);
+        book.tradeFinished = true;
+        book.bids[bidIdx].chosen = true;
+
+        return book.save();
+
     });
-    if (!found) throw new PublicError('Book (id='+bookId+') does not have bid by user with _id='+bidOwnerId+'.');
-
-    book.tradeFinished = true;
-    book.bids[bidIdx].chosen = true;
-
-    return book.save();
-
-  });
 
 }; // chooseBid
-
 
 ////////////////////////////////////////////////////////////////
 //  exports
 ////////////////////////////////////////////////////////////////
 
 function BookModel() {
-  return mongoose.model('Book', BookSchema);
+    return mongoose.model('Book', BookSchema);
 }
 
 module.exports = mongoose.model('Book', BookSchema);

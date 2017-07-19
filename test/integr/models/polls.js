@@ -3,7 +3,7 @@
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
  *
- * DESCRIPTION: 
+ * DESCRIPTION:
  * AUTHOR: ikarus512
  * CREATED: 2017/03/13
  *
@@ -31,18 +31,17 @@ var
 
   Poll = require('../../../server/models/app1-polls.js');
 
-
 describe('model Poll', function () {
 
-  it('#save() should create a new poll', function (done) {
-    var poll = new Poll();
-    poll.title = 'Poll title';
-    poll.save(poll, function (err, createdPoll) {
-      expect(err).to.equal(null);
-      expect(createdPoll).to.not.equal(null);
-      expect(createdPoll.title).to.equal('Poll title');
-      done();
+    it('#save() should create a new poll', function (done) {
+        var poll = new Poll();
+        poll.title = 'Poll title';
+        poll.save(poll, function (err, createdPoll) {
+            expect(err).to.equal(null);
+            expect(createdPoll).to.not.equal(null);
+            expect(createdPoll.title).to.equal('Poll title');
+            done();
+        });
     });
-  });
 
 });

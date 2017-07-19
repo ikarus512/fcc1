@@ -19,74 +19,73 @@ var
   myErrorLog = require('./../utils/my-error-log.js'),
   SocketServer = require('ws').Server,
   wss,
-  handlers = { onMessage: {}, onClose: [] };
-
+  handlers = {onMessage: {}, onClose: []};
 
 module.exports = {
 
-  init: function(server) {
+    init: function(server) {
 
-    if (!wss) wss = new SocketServer({server:server});
+        if (!wss) { wss = new SocketServer({server:server}); }
 
-    wss.on('error', function (err) {
-      myErrorLog(null, err);
-    });
+        wss.on('error', function (err) {
+            myErrorLog(null, err);
+        });
 
-    wss.on('connection', function(ws) {
+        wss.on('connection', function(ws) {
 
-      ws.on('message', function(msg) {
-        try {
-          var data = JSON.parse(msg);
-          if (data.msgtype && (data.msgtype in handlers.onMessage)) {
-            handlers.onMessage[data.msgtype](ws,data);
-          }
-        } catch(err) {
-          myErrorLog(null, err);
+            ws.on('message', function(msg) {
+                try {
+                    var data = JSON.parse(msg);
+                    if (data.msgtype && (data.msgtype in handlers.onMessage)) {
+                        handlers.onMessage[data.msgtype](ws,data);
+                    }
+                } catch (err) {
+                    myErrorLog(null, err);
+                }
+            });
+
+            ws.on('close', function() {
+                try {
+                    handlers.onClose.forEach(function(func) {
+                        func(ws);
+                    });
+                } catch (err) {
+                    myErrorLog(null, err);
+                }
+            });
+
+        });
+
+    }, // init: function(...)
+
+    // Register message handlers
+    registerHandlers: function(obj) {
+        if (typeof(obj) !== 'object') { return; }
+
+        for (var msg in obj) {
+            if (typeof(obj[msg]) === 'function') {
+                if (msg === 'onClose') {
+                    handlers.onClose.push(obj[msg]);
+                } else {
+                    handlers.onMessage[msg] = obj[msg];
+                }
+            }
         }
-      });
+    }, // registerHandlers: function(...)
 
-      ws.on('close', function() {
-        try {
-          handlers.onClose.forEach( function(func) {
-            func(ws);
-          });
-        } catch(err) {
-          myErrorLog(null, err);
+    // Register one message handler
+    onMessage: function(msg, func) {
+        if (typeof(msg) === 'string' && typeof(func) === 'function') {
+            // register one handler
+            handlers.onMessage[msg] = func;
         }
-      });
+    }, // onMessage: function(...)
 
-    });
-
-  }, // init: function(...)
-
-  // Register message handlers
-  registerHandlers: function(obj) {
-    if (typeof(obj) !== 'object') return;
-
-    for (var msg in obj) {
-      if (typeof(obj[msg]) === 'function') {
-        if (msg === 'onClose') {
-          handlers.onClose.push(obj[msg]);
-        } else {
-          handlers.onMessage[msg] = obj[msg];
+    // Register onClose handler
+    onClose: function(func) {
+        if (typeof(func) === 'function') {
+            handlers.onClose.push(func);
         }
-      }
-    }
-  }, // registerHandlers: function(...)
-
-  // Register one message handler
-  onMessage: function(msg, func) {
-    if (typeof(msg) === 'string' && typeof(func) === 'function') {
-      // register one handler
-      handlers.onMessage[msg] = func;
-    }
-  }, // onMessage: function(...)
-
-  // Register onClose handler
-  onClose: function(func) {
-    if (typeof(func) === 'function') {
-      handlers.onClose.push(func);
-    }
-  }, // onClose: function(...)
+    }, // onClose: function(...)
 
 };

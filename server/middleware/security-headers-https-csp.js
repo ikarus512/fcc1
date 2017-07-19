@@ -20,12 +20,12 @@ var
 
 module.exports = function (app) {
 
-  // (OFF by default)
-  // app.use(helmet.contentSecurityPolicy({
-  //   directives: {
-  //     defaultSrc: ["'self'"],
-  //     // styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com'],
-  //   }
-  // }));
+    // (OFF by default)
+    // app.use(helmet.contentSecurityPolicy({
+    //   directives: {
+    //     defaultSrc: ["'self'"],
+    //     // styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com'],
+    //   }
+    // }));
 
 };

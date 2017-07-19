@@ -4,15 +4,15 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .config(['$httpProvider', function($httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
-    // $httpProvider.defaults.useXDomain = true;
-    // delete $httpProvider.defaults.headers.common['X-Requested-With'];
-  }]);
+    .config(['$httpProvider', function($httpProvider) {
+        $httpProvider.defaults.withCredentials = true;
+        // $httpProvider.defaults.useXDomain = true;
+        // delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }]);
 
 })();

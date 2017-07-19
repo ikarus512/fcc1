@@ -21,100 +21,93 @@ var
   wsStore = {},
   tickets = [];
 
-
-
-
 wsStore.ticketGenerate = function(userinfo) {
-  var ticket, TWO_POW_24 = 16*1024*1024;
+    var ticket, TWO_POW_24 = 16 * 1024 * 1024;
 
-  do {
-    ticket = Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16) +
-      Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16) +
-      Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16);
-  } while(tickets.indexOf(ticket) >= 0);
+    do {
+        ticket = Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16) +
+          Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16) +
+          Math.floor(d3.randomUniform(TWO_POW_24)()).toString(16);
+    } while (tickets.indexOf(ticket) >= 0);
 
-  tickets.push({ticket: ticket, userinfo: userinfo});
+    tickets.push({ticket: ticket, userinfo: userinfo});
 
-  return ticket;
+    return ticket;
 }; // wsStore.ticketGenerate = function(...)
 
 wsStore.ticketCheck = function(ticket) {
-  return tickets.some( function(el) { return (el.ticket===ticket); });
+    return tickets.some(function(el) { return (el.ticket === ticket); });
 }; // wsStore.ticketCheck = function(...)
 
 wsStore.ticketRemove = function(ticket) {
-  var
-    i,
-    found = tickets.some( function(el,idx) { i=idx; return (el.ticket===ticket); });
+    var
+      i,
+      found = tickets.some(function(el,idx) { i = idx; return (el.ticket === ticket); });
 
-  if (found) {
-    tickets.splice(i,1);
-  }
+    if (found) {
+        tickets.splice(i,1);
+    }
 }; // wsStore.ticketRemove = function(...)
-
-
-
 
 wsStore.wsClients = {};
 
 wsStore.broadcastRefreshBids = function(bookId) {
-  var wsClients = wsStore.wsClients;
+    var wsClients = wsStore.wsClients;
 
-  if (wsClients[bookId]) {
-    for (var ticket in wsClients[bookId]) {
-      wsClients[bookId][ticket].send(JSON.stringify({
-        msgtype: 'app4-broadcast-refresh-bids',
-      }));
+    if (wsClients[bookId]) {
+        for (var ticket in wsClients[bookId]) {
+            wsClients[bookId][ticket].send(JSON.stringify({
+                msgtype: 'app4-broadcast-refresh-bids',
+            }));
+        }
     }
-  }
 }; // wsStore.broadcastRefreshBids = function(...)
 
 wsStore.broadcastRefreshDetails = function(bookId) {
-  var wsClients = wsStore.wsClients;
+    var wsClients = wsStore.wsClients;
 
-  if (wsClients[bookId]) {
-    for (var ticket in wsClients[bookId]) {
-      wsClients[bookId][ticket].send(JSON.stringify({
-        msgtype: 'app4-broadcast-refresh-details',
-      }));
+    if (wsClients[bookId]) {
+        for (var ticket in wsClients[bookId]) {
+            wsClients[bookId][ticket].send(JSON.stringify({
+                msgtype: 'app4-broadcast-refresh-details',
+            }));
+        }
     }
-  }
 }; // wsStore.broadcastRefreshBids = function(...)
 
 wsStore.sendMessage = function(bookId, from, to, time, text) {
 
-  // Add message to book.bid
-  Book.addMsg(bookId, from, to, time, text)
+    // Add message to book.bid
+    Book.addMsg(bookId, from, to, time, text)
 
-  // Find recipient socket, if present, and send him message
-  .then( function() {
+    // Find recipient socket, if present, and send him message
+    .then(function() {
 
-    var wsClients = wsStore.wsClients;
+        var wsClients = wsStore.wsClients;
 
-    if (wsClients[bookId]) {
-      for (var ticket in wsClients[bookId]) {
-        if (wsClients[bookId][ticket].uid === to) {
-          wsClients[bookId][ticket].send(JSON.stringify({
-            msgtype: 'app4-message',
-            // bookId: bookId,
-            from: from,
-            to: to,
-            time: time,
-            text: text,
-          }));
+        if (wsClients[bookId]) {
+            for (var ticket in wsClients[bookId]) {
+                if (wsClients[bookId][ticket].uid === to) {
+                    wsClients[bookId][ticket].send(JSON.stringify({
+                        msgtype: 'app4-message',
+                        // bookId: bookId,
+                        from: from,
+                        to: to,
+                        time: time,
+                        text: text,
+                    }));
+                }
+            }
         }
-      }
-    }
 
-  })
+    })
 
-  // Internal error
-  .catch( function(err) {
-    var message = 'Internal error e000000b.';
-    myErrorLog(null, err, message);
-  });
+    // Internal error
+    .catch(function(err) {
+        var message = 'Internal error e000000b.';
+        myErrorLog(null, err, message);
+    });
 
 }; // wsStore.sendMessage = function(...)
-
 
 module.exports = wsStore;

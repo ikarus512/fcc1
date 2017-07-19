@@ -21,23 +21,23 @@ var
 
 try {
 
-  // Try to load .pem files in _certificate/ folder:
+    // Try to load .pem files in _certificate/ folder:
 
-  httpsOptions = {
-    cert : fs.readFileSync(__dirname+'/../../_certificate/certificate.pem'),
-    key  : fs.readFileSync(__dirname+'/../../_certificate/key.pem')
-  };
+    httpsOptions = {
+        cert : fs.readFileSync(__dirname + '/../../_certificate/certificate.pem'),
+        key  : fs.readFileSync(__dirname + '/../../_certificate/key.pem')
+    };
 
 } catch (err) {
 
-  // Here if .pem files in _certificate/ folder absent.
+    // Here if .pem files in _certificate/ folder absent.
 
-  // Use test/cert/*.pem files instead.
+    // Use test/cert/*.pem files instead.
 
-  httpsOptions = {
-    cert : fs.readFileSync(__dirname+'/../../test/cert/certificate.pem'),
-    key  : fs.readFileSync(__dirname+'/../../test/cert/key.pem')
-  };
+    httpsOptions = {
+        cert : fs.readFileSync(__dirname + '/../../test/cert/certificate.pem'),
+        key  : fs.readFileSync(__dirname + '/../../test/cert/key.pem')
+    };
 
 }
 

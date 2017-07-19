@@ -19,23 +19,23 @@ var APPCONST = require('./../config/constants.js');
 
 module.exports = function(server) {
 
-  if (APPCONST.env.NODE_ENV !== 'production') {
+    if (APPCONST.env.NODE_ENV !== 'production') {
 
-    // Using socket.io during tests to:
-    // 1) stop server in response to the npmStop signal,
-    // 2) answer to client in response to npmServerRequest signal.
-    var io = require('socket.io')(server);
-    io.on('connection', function(socketServer) { // Here if new client connected
-      socketServer.on('npmStop', function() {
-        console.log('Server received npmStop.');
-        process.exit(0); // Stop server
-      });
-      socketServer.on('npmServerRequest', function(data) {
-        console.log('Server received request: ', data);
-        socketServer.emit('new message', 'Server is ready.'); // Answer to client
-      });
-    });
+        // Using socket.io during tests to:
+        // 1) stop server in response to the npmStop signal,
+        // 2) answer to client in response to npmServerRequest signal.
+        var io = require('socket.io')(server);
+        io.on('connection', function(socketServer) { // Here if new client connected
+            socketServer.on('npmStop', function() {
+                console.log('Server received npmStop.');
+                process.exit(0); // Stop server
+            });
+            socketServer.on('npmServerRequest', function(data) {
+                console.log('Server received request: ', data);
+                socketServer.emit('new message', 'Server is ready.'); // Answer to client
+            });
+        });
 
-  }
+    }
 
 };

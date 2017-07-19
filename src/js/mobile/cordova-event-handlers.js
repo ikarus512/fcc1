@@ -4,35 +4,35 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  if(window.cordova) {
-    // Here if cordova
+    if (window.cordova) {
+        // Here if cordova
 
-    document.addEventListener('deviceready', function() {
+        document.addEventListener('deviceready', function() {
 
-      $(document).ready( function() {
+            $(document).ready(function() {
 
-        // Android button event handlers
+                // Android button event handlers
 
-        // document.addEventListener('backbutton', function(event) {
-        //   event.preventDefault();
-        //   if (confirm('Exit?')) navigator.app.exitApp();
-        // }, false);
+                // document.addEventListener('backbutton', function(event) {
+                //   event.preventDefault();
+                //   if (confirm('Exit?')) navigator.app.exitApp();
+                // }, false);
 
-        if(window.navigator.appVersion.search(/Android/i)>=0) {
-          navigator.app.overrideButton('menubutton', true);
-        }
-        document.addEventListener('menubutton', function(event) {
-          event.preventDefault();
-          $('#myNavbar').toggleClass('in');
+                if (window.navigator.appVersion.search(/Android/i) >= 0) {
+                    navigator.app.overrideButton('menubutton', true);
+                }
+                document.addEventListener('menubutton', function(event) {
+                    event.preventDefault();
+                    $('#myNavbar').toggleClass('in');
+                }, false);
+
+            });
+
         }, false);
 
-      });
-
-    }, false);
-
-  }
+    }
 
 })();

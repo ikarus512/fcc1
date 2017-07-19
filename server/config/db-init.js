@@ -18,9 +18,9 @@
 var dbInit;
 
 if (process.env.NODE_ENV === 'production') {
-  dbInit = require('./db-init-production.js');
+    dbInit = require('./db-init-production.js');
 } else {
-  dbInit = require('./db-init-test.js');
+    dbInit = require('./db-init-test.js');
 }
 
 module.exports = dbInit;

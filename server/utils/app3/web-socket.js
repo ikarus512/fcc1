@@ -25,49 +25,49 @@ var
   wsHandlers = {
 
     'app3-check-ticket': function(ws, data) {
-      if(wsStore.ticketCheck(data.ticket)) { // If ticket ok
-        // Save ticket
-        ws.myTicket = data.ticket;
-        // Save client
-        registeredClients.push(ws);
-      }
+        if (wsStore.ticketCheck(data.ticket)) { // If ticket ok
+            // Save ticket
+            ws.myTicket = data.ticket;
+            // Save client
+            registeredClients.push(ws);
+        }
     },
 
     'app3-add-stock-name': function(ws, data) {
-      if(ws.myTicket) { // If ticket ok
-        wsStore.addStockName(data.stockName);
-      }
+        if (ws.myTicket) { // If ticket ok
+            wsStore.addStockName(data.stockName);
+        }
     },
 
     'app3-remove-stock-name': function(ws, data) {
-      if(ws.myTicket) { // If ticket ok
-        wsStore.removeStockName(data.stockName);
-      }
+        if (ws.myTicket) { // If ticket ok
+            wsStore.removeStockName(data.stockName);
+        }
     },
 
     'onClose': function(ws) {
-      var i = registeredClients.indexOf(ws);
-      if (i>=0) {
-        // Remove ticket
-        wsStore.ticketRemove(registeredClients[i].myTicket);
-        registeredClients[i].myTicket = undefined;
-        // Remove client
-        registeredClients.splice(i,1);
-      }
+        var i = registeredClients.indexOf(ws);
+        if (i >= 0) {
+            // Remove ticket
+            wsStore.ticketRemove(registeredClients[i].myTicket);
+            registeredClients[i].myTicket = undefined;
+            // Remove client
+            registeredClients.splice(i,1);
+        }
     },
 
-  };
+};
 
-setInterval( function() {
-  try {
-    var newData = wsStore.getNewData();
-    // wss.clients.forEach( function(client) {
-    registeredClients.forEach( function(client) {
-      client.send(JSON.stringify({msgtype: 'app3-stocks-data', data: newData}));
-    });
-  } catch(err) {
-    myErrorLog(null, err);
-  }
-}, 0.5*1000 * APPCONST.APP3_STOCK_PORTION_LENGTH);
+setInterval(function() {
+    try {
+        var newData = wsStore.getNewData();
+        // wss.clients.forEach( function(client) {
+        registeredClients.forEach(function(client) {
+            client.send(JSON.stringify({msgtype: 'app3-stocks-data', data: newData}));
+        });
+    } catch (err) {
+        myErrorLog(null, err);
+    }
+}, 0.5 * 1000 * APPCONST.APP3_STOCK_PORTION_LENGTH);
 
 module.exports = wsHandlers;

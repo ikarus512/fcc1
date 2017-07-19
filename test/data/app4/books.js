@@ -76,7 +76,7 @@ module.exports = [
       'applications for the Web, this book is an absolute must.' +
       '\n' +
       ''
-  },
+},
   //////////////////////////////////////////////////////////////////////////////
   {
     title: 'JavaScript Patterns: Build Better Applications with Coding and ' +
@@ -118,7 +118,7 @@ module.exports = [
       '  Examine patterns that apply specifically to the client-side browser ' +
       'environment' + '\n' +
       ''
-  },
+},
   //////////////////////////////////////////////////////////////////////////////
   {
     title: 'Effective JavaScript: 68 Specific Ways to Harness the Power of ' +
@@ -176,7 +176,7 @@ module.exports = [
       '  In-depth guidance on using JavaScript\'s unique "run-to-completion" ' +
       'approach to concurrency' + '\n' +
       ''
-  },
+},
   //////////////////////////////////////////////////////////////////////////////
   {
     title: 'JavaScript Pocket Reference: Activate Your Web Pages (Pocket ' +
@@ -216,7 +216,7 @@ module.exports = [
       'Store data locally on the user\'s computer' + '\n' +
       'This book is a perfect companion to jQuery Pocket Reference.' + '\n' +
       ''
-  },
+},
   //////////////////////////////////////////////////////////////////////////////
   {
     title: 'CSS Pocket Reference: Visual Presentation for the Web',
@@ -247,6 +247,6 @@ module.exports = [
       'and border images' + '\n' +
       '- Get new information about transforms and transitions' + '\n' +
       ''
-  },
+},
   //////////////////////////////////////////////////////////////////////////////
 ];

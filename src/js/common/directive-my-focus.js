@@ -4,23 +4,23 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp')
+    angular.module('myapp')
 
-  .directive('myFocus', ['$timeout', function($timeout) {
+    .directive('myFocus', ['$timeout', function($timeout) {
 
-    return function (scope, elem, attrs) {
-      scope.$watch(attrs.myFocus, function (newVal) {
-        if (newVal) {
-          $timeout( function() {
-            elem[0].focus();
-          }, 0, false);
-        }
-      });
-    };
+        return function (scope, elem, attrs) {
+            scope.$watch(attrs.myFocus, function (newVal) {
+                if (newVal) {
+                    $timeout(function() {
+                        elem[0].focus();
+                    }, 0, false);
+                }
+            });
+        };
 
-  }]); // .directive('myFocus', ...
+    }]); // .directive('myFocus', ...
 
 })();

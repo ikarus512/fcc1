@@ -32,11 +32,11 @@ var express = require('express'),
   expressLess = require('express-less'),
   herokuSslRedirect = require('./middleware/heroku-ssl-redirect.js'),
   greet = require('./utils/greet.js'),
-  app1_voting    = require('./routes/app1.js'),
-  app2_nightlife = require('./routes/app2.js'),
-  app3_stock     = require('./routes/app3.js'),
-  app4_books     = require('./routes/app4.js'),
-  app5_pinter    = require('./routes/app5.js'),
+  app1Voting    = require('./routes/app1.js'),
+  app2Nightlife = require('./routes/app2.js'),
+  app3Stock     = require('./routes/app3.js'),
+  app4Books     = require('./routes/app4.js'),
+  app5Pinter    = require('./routes/app5.js'),
   isHeroku = require('./utils/is-heroku.js'),
   isAdmin = require('./middleware/is-admin.js'),
 
@@ -53,7 +53,6 @@ var express = require('express'),
   passport = require('passport'),
   isLoggedIn = require('./config/passport')(passport);
 
-
 ////////////////////////////////////////////////////////////////
 //  Settings
 ////////////////////////////////////////////////////////////////
@@ -64,8 +63,7 @@ app.enable('trust proxy'); // to get req.ip
 if (!isHeroku()) { appHttp.enable('trust proxy'); }
 
 app.set('view engine', 'pug');
-app.set('views',__dirname+'./../src/views/common');
-
+app.set('views',__dirname + './../src/views/common');
 
 dbConnect();
 
@@ -77,21 +75,22 @@ var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-option
 
 var tmpdir1;
 tmpdir1 = path.join(__dirname, '../public' + '/img/app2tmp/');
-fs.exists(tmpdir1, function(exists) { if (!exists) fs.mkdir(tmpdir1, function() {}); });
+fs.exists(tmpdir1, function(exists) { if (!exists) { fs.mkdir(tmpdir1, function() {}); } });
 tmpdir1 = path.join(__dirname, '../public' + '/img/app4tmp/');
-fs.exists(tmpdir1, function(exists) { if (!exists) fs.mkdir(tmpdir1, function() {}); });
-
+fs.exists(tmpdir1, function(exists) { if (!exists) { fs.mkdir(tmpdir1, function() {}); } });
 
 // Logs before all middlewares
 if (!isHeroku()) {
-  if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
-  var logStream = rfs('access.log', { interval: '1d', path: logDir });
-  appHttp.use(morganLogger('combined', {stream: logStream, immediate:true})); // log requests to file
-  app.use    (morganLogger('combined', {stream: logStream, immediate:true})); // log requests to file
+    if (!fs.existsSync(logDir)) { fs.mkdirSync(logDir); }
+    var logStream = rfs('access.log', {interval: '1d', path: logDir});
 
-  appHttp.use(myRequestLogger({file: myLogFile, immediate: true
-    // , short: true
-  }));
+    // log requests to file
+    appHttp.use(morganLogger('combined', {stream: logStream, immediate:true}));
+    app.use    (morganLogger('combined', {stream: logStream, immediate:true}));
+
+    appHttp.use(myRequestLogger({file: myLogFile, immediate: true
+        // , short: true
+    }));
 }
 
 // security headers
@@ -100,22 +99,22 @@ require('./middleware/security-headers-common.js')(app);
 // Redirect http GET to https
 if (!isHeroku()) {
 
-  // security headers
-  require('./middleware/security-headers-http.js')(appHttp);
+    // security headers
+    require('./middleware/security-headers-http.js')(appHttp);
 
-  appHttp.get('*', function(req, res, next) {
-    res.redirect('https://'+req.hostname+':'+app.get('port'));
-  });
-
-  appHttp.all('*', function (req, res) {
-    res.status(400).json({message: 'Error: cannot '+req.method+' '+
-      req.protocol+'://'+req.headers.host+req.originalUrl+'. Use https.'
+    appHttp.get('*', function(req, res, next) {
+        res.redirect('https://' + req.hostname + ':' + app.get('port'));
     });
-  });
+
+    appHttp.all('*', function (req, res) {
+        res.status(400).json({message: 'Error: cannot ' + req.method + ' ' +
+          req.protocol + '://' + req.headers.host + req.originalUrl + '. Use https.'
+        });
+    });
 
 } else {
 
-  app.use(herokuSslRedirect());
+    app.use(herokuSslRedirect());
 
 }
 
@@ -125,13 +124,13 @@ app.use(expressStatusMonitor);
 app.use(express.static(path.join(__dirname, '../public')));
 // Less
 app.use('/less', expressLess(__dirname + './../src/less', {
-  // compress: true,
-  // cache: true,
-  // debug: true,
-  debug: APPCONST.env.NODE_ENV !== 'production',
+    // compress: true,
+    // cache: true,
+    // debug: true,
+    debug: APPCONST.env.NODE_ENV !== 'production',
 }));
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session(require('./config/session-options.js')(session)));
@@ -141,7 +140,7 @@ app.use(passport.session());
 
 // Logs, detaled
 if (!isHeroku()) {
-  app.use(myRequestLogger({file: myLogFile, immediate: true}));
+    app.use(myRequestLogger({file: myLogFile, immediate: true}));
 }
 
 var rateLimitAll = require('./middleware/security-rate-limit-all.js');
@@ -164,20 +163,16 @@ require('./routes/home.js')(app, passport, isLoggedIn, greet);
 require('./routes/settings.js')(app, passport, isLoggedIn, greet);
 
 // applications-related routes
-app.use('/app1', app1_voting);
-app.use('/app2', app2_nightlife);
-app.use('/app3', app3_stock);
-app.use('/app4', app4_books);
-app.use('/app5', app5_pinter);
+app.use('/app1', app1Voting);
+app.use('/app2', app2Nightlife);
+app.use('/app3', app3Stock);
+app.use('/app4', app4Books);
+app.use('/app5', app5Pinter);
 
 // ALL * - json respond with error
 app.all('*', function (req, res) {
-  res.status(400).json({message: 'Error: cannot '+req.method+' '+req.originalUrl});
+    res.status(400).json({message: 'Error: cannot ' + req.method + ' ' + req.originalUrl});
 });
-
-
-
-
 
 ////////////////////////////////////////////////////////////////
 //  Start server
@@ -186,94 +181,91 @@ app.all('*', function (req, res) {
 var server, serverHttp, boot, shutdown;
 
 if (!isHeroku()) {
-  // Here if run on local host
+    // Here if run on local host
 
-  server = https.createServer(require('./config/https-options.js'), app);
-  serverHttp = http.createServer(appHttp);
+    server = https.createServer(require('./config/https-options.js'), app);
+    serverHttp = http.createServer(appHttp);
 
-  boot = function(done) {
+    boot = function(done) {
 
-    var promises = [];
+        var promises = [];
 
-    promises.push( new Promise( function(resolve, reject) {
-      server.listen( app.get('port'), function (err) {
-        console.log('NODE_ENV = '+APPCONST.env.NODE_ENV);
-        if (err) throw err;
-        console.log('Started https.');
-        return resolve();
-      });
-    }));
+        promises.push(new Promise(function(resolve, reject) {
+            server.listen(app.get('port'), function (err) {
+                console.log('NODE_ENV = ' + APPCONST.env.NODE_ENV);
+                if (err) { throw err; }
+                console.log('Started https.');
+                return resolve();
+            });
+        }));
 
-    promises.push( new Promise( function(resolve, reject) {
-      serverHttp.listen(APPCONST.env.PORT_HTTP, function (err) {
-        if (err) throw err;
-        console.log('Started http.');
-        return resolve();
-      });
-    }));
+        promises.push(new Promise(function(resolve, reject) {
+            serverHttp.listen(APPCONST.env.PORT_HTTP, function (err) {
+                if (err) { throw err; }
+                console.log('Started http.');
+                return resolve();
+            });
+        }));
 
-    if (APPCONST.env.NODE_ENV.match(/^test/)) {
-      promises.push( dbInit( function() { console.log('DB initialized.'); }) );
-    }
+        if (APPCONST.env.NODE_ENV.match(/^test/)) {
+            promises.push(dbInit(function() { console.log('DB initialized.'); }));
+        }
 
-    Promise.all(promises)
-    .then( function() {
-      console.log('Server ready.');
+        Promise.all(promises)
+        .then(function() {
+            console.log('Server ready.');
 
-      if (!APPCONST.env.NODE_ENV.match(/^test/)) {
-        dbInit( function() { console.log('DB initialized.'); });
-      }
+            if (!APPCONST.env.NODE_ENV.match(/^test/)) {
+                dbInit(function() { console.log('DB initialized.'); });
+            }
 
-      // Start socket.io server
-      require('./modules/socket-io-server.js')(server);
+            // Start socket.io server
+            require('./modules/socket-io-server.js')(server);
 
-      // Start webSocket server
-      require('./modules/web-socket-init.js')({server:server});
+            // Start webSocket server
+            require('./modules/web-socket-init.js')({server:server});
 
-      if (done) return done();
-      return;
-    });
+            if (done) { return done(); }
+            return;
+        });
 
-  };
+    };
 
-  shutdown = function(done) {
-    server.close( function() {
-      // console.log('Stopped https.');
-      serverHttp.close( function() {
-        // console.log('Stopped http.');
-        if (done) return done();
-      });
-    });
-  };
+    shutdown = function(done) {
+        server.close(function() {
+            // console.log('Stopped https.');
+            serverHttp.close(function() {
+                // console.log('Stopped http.');
+                if (done) { return done(); }
+            });
+        });
+    };
 
 } else {
-  // Here if run on Heroku
+    // Here if run on Heroku
 
-  server = http.createServer(app);
-  serverHttp = server;
+    server = http.createServer(app);
+    serverHttp = server;
 
-  boot = function() {
-    server.listen(app.get('port'), function () {
-      console.log('Heroku app listening on port '+app.get('port')+'.');
-    });
-    dbInit( function() {});
-    require('./modules/web-socket-init.js')({server:server});
-  };
+    boot = function() {
+        server.listen(app.get('port'), function () {
+            console.log('Heroku app listening on port ' + app.get('port') + '.');
+        });
+        dbInit(function() {});
+        require('./modules/web-socket-init.js')({server:server});
+    };
 
-  shutdown = function() {
-    server.close();
-  };
+    shutdown = function() {
+        server.close();
+    };
 
 }
 
-
-
-
 if (require.main === module) {
-  boot();
+    boot();
 } else {
-  console.info('Running application as a module');
-  exports.boot = boot;
-  exports.shutdown = shutdown;
-  exports.port = app.get('port');
+    console.info('Running application as a module');
+    exports.boot = boot;
+    exports.shutdown = shutdown;
+    exports.port = app.get('port');
 }

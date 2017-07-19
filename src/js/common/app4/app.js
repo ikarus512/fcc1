@@ -4,9 +4,9 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;( function() {
-  'use strict';
+;(function() {
+    'use strict';
 
-  angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngMessages', 'ngFileUpload']);
+    angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngMessages', 'ngFileUpload']);
 
 })();

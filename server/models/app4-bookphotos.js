@@ -25,14 +25,13 @@ var
 
   path = require('path'),
   imageLib = require('jimp'),
-  fs = Promise.promisifyAll(require("fs"));
-
+  fs = Promise.promisifyAll(require('fs'));
 
 mongoose.Promise = Promise;
 
 fs.existsAsync = Promise.promisify
 (function exists2(path, exists2callback) {
-  fs.exists(path, function callbackWrapper(exists) { exists2callback(null, exists); });
+    fs.exists(path, function callbackWrapper(exists) { exists2callback(null, exists); });
 });
 
 ////////////////////////////////////////////////////////////////
@@ -40,7 +39,7 @@ fs.existsAsync = Promise.promisify
 ////////////////////////////////////////////////////////////////
 
 var BookPhotoSchema = new Schema({
-  img: { data: Buffer, contentType: String },
+    img: {data: Buffer, contentType: String},
 });
 
 ////////////////////////////////////////////////////////////////
@@ -50,112 +49,107 @@ var BookPhotoSchema = new Schema({
 // getBookPhoto
 BookPhotoSchema.statics.getBookPhoto = function(id) {
 
-  var fileName = path.join(__dirname, '../../public' + '/img/app4tmp/' + id + '.jpg');
-  var data;
+    var fileName = path.join(__dirname, '../../public' + '/img/app4tmp/' + id + '.jpg');
+    var data;
 
-  return BookPhotoModel().findOne({_id:id}).exec()
+    return BookPhotoModel().findOne({_id:id}).exec()
 
-  // Find photo in DB
-  .then( function(photo) {
+    // Find photo in DB
+    .then(function(photo) {
 
-    if (!photo) throw new Error('Photo '+id+' not found.');
+        if (!photo) { throw new Error('Photo ' + id + ' not found.'); }
 
-    data = photo.img.data;
+        data = photo.img.data;
 
-    return fs.existsAsync(fileName);
+        return fs.existsAsync(fileName);
 
-  })
+    })
 
-  // If not exists on disk, save to /public/img/app4tmp/
-  .then( function(exists) {
+    // If not exists on disk, save to /public/img/app4tmp/
+    .then(function(exists) {
 
-    if (exists) return;
+        if (exists) { return; }
 
-    return fs.writeFileAsync(fileName, data);
+        return fs.writeFileAsync(fileName, data);
 
-  })
+    })
 
-  // Disable, but log errors
-  .catch( function(err) {
+    // Disable, but log errors
+    .catch(function(err) {
 
-    myErrorLog(null, err);
+        myErrorLog(null, err);
 
-    return;
+        return;
 
-  });
-
+    });
 
 };
 
 // addBookPhoto
 BookPhotoSchema.statics.addBookPhoto = function(file, photoId) {
 
-  var newPhotoId = null;
+    var newPhotoId = null;
 
-  if (!file) return Promise.resolve(photoId);
+    if (!file) { return Promise.resolve(photoId); }
 
+    var nameTmp1 = file.path + file.originalname;
+    var nameTmp2 = file.path + '.jpg';
 
+    // Rename to have original file extension
+    return fs.renameAsync(file.path, nameTmp1)
 
-  var nameTmp1 = file.path + file.originalname;
-  var nameTmp2 = file.path + '.jpg';
+    // Read
+    .then(function() {
+        return imageLib.read(nameTmp1);
+    })
 
-  // Rename to have original file extension
-  return fs.renameAsync(file.path, nameTmp1)
+    // Convert, save to jpg
+    .then(function(image) {
+        image
+          .scaleToFit(100, 100)
+          .quality(70)
+          .write(nameTmp2);
+    })
 
-  // Read
-  .then( function() {
-    return imageLib.read(nameTmp1);
-  })
+    // Remove nameTmp1
+    .then(function() {
+        return fs.unlinkAsync(nameTmp1);
+    })
 
-  // Convert, save to jpg
-  .then( function(image) {
-    image
-      .scaleToFit(100, 100)
-      .quality(70)
-      .write(nameTmp2);
-  })
+    // save to DB, get DB id, remove tmp file, return id.
+    .then(function() {
+        return fs.readFileAsync(nameTmp2);
+    })
 
-  // Remove nameTmp1
-  .then( function() {
-    return fs.unlinkAsync(nameTmp1);
-  })
+    .then(function(data) {
+        var photo = new BookPhotoModel()();
+        photo.img.data = data;
+        photo.img.contentType = 'image/jpg';
+        return photo.save();
+    })
 
+    .then(function(photo) {
+        newPhotoId = photo._id;
+        return;
+    })
 
-  // save to DB, get DB id, remove tmp file, return id.
-  .then( function() {
-    return fs.readFileAsync(nameTmp2);
-  })
+    // Remove nameTmp2
+    .then(function() {
+        return fs.unlinkAsync(nameTmp2);
+    })
 
-  .then( function(data) {
-    var photo = new BookPhotoModel()();
-    photo.img.data = data;
-    photo.img.contentType = 'image/jpg';
-    return photo.save();
-  })
-
-  .then( function(photo) {
-    newPhotoId = photo._id;
-    return;
-  })
-
-  // Remove nameTmp2
-  .then( function() {
-    return fs.unlinkAsync(nameTmp2);
-  })
-
-  .then( function() {
-    return newPhotoId;
-  });
+    .then(function() {
+        return newPhotoId;
+    });
 
 };
-
 
 ////////////////////////////////////////////////////////////////
 //  exports
 ////////////////////////////////////////////////////////////////
 
 function BookPhotoModel() {
-  return mongoose.model('BookPhoto', BookPhotoSchema);
+    return mongoose.model('BookPhoto', BookPhotoSchema);
 }
 
 module.exports = mongoose.model('BookPhoto', BookPhotoSchema);
