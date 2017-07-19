@@ -28,7 +28,7 @@ block content
           h2 Create New Local User:
         .panel-body
           form(action='/auth/local/signup' method='POST')
-            input(type="hidden" name="_csrf" value=csrfToken)
+            input(type='hidden' name='_csrf' value=csrfToken)
             .form-group
               label.sr-only(for='loginUsername') User
               input#loginUsername.form-control(

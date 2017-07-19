@@ -56,23 +56,23 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  polls list
     //- //////////////////////////////////////////////////////////
-    #polls.well(ng-show="view=='polls' && polls.length" ng-cloak)
+    #polls.well(ng-show='view=="polls" && polls.length' ng-cloak)
       h3 Polls:
       div(ng-repeat='poll in polls' ng-cloak)
         a.btn.btn-primary.form-control(href='{{urlPrefix}}/app1/polls/{{poll._id}}')
           | {{poll.title}}
 
-    #noPolls.well(ng-show="view=='polls' && !polls.length" ng-cloak)
+    #noPolls.well(ng-show='view=="polls" && !polls.length' ng-cloak)
       label No polls.
 
 
     //- //////////////////////////////////////////////////////////
     //- //  creating new poll
     //- //////////////////////////////////////////////////////////
-    #newPollButtonDiv.well(ng-show="view=='polls' && logintype")
+    #newPollButtonDiv.well(ng-show='view=="polls" && logintype')
       button#createNewPollButton.btn.btn-primary(ng-click='newPollMode()') Create New Poll
 
-    #newPoll.well(ng-show="view=='newPoll'")
+    #newPoll.well(ng-show='view=="newPoll"')
       h3 Creating New Poll...
       div
         label New Poll Title: &nbsp;
@@ -81,7 +81,7 @@ block content
           ng-model='newPollTitle'
           my-escape='newPollCancel()'
           my-enter='newPollCreate()'
-          my-focus="view=='newPoll'"
+          my-focus='view=="newPoll"'
         )
         br
         br

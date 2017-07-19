@@ -60,7 +60,7 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  view poll
     //- //////////////////////////////////////////////////////////
-    #viewPoll.well(ng-show="view=='poll'" ng-cloak)
+    #viewPoll.well(ng-show='view=="poll"' ng-cloak)
       h3 {{poll.title}}
 
       .row
@@ -95,7 +95,7 @@ block content
                   aria-label='Facebook'
                 )
                   .fa.fa-2x.fa-facebook(aria-hidden='true')
-                | 
+                |
               if(shareit_twitter)
                 a.btn.btn-primary.btn-xs(
                   href=shareit_twitter
@@ -104,7 +104,7 @@ block content
                   aria-label='Twitter'
                 )
                   .fa.fa-2x.fa-twitter(aria-hidden='true')
-                | 
+                |
               if(shareit_odnoklassniki)
                 a.btn.btn-primary.btn-xs(
                   href=shareit_odnoklassniki
@@ -113,7 +113,7 @@ block content
                   aria-label='Odnoklassniki'
                 )
                   .fa.fa-2x.fa-odnoklassniki(aria-hidden='true')
-                | 
+                |
               if(shareit_vk)
                 a.btn.btn-primary.btn-xs(
                   href=shareit_vk
@@ -122,7 +122,7 @@ block content
                   aria-label='VKontakte'
                 )
                   .fa.fa-2x.fa-vk(aria-hidden='true')
-                | 
+                |
             br
 
 
@@ -148,7 +148,7 @@ block content
     //- //////////////////////////////////////////////////////////
     //- //  add new option
     //- //////////////////////////////////////////////////////////
-    #newOption.well(ng-show="view=='newOption'")
+    #newOption.well(ng-show='view=="newOption"')
       h3 Creating New Option...
       label New Option Title: &nbsp;
       input.form-control(
@@ -156,7 +156,7 @@ block content
         ng-model='newOptionTitle'
         my-escape='newOptionCancel()'
         my-enter='newOptionCreate()'
-        my-focus="view=='newOption'"
+        my-focus='view=="newOption"'
       )
       br
       br

@@ -58,18 +58,18 @@ block content
     if mobileApp
       include ./include/nav-mobile.pug
 
-    .well(ng-show="mode=='books'"): h3 Book Trading Club
+    .well(ng-show='mode=="books"'): h3 Book Trading Club
 
     //- //////////////////////////////////////////////////////////
     //- //  books list
     //- //////////////////////////////////////////////////////////
 
-    #modeAddBookButtonDiv.well(ng-show="mode=='books' && logintype")
+    #modeAddBookButtonDiv.well(ng-show='mode=="books" && logintype')
       button#modeAddBookButton.btn.btn-primary(type='button' ng-click='modeAddBook()') Add Book
 
-    #noBooks.well(ng-show="mode=='books' && !books.length" ng-cloak): label No books.
+    #noBooks.well(ng-show='mode=="books" && !books.length' ng-cloak): label No books.
 
-    #books.well(ng-show="mode=='books' && books.length" ng-cloak)
+    #books.well(ng-show='mode=="books" && books.length' ng-cloak)
       h3 Books:
       div(ng-repeat='book in books' ng-cloak)
         //- --------------------
@@ -97,15 +97,15 @@ block content
     //- //  add book form
     //- //////////////////////////////////////////////////////////
 
-    .well(ng-show="mode=='addBook'"): h3 Adding New Book
+    .well(ng-show='mode=="addBook"'): h3 Adding New Book
 
-    .well(ng-show="mode=='addBook'")
+    .well(ng-show='mode=="addBook"')
 
       form#newBookForm(name='myAddBookForm' novalidate)
 
         //- myAddBookForm.title
         .form-group.has-feedback(
-          ng-class="{'has-error': !myAddBookForm.title.$valid, 'has-success': myAddBookForm.title.$valid}"
+          ng-class='{"has-error": !myAddBookForm.title.$valid, "has-success": myAddBookForm.title.$valid}'
         )
           label.control-label(for='inputTitle') *Title: &nbsp;
           input#inputTitle.form-control(
@@ -114,7 +114,7 @@ block content
             name='title'
             ng-model='newBook.title'
             my-escape='modeAddBookCancel()'
-            my-focus="mode=='addBook'"
+            my-focus='mode=="addBook"'
             autocomplete='off'
             required
           )
@@ -129,7 +129,7 @@ block content
 
         //- myAddBookForm.price
         .form-group.has-feedback(
-          ng-class="{'has-error': !myAddBookForm.price.$valid, 'has-success': myAddBookForm.price.$valid}"
+          ng-class='{"has-error": !myAddBookForm.price.$valid, "has-success": myAddBookForm.price.$valid}'
         )
           label.control-label(for='inputPrice') *Price ($): &nbsp;
           input#inputPrice.form-control(
@@ -181,8 +181,8 @@ block content
             type='file'
             name='file'
             ngf-select
-            ngf-accept="'.jpg,.png'"
-            ngf-max-size="'100KB'"
+            ngf-accept='".jpg,.png"'
+            ngf-max-size='"100KB"'
             ngf-model-invalid='errorFile'
             ng-model='newBook.file'
           )

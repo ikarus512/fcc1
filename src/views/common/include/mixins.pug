@@ -15,7 +15,7 @@
 
 mixin myMessage(when, title)
   ng-message.myMessage(when=when)
-    p.alert.alert-danger(style='opacity:inherit;')
+    p.alert.alert-danger( style='opacity:inherit;' )
       span.glyphicon.glyphicon-exclamation-sign
       | &nbsp;
       if block
@@ -24,6 +24,6 @@ mixin myMessage(when, title)
         span= title
 
 mixin myMessagePopover(id, selector, when, text)
-  span.text-danger.bg-danger(id=id data-placement='top' data-toggle='popover' data-content=text)
+  span.text-danger.bg-danger(id=id, data-placement='top', data-toggle='popover', data-content=text)
     if block
       block

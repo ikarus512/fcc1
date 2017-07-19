@@ -20,7 +20,7 @@ html(lang='en')
   //- //  head
   //- //////////////////////////////////////////////////////////
   head
-    //- 
+    //-
       Customize this policy to fit your own app's needs. For more guidance, see:
         https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
       Some notes:
@@ -30,42 +30,42 @@ html(lang='en')
           * Enable inline JS: add 'unsafe-inline' to default-src
     meta(
       http-equiv='Content-Security-Policy'
-      content=""+
-        "default-src"+
-          " 'self'"+
-          " data:"+
-          " gap:"+
-          " https://ssl.gstatic.com"+
-          " 'unsafe-eval'"+
-          ";"+
-        "script-src "+
-          " 'self'"+
-          " https://maps.googleapis.com"+
-          ";"+
-        "connect-src "+
-          " https://ikarus512-fcc1.herokuapp.com"+
-          "   wss://ikarus512-fcc1.herokuapp.com"+
-          " https://localhost:5000"+
-          "   wss://localhost:5000"+
-          " 'self'"+
-          ";"+
-        "style-src"+
-          " 'self'"+
-          " 'unsafe-inline'"+
-          ";"+
-        "media-src"+
-          " *"+
-          ";"+
-        "img-src"+
-          " 'self'"+
-          " data:"+
-          " content:"+
-          " https://ikarus512-fcc1.herokuapp.com"+
-          " https://localhost:5000"+
-          " https://maps.gstatic.com"+
-          " https://*.tile.openstreetmap.org"+
-          ";"+
-        ""
+      content='' +
+        'default-src' +
+          ' "self"' +
+          ' data:' +
+          ' gap:' +
+          ' https://ssl.gstatic.com' +
+          ' "unsafe-eval"' +
+          ';' +
+        'script-src ' +
+          ' "self"' +
+          ' https://maps.googleapis.com' +
+          ';' +
+        'connect-src ' +
+          ' https://ikarus512-fcc1.herokuapp.com' +
+          '   wss://ikarus512-fcc1.herokuapp.com' +
+          ' https://localhost:5000' +
+          '   wss://localhost:5000' +
+          ' "self"' +
+          ';' +
+        'style-src' +
+          ' "self"' +
+          ' "unsafe-inline"' +
+          ';' +
+        'media-src' +
+          ' *' +
+          ';' +
+        'img-src' +
+          ' "self"' +
+          ' data:' +
+          ' content:' +
+          ' https://ikarus512-fcc1.herokuapp.com' +
+          ' https://localhost:5000' +
+          ' https://maps.gstatic.com' +
+          ' https://*.tile.openstreetmap.org' +
+          ';' +
+        ''
     )
     meta( name='format-detection' content='telephone=no')
     meta( name='msapplication-tap-highlight' content='no')

@@ -1,0 +1,44 @@
+/* file: .pug-lintrc.json */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/fcc1.git
+ *
+ * DESCRIPTION: PUG-LINT Default Config
+ * AUTHOR: ikarus512
+ * CREATED: 2017/06/01
+ *
+ * MODIFICATION HISTORY
+ *  2017/06/01, ikarus512. Initial version.
+ *
+ */
+
+// https://github.com/pugjs/pug-lint/blob/master/docs/rules.md
+
+{
+    "excludeFiles": [
+        "bower_components/**",
+        "coverage/**",
+        "mobile/**",
+        "node_modules/**",
+        "public/**"
+    ],
+
+    "disallowDuplicateAttributes": true,
+    "disallowHtmlText": true,
+    // "disallowMultipleLineBreaks": true,
+    "requireLowerCaseAttributes": true,
+    "requireLowerCaseTags": true,
+    // "requireSpecificAttributes": [
+    //     { "img": [ "alt" ] },
+    //     { "input": [ "aria-label" ] }
+    // ],
+    // "maximumLineLength": 100, // not implemented
+    "requireStrictEqualityOperators": true,
+    "validateAttributeQuoteMarks": "'",
+    // "validateAttributeSeparator": { // multiLineSeparator has problems
+    //     "separator": ", ",
+    //     "multiLineSeparator": ",\n "
+    // },
+    "validateLineBreaks": "LF"
+
+}

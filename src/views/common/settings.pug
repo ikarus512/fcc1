@@ -54,7 +54,12 @@ block content
     class='ng-app'
     ng-app=(webApp?'myapp':false)
     ng-controller='ctrSettings'
-    ng-init="init('"+logintype+"','"+uid+"')"
+    ng-init='' +
+        'init("' +
+        logintype +
+        '","' +
+        uid +
+        '")'
     ng-cloak
   )
     .col-sm-12

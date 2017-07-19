@@ -35,8 +35,8 @@ form#addBidForm(
 
   //- addBidForm.price
   .form-group.has-feedback(
-    ng-class="{'has-error': !addBidForm.price.$valid, "+
-      "'has-success': addBidForm.price.$valid}"
+    ng-class='{"has-error": !addBidForm.price.$valid, '+
+      '"has-success": addBidForm.price.$valid}'
   )
     label.control-label(for='inputPrice') *Bid price ($): &nbsp;
     input#inputPrice.form-control(

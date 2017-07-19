@@ -17,7 +17,7 @@ form#bookEditForm(name='myBookEditForm' novalidate)
 
   //- myBookEditForm.title
   .form-group.has-feedback(
-    ng-class="{'has-error': !myBookEditForm.title.$valid, 'has-success': myBookEditForm.title.$valid}"
+    ng-class='{"has-error": !myBookEditForm.title.$valid, "has-success": myBookEditForm.title.$valid}'
   )
     label.control-label(for='inputTitle') *Title: &nbsp;
     input#inputTitle.form-control(
@@ -36,7 +36,7 @@ form#bookEditForm(name='myBookEditForm' novalidate)
 
   //- myBookEditForm.price
   .form-group.has-feedback(
-    ng-class="{'has-error': !myBookEditForm.price.$valid, 'has-success': myBookEditForm.price.$valid}"
+    ng-class='{"has-error": !myBookEditForm.price.$valid, "has-success": myBookEditForm.price.$valid}'
   )
     label.control-label(for='inputPrice') *Price ($): &nbsp;
     input#inputPrice.form-control(
@@ -83,8 +83,8 @@ form#bookEditForm(name='myBookEditForm' novalidate)
       type='file'
       name='file'
       ngf-select
-      ngf-accept="'.jpg,.png'"
-      ngf-max-size="'100KB'"
+      ngf-accept='".jpg,.png"'
+      ngf-max-size='"100KB"'
       ngf-model-invalid='errorFile'
       ng-model='newBook.file'
     )
