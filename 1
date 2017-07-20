@@ -145,5 +145,13 @@ CI:
     http://dsernst.com/2015/09/02/node-mocha-travis-istanbul-coveralls-unit-tests-coverage-for-your-open-source-project/
     https://github.com/nickmerwin/node-coveralls
     https://coveralls.zendesk.com/hc/en-us/articles/201769715-Javascript-Node
+    Instructions:
+    1) sign up to coveralls.io and add your github project
+    2) npm i -D coveralls mocha-lcov-reporter
+    3) add script to package.json:   "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    4) add to .travis.yml, will tells Travis to update Coveralls automatically after a successful build:
+       after_success:
+         - npm run coveralls
+    5) commit
   https://www.npmjs.com/package/cross-env
     dependency ci, ...
