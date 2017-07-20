@@ -67,7 +67,7 @@ router.get('/polls/:id',
 
     // In case of error
     .catch(function(err) {
-        req.pol_title = '';
+        req.pollTitle = '';
         next();
     });
 
@@ -284,12 +284,12 @@ router.put('/api/polls/:id/options/:oid/vote',
     // Find poll option by option id, add vote for it
     .then(function(poll) {
 
-        var user_id =
+        var userId =
           req.isAuthenticated() ? req.user._id :
           req.unauthorizedUser ? req.unauthorizedUser._id :
           undefined;
 
-        if (!user_id) {
+        if (!userId) {
             throw new Error('Problem identifying user for voting.');
         }
 
@@ -299,7 +299,7 @@ router.put('/api/polls/:id/options/:oid/vote',
           poll.options.some(function(option) {
             return option.votes.some(function(vote) {
                 votedOption = option;
-                return user_id.equals(vote);
+                return userId.equals(vote);
             });
         })
         )
@@ -318,7 +318,7 @@ router.put('/api/polls/:id/options/:oid/vote',
         }
 
         // Vote
-        poll.options[idx].votes.push(user_id);
+        poll.options[idx].votes.push(userId);
         return poll.save();
     })
 

@@ -26,6 +26,7 @@ var
   gulp          = require('gulp'),
   gutil         = require('gulp-util'),
   headerfooter  = require('gulp-headerfooter'),
+  jscs          = require('gulp-jscs'),
   jshint        = require('gulp-jshint'),
   mkdirs        = require('mkdirs'),
   nodemon       = require('gulp-nodemon'),
@@ -212,6 +213,8 @@ gulp.task('devserver-public-html', function() { // jshint/minify/copy to public
 gulp.task('devserver-public-js', function() { // jshint/minify/copy to public
     return gulp.src(DEV_SERVER_PATHS.publicJs.src, {base: DEV_SERVER_PATHS.publicJs.base})
     .pipe(changed(DEV_SERVER_PATHS.publicJs.dest))
+    .pipe(jscs())
+    .pipe(jscs.reporter('inline'))
     .pipe(jshint())
     .pipe(jshint.reporter(require('jshint-stylish')))
     // .pipe(uglify())
@@ -223,6 +226,8 @@ gulp.task('devserver-public-js', function() { // jshint/minify/copy to public
 gulp.task('devserver-server-js', function() { // Only syntax check
     return gulp.src(DEV_SERVER_PATHS.serverJs.src)
     .pipe(changed(DEV_SERVER_PATHS.serverJs.src))
+    .pipe(jscs())
+    .pipe(jscs.reporter('inline'))
     .pipe(jshint())
     .pipe(jshint.reporter(require('jshint-stylish')))
     .on('error', gutil.log);
@@ -258,6 +263,7 @@ gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
 
     gulp.watch(DEV_SERVER_PATHS.publicHtml.src, ['devserver-public-html']);
     gulp.watch(DEV_SERVER_PATHS.publicJs.src, ['devserver-public-js']);
+    gulp.watch(DEV_SERVER_PATHS.serverJs.src, ['devserver-server-js']);
 
     return nodemon({
         script: 'server/index.js',            // The entry point
@@ -278,10 +284,24 @@ gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
             var tasks = [];
             if (!changedFiles) { return tasks; }
             changedFiles.forEach(function(file) {
+                console.log(
+                    '----------------------------------------' +
+                    '----------------------------------------'
+                );
                 console.log('changed file: ' + file);
-                // if (file.match(/^src\/views/)) if (!~tasks.indexOf('lint')) tasks.push('lint');
-                // if (path.extname(file) === '.js' && !~tasks.indexOf('lint')) tasks.push('lint');
+                // if (file.match(/^src\/views/))
+                //     if (!~tasks.indexOf('lint')) tasks.push('lint');
+                // if (path.extname(file) === '.js' && !~tasks.indexOf('lint'))
+                //     tasks.push('lint');
+                // if (path.extname(file) === '.js' && !~tasks.indexOf('devserver-server-js'))
+                //     tasks.push('devserver-server-js');
                 // if(path.extname(file)==='.css'&&!~tasks.indexOf('cssmin'))tasks.push('cssmin');
+                // if (file.match(RegExp(DEV_SERVER_PATHS.publicJs.regExp,''))) {
+                //     console.log('match with',DEV_SERVER_PATHS.publicJs.regExp)
+                //     if (!~tasks.indexOf('devserver-public-js')) {
+                //         tasks.push('devserver-public-js');
+                //     }
+                // }
             });
             return tasks;
         },

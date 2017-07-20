@@ -175,13 +175,13 @@
 
             } // function initMap(...)
 
-            function markerSelect(marker, cafe_id, scopeApply) {
+            function markerSelect(marker, cafeId, scopeApply) {
                 selectedMarkerDeselect();
                 selectedMarker = marker;
                 marker.setIcon(iconRed);
                 if (scopeApply) {
                     scope.$apply(function() {
-                        scope.mapSelectedCafe(cafe_id);
+                        scope.mapSelectedCafe(cafeId);
                     });
                 }
             } // function markerSelect(...)

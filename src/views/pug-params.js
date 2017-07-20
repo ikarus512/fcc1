@@ -15,8 +15,12 @@
 /*jshint node: true*/
 'use strict';
 
-var host = 'ikarus512-fcc1.herokuapp.com'; // production
-// var host = 'localhost:5000'; // developement
+var
+    // TODO:
+    //    hostLocal = 'localhost:5000', // developement/test
+    //    hostHeroku = 'localhost:5000', // production
+    //    host = APPENV.isHeroku ? hostHeroku : hostLocal,
+    host = 'ikarus512-fcc1.herokuapp.com'; // production
 
 module.exports = {
     web: {
@@ -26,6 +30,8 @@ module.exports = {
         urlPrefix: '',
         serverUrl: '',
         // webSocketHost: 'wss://' + window.document.location.host,
+
+        useGoogleMaps: false, // TODO: APPENV.isHeroku ? true : false,
     },
     mobile: {
         webApp: false,
@@ -34,5 +40,7 @@ module.exports = {
         urlPrefix: '#!',
         serverUrl: 'https://' + host,
         // webSocketHost: 'wss://' + host,
+
+        useGoogleMaps: false,
     },
 };

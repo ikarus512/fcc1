@@ -33,49 +33,51 @@ function shareit(opt) {
             //https://pinterest.com/pin/create/button/?url=mysource&media=myimage&description
             //    =mydescription
 
-            shareit_facebook: '' +
-              'https://www.facebook.com/sharer/sharer.php' +
-              '?u=' + encodeURIComponent(opt.url) +
+            shareit: {
+                facebook: '' +
+                  'https://www.facebook.com/sharer/sharer.php' +
+                  '?u=' + encodeURIComponent(opt.url) +
 
-              // 'https://www.facebook.com/sharer.php' +
-              // '?s=100' +
-              // '&p[title]='     + encodeURIComponent(opt.title) +
-              // '&p[summary]='   + encodeURIComponent(opt.text) +
-              // '&p[url]='       + encodeURIComponent(opt.url) +
-              // '&p[images][0]=' + encodeURIComponent(opt.img) +
-              '',
+                  // 'https://www.facebook.com/sharer.php' +
+                  // '?s=100' +
+                  // '&p[title]='     + encodeURIComponent(opt.title) +
+                  // '&p[summary]='   + encodeURIComponent(opt.text) +
+                  // '&p[url]='       + encodeURIComponent(opt.url) +
+                  // '&p[images][0]=' + encodeURIComponent(opt.img) +
+                  '',
 
-            shareit_twitter: '' +
-              // 'https://twitter.com/intent/tweet' +
-              //     doc at https://dev.twitter.com/web/tweet-button
-              // '?text=' + encodeURIComponent(opt.text) +
-              // '&url=' + encodeURIComponent(opt.url) +
+                twitter: '' +
+                  // 'https://twitter.com/intent/tweet' +
+                  //     doc at https://dev.twitter.com/web/tweet-button
+                  // '?text=' + encodeURIComponent(opt.text) +
+                  // '&url=' + encodeURIComponent(opt.url) +
 
-              'http://twitter.com/share' +
-              '?text='     + encodeURIComponent(opt.title) +
-              '&url='      + encodeURIComponent(opt.url) +
-              '&counturl=' + encodeURIComponent(opt.url) +
-              '',
+                  'http://twitter.com/share' +
+                  '?text='     + encodeURIComponent(opt.title) +
+                  '&url='      + encodeURIComponent(opt.url) +
+                  '&counturl=' + encodeURIComponent(opt.url) +
+                  '',
 
-            // shareit_odnoklassniki: '' +
-            //   'http://www.odnoklassniki.ru/dk' +
-            //   '?st.cmd=addShare&st.s=1' +
-            //   '&st.comments=' + encodeURIComponent(opt.text) +
-            //   '&st._surl='    + encodeURIComponent(opt.url) +
-            //   '',
+                // odnoklassniki: '' +
+                //   'http://www.odnoklassniki.ru/dk' +
+                //   '?st.cmd=addShare&st.s=1' +
+                //   '&st.comments=' + encodeURIComponent(opt.text) +
+                //   '&st._surl='    + encodeURIComponent(opt.url) +
+                //   '',
 
-            // shareit_vk: '' +
-            //   // 'https://vk.com/share.php' + // doc at https://vk.com/dev/share_details
-            //   // '?title=' + encodeURIComponent(opt.text) +
-            //   // '&url='   + encodeURIComponent(opt.url) +
+                // vk: '' +
+                //   // 'https://vk.com/share.php' + // doc at https://vk.com/dev/share_details
+                //   // '?title=' + encodeURIComponent(opt.text) +
+                //   // '&url='   + encodeURIComponent(opt.url) +
 
-            //   'http://vkontakte.ru/share.php' +
-            //   '?url='         + encodeURIComponent(opt.url) +
-            //   '&title='       + encodeURIComponent(opt.title) +
-            //   '&description=' + encodeURIComponent(opt.text) +
-            //   '&image='       + encodeURIComponent(opt.img) +
-            //   '&noparse=true' +
-            //   '',
+                //   'http://vkontakte.ru/share.php' +
+                //   '?url='         + encodeURIComponent(opt.url) +
+                //   '&title='       + encodeURIComponent(opt.title) +
+                //   '&description=' + encodeURIComponent(opt.text) +
+                //   '&image='       + encodeURIComponent(opt.img) +
+                //   '&noparse=true' +
+                //   '',
+            },
 
         };
     }

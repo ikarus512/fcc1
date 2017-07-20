@@ -26,7 +26,8 @@ block scriptBeforeBody
     script(src='/lib/leaflet/leaflet.js')
     script(src='/js/common/app2/app.js')
     script(src='/js/common/app2/controller-main.js')
-    script(src='/js/common/app2/directive-map-google.js')
+    if useGoogleMaps
+        script(src='/js/common/app2/directive-map-google.js')
     script(src='/js/common/app2/directive-map-leaflet.js')
     script(src='/js/common/app2/factory-cafe-storage.js')
     script(src='/js/common/components/ajax-loading-spinner.js')
@@ -38,18 +39,18 @@ block scriptBeforeBody
       .value('backendParams', {
         logintype: '#{logintype}',
         username:  '#{username}',
-        lat:            '#{app2state_lat}',
-        lng:            '#{app2state_lng}',
-        zoom:           '#{app2state_zoom}',
-        radius:         '#{app2state_radius}',
-        selectedCafeId: '#{app2state_selectedCafeId}',
+        lat:            '#{app2state.lat}',
+        lng:            '#{app2state.lng}',
+        zoom:           '#{app2state.zoom}',
+        radius:         '#{app2state.radius}',
+        selectedCafeId: '#{app2state.selectedCafeId}',
       });
 
 block scriptAfterBody
-  if webApp
+  if webApp && useGoogleMaps
     script(
       src='https://maps.googleapis.com/maps/api/js?key='+
-        process.env.APP_GOOGLE_MAPS_API_KEY+
+        APP_GOOGLE_MAPS_API_KEY+
         '&libraries=places,geometry'
     )
 
@@ -73,7 +74,7 @@ block content
       //- //////////////////////////////////////////////////////////
       .col-sm-5
         .well
-          if webApp
+          if webApp && useGoogleMaps
             my-google-map(
               map-cafes='cafes'
               map-selected-cafe-id='selectedCafeId'

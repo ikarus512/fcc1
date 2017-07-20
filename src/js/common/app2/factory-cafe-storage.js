@@ -19,7 +19,7 @@
                       '&lng='     + encodeURIComponent(location.lng) +
                       '&zoom='    + encodeURIComponent(zoom) +
                       '&radius='  + encodeURIComponent(radius) +
-                      '&selected_cafe_id=' + encodeURIComponent(selectedCafeId) +
+                      '&selectedCafeId=' + encodeURIComponent(selectedCafeId) +
                       ''
                 });
             },
@@ -32,7 +32,7 @@
                       '&lng='     + encodeURIComponent(location ? location.lng : undefined) +
                       '&zoom='    + encodeURIComponent(zoom) +
                       '&radius='  + encodeURIComponent(radius) +
-                      '&selected_cafe_id=' + encodeURIComponent(selectedCafeId) +
+                      '&selectedCafeId=' + encodeURIComponent(selectedCafeId) +
                       ''
                 });
             },

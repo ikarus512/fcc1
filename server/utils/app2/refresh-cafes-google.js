@@ -22,7 +22,11 @@ var
   APPCONST = require('./../../config/constants.js'),
   myErrorLog = require('../../utils/my-error-log.js'),
   MAPS_SEARCH_LIMIT = require('./../../config/maps-search-limit.js'),
-  GOOGLE_DELAY_BETWEEN_REQUESTS = 2000;
+  GOOGLE_DELAY_BETWEEN_REQUESTS = 2000,
+
+  NEXT_PAGE_TOKEN = 'next_page_token',
+  PHOTO_REFERENCE = 'photo_reference',
+  PLACE_ID = 'place_id';
 
 function googleRequest(lat, lng, radius, dataIn) {
 
@@ -50,7 +54,7 @@ function googleRequest(lat, lng, radius, dataIn) {
               '&radius=' + radius +
               '&rankby=distance' +
               '&types=cafe|bar|restaurant' +
-              (dataIn.next_page_token ? ('&pagetoken=' + dataIn.next_page_token) : '') +
+              (dataIn[NEXT_PAGE_TOKEN] ? ('&pagetoken=' + dataIn[NEXT_PAGE_TOKEN]) : '') +
               '';
 
             request.get(
@@ -93,7 +97,7 @@ function googleRequest(lat, lng, radius, dataIn) {
 
                     if (dataObj.results.length >= MAPS_SEARCH_LIMIT) {
 
-                        delete dataObj.next_page_token; // Stop request loop
+                        delete dataObj[NEXT_PAGE_TOKEN]; // Stop request loop
 
                         dataObj.results = dataObj.results.filter(function(el,idx) {
                             return (idx < MAPS_SEARCH_LIMIT);
@@ -141,7 +145,7 @@ function googleRequestLoop(lat, lng, radius, dataIn) {
     }
 
     // Here if further requests
-    if (dataIn.next_page_token) { // Continue requesting Google?
+    if (dataIn[NEXT_PAGE_TOKEN]) { // Continue requesting Google?
         return googleRequest(lat, lng, radius, dataIn)
         .then(function(data) { // Make request loop
             return googleRequestLoop(lat, lng, radius, data);
@@ -172,8 +176,8 @@ function cafeFilterAndSave(cafes) {
         try { newCafe.photo = cafe.icon; } catch (err) {}
         try { newCafe.google.icon = cafe.icon; } catch (err) {}
         try { newCafe.google.id = cafe.id; } catch (err) {}
-        try { newCafe.google.photoRef = cafe.photos[0]['photo_reference']; } catch (err) {}
-        try { newCafe.google.placeId = cafe['place_id']; } catch (err) {}
+        try { newCafe.google.photoRef = cafe.photos[0][PHOTO_REFERENCE]; } catch (err) {}
+        try { newCafe.google.placeId = cafe[PLACE_ID]; } catch (err) {}
 
         return newCafe;
 

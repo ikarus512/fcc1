@@ -47,7 +47,7 @@ function getCafePhoto(googlePhotoRef) {
     // })
 
     // .then( function(data) {
-    //   //data.next_page_token
+    //   //data['next_page_token']
     //   return cafeFilter(data);
     // });
 

@@ -15,15 +15,17 @@
 /*jshint node: true*/
 'use strict';
 
-var express = require('express'),
-  router = express.Router(),
-  path = require('path'),
-  greet = require(path.join(__dirname, '../utils/greet.js')),
-  Cafe = require('./../models/app2-cafes.js'),
-  PublicError = require('../utils/public-error.js'),
-  getCafes = require('../utils/app2/get-cafes.js'),
-  myErrorLog = require('../utils/my-error-log.js'),
-  myEnableCORS = require('../middleware/my-enable-cors.js');
+var
+    APPCONST = require('./../config/constants.js'),
+    express = require('express'),
+    router = express.Router(),
+    path = require('path'),
+    greet = require(path.join(__dirname, '../utils/greet.js')),
+    Cafe = require('./../models/app2-cafes.js'),
+    PublicError = require('../utils/public-error.js'),
+    getCafes = require('../utils/app2/get-cafes.js'),
+    myErrorLog = require('../utils/my-error-log.js'),
+    myEnableCORS = require('../middleware/my-enable-cors.js');
 
 // GET /app2 - redirected to /app2/cafes
 router.get('/', function(req, res) {
@@ -37,14 +39,17 @@ router.get('/cafes', function(req, res) {
     var app2state = {};
 
     if (req.session.app2state) {
-        app2state.app2state_lat = req.session.app2state.lat;
-        app2state.app2state_lng = req.session.app2state.lng;
-        app2state.app2state_zoom = req.session.app2state.zoom;
-        app2state.app2state_radius = req.session.app2state.radius;
-        app2state.app2state_selectedCafeId = req.session.app2state.selectedCafeId;
+        app2state.lat = req.session.app2state.lat;
+        app2state.lng = req.session.app2state.lng;
+        app2state.zoom = req.session.app2state.zoom;
+        app2state.radius = req.session.app2state.radius;
+        app2state.selectedCafeId = req.session.app2state.selectedCafeId;
     }
 
-    res.render('app2_nightlife', greet(req, app2state));
+    res.render('app2_nightlife', greet(req, {
+        app2state: app2state,
+        APP_GOOGLE_MAPS_API_KEY: APPCONST.env.APP_GOOGLE_MAPS_API_KEY,
+    }));
 
 });
 
@@ -70,7 +75,7 @@ router.get('/api/cafes', function(req, res, next) {
     req.session.app2state.lng = lng;
     req.session.app2state.zoom = zoom;
     req.session.app2state.radius = radius;
-    req.session.app2state.selectedCafeId = req.query.selected_cafe_id;
+    req.session.app2state.selectedCafeId = req.query.selectedCafeId;
 
     var userId; if (req.user) { userId = req.user.id; }
 
@@ -97,8 +102,8 @@ router.put('/api/cafes', function(req, res, next) {
     if (isFinite(Number(req.query.radius))) {
         req.session.app2state.radius = Number(req.query.radius);
     }
-    if (req.query.selected_cafe_id) {
-        req.session.app2state.selectedCafeId = req.query.selected_cafe_id;
+    if (req.query.selectedCafeId) {
+        req.session.app2state.selectedCafeId = req.query.selectedCafeId;
     }
 
     res.status(200).json();

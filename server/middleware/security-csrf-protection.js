@@ -46,10 +46,9 @@ myCsrf.errHandler = function csrfErrorHandler(err, req, res, next) {
     if (err && err.code === 'EBADCSRFTOKEN') {
         // handle CSRF token errors here
 
-        // console.log('---File: '+new Error().stack.split('\n')[1]);
-        // console.log('req.session=',req.session)
-        // console.log('req.headers=',req.headers)
-        // console.log('res.headers=',res.headers)
+        // c onsole.log('---File: '+new Error().stack.split('\n')[1]);
+        // c onsole.log('req.session=',req.session)
+        // c onsole.log('res.headers=',res.headers)
         myErrorLog(req, err);
         // res.status(403)
         // res.send('form tampered with')

@@ -31,6 +31,7 @@ APPCONST = {
 
     APP3_STOCK_PORTION_LENGTH: 5,
 
+    // TODO: move it to APPENV.APP_URL etc
     env: {
         APP_URL: process.env.APP_URL || 'https://127.0.0.1:5000',
         APP_MONGODB_URI: process.env.APP_MONGODB_URI || 'mongodb://localhost:27017/dbname',
@@ -47,6 +48,15 @@ APPCONST = {
         APP_GITHUB_KEY: process.env.APP_GITHUB_KEY || 'aaaaaaaaaaaaaaaaaaaa',
         APP_GITHUB_SECRET: process.env.APP_GITHUB_SECRET ||
             '1111111111111111111111111111111111111111',
+
+        APP_GOOGLE_MAPS_API_KEY: process.env.APP_GOOGLE_MAPS_API_KEY ||
+            'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+
+        APP_GOOGLE_PLACES_API_KEY: process.env.APP_GOOGLE_PLACES_API_KEY ||
+            'AAAAAAAAAAAAAAAA-AAAAAAAAAAAAAAAAAAAA-w',
+        APP_GOOGLE_PLACES_API_REFERRER: process.env.APP_GOOGLE_PLACES_API_REFERRER ||
+            '1111111111111111111111',
+
     },
 };
 
