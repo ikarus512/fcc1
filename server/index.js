@@ -241,20 +241,33 @@ if (!isHeroku()) {
     };
 
     shutdown = function(done) {
+        // // The following hangs on travis-ci e2e protractor:
         // server.close(function() {
-        //     // console.log('Stopped https.');
+        //     console.log('Stopped https.');
         //     serverHttp.close(function() {
-        //         // console.log('Stopped http.');
+        //         console.log('Stopped http.');
         //         if (done) { return done(); }
         //     });
         // });
-        server.close(function() {
-            console.log('Stopped https.');
-        });
+
+        // // Ok on travis-ci:
+        // server.close(function() {
+        //     console.log('Stopped https.');
+        // });
+        // serverHttp.close(function() {
+        //     console.log('Stopped http.');
+        // });
+        // if (done) { return done(); }
+
+        // Try:
         serverHttp.close(function() {
-            console.log('Stopped http.');
+            console.log('Stopped https.');
+            server.close(function() {
+                console.log('Stopped http.');
+                if (done) { return done(); }
+            });
         });
-        if (done) { return done(); }
+
     };
 
 } else {
