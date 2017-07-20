@@ -191,6 +191,7 @@ if (!isHeroku()) {
         var promises = [];
 
         promises.push(new Promise(function(resolve, reject) {
+            console.log('Trying to start https on port ' + app.get('port'));
             server.listen(app.get('port'), function (err) {
                 console.log('NODE_ENV = ' + APPCONST.env.NODE_ENV);
                 if (err) { throw err; }
@@ -200,6 +201,7 @@ if (!isHeroku()) {
         }));
 
         promises.push(new Promise(function(resolve, reject) {
+            console.log('Trying to start http on port ' + APPCONST.env.PORT_HTTP);
             serverHttp.listen(APPCONST.env.PORT_HTTP, function (err) {
                 if (err) { throw err; }
                 console.log('Started http.');
