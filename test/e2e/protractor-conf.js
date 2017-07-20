@@ -36,7 +36,7 @@ exports.config = {
         reporter: 'dot',
         // defaultTimeoutInterval: 10000,
         // enableTimeouts: false,
-        timeout: 20000,//10000,
+        timeout: 40000,//10000,
         // slow: 5000
     },
     // framework: 'jasmine',
