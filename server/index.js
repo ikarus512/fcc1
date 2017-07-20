@@ -202,6 +202,9 @@ if (!isHeroku()) {
 
         promises.push(new Promise(function(resolve, reject) {
             console.log('Trying to start http on port ' + APPCONST.env.PORT_HTTP);
+            if (APPCONST.env.PORT_HTTP === 80) {
+                console.log('Port 80 not accessible on travis-ci.org Linux wihout sudo.');
+            }
             serverHttp.listen(APPCONST.env.PORT_HTTP, function (err) {
                 if (err) { throw err; }
                 console.log('Started http.');

@@ -42,6 +42,10 @@ describe('app1_polls-auth: app1 auth user', function() {
         browser.driver.get(appUrl + '/app1');
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/app1/polls');
 
+        // Wait for new page load after last .click()
+        browser.driver.sleep(100);
+        browser.waitForAngular();
+
         // Save initially visible polls
         var initialPolls = element.all(by.repeater('poll in polls'));
 

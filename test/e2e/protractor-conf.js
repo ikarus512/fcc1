@@ -66,3 +66,9 @@ exports.config = {
     //   jvmArgs : ['-Dwebdriver.ie.driver=node_modules/protractor/node_modules/webdriver-manager/selenium/IEDriverServer.exe']
     // },
 };
+
+// // Start server for testing on port 9201.
+// var server = require('child_process').spawn('node', ['server.js', '--port=9201']);
+// process.on('exit', function() {
+//     server.kill('SIGTERM');
+// });
