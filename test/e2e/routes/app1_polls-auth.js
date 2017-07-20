@@ -20,11 +20,11 @@
 require('./../test-utils.js');
 
 var
-  chai = require('chai').use(require('chai-as-promised')),
-  expect = chai.expect,
-  appUrl = require('./../../../server/config/app-url.js');
+    chai = require('chai').use(require('chai-as-promised')),
+    expect = chai.expect,
+    appUrl = require('./../../../server/config/app-url.js');
 
-describe('app1 auth user', function() {
+describe('app1_polls-auth: app1 auth user', function() {
 
     beforeEach(function() {
         // Log In
@@ -61,6 +61,10 @@ describe('app1 auth user', function() {
         createNewPollButton.click();
         element(by.model('newPollTitle')).sendKeys('Poll 3');
         element(by.id('newPollCreate')).click();
+
+        // Wait for new page load after last .click()
+        browser.driver.sleep(100);
+        browser.waitForAngular();
 
         var polls = element.all(by.repeater('poll in polls'));
         expect(polls.count()).to.eventually.be.above(2);

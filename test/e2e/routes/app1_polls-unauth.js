@@ -20,11 +20,11 @@
 require('./../test-utils.js');
 
 var
-  chai = require('chai').use(require('chai-as-promised')),
-  expect = chai.expect,
-  appUrl = require('./../../../server/config/app-url.js');
+    chai = require('chai').use(require('chai-as-promised')),
+    expect = chai.expect,
+    appUrl = require('./../../../server/config/app-url.js');
 
-describe('app1 unauth user', function() {
+describe('app1_polls-auth: app1 unauth user', function() {
 
     var initialPolls;
 
