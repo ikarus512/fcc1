@@ -250,23 +250,14 @@ if (!isHeroku()) {
         //     });
         // });
 
-        // // Ok on travis-ci:
-        // server.close(function() {
-        //     console.log('Stopped https.');
-        // });
-        // serverHttp.close(function() {
-        //     console.log('Stopped http.');
-        // });
-        // if (done) { return done(); }
-
-        // Try:
-        serverHttp.close(function() {
+        // Ok on travis-ci:
+        server.close(function() {
             console.log('Stopped https.');
-            server.close(function() {
-                console.log('Stopped http.');
-                if (done) { return done(); }
-            });
         });
+        serverHttp.close(function() {
+            console.log('Stopped http.');
+        });
+        if (done) { return done(); }
 
     };
 
