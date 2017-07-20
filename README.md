@@ -4,11 +4,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1)
 [![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1)
 
-[![MIT License][license-badge]][LICENSE]
-[![version][version-badge]][package]
-[![node-version][node-version-badge]][node]
-[![downloads][downloads-badge]][npm-stat]
-
 FreeCodeCamp.com developement tasks. Running application available at https://ikarus512-fcc1.herokuapp.com
 
 
