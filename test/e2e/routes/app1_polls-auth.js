@@ -38,6 +38,8 @@ describe('app1_polls-auth: app1 auth user', function() {
     });
 
     it('should view polls', function() {
+        browser.ignoreSynchronization = false;
+
         // Go to app1 page
         browser.driver.get(appUrl + '/app1');
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/app1/polls');
@@ -55,6 +57,8 @@ describe('app1_polls-auth: app1 auth user', function() {
     });
 
     it('should add polls', function() {
+        browser.ignoreSynchronization = false;
+
         // Go to app1 page
         browser.driver.get(appUrl + '/app1');
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/app1/polls');
