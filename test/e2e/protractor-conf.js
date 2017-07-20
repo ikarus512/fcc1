@@ -21,6 +21,7 @@ exports.config = {
     //localSeleniumStandaloneOpts: {args: '--standalone'},
     specs: ['routes/**/*.js'],
 
+    baseUrl: 'https://localhost:5000/',
     seleniumServerJar: './../../node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
     seleniumPort: 4444,
     seleniumArgs: '',
