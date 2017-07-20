@@ -321,3 +321,17 @@ gulp.task('default', [
   'devserver-build',
   'mobile-app1-prepare',
 ]);
+
+////////////////////////////////////////////////////////////////////////////////
+var ALL_JS = [
+    // 'public/**/*.js'
+    'server/**/*.js',
+    'src/**/*.js',
+    'test/**/*.js'
+];
+gulp.task('jscs', function() { // only syntax check
+    return gulp.src(ALL_JS)
+    .pipe(jscs())
+    .pipe(jscs.reporter('inline'))
+    .on('error', gutil.log);
+});
