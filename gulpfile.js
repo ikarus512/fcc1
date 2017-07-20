@@ -296,6 +296,7 @@ gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
                 // if (path.extname(file) === '.js' && !~tasks.indexOf('devserver-server-js'))
                 //     tasks.push('devserver-server-js');
                 // if(path.extname(file)==='.css'&&!~tasks.indexOf('cssmin'))tasks.push('cssmin');
+                //
                 // if (file.match(RegExp(DEV_SERVER_PATHS.publicJs.regExp,''))) {
                 //     console.log('match with',DEV_SERVER_PATHS.publicJs.regExp)
                 //     if (!~tasks.indexOf('devserver-public-js')) {
