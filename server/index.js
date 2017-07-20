@@ -241,13 +241,20 @@ if (!isHeroku()) {
     };
 
     shutdown = function(done) {
+        // server.close(function() {
+        //     // console.log('Stopped https.');
+        //     serverHttp.close(function() {
+        //         // console.log('Stopped http.');
+        //         if (done) { return done(); }
+        //     });
+        // });
         server.close(function() {
-            // console.log('Stopped https.');
-            serverHttp.close(function() {
-                // console.log('Stopped http.');
-                if (done) { return done(); }
-            });
+            console.log('Stopped https.');
         });
+        serverHttp.close(function() {
+            console.log('Stopped http.');
+        });
+        if (done) { return done(); }
     };
 
 } else {
