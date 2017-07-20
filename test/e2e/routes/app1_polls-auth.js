@@ -17,7 +17,7 @@
 /*global by, browser, element */
 'use strict';
 
-require('../utils.js');
+require('./../test-utils.js');
 
 var
   chai = require('chai').use(require('chai-as-promised')),

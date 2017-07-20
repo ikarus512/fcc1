@@ -208,6 +208,8 @@ if (!isHeroku()) {
         }));
 
         if (APPCONST.env.NODE_ENV.match(/^test/)) {
+            // Here if test env.
+            // Wait for DB initialization:
             promises.push(dbInit(function() { console.log('DB initialized.'); }));
         }
 
@@ -216,6 +218,8 @@ if (!isHeroku()) {
             console.log('Server ready.');
 
             if (!APPCONST.env.NODE_ENV.match(/^test/)) {
+                // Here if not test env (production).
+                // Do not wait for DB initialization.
                 dbInit(function() { console.log('DB initialized.'); });
             }
 
