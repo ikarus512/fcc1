@@ -1,7 +1,7 @@
 # fcc1
 
 [![Build Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1)
-[![Build Status on Windows](https://img.shields.io/appveyor/ci/gruntjs/grunt/master.svg&label=buildWindows)](https://ci.appveyor.com/project/ikarus512/fcc1)
+[![Build Status on Windows](https://img.shields.io/appveyor/ci/ikarus512/fcc1/master.svg&label=buildWindows)](https://ci.appveyor.com/project/ikarus512/fcc1)
 
 [![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1)
 [![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1)
