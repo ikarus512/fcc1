@@ -2,23 +2,15 @@
 
 [![Build Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1)
 [![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1)
-
-[![dependencyci](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1)
-[![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge.svg)](https://dependencyci.com/github/ikarus512/fcc1)
-[![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge?maxAge=60)](https://dependencyci.com/github/ikarus512/fcc1)
-
+[![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1)
+[![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
+[![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1)
 [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
-
 [![License](https://img.shields.io/npm/l/fcc1.svg?maxAge=2592000?style=plastic)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
 
 [![Npm Version](https://badge.fury.io/js/fcc1.svg)](https://badge.fury.io/js/fcc1)
-[![Build Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1)
-[![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
-[![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
-[![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1)
-[![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
 [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Npm Downloads](https://img.shields.io/npm/dm/fcc1.svg?maxAge=2592000)](https://www.npmjs.com/package/fcc1)
 [![License](https://img.shields.io/npm/l/fcc1.svg?maxAge=2592000?style=plastic)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
