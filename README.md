@@ -8,13 +8,15 @@
 [![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1)
 [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
-[![License](https://img.shields.io/npm/l/fcc1.svg?maxAge=2592000?style=plastic)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
-
-[![Npm Version](https://badge.fury.io/js/fcc1.svg)](https://badge.fury.io/js/fcc1)
+[![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512%2Ffcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
+[![Node Version Used](https://badge.fury.io/js/fcc1.svg)](https://badge.fury.io/js/fcc1)
+[![Npm Version Used](https://badge.fury.io/js/fcc1.svg)](https://badge.fury.io/js/fcc1)
 [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Npm Downloads](https://img.shields.io/npm/dm/fcc1.svg?maxAge=2592000)](https://www.npmjs.com/package/fcc1)
 [![License](https://img.shields.io/npm/l/fcc1.svg?maxAge=2592000?style=plastic)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+
+[![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?maxAge=2592000&colorB=00ff00)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
 
 
