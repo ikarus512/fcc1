@@ -16,7 +16,10 @@
 [![Npm Downloads](https://img.shields.io/npm/dm/fcc1.svg?maxAge=2592000)](https://www.npmjs.com/package/fcc1)
 [![License](https://img.shields.io/npm/l/fcc1.svg?maxAge=2592000?style=plastic)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
-[![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?maxAge=2592000&colorB=00ff00)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+
 
 
 
