@@ -2,20 +2,18 @@
 
 [![Build Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1)
 [![Build Status on Windows](https://ci.appveyor.com/api/projects/status/github/ikarus512/fcc1?branch=master&svg=true)](https://ci.appveyor.com/project/ikarus512/fcc1)
-
-[![Coverage Status](https://img.shields.io/coveralls/ikarus512/fcc1.svg)](https://coveralls.io/github/ikarus512/fcc1)
-[![Coverage Status](https://img.shields.io/coveralls/ikarus512/fcc1/master.svg)](https://coveralls.io/github/ikarus512/fcc1)
 [![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1)
 [![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1)
 [![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
+<!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status",
+src="https://saucelabs.com/browser-matrix/chaijs.svg")    -->
 [![Code Climate Coverage](https://codeclimate.com/coverage/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
 [![Code Climate Issues](https://codeclimate.com/issues/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
 [![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1)
 [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
 
-[![Android App File Size](https://img.shields.io/github/size/ikarus512/fcc1/blob/master/public/bin/ikarus512-fcc1apps.apk.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
-
+[![Android App File Size](https://img.shields.io/github/size/ikarus512/fcc1/public/bin/ikarus512-fcc1apps.apk.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
 <!-- https://img.shields.io/github/size/webcaetano/craft/build/craft.min.js.svg -->
 <!-- https://github.com/ikarus512/fcc1/blob/master/public/bin/ikarus512-fcc1apps.apk -->
 
@@ -24,12 +22,7 @@
 ![NPM Version](https://img.shields.io/badge/npm-%3E=4.0-brightgreen.svg)
 ![Node Version](https://img.shields.io/badge/node-%3E=6.0-brightgreen.svg)
 [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-[![Npm Downloads](https://img.shields.io/npm/dm/fcc1.svg?maxAge=2592000)](https://www.npmjs.com/package/fcc1)
 [![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?label=lic&maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
-
-<!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status",
-src="https://saucelabs.com/browser-matrix/chaijs.svg")    -->
-
 
 
 FreeCodeCamp.com developement tasks. Running application available at https://ikarus512-fcc1.herokuapp.com
