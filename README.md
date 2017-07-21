@@ -10,7 +10,7 @@
 [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
 
-[![License](https://img.shields.io/npm/l/fcc1.svg?maxAge=2592000?style=plastic)](https://github.com/ikarus512/fcc1/blob/master/LICENCE)
+[![License](https://img.shields.io/npm/l/fcc1.svg?maxAge=2592000?style=plastic)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
 FreeCodeCamp.com developement tasks. Running application available at https://ikarus512-fcc1.herokuapp.com
 
