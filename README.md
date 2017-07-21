@@ -5,9 +5,16 @@
 [![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1)
 [![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1)
 [![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
+[![Code Climate Coverage](https://codeclimate.com/coverage/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
+[![Code Climate Issues](https://codeclimate.com/issues/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
 [![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1)
 [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
+
+[![Android App File Size](https://img.shields.io/github/size/ikarus512/fcc1/blob/master/public/bin/ikarus512-fcc1apps.apk.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
+
+<!-- https://img.shields.io/github/size/webcaetano/craft/build/craft.min.js.svg -->
+<!-- https://github.com/ikarus512/fcc1/blob/master/public/bin/ikarus512-fcc1apps.apk -->
 
 [![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512%2Ffcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
 [![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
