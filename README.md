@@ -4,18 +4,12 @@
 [![Build Status on Windows](https://ci.appveyor.com/api/projects/status/github/ikarus512/fcc1?branch=master&svg=true)](https://ci.appveyor.com/project/ikarus512/fcc1)
 [![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1)
 [![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1)
-[![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
-<!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status",
-src="https://saucelabs.com/browser-matrix/chaijs.svg")    -->
-[![Code Climate Coverage](https://codeclimate.com/coverage/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
-[![Code Climate Issues](https://codeclimate.com/issues/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1)
+[![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1) <!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status", src="https://saucelabs.com/browser-matrix/chaijs.svg") -->
+[![Code Climate Coverage](https://img.shields.io/codeclimate/coverage/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1)
+[![Code Climate Issues](https://img.shields.io/codeclimate/issues/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1)
 [![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1)
 [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
-
-[![Android App File Size](https://img.shields.io/github/size/ikarus512/fcc1/public/bin/ikarus512-fcc1apps.apk.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
-<!-- https://img.shields.io/github/size/webcaetano/craft/build/craft.min.js.svg -->
-<!-- https://github.com/ikarus512/fcc1/blob/master/public/bin/ikarus512-fcc1apps.apk -->
 
 [![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512%2Ffcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
 [![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
@@ -38,6 +32,7 @@ Android application with same functionality available to download through the li
 Written on Apache Cordova platform. Sources are in ./mobile folder.
 Mobile application references same server REST API/Websocket API that uses web application.
 Uses Leaflet.js with online/offline map instead of Google Maps API.
+<!-- [![Android App File Size](https://img.shields.io/github/size/ikarus512/fcc1/blob/master/public/bin/ikarus512-fcc1apps.apk.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies) -->
 
 Using same JavaScript source and pug templates shared by both web and mobile application (see ./src folder).
 
