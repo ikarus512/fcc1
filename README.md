@@ -14,11 +14,15 @@
 [![Npm Version Used](https://badge.fury.io/js/fcc1.svg)](https://badge.fury.io/js/fcc1)
 [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Npm Downloads](https://img.shields.io/npm/dm/fcc1.svg?maxAge=2592000)](https://www.npmjs.com/package/fcc1)
-[![License](https://img.shields.io/npm/l/fcc1.svg?maxAge=2592000?style=plastic)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
-
 [![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+
+[![License](https://img.shields.io/badge/npm->=4.0-brightgreen.svg)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/node->=6.0-brightgreen.svg)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+
+![License](https://img.shields.io/badge/npm-%3E%3D4%2E0-brightgreen.svg)
+![License](https://img.shields.io/badge/node-%3E%3D6.0-brightgreen.svg)
 
 
 
