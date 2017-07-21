@@ -10,21 +10,15 @@
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
 
 [![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512%2Ffcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
-[![Node Version Used](https://badge.fury.io/js/fcc1.svg)](https://badge.fury.io/js/fcc1)
-[![Npm Version Used](https://badge.fury.io/js/fcc1.svg)](https://badge.fury.io/js/fcc1)
+[![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
+![NPM Version](https://img.shields.io/badge/npm-%3E=4.0-brightgreen.svg)
+![Node Version](https://img.shields.io/badge/node-%3E=6.0-brightgreen.svg)
 [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Npm Downloads](https://img.shields.io/npm/dm/fcc1.svg?maxAge=2592000)](https://www.npmjs.com/package/fcc1)
-[![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?label=lic&maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
-
-[![License](https://img.shields.io/badge/npm->=4.0-brightgreen.svg)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
-[![License](https://img.shields.io/badge/node->=6.0-brightgreen.svg)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
-
-![License](https://img.shields.io/badge/npm-%3E%3D4%2E0-brightgreen.svg)
-![License](https://img.shields.io/badge/node-%3E%3D6.0-brightgreen.svg)
-
-
+<!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status",
+src="https://saucelabs.com/browser-matrix/chaijs.svg")    -->
 
 
 
