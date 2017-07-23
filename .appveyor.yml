@@ -1,6 +1,7 @@
 # AppVeyor file
+
 # http://www.appveyor.com/docs/appveyor-yml
-### https://www.appveyor.com/docs/build-configuration/
+# https://www.appveyor.com/docs/build-configuration/
 
 #---------------------------------#
 #      general configuration      #
@@ -50,6 +51,7 @@ environment:
   matrix:
     - nodejs_version: "6"
 
+### disable cache to see installed packages warnings
 # # build cache to preserve files/folders between builds
 # cache:
 #   - node_modules                    # local npm modules
@@ -61,10 +63,9 @@ services:
 install:
   # ps: prefix means to run this command in PowerShell
   - ps: Install-Product node $env:nodejs_version
-  - npm config set progress=false # suppress npm progress bar
   - npm install -g npm
+  - npm config set progress=false # suppress npm progress bar
   - npm install --force # force download of packages even if a local copies exist on disk
-
 
 #---------------------------------#
 #       build configuration       #
