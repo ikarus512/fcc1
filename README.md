@@ -14,8 +14,8 @@
 
 [![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512%2Ffcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
 [![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
-![NPM Version](https://img.shields.io/badge/npm-%3E=4.0-brightgreen.svg)
 ![Node Version](https://img.shields.io/badge/node-%3E=6.0-brightgreen.svg)
+![NPM Version](https://img.shields.io/badge/npm-%3E=5.0-brightgreen.svg)
 [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?label=lic&maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
