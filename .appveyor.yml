@@ -3,14 +3,45 @@
 ### https://www.appveyor.com/docs/build-configuration/
 
 #---------------------------------#
-#       build configuration       #
+#      general configuration      #
 #---------------------------------#
 
-# build platform, i.e. x86, x64, Any CPU. This setting is optional.
-platform: x64
-
-# Build version format
+# AppVeyor build version format
 version: appveyor-build-{build}
+
+branches:
+  only:
+    - master
+
+# Maximum number of concurrent jobs for the project
+max_jobs: 1
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# # Build worker image (VM template)
+# image: Visual Studio 2015
+
+# # scripts that are called at very beginning, before repo cloning
+# init:
+#   # Fix line endings on Windows
+#   - git config --global core.autocrlf true
+#   - git config --global core.autocrlf input
+
+# # clone directory
+# clone_folder: c:\projects\myproject
+
+# # fetch repository as zip archive
+# shallow_clone: true                 # default is "false"
+
+# set clone depth
+clone_depth: 5                      # clone entire repository history if not defined
+
+# # setting up etc\hosts file
+# hosts:
+#   queue-server: 127.0.0.1
+#   db.server.com: 127.0.0.2
 
 # Test against this version of Node.js
 environment:
@@ -18,18 +49,15 @@ environment:
 
   matrix:
     - nodejs_version: "6"
-    # - nodejs_version: "stable"
-    # - nodejs_version: "5.4.1"
 
-build: off
+# build cache to preserve files/folders between builds
+cache:
+  - node_modules                    # local npm modules
 
 services:
   - mongodb
 
-branches:
-  only:
-    - master
-
+# scripts that run after cloning repository
 install:
   # ps: prefix means to run this command in PowerShell
   - ps: Install-Product node $env:nodejs_version
@@ -37,10 +65,36 @@ install:
   - npm config set progress=false
   - npm install --force
 
-# # scripts that are called at very beginning, before repo cloning
-# init:
-#   # Fix line endings on Windows
-#   - git config --global core.autocrlf true
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: x64
+
+# # build Configuration, i.e. Debug, Release, etc.
+# configuration: Release
+
+# to run your custom scripts instead of automatic MSBuild
+build_script:
+
+# to disable automatic builds
+build: off
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+# # to run tests again only selected assemblies and/or categories
+# test:
+#   assemblies:
+#     only:
+#       - asm1.dll
+#       - asm2.dll
+#   categories:
+#     only:
+#       - UI
+#       - E2E
 
 # to run your custom scripts instead of automatic tests
 test_script:
@@ -50,5 +104,68 @@ test_script:
   - ps: "npm --version # PowerShell" # Pass comment to PS for easier debugging
   - cmd: npm run test
 
-cache:
-#  - node_modules
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+# artifacts:
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+# # providers: Local, FTP, WebDeploy, AzureCS, AzureBlob, S3, NuGet, Environment
+# # provider names are case-sensitive!
+# deploy:
+#     # FTP deployment provider settings
+#     # Deploying to Azure Cloud Service
+#     # Deploy to GitHub Releases
+#   - provider: GitHub
+#     artifact: /.*\.nupkg/           # upload all NuGet packages to release assets
+#     draft: false
+#     prerelease: false
+#     on:
+#       branch: master                # release from master branch only
+#       appveyor_repo_tag: true       # deploy on tag push only
+
+#     # Deploying to a named environment
+#   - provider: Environment
+#     name: staging
+#     on:
+#       branch: staging
+#       env_var1: value1
+#       env_var2: value2
+
+# # to disable deployment
+# deploy: off
+
+#---------------------------------#
+#        global handlers          #
+#---------------------------------#
+
+# # on successful build
+# on_success:
+#   - do something
+
+# # on build failure
+# on_failure:
+#   - do something
+
+# # after build failure or success
+# on_finish:
+#   - do something
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+
+# notifications:
+
+#   # Email
+#   - provider: Email
+#     to:
+#       - user1@email.com
+#       - user2@email.com
+#     subject: 'Build {{status}}'                  # optional
+#     message: "{{message}}, {{commitId}}, ..."    # optional
+#     on_build_status_changed: true
