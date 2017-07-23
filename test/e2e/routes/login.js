@@ -48,7 +48,7 @@ describe('app1', function() {
     // });
 
     it('should pass when the console has usual log without errors', function() {
-        browser.executeScript(function() {console.log('hi!')});
+        browser.executeScript(function() {console.log('hi!');});
     });
 
     it('should accept admin login', function() {

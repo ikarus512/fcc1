@@ -51,7 +51,7 @@
     "0060a": "echo ===============================================================================",
     "0060b": "echo === TESTS =====================================================================",
     "0060c": "echo ===============================================================================",
-    "test": "npm run ver && npm run linters && npm run test-int && npm run test-e2e",
+    "test": "npm run linters && npm run test-int && npm run test-e2e && npm run ver",
     "ver": "npm run ver1 && npm run ver2 && npm run ver3",
     "ver1": "node --version && npm --version",
     "ver2": "npm outdated -g || echo ...ignoring fail of 'npm outdated -g'",
