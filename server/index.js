@@ -145,6 +145,14 @@ depStatic('/lib/leaflet/images/layers-2x.png',        'leaflet/dist/images/');
 depStatic('/lib/leaflet/images/marker-icon.png',      'leaflet/dist/images/');
 depStatic('/lib/leaflet/images/marker-icon-2x.png',   'leaflet/dist/images/');
 depStatic('/lib/leaflet/images/marker-shadow.png',    'leaflet/dist/images/');
+depStatic('/lib/jquery.min.js',                       'jquery/dist/');
+depStatic('/lib/font-awesome.min.css',                'font-awesome/css/');
+depStatic('/fonts/FontAwesome.otf',                   'font-awesome/fonts/');
+depStatic('/fonts/fontawesome-webfont.eot',           'font-awesome/fonts/');
+depStatic('/fonts/fontawesome-webfont.svg',           'font-awesome/fonts/');
+depStatic('/fonts/fontawesome-webfont.ttf',           'font-awesome/fonts/');
+depStatic('/fonts/fontawesome-webfont.woff',          'font-awesome/fonts/');
+depStatic('/fonts/fontawesome-webfont.woff2',         'font-awesome/fonts/');
 // Other static files
 app.use(express.static(path.join(__dirname, '../public')));
 // Less
