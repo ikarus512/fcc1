@@ -131,6 +131,17 @@ function depStatic(url, localFilePath) {
     });
 }
 // bootstrap
+depStatic('/lib/angular.min.js',                      'angular/');
+depStatic('/lib/angular.min.js.map',                  'angular/');
+depStatic('/lib/angular-chart.min.js',                'angular-chart.js/dist/');
+depStatic('/lib/angular-chart.min.js.map',            'angular-chart.js/dist/');
+depStatic('/lib/tc-angular-chartjs.min.js',           'tc-angular-chartjs/dist/');
+depStatic('/lib/angular-animate.min.js',              'angular-animate/');
+depStatic('/lib/angular-animate.min.js.map',          'angular-animate/');
+depStatic('/lib/angular-messages.min.js',             'angular-messages/');
+depStatic('/lib/angular-messages.min.js.map',         'angular-messages/');
+depStatic('/lib/angular-route.min.js',                'angular-route/');
+depStatic('/lib/angular-route.min.js.map',            'angular-route/');
 depStatic('/lib/bootstrap.min.css',                   'bootstrap/dist/css/');
 depStatic('/lib/bootstrap.min.js',                    'bootstrap/dist/js/');
 depStatic('/fonts/glyphicons-halflings-regular.eot',  'bootstrap/dist/fonts/');
