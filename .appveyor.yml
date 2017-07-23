@@ -50,9 +50,9 @@ environment:
   matrix:
     - nodejs_version: "6"
 
-# build cache to preserve files/folders between builds
-cache:
-  - node_modules                    # local npm modules
+# # build cache to preserve files/folders between builds
+# cache:
+#   - node_modules                    # local npm modules
 
 services:
   - mongodb
