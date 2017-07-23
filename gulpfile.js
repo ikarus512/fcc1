@@ -108,7 +108,15 @@ var MOBILE_PATHS = {
     },
 };
 
+// gulp.task('get-public-libs', function() {
+// bootstrap
+// leaflet
+//     return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
+//     .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
+// });
+
 gulp.task('mobile-app1-copy', function() {
+// gulp.task('mobile-app1-copy', ['get-public-libs'], function() {
     return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
     .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
 });
