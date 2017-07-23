@@ -100,6 +100,7 @@ build: off
 # to run your custom scripts instead of automatic tests
 test_script:
   # Output useful info for debugging.
+  - npm outdated -g && npm outdated
   - node --version && npm --version
   # We test multiple Windows shells because of prior stdout buffering issues
   - ps: "npm --version # PowerShell" # Pass comment to PS for easier debugging
