@@ -130,18 +130,16 @@ function depStatic(url, localFilePath) {
         res.sendFile(fullLocalFilePath);
     });
 }
-// bootstrap
+// angular
 depStatic('/lib/angular.min.js',                      'angular/');
 depStatic('/lib/angular.min.js.map',                  'angular/');
-depStatic('/lib/angular-chart.min.js',                'angular-chart.js/dist/');
-depStatic('/lib/angular-chart.min.js.map',            'angular-chart.js/dist/');
-depStatic('/lib/tc-angular-chartjs.min.js',           'tc-angular-chartjs/dist/');
 depStatic('/lib/angular-animate.min.js',              'angular-animate/');
 depStatic('/lib/angular-animate.min.js.map',          'angular-animate/');
 depStatic('/lib/angular-messages.min.js',             'angular-messages/');
 depStatic('/lib/angular-messages.min.js.map',         'angular-messages/');
 depStatic('/lib/angular-route.min.js',                'angular-route/');
 depStatic('/lib/angular-route.min.js.map',            'angular-route/');
+// bootstrap
 depStatic('/lib/bootstrap.min.css',                   'bootstrap/dist/css/');
 depStatic('/lib/bootstrap.min.js',                    'bootstrap/dist/js/');
 depStatic('/fonts/glyphicons-halflings-regular.eot',  'bootstrap/dist/fonts/');
@@ -149,14 +147,14 @@ depStatic('/fonts/glyphicons-halflings-regular.svg',  'bootstrap/dist/fonts/');
 depStatic('/fonts/glyphicons-halflings-regular.ttf',  'bootstrap/dist/fonts/');
 depStatic('/fonts/glyphicons-halflings-regular.woff', 'bootstrap/dist/fonts/');
 depStatic('/fonts/glyphicons-halflings-regular.woff2','bootstrap/dist/fonts/');
-depStatic('/lib/leaflet/leaflet.js',                  'leaflet/dist/');
-depStatic('/lib/leaflet/leaflet.css',                 'leaflet/dist/');
-depStatic('/lib/leaflet/images/layers.png',           'leaflet/dist/images/');
-depStatic('/lib/leaflet/images/layers-2x.png',        'leaflet/dist/images/');
-depStatic('/lib/leaflet/images/marker-icon.png',      'leaflet/dist/images/');
-depStatic('/lib/leaflet/images/marker-icon-2x.png',   'leaflet/dist/images/');
-depStatic('/lib/leaflet/images/marker-shadow.png',    'leaflet/dist/images/');
-depStatic('/lib/jquery.min.js',                       'jquery/dist/');
+// chart.js
+depStatic('/lib/Chart.bundle.min.js',                 'chart.js/dist/');
+depStatic('/lib/angular-chart.min.js',                'angular-chart.js/dist/');
+depStatic('/lib/angular-chart.min.js.map',            'angular-chart.js/dist/');
+depStatic('/lib/tc-angular-chartjs.min.js',           'tc-angular-chartjs/dist/');
+// d3
+depStatic('/lib/d3.min.js',                           'd3/build/');
+// font-awesome
 depStatic('/lib/font-awesome.min.css',                'font-awesome/css/');
 depStatic('/fonts/FontAwesome.otf',                   'font-awesome/fonts/');
 depStatic('/fonts/fontawesome-webfont.eot',           'font-awesome/fonts/');
@@ -164,6 +162,18 @@ depStatic('/fonts/fontawesome-webfont.svg',           'font-awesome/fonts/');
 depStatic('/fonts/fontawesome-webfont.ttf',           'font-awesome/fonts/');
 depStatic('/fonts/fontawesome-webfont.woff',          'font-awesome/fonts/');
 depStatic('/fonts/fontawesome-webfont.woff2',         'font-awesome/fonts/');
+// jquery
+depStatic('/lib/jquery.min.js',                       'jquery/dist/');
+// leaflet
+depStatic('/lib/leaflet/leaflet.js',                  'leaflet/dist/');
+depStatic('/lib/leaflet/leaflet.css',                 'leaflet/dist/');
+depStatic('/lib/leaflet/images/layers.png',           'leaflet/dist/images/');
+depStatic('/lib/leaflet/images/layers-2x.png',        'leaflet/dist/images/');
+depStatic('/lib/leaflet/images/marker-icon.png',      'leaflet/dist/images/');
+depStatic('/lib/leaflet/images/marker-icon-2x.png',   'leaflet/dist/images/');
+depStatic('/lib/leaflet/images/marker-shadow.png',    'leaflet/dist/images/');
+// ng-file-upload
+depStatic('/lib/ng-file-upload-all.min.js',           'ng-file-upload/dist/');
 // Other static files
 app.use(express.static(path.join(__dirname, '../public')));
 // Less
