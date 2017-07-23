@@ -11,8 +11,8 @@
 [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
 
-[![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512%2Ffcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
-[![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512%2Ffcc1)
+[![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1)
+[![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1)
 ![Node Version](https://img.shields.io/badge/node-%3E=6.0-brightgreen.svg)
 ![NPM Version](https://img.shields.io/badge/npm-%3E=5.0-brightgreen.svg)
 [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)

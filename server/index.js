@@ -132,12 +132,19 @@ function depStatic(url, localFilePath) {
 }
 // bootstrap
 depStatic('/lib/bootstrap.min.css',                   'bootstrap/dist/css/');
+depStatic('/lib/bootstrap.min.js',                    'bootstrap/dist/js/');
 depStatic('/fonts/glyphicons-halflings-regular.eot',  'bootstrap/dist/fonts/');
 depStatic('/fonts/glyphicons-halflings-regular.svg',  'bootstrap/dist/fonts/');
 depStatic('/fonts/glyphicons-halflings-regular.ttf',  'bootstrap/dist/fonts/');
 depStatic('/fonts/glyphicons-halflings-regular.woff', 'bootstrap/dist/fonts/');
 depStatic('/fonts/glyphicons-halflings-regular.woff2','bootstrap/dist/fonts/');
-depStatic('/lib/bootstrap.min.js',                    'bootstrap/dist/js/');
+depStatic('/lib/leaflet/leaflet.js',                  'leaflet/dist/');
+depStatic('/lib/leaflet/leaflet.css',                 'leaflet/dist/');
+depStatic('/lib/leaflet/images/layers.png',           'leaflet/dist/images/');
+depStatic('/lib/leaflet/images/layers-2x.png',        'leaflet/dist/images/');
+depStatic('/lib/leaflet/images/marker-icon.png',      'leaflet/dist/images/');
+depStatic('/lib/leaflet/images/marker-icon-2x.png',   'leaflet/dist/images/');
+depStatic('/lib/leaflet/images/marker-shadow.png',    'leaflet/dist/images/');
 // Other static files
 app.use(express.static(path.join(__dirname, '../public')));
 // Less
