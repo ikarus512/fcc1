@@ -96,6 +96,7 @@
   },
   "homepage": "https://github.com/ikarus512/fcc1#readme",
   "dependencies": {
+    "angular": "^1.6.5",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
