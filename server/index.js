@@ -121,6 +121,24 @@ if (!isHeroku()) {
 app.use(expressStatusMonitor);
 
 // Static
+function depStatic(url, localFilePath) {
+    app.get(url, function(req, res) {
+        var
+            basename = path.basename(url),
+            fullLocalFilePath = path.join(
+                __dirname, '../node_modules', localFilePath, basename);
+        res.sendFile(fullLocalFilePath);
+    });
+}
+// bootstrap
+depStatic('/lib/bootstrap.min.css',                   'bootstrap/dist/css/');
+depStatic('/fonts/glyphicons-halflings-regular.eot',  'bootstrap/dist/fonts/');
+depStatic('/fonts/glyphicons-halflings-regular.svg',  'bootstrap/dist/fonts/');
+depStatic('/fonts/glyphicons-halflings-regular.ttf',  'bootstrap/dist/fonts/');
+depStatic('/fonts/glyphicons-halflings-regular.woff', 'bootstrap/dist/fonts/');
+depStatic('/fonts/glyphicons-halflings-regular.woff2','bootstrap/dist/fonts/');
+depStatic('/lib/bootstrap.min.js',                    'bootstrap/dist/js/');
+// Other static files
 app.use(express.static(path.join(__dirname, '../public')));
 // Less
 app.use('/less', expressLess(__dirname + './../src/less', {

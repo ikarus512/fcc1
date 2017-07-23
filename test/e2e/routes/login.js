@@ -33,6 +33,24 @@ describe('app1', function() {
         browser.ignoreSynchronization = true; // Do not wait for Angular on this page
     });
 
+    afterEach(function() {
+        // Browser console should not have errors
+        browser.manage().logs().get('browser').then(function(browserLog) {
+            expect(browserLog[0]).to.equal(undefined);
+            expect(browserLog.length).to.equal(0);
+            // // Uncomment to actually see the log:
+            // console.log('log: ' + require('util').inspect(browserLog));
+        });
+    });
+
+    // it('should fail when the console has errors - FAILURE EXPECTED', function() {
+    //     browser.executeScript(function() {console.error('error from test')});
+    // });
+
+    it('should pass when the console has usual log without errors', function() {
+        browser.executeScript(function() {console.log('hi!')});
+    });
+
     it('should accept admin login', function() {
         browser.driver.get(appUrl + '/login');
         element(by.id('loginUsername')).sendKeys('admin');
