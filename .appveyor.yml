@@ -30,10 +30,10 @@ install:
   - npm config set progress=false
   - npm install --force
 
-# scripts that are called at very beginning, before repo cloning
-init:
-  # Fix line endings on Windows
-  - git config --global core.autocrlf true
+# # scripts that are called at very beginning, before repo cloning
+# init:
+#   # Fix line endings on Windows
+#   - git config --global core.autocrlf true
 
 # to run your custom scripts instead of automatic tests
 test_script:
