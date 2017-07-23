@@ -51,10 +51,9 @@ environment:
   matrix:
     - nodejs_version: "6"
 
-### disable cache to see installed packages warnings
-# # build cache to preserve files/folders between builds
-# cache:
-#   - node_modules                    # local npm modules
+# build cache to preserve files/folders between builds
+cache: # disable cache to see 'npm install' warnings
+  - node_modules                    # local npm modules
 
 services:
   - mongodb

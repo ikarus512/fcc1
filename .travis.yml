@@ -33,11 +33,10 @@ branches:
 git:
   depth: 5
 
-### disable cache to see installed packages warnings
-# # build cache to preserve files/folders between builds
-# cache:
-#   directories:
-#   - node_modules
+# build cache to preserve files/folders between builds
+cache: # disable cache to see 'npm install' warnings
+  directories:
+  - node_modules
 
 services:
   - mongodb
