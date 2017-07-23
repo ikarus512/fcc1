@@ -1,0 +1,1 @@
+https://nodejs.org/download/release/latest-v6.x/

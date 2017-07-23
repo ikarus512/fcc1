@@ -2,6 +2,13 @@
 # http://www.appveyor.com/docs/appveyor-yml
 ### https://www.appveyor.com/docs/build-configuration/
 
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: x64
+
 # Build version format
 version: appveyor-build-{build}
 

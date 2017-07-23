@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1)
 [![Build Status on Windows](https://ci.appveyor.com/api/projects/status/github/ikarus512/fcc1?branch=master&svg=true)](https://ci.appveyor.com/project/ikarus512/fcc1)
 
-[![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1)
-[![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1)
+[![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1) <!-- [![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1) -->
 [![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1) <!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status", src="https://saucelabs.com/browser-matrix/chaijs.svg") -->
 [![Code Climate Coverage](https://img.shields.io/codeclimate/coverage/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1)
 [![Code Climate Issues](https://img.shields.io/codeclimate/issues/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1)
