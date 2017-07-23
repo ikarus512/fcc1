@@ -61,10 +61,9 @@ services:
 install:
   # ps: prefix means to run this command in PowerShell
   - ps: Install-Product node $env:nodejs_version
+  - npm config set progress=false # suppress npm progress bar
   - npm install -g npm
-  # - npm config set progress=false # suppress npm progress bar
-  # - npm install --force # force download of packages even if a local copies exist on disk
-  - npm i
+  - npm install --force # force download of packages even if a local copies exist on disk
 
 
 #---------------------------------#
