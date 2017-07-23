@@ -18,7 +18,7 @@
 var
   browserSync   = require('browser-sync'),
   // cssLint       = require('gulp-csslint'),
-  // cssMin        = require('gulp-clean-css'),
+  cssMin        = require('gulp-clean-css'),
   changed       = require('gulp-changed'),
   // debug         = require('gulp-debug'), // .pipe(debug({verbose: true}))
   // es            = require('event-stream'), // For working with streams rather than temp dirs
@@ -26,6 +26,7 @@ var
   gulp          = require('gulp'),
   gutil         = require('gulp-util'),
   headerfooter  = require('gulp-headerfooter'),
+  htmlMin       = require('gulp-htmlmin'),
   jscs          = require('gulp-jscs'),
   jshint        = require('gulp-jshint'),
   mkdirs        = require('mkdirs'),
@@ -78,7 +79,7 @@ var MOBILE_PATHS = {
     copy: {
         src: [
           MOBILE_SRC + 'public/lib/**/*',
-          MOBILE_SRC + 'public/css/**/*',
+          MOBILE_SRC + 'public/css/**/*', // cssMin
           MOBILE_SRC + 'public/fonts/**/*',
           MOBILE_SRC + 'public/img/**/*',
         ],
@@ -100,6 +101,7 @@ var MOBILE_PATHS = {
         dest: MOBILE_DST + 'views/',
     },
     less: {
+        hdr: '/*! (C) 2017 https://github.com/ikarus512 */',
         src: [MOBILE_SRC + 'src/less/_dynapps.less',
                MOBILE_SRC + 'src/less/_mobile.less',],
         dest: MOBILE_DST + 'less/',
@@ -148,6 +150,8 @@ gulp.task('mobile-app1-less', function() {
     return gulp.src(MOBILE_PATHS.less.src)
     // .pipe(changed(MOBILE_PATHS.less.dest, {extension: '.css'}))
     .pipe(less().on('error', gutil.log))
+    .pipe(cssMin({compatibility: 'ie8'}))
+    .pipe(headerfooter.header(MOBILE_PATHS.less.hdr))
     .pipe(gulp.dest(MOBILE_PATHS.less.dest));
 });
 
@@ -166,18 +170,27 @@ gulp.task('mobile-app1-prepare', [
 var WEB_SRC = './';
 var WEB_DST = 'public/';
 var DEV_SERVER_PATHS = {
-    jsHeader: '/*! Copyright 2017 ikarus512 https://github.com/ikarus512/fcc1.git */',
     publicJs: {
+        hdr: '/*! (C) 2017 https://github.com/ikarus512 */',
         src: [
-          WEB_SRC + 'src/js/common/**/*.js',
-          WEB_SRC + 'src/js/web/**/*.js',
+            WEB_SRC + 'src/js/common/**/*.js',
+            WEB_SRC + 'src/js/web/**/*.js',
         ],
         base: WEB_SRC + 'src/js/',
         dest: WEB_DST + 'js/',
     },
+    // publicCss: {
+    //     hdr: '/*! (C) 2017 https://github.com/ikarus512 */',
+    //     src: [
+    //         WEB_SRC + 'src/css/**/*.css', // angular templates
+    //     ],
+    //     base: WEB_SRC + 'src/css/',
+    //     dest: WEB_DST + 'css/',
+    // },
     publicHtml: {
+        hdr: '<!-- (C) 2017 https://github.com/ikarus512 -->',
         src: [
-          WEB_SRC + 'src/js/common/**/*.html', // angular templates
+            WEB_SRC + 'src/js/common/**/*.html', // angular templates
         ],
         base: WEB_SRC + 'src/js/',
         dest: WEB_DST + 'js/',
@@ -206,6 +219,13 @@ gulp.task('devserver-binaries-update', function() {
 
 gulp.task('devserver-public-html', function() { // jshint/minify/copy to public
     return gulp.src(DEV_SERVER_PATHS.publicHtml.src, {base: DEV_SERVER_PATHS.publicHtml.base})
+    .pipe(htmlMin({
+        // https://github.com/kangax/html-minifier
+        collapseWhitespace: true,
+        // caseSensitive: true, // attributes
+        removeComments: true,
+    }))
+    .pipe(headerfooter.header(DEV_SERVER_PATHS.publicHtml.hdr))
     .pipe(gulp.dest(DEV_SERVER_PATHS.publicHtml.dest))
     .on('error', gutil.log);
 });
@@ -217,8 +237,8 @@ gulp.task('devserver-public-js', function() { // jshint/minify/copy to public
     .pipe(jscs.reporter('inline'))
     .pipe(jshint())
     .pipe(jshint.reporter(require('jshint-stylish')))
-    // .pipe(uglify())
-    // .pipe(headerfooter.header(DEV_SERVER_PATHS.jsHeader))
+    .pipe(uglify())
+    .pipe(headerfooter.header(DEV_SERVER_PATHS.publicJs.hdr))
     .pipe(gulp.dest(DEV_SERVER_PATHS.publicJs.dest))
     .on('error', gutil.log);
 });

@@ -142,6 +142,7 @@
     "gulp-csslint": "^1.0.0",
     "gulp-debug": "^3.1.0",
     "gulp-headerfooter": "^1.0.3",
+    "gulp-htmlmin": "^3.0.0",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
     "gulp-less": "^3.3.2",
