@@ -66,6 +66,7 @@ install:
   # - npm install --force # force download of packages even if a local copies exist on disk
   - npm i
 
+
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
