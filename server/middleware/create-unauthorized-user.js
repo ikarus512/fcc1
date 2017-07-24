@@ -37,6 +37,7 @@ module.exports = function(req, res, next) {
 
     // Ignore errors
     .catch(function(err) {
+        if (err) {}
         return next();
     });
 

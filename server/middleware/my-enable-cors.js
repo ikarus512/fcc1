@@ -23,7 +23,8 @@ module.exports = function myEnableCORS(req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
     if ('OPTIONS' === req.method) {
         res.sendStatus(200);
+        return;
     } else {
-        next();
+        return next();
     }
 };

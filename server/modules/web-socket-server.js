@@ -86,6 +86,6 @@ module.exports = {
         if (typeof(func) === 'function') {
             handlers.onClose.push(func);
         }
-    }, // onClose: function(...)
+    } // onClose: function(...)
 
 };

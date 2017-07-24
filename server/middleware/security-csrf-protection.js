@@ -30,7 +30,7 @@ myCsrf.protection =
     cookie: false, // Keep tocken secret in session, not in cookie
     key: '_csrf',
     httpOnly: true,  // dont let browser javascript access cookie ever
-    secure: true, // only use cookie over https
+    secure: true // only use cookie over https
 })
 
   :
