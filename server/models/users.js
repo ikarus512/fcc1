@@ -55,7 +55,7 @@ var UserSchema = new Schema({
 //  virtuals
 ////////////////////////////////////////////////////////////////
 
-UserSchema.virtual('type').get(function() {
+UserSchema.virtual('type').get(function() { // eslint-disable-line complexity
     var type = 'unknown';
     try {
         if (this.facebook.id)     { type = 'facebook'; }
@@ -64,7 +64,6 @@ UserSchema.virtual('type').get(function() {
         if (this.twitter.id)      { type = 'twitter'; }
         if (this.unauthorized.ip) { type = 'unauthorized'; }
     } catch (err) {
-        if (err) {}
     }
 
     return type;
@@ -76,7 +75,6 @@ UserSchema.virtual('name').get(function() {
         name = this[this.type].displayName;
         name = (name) ? name : this[this.type].username;
     } catch (err) {
-        if (err) {}
     }
 
     return name;
@@ -104,14 +102,14 @@ UserSchema.statics.findOneMy = function(filter) {
 // createLocalUser
 UserSchema.statics.createLocalUser = function(aUser) {
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) { // eslint-disable-line complexity
 
         if (!aUser.username) { // username absent
             throw new PublicError('Please fill in username.');
         }
 
         if (typeof(aUser.username) !== 'string' ||
-          !aUser.username.match(/^(\w|\d|\-)+$/)
+            !aUser.username.match(/^(\w|\d|\-)+$/)
         )
         {
             throw new PublicError('Username can only contain -_alphanumeric characters.');

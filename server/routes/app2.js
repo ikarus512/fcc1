@@ -61,7 +61,7 @@ router.all('/api/cafes/:cafeId/timeslots/:startTime/plan', myEnableCORS);
 router.all('/api/cafes/:cafeId/timeslots/:startTime/unplan', myEnableCORS);
 
 // RESTAPI GET    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - get cafes
-router.get('/api/cafes', function(req, res, next) {
+router.get('/api/cafes', function(req, res, next) { // eslint-disable-line complexity
 
     var radius = 188.796, lat = 56.312956, lng = 43.989955, zoom = 16; // Nizhny
     if (isFinite(Number(req.query.lat)))    { lat = Number(req.query.lat); }

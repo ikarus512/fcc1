@@ -79,6 +79,7 @@
 
             if ($scope.logintype) {
                 $scope.ajaxLoadingSpinner++;
+                // eslint-disable-next-line complexity
                 App3WebSocketService.subscribe(function onWsMessage(newDataPortion) {
                     var key, newData = $scope.chart1Data;
 

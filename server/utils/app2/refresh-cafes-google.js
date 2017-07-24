@@ -48,72 +48,73 @@ function googleRequest(lat, lng, radius, dataIn) {
 
         return new Promise(function(resolve, reject) {
 
-            var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
-              '?key=' + APPCONST.env.APP_GOOGLE_PLACES_API_KEY +
-              '&location=' + lat + ',' + lng +
-              '&radius=' + radius +
-              '&rankby=distance' +
-              '&types=cafe|bar|restaurant' +
-              (dataIn[NEXT_PAGE_TOKEN] ? ('&pagetoken=' + dataIn[NEXT_PAGE_TOKEN]) : '') +
-              '';
+            var
+                url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json' +
+                  '?key=' + APPCONST.env.APP_GOOGLE_PLACES_API_KEY +
+                  '&location=' + lat + ',' + lng +
+                  '&radius=' + radius +
+                  '&rankby=distance' +
+                  '&types=cafe|bar|restaurant' +
+                  (dataIn[NEXT_PAGE_TOKEN] ? ('&pagetoken=' + dataIn[NEXT_PAGE_TOKEN]) : '') +
+                  '';
 
             request.get(
-              {
-                url: url,
-                headers: {
-                    referer : APPCONST.env.APP_GOOGLE_PLACES_API_REFERRER
-                }
-            },
+                {
+                    url: url,
+                    headers: {
+                        referer : APPCONST.env.APP_GOOGLE_PLACES_API_REFERRER
+                    }
+                },
 
-              function requestHandler(err, response, data) {
+                function requestHandler(err, response, data) { // eslint-disable-line complexity
 
-                try {
+                    try {
 
-                    if (err) { throw err; }
+                        if (err) { throw err; }
 
-                    if (response.statusCode !== 200) {
-                        throw Error('Google Maps API response statusCode=' +
-                          response.statusCode + '.'
-                        );
+                        if (response.statusCode !== 200) {
+                            throw Error('Google Maps API response statusCode=' +
+                                response.statusCode + '.'
+                            );
+                        }
+
+                        // New portion of results
+                        var dataObj = JSON.parse(data);
+
+                        if (!dataObj.results) {
+                            throw Error('Google Maps API response without results: ' + data + '.');
+                        }
+
+                        if (dataObj.status && dataObj.status !== 'OK') {
+                            throw Error('Google Maps API error: ' + data + '.');
+                        }
+
+                        if (dataObj.results.length === 0) {
+                            throw Error('Google Maps API no results: ' + data + '.');
+                        }
+
+                        // Concatenate with previous portion of results
+                        dataObj.results = dataObj.results.concat(dataIn.results);
+
+                        if (dataObj.results.length >= MAPS_SEARCH_LIMIT) {
+
+                            delete dataObj[NEXT_PAGE_TOKEN]; // Stop request loop
+
+                            dataObj.results = dataObj.results.filter(function(el,idx) {
+                                return (idx < MAPS_SEARCH_LIMIT);
+                            });
+
+                        }
+
+                        return resolve(dataObj);
+
+                    } catch (err) {
+
+                        return reject(err);
+
                     }
 
-                    // New portion of results
-                    var dataObj = JSON.parse(data);
-
-                    if (!dataObj.results) {
-                        throw Error('Google Maps API response without results: ' + data + '.');
-                    }
-
-                    if (dataObj.status && dataObj.status !== 'OK') {
-                        throw Error('Google Maps API error: ' + data + '.');
-                    }
-
-                    if (dataObj.results.length === 0) {
-                        throw Error('Google Maps API no results: ' + data + '.');
-                    }
-
-                    // Concatenate with previous portion of results
-                    dataObj.results = dataObj.results.concat(dataIn.results);
-
-                    if (dataObj.results.length >= MAPS_SEARCH_LIMIT) {
-
-                        delete dataObj[NEXT_PAGE_TOKEN]; // Stop request loop
-
-                        dataObj.results = dataObj.results.filter(function(el,idx) {
-                            return (idx < MAPS_SEARCH_LIMIT);
-                        });
-
-                    }
-
-                    return resolve(dataObj);
-
-                } catch (err) {
-
-                    return reject(err);
-
-                }
-
-            } // function requestHandler(...)
+                } // function requestHandler(...)
 
             ); // request.get(...)
 
@@ -169,15 +170,15 @@ function cafeFilterAndSave(cafes) {
         var newCafe = {google: {}};
 
         // newCafe._id = 0;
-        try { newCafe.lat = cafe.geometry.location.lat; } catch (err) { if (err) {} }
-        try { newCafe.lng = cafe.geometry.location.lng; } catch (err) { if (err) {} }
-        try { newCafe.name = cafe.name; } catch (err) { if (err) {} }
-        try { newCafe.text = cafe.vicinity; } catch (err) { if (err) {} } // address
-        try { newCafe.photo = cafe.icon; } catch (err) { if (err) {} }
-        try { newCafe.google.icon = cafe.icon; } catch (err) { if (err) {} }
-        try { newCafe.google.id = cafe.id; } catch (err) { if (err) {} }
-        try { newCafe.google.photoRef = cafe.photos[0][PHOTO_REFERENCE]; } catch (err) {if (err) {}}
-        try { newCafe.google.placeId = cafe[PLACE_ID]; } catch (err) { if (err) {} }
+        try { newCafe.lat = cafe.geometry.location.lat; } catch (err) {}
+        try { newCafe.lng = cafe.geometry.location.lng; } catch (err) {}
+        try { newCafe.name = cafe.name; } catch (err) {}
+        try { newCafe.text = cafe.vicinity; } catch (err) {} // address
+        try { newCafe.photo = cafe.icon; } catch (err) {}
+        try { newCafe.google.icon = cafe.icon; } catch (err) {}
+        try { newCafe.google.id = cafe.id; } catch (err) {}
+        try { newCafe.google.photoRef = cafe.photos[0][PHOTO_REFERENCE]; } catch (err) {}
+        try { newCafe.google.placeId = cafe[PLACE_ID]; } catch (err) {}
 
         return newCafe;
 

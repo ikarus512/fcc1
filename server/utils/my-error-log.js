@@ -22,7 +22,7 @@ var
 
     LOG_FILE_NAME = path.join(__dirname, '/../../logs/internal_errors.log');
 
-module.exports = function(req, err, message) {
+module.exports = function(req, err, message) { // eslint-disable-line complexity
 
     if (isHeroku()) {
         if (message) {

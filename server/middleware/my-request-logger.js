@@ -46,7 +46,7 @@ module.exports = function(options) {
         logStream.write('\n');
     }
 
-    return function(req, res, next) {
+    return function(req, res, next) { // eslint-disable-line complexity
 
         if (
             req.originalUrl.match(/^\/img/) ||

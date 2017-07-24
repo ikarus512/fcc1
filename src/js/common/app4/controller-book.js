@@ -57,7 +57,7 @@
 
                 bookStorage.getBook($scope.bookId)
 
-                .then(function(res) {
+                .then(function(res) { // eslint-disable-line complexity
 
                     var cur = $scope.curBook;
                     var newData = res.data;
@@ -269,7 +269,7 @@
             $window.location.href = MyConst.urlPrefix + '/app4/books';
         }; // $scope.goBooksPage = function(...)
 
-        function receiveMessage(data) {
+        function receiveMessage(data) { // eslint-disable-line complexity
             var bidById, msgBy;
             if (data.msgtype === 'app4-broadcast-refresh-bids') {
                 bookRefresh({bids:1});

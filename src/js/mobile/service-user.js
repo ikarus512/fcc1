@@ -25,7 +25,6 @@
                     return;
                 })
                 .catch(function(err) {
-                    if (err) {}
                     self.type = undefined;
                     self.name = undefined;
                     self.uid  = undefined;

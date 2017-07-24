@@ -193,7 +193,8 @@
                 var position = {lat: cafe.lat, lng: cafe.lng};
 
                 // Shift position of new marker if it is too close to another marker
-                scope.cafes.forEach(function(c) { try {
+                scope.cafes.forEach(function(c) {
+                    try {
                         var marker = markers[c._id]; // Marker corresponding to cafe c
                         if (marker && c._id !== cafe._id) {
                             var d = google.maps.geometry.spherical.computeDistanceBetween(
@@ -205,7 +206,8 @@
                             }
                         }
                         marker = null;
-                    } catch (err) { if (err) {} } });
+                    } catch (err) {}
+                });
 
                 var markerOptions = {
                     position: position,

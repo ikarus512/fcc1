@@ -68,7 +68,6 @@ router.get('/polls/:id',
 
     // In case of error
     .catch(function(err) {
-        if (err) {}
         req.pollTitle = '';
         next();
     });

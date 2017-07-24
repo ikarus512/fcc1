@@ -73,7 +73,6 @@ CafeSchema.virtual('origin').get(function() {
     try {
         if (this.google.id) { origin = 'google'; }
     } catch (err) {
-        if (err) {}
     }
 
     return origin;
