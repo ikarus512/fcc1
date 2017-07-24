@@ -110,7 +110,7 @@ var MOBILE_PATHS = {
     }
 };
 
-// gulp.task('get-public-libs', function() {
+// gulp.task('mobile-public-libs-copy', function() {
 // bootstrap
 // leaflet
 //     return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
@@ -118,7 +118,7 @@ var MOBILE_PATHS = {
 // });
 
 gulp.task('mobile-app1-copy', function() {
-// gulp.task('mobile-app1-copy', ['get-public-libs'], function() {
+// gulp.task('mobile-app1-copy', ['mobile-public-libs-copy'], function() {
     return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
     .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
 });

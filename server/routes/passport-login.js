@@ -80,10 +80,29 @@ module.exports = function (app, passport) {
     .all(rateLimitLogin)
     .all(myEnableCORS)
     .post(function(req, res, next) {
-        passport.authenticate('local-login', function(err, account) {
-            req.logIn(account, function(err) {
-                res.status(err ? 401 : 200)
-                .json(err ? {message: req.flash('message')[0]} : {
+        // See https://stackoverflow.com/questions/15711127/express-passport-node-js-error-handling
+        // See http://passportjs.org/docs/login
+        passport.authenticate('local-login', function(err, account, info) {
+            if (err) { // Here if internal error (no connection to users DB, etc.)
+                // return next(err);
+                return res.status(401).json({success: false, message: req.flash('message')[0]});
+            }
+            if (!account) {
+                return res.status(401).json({success: false, message: req.flash('message')[0]});
+            }
+
+            // "Note that when using a custom callback, it becomes the application's
+            // responsibility to establish a session (by calling req.login()) and send
+            // a response."           -- http://passportjs.org/docs/login
+            req.logIn(account, function(loginErr) {
+                if (loginErr) {
+                    // return next(loginErr);
+                    return res.status(401).json({success: false, message: req.flash('message')[0]});
+                }
+
+                res.status(200)
+                .json({
+                    success: true,
                     type: account.type,
                     name: account.name,
                     uid: account._id
