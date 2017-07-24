@@ -110,15 +110,14 @@ var MOBILE_PATHS = {
     }
 };
 
-// gulp.task('mobile-public-libs-copy', function() {
+gulp.task('mobile-public-libs-copy', function() {
 // bootstrap
 // leaflet
-//     return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
-//     .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
-// });
+    // return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
+    // .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
+});
 
-gulp.task('mobile-app1-copy', function() {
-// gulp.task('mobile-app1-copy', ['mobile-public-libs-copy'], function() {
+gulp.task('mobile-app1-copy', ['mobile-public-libs-copy'], function() {
     return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
     .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
 });

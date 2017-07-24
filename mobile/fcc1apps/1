@@ -58,3 +58,10 @@ cordova-jquery   ## insert jquery mobile into current project
 
 cordova plugin add cordova-plugin-media
 npm i --save-dev gulp gulp-less gulp-pug gulp-util
+
+
+
+
+Problem (cordova run browser): Failed to load resource: net::ERR_INSECURE_RESPONSE
+Reason: self-signed cert used.
+Solve: Open request in new tab, press "ADVANCED", press "Proceed to localhost (unsafe)"
