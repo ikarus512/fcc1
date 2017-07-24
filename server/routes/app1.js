@@ -82,7 +82,7 @@ router.get('/polls/:id',
         title: req.pollTitle + ' (DynApps Poll)',
         text: req.pollTitle + ' (DynApps Poll)',
         img: req.protocol + '://' + req.headers.host + 'img/pixabay_com_world.jpg',
-        url: req.protocol + '://' + req.headers.host + req.originalUrl,
+        url: req.protocol + '://' + req.headers.host + req.originalUrl
     })
     ));
 }

@@ -27,7 +27,7 @@
                     data:poll,
                     url: MyConst.serverUrl + '/app1/api/polls'
                 });
-            },
+            }
 
         };
 

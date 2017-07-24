@@ -21,11 +21,11 @@ socketClient.on('connect', function() {
     socketClient.emit('npmStop');
     setTimeout(function() {
         console.log('Stopping http/https server.');
-        process.exit(0);
+        // process.exit(0);
     }, 1000);
 });
 
 setTimeout(function() {
     console.log('Stopping http/https server. Server not found.');
-    process.exit(0);
-}, 5000);
+    // process.exit(0);
+}, 10000);

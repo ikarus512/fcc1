@@ -27,11 +27,11 @@ socketClient.on('connect', function() {
 socketClient.on('new message', function(data) {
     // console.log('Answer from server: ',data);
     console.log('Waiting stopped because server is ready.');
-    process.exit(0);
+    // process.exit(0);
 });
 
 // Stop waiting if server does not respond for too long.
 setTimeout(function() {
     console.log('Waiting stopped because server did not respond for too long.');
-    process.exit(0);
+    // process.exit(0);
 }, 30000);

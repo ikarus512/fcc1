@@ -150,7 +150,7 @@ router.post('/api/books', upload.single('file'), function(req, res, next) {
         description: req.body.description,
         createdBy: req.user._id,
         photoId: req.body.photoId,
-        file: req.file,
+        file: req.file
     })
 
     // Send the response back

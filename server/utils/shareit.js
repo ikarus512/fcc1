@@ -56,7 +56,7 @@ function shareit(opt) {
                   '?text='     + encodeURIComponent(opt.title) +
                   '&url='      + encodeURIComponent(opt.url) +
                   '&counturl=' + encodeURIComponent(opt.url) +
-                  '',
+                  ''
 
                 // odnoklassniki: '' +
                 //   'http://www.odnoklassniki.ru/dk' +
@@ -77,7 +77,7 @@ function shareit(opt) {
                 //   '&image='       + encodeURIComponent(opt.img) +
                 //   '&noparse=true' +
                 //   '',
-            },
+            }
 
         };
     }

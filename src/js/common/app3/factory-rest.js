@@ -18,7 +18,7 @@
                     data:{},
                     url: MyConst.serverUrl + '/app3/api/get-ws-ticket'
                 });
-            },
+            }
 
         };
 

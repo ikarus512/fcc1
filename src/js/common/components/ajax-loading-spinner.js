@@ -15,7 +15,7 @@
             templateUrl: MyConst.urlPref + 'js/common/components/ajax-loading-spinner.html',
             scope: {
                 ajaxLoadingVar: '@',
-                addClass: '=',
+                addClass: '='
             },
             link: function(scope, element, attrs) {
                 scope.urlPref = MyConst.urlPref;
