@@ -97,4 +97,4 @@
 
     }]); // .factory('App4WebSocketService', ...
 
-})();
+}());

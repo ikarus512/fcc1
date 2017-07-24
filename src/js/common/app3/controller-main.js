@@ -129,4 +129,4 @@
 
     }]); // .controller('myApp3ControllerMain', ...
 
-})();
+}());

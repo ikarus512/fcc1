@@ -69,4 +69,4 @@
 
     }]); // .factory('cafeStorage', ...
 
-})();
+}());

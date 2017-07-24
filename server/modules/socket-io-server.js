@@ -15,7 +15,9 @@
 /*jshint node: true*/
 'use strict';
 
-var APPCONST = require('./../config/constants.js');
+var
+    APPCONST = require('./../config/constants.js'),
+    socketIo = require('socket.io');
 
 module.exports = function(server) {
 
@@ -24,7 +26,7 @@ module.exports = function(server) {
         // Using socket.io during tests to:
         // 1) stop server in response to the npmStop signal,
         // 2) answer to client in response to npmServerRequest signal.
-        var io = require('socket.io')(server);
+        var io = socketIo(server);
         io.on('connection', function(socketServer) { // Here if new client connected
             socketServer.on('npmStop', function() {
                 console.log('Server received npmStop.');

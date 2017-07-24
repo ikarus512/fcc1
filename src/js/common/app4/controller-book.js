@@ -336,4 +336,4 @@
     }
     ]); // .controller('myApp4ControllerBook', ...
 
-})();
+}());

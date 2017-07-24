@@ -80,4 +80,4 @@
     }
     ]); // .controller('ControllerPolls', ...
 
-})();
+}());

@@ -37,4 +37,4 @@
 
     ]); // .factory('LoginFactory', ...
 
-})();
+}());

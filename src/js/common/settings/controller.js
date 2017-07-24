@@ -88,4 +88,4 @@
 
     }]); // .controller('myApp4Controller', ...
 
-})();
+}());

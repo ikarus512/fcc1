@@ -81,4 +81,4 @@
 
     }]); // .factory('bookStorage', ...
 
-})();
+}());

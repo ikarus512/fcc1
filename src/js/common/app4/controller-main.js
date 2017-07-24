@@ -101,4 +101,4 @@
 
     }]); // .controller('myApp4Controller', ...
 
-})();
+}());

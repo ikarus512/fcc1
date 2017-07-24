@@ -15,7 +15,9 @@
 /*jshint node: true*/
 'use strict';
 
-var fs = require('fs');
+var
+    fs = require('fs'),
+    util = require('util');
 
 module.exports = function(options) {
 
@@ -68,7 +70,7 @@ module.exports = function(options) {
             logWriteLn('req.signedCookies=',req.signedCookies);
             logWriteLn('req.unauthorizedUser=',req.unauthorizedUser);
             logWriteLn('req.user=',req.user);
-            logWriteLn('req=',require('util').inspect(req,{depth:0}));
+            logWriteLn('req=', util.inspect(req,{depth:0}));
         }
 
         if (!immediate) { process.nextTick(function() { logStream.uncork(); }); } // flush stream

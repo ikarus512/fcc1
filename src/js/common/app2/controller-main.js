@@ -267,4 +267,4 @@
 
     ]); // .controller('myApp2ControllerMain', ...
 
-})();
+}());

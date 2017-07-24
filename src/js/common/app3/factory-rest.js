@@ -24,4 +24,4 @@
 
     }]); // .factory('App3RestService', ...
 
-})();
+}());

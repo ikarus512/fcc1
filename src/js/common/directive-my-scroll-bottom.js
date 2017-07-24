@@ -28,4 +28,4 @@
 
     }]); // .directive('myScrollBottom', ...
 
-})();
+}());

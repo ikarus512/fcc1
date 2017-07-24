@@ -33,4 +33,4 @@
 
     }]); // .factory('StoragePolls', ...
 
-})();
+}());

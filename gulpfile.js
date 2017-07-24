@@ -29,6 +29,7 @@ var
   htmlMin       = require('gulp-htmlmin'),
   jscs          = require('gulp-jscs'),
   jshint        = require('gulp-jshint'),
+  jshintStylish = require('jshint-stylish'),
   // eslint        = require('gulp-eslint'),
   mkdirs        = require('mkdirs'),
   nodemon       = require('gulp-nodemon'),
@@ -245,7 +246,7 @@ gulp.task('devserver-public-js', function() { // jshint/minify/copy to public
     .pipe(jscs())
     .pipe(jscs.reporter('inline'))
     .pipe(jshint())
-    .pipe(jshint.reporter(require('jshint-stylish')))
+    .pipe(jshint.reporter(jshintStylish))
     // .pipe(eslint())
     // .pipe(eslint.format())
     // .pipe(eslint.failAfterError())
@@ -261,7 +262,7 @@ gulp.task('devserver-server-js', function() { // Only syntax check
     .pipe(jscs())
     .pipe(jscs.reporter('inline'))
     .pipe(jshint())
-    .pipe(jshint.reporter(require('jshint-stylish')))
+    .pipe(jshint.reporter(jshintStylish))
     // .pipe(eslint())
     // .pipe(eslint.format())
     // .pipe(eslint.failAfterError())

@@ -9,4 +9,4 @@
 
     angular.module('myapp', ['ngRoute', 'ngAnimate', 'ngMessages', 'ngFileUpload']);
 
-})();
+}());

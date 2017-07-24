@@ -12,51 +12,51 @@
     .directive('myLeafletMap', ['MyConst', function(MyConst) {
 
         var
-          maxZoom = 17,
+            maxZoom = 17,
 
-          scope = {
-              cafes: '=mapCafes',
-              selectedCafeId: '=mapSelectedCafeId',
-              center: '=mapCenter',
-              zoom: '=mapZoom',
+            scope = {
+                cafes: '=mapCafes',
+                selectedCafeId: '=mapSelectedCafeId',
+                center: '=mapCenter',
+                zoom: '=mapZoom',
 
-              mapMoved: '=',
-              onMapInit: '=',
-              mapSelectedCafe: '=',
-              cafesUnselect: '='
-          },
+                mapMoved: '=',
+                onMapInit: '=',
+                mapSelectedCafe: '=',
+                cafesUnselect: '='
+            },
 
-          layerOffline = L.tileLayer(
-              MyConst.urlPref + 'img/OSM5/{z}/{x}/{y}.png', {
-              reuseTiles: true,
-              updateWhenIdle: false,
-              maxZoom: maxZoom
-          }),
+            layerOffline = L.tileLayer(
+                MyConst.urlPref + 'img/OSM5/{z}/{x}/{y}.png', {
+                reuseTiles: true,
+                updateWhenIdle: false,
+                maxZoom: maxZoom
+            }),
 
-          layerOnline = L.tileLayer(
-              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              reuseTiles: true,
-              updateWhenIdle: false,
-              maxZoom: maxZoom
-          }),
+            layerOnline = L.tileLayer(
+                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                reuseTiles: true,
+                updateWhenIdle: false,
+                maxZoom: maxZoom
+            }),
 
-          iconBlue = L.icon({
-              iconUrl: MyConst.urlPref + 'img/app2/blue-dot.png',
-              iconSize: [30, 30],
-              iconAnchor: [15, 30]
-          }),
+            iconBlue = L.icon({
+                iconUrl: MyConst.urlPref + 'img/app2/blue-dot.png',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30]
+            }),
 
-          iconGreen = L.icon({
-              iconUrl: MyConst.urlPref + 'img/app2/green-dot.png',
-              iconSize: [30, 30],
-              iconAnchor: [15, 30]
-          }),
+            iconGreen = L.icon({
+                iconUrl: MyConst.urlPref + 'img/app2/green-dot.png',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30]
+            }),
 
-          iconRed = L.icon({
-              iconUrl: MyConst.urlPref + 'img/app2/red-dot.png',
-              iconSize: [30, 30],
-              iconAnchor: [15, 30]
-          });
+            iconRed = L.icon({
+                iconUrl: MyConst.urlPref + 'img/app2/red-dot.png',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30]
+            });
 
         // directive link function
         function directiveLinkFunction(scope, element, attrs) {
@@ -366,4 +366,4 @@
         };
     }]);
 
-})();
+}());

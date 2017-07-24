@@ -83,4 +83,4 @@
 
     }]); // .directive('inputPriceUpdate', ...
 
-})();
+}());

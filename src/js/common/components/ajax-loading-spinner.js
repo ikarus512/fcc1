@@ -30,4 +30,4 @@
         };
     }]); // .directive('ajaxLoadingSpinner', ...
 
-})();
+}());

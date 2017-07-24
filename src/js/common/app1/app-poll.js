@@ -9,4 +9,4 @@
 
     angular.module('myapp', ['chart.js', 'ngRoute']);
 
-})();
+}());

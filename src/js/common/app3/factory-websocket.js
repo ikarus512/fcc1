@@ -95,4 +95,4 @@
 
     }]); // .factory('App3WebSocketService', ...
 
-})();
+}());
