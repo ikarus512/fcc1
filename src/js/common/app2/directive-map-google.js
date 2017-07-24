@@ -20,7 +20,7 @@
             mapMoved: '=',
             onMapInit: '=',
             mapSelectedCafe: '=',
-            cafesUnselect: '=',
+            cafesUnselect: '='
         };
 
         // directive link function
@@ -36,7 +36,7 @@
                 mapTypeControl: true,
                 scaleControl: true,
                 zoomControl: true,
-                disableDoubleClickZoom: true, // we do it manually
+                disableDoubleClickZoom: true // we do it manually
             };
 
             function initMap() {
@@ -65,7 +65,7 @@
                         fillColor: '#00FF00',     fillOpacity: 0.10,
                         map: map,
                         center: new google.maps.LatLng(scope.center.lat,scope.center.lng),
-                        radius: scope.radius ? scope.radius : 10000,
+                        radius: scope.radius ? scope.radius : 10000
                     });
                     circle.addListener('dblclick', onDblClick);
                     circle.addListener('click', onClick);
@@ -153,7 +153,7 @@
                             scope.mapMoved({
                                 newZoom: z,
                                 newRadius: r,
-                                newCenter: {lat:c.lat(),lng:c.lng()},
+                                newCenter: {lat:c.lat(), lng:c.lng()}
                             });
                         });
 
@@ -205,13 +205,13 @@
                             }
                         }
                         marker = null;
-                    } catch (err) {} });
+                    } catch (err) { if (err) {} } });
 
                 var markerOptions = {
                     position: position,
                     map: map,
                     title: cafe.name,
-                    icon: icon,
+                    icon: icon
                 };
 
                 marker = new google.maps.Marker(markerOptions);

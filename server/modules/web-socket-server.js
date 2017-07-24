@@ -16,10 +16,10 @@
 'use strict';
 
 var
-  myErrorLog = require('./../utils/my-error-log.js'),
-  SocketServer = require('ws').Server,
-  wss,
-  handlers = {onMessage: {}, onClose: []};
+    myErrorLog = require('./../utils/my-error-log.js'),
+    SocketServer = require('ws').Server,
+    wss,
+    handlers = {onMessage: {}, onClose: []};
 
 module.exports = {
 

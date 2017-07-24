@@ -17,11 +17,10 @@
 'use strict';
 
 var
+    User = require('./../../server/models/users.js'),
+    Promise = require('bluebird'),
 
-  User = require('./../../server/models/users.js'),
-  Promise = require('bluebird'),
-
-  userA, userB, userU; // a, b, unonimous
+    userA, userB, userU; // a, b, unonimous
 
 function usersInit() {
 

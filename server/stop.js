@@ -13,9 +13,9 @@
  */
 
 var
-  io = require('socket.io-client'),
-  appUrl = require('./config/app-url.js'),
-  socketClient = io.connect(appUrl);
+    io = require('socket.io-client'),
+    appUrl = require('./config/app-url.js'),
+    socketClient = io.connect(appUrl);
 
 socketClient.on('connect', function() {
     socketClient.emit('npmStop');

@@ -303,7 +303,7 @@
                     var msg = {
                         by: msgBy,
                         at: data.time,
-                        text: data.text,
+                        text: data.text
                     };
                     $scope.curBook.bids[bidIdx].msgs.push(msg);
 
@@ -325,7 +325,7 @@
                 var msg = {
                     by: {_id: $scope.uid, name: $scope.username},
                     at: new Date(),
-                    text: bid.newMsg,
+                    text: bid.newMsg
                 };
                 App4WebSocketService.sendMessage($scope.curBook._id,from,to,new Date(),bid.newMsg);
                 bid.msgs.push(msg);

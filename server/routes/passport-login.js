@@ -18,14 +18,15 @@
 
 // Example: https://gist.github.com/joshbirk/1732068
 
-var User = require('../models/users.js'),
-  Promise = require('bluebird'),
-  greet = require('../utils/greet.js'),
-  PublicError = require('../utils/public-error.js'),
-  myErrorLog = require('../utils/my-error-log.js'),
-  myEnableCORS = require('../middleware/my-enable-cors.js'),
-  rateLimitLogin = require('../middleware/security-rate-limit-login.js'),
-  csrf = require('../middleware/security-csrf-protection.js');
+var
+    User = require('../models/users.js'),
+    Promise = require('bluebird'),
+    greet = require('../utils/greet.js'),
+    PublicError = require('../utils/public-error.js'),
+    myErrorLog = require('../utils/my-error-log.js'),
+    myEnableCORS = require('../middleware/my-enable-cors.js'),
+    rateLimitLogin = require('../middleware/security-rate-limit-login.js'),
+    csrf = require('../middleware/security-csrf-protection.js');
 
 module.exports = function (app, passport) {
 
@@ -41,7 +42,7 @@ module.exports = function (app, passport) {
 
         res.render('login', greet(req, {
             flashmessage: req.flash('message')[0], // Display flash messages if any
-            csrfToken: csrfToken,
+            csrfToken: csrfToken
         }));
     });
 
@@ -79,13 +80,13 @@ module.exports = function (app, passport) {
     .all(rateLimitLogin)
     .all(myEnableCORS)
     .post(function(req, res, next) {
-        passport.authenticate('local-login', function (err, account) {
+        passport.authenticate('local-login', function(err, account) {
             req.logIn(account, function(err) {
                 res.status(err ? 401 : 200)
                 .json(err ? {message: req.flash('message')[0]} : {
                     type: account.type,
                     name: account.name,
-                    uid: account._id,
+                    uid: account._id
                 });
             });
         })(req, res, next);
@@ -103,7 +104,7 @@ module.exports = function (app, passport) {
             .json({
                 type: req.user.type,
                 name: req.user.name,
-                uid: req.user._id,
+                uid: req.user._id
             });
         }
     });
@@ -115,7 +116,7 @@ module.exports = function (app, passport) {
         User.createLocalUser({
             username: req.body.username,
             password: req.body.password,
-            password2: req.body.password2,
+            password2: req.body.password2
         })
 
         .then(function(newUser) {
@@ -133,7 +134,7 @@ module.exports = function (app, passport) {
             return res.status(400)
             .render('signup', greet(req, {
                 lasterror: err.message,
-                username: req.body.username,
+                username: req.body.username
             }));
         })
 
@@ -143,7 +144,7 @@ module.exports = function (app, passport) {
             return res.status(500)
             .render('signup', greet(req, {
                 lasterror: err.message,
-                username: req.body.username,
+                username: req.body.username
             }));
         });
 

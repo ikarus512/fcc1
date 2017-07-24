@@ -16,10 +16,10 @@
 'use strict';
 
 var
-  APPCONST = require('./../config/constants.js'),
-  csrf = require('csurf'),
-  myCsrf = {},
-  myErrorLog = require('../utils/my-error-log.js');
+    APPCONST = require('./../config/constants.js'),
+    csrf = require('csurf'),
+    myCsrf = {},
+    myErrorLog = require('../utils/my-error-log.js');
 
 myCsrf.protection =
 

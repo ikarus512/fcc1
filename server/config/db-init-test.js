@@ -16,11 +16,18 @@
 'use strict';
 
 var
-  User = require('../models/users.js'),
-  Poll = require('../models/app1-polls.js'),
-  Promise = require('bluebird'),
-  dbUrl = require('./../../server/config/db-url.js'),
-  mongoose = require('mongoose');
+    User = require('../models/users.js'),
+    Poll = require('../models/app1-polls.js'),
+    Promise = require('bluebird'),
+    dbUrl = require('./../../server/config/db-url.js'),
+    mongoose = require('mongoose'),
+    mongoDb = require('mongodb'),
+
+    dbInitTestApp1 = require('./db-init-test-app1.js'),
+    // dbInitTestApp3 = require('./db-init-test-app3.js'),
+    // dbInitTestApp4 = require('./db-init-test-app4.js'),
+    // dbInitTestApp5 = require('./db-init-test-app5.js'),
+    dbInitTestApp2 = require('./db-init-test-app2.js');
 
 function dbInit(done) {
 
@@ -57,7 +64,7 @@ function dbInit(done) {
           .then(function(createdUser) { userB = createdUser; }),
 
           User.createUnauthorizedUser('x.x.x.y')
-          .then(function(createdUser) { userU = createdUser; }),
+          .then(function(createdUser) { userU = createdUser; })
 
         ];
 
@@ -70,11 +77,11 @@ function dbInit(done) {
     .then(function() {
 
         var promises = [
-          require('./db-init-test-app1.js')(userA, userB, userU),
-          require('./db-init-test-app2.js')(),
-          // require('./db-init-test-app3.js')(),
-          // require('./db-init-test-app4.js')(),
-          // require('./db-init-test-app5.js')(),
+            dbInitTestApp1(userA, userB, userU),
+            dbInitTestApp2()
+            // dbInitTestApp3(),
+            // dbInitTestApp4(),
+            // dbInitTestApp5(),
         ];
 
         return Promise.all(promises);
@@ -91,7 +98,7 @@ function dbInit(done) {
 }
 
 function clearSessionsCollection(callback) {
-    var MongoClient = require('mongodb').MongoClient;
+    var MongoClient = mongoDb.MongoClient;
     MongoClient.connect(dbUrl, function(err, db) {
         if (err) { throw err; }
         db.collection('sessions').remove({}, function(err, result) {
@@ -120,8 +127,9 @@ function clearDB(callback) {
         function removeCallback() {
             val--; // (safe because no race condition in single-threaded node.js)
             if (val === 0) {
-                if (callback) { callback(); }
+                if (callback) { return callback(); }
             }
+            return;
         }
     }
 

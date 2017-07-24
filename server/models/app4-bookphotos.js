@@ -16,16 +16,16 @@
 'use strict';
 
 var
-  mongoose = require('mongoose'),
-  Promise = require('bluebird'),
-  Schema = mongoose.Schema,
-  APPCONST = require('./../config/constants.js'),
-  PublicError = require('../utils/public-error.js'),
-  myErrorLog = require('./../utils/my-error-log.js'),
+    mongoose = require('mongoose'),
+    Promise = require('bluebird'),
+    Schema = mongoose.Schema,
+    APPCONST = require('./../config/constants.js'),
+    PublicError = require('../utils/public-error.js'),
+    myErrorLog = require('./../utils/my-error-log.js'),
 
-  path = require('path'),
-  imageLib = require('jimp'),
-  fs = Promise.promisifyAll(require('fs'));
+    path = require('path'),
+    imageLib = require('jimp'),
+    fs = Promise.promisifyAll(require('fs'));
 
 mongoose.Promise = Promise;
 

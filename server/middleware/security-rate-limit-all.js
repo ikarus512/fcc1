@@ -16,8 +16,8 @@
 'use strict';
 
 var
-  APPCONST = require('./../config/constants.js'),
-  RateLimit = require('express-rate-limit');
+    APPCONST = require('./../config/constants.js'),
+    RateLimit = require('express-rate-limit');
 
 var limiter =
 

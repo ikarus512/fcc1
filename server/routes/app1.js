@@ -29,16 +29,17 @@
 //     (authorized only)
 // RESTAPI PUT    /app1/api/polls/:id/options/:oid/vote - vote for poll option
 
-var express = require('express'),
-  router = express.Router(),
-  greet = require('../utils/greet.js'),
-  shareit = require('../utils/shareit.js'),
-  createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
-  Promise = require('bluebird'),
-  myEnableCORS = require('../middleware/my-enable-cors.js');
+var
+    express = require('express'),
+    router = express.Router(),
+    greet = require('../utils/greet.js'),
+    shareit = require('../utils/shareit.js'),
+    createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
+    Promise = require('bluebird'),
+    myEnableCORS = require('../middleware/my-enable-cors.js'),
 
-var User = require('../models/users.js');
-var Poll = require('../models/app1-polls.js');
+    Poll = require('../models/app1-polls.js'),
+    User = require('../models/users.js');
 
 // GET /app1 - redirected to /app1/polls
 router.get('/', function(req, res) {
@@ -61,12 +62,13 @@ router.get('/polls/:id',
             throw new Error('Poll not found.');
         } else { // if found, add to req
             req.pollTitle = poll.title;
-            next();
+            return next();
         }
     })
 
     // In case of error
     .catch(function(err) {
+        if (err) {}
         req.pollTitle = '';
         next();
     });

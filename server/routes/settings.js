@@ -15,9 +15,10 @@
 /*jshint node: true*/
 'use strict';
 
-var User = require('../models/users.js'),
-  PublicError = require('../utils/public-error.js'),
-  myErrorLog = require('../utils/my-error-log.js');
+var
+    User = require('../models/users.js'),
+    PublicError = require('../utils/public-error.js'),
+    myErrorLog = require('../utils/my-error-log.js');
 
 module.exports = function (app, passport, isLoggedIn, greet) {
 

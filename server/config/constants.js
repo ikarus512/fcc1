@@ -17,8 +17,8 @@
 'use strict';
 
 var
-  APPCONST,
-  isHeroku = require('./../utils/is-heroku.js');
+    APPCONST,
+    isHeroku = require('./../utils/is-heroku.js');
 
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 

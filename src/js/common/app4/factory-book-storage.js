@@ -76,7 +76,7 @@
                     data:{},
                     url: MyConst.serverUrl + '/app4/api/get-ws-ticket'
                 });
-            },
+            }
         };
 
     }]); // .factory('bookStorage', ...

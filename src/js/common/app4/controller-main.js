@@ -18,11 +18,11 @@
         // Init params from backend
         if (MyConst.webApp) {
             $scope.logintype =
-              (backendParams.logintype && backendParams.logintype !== 'undefined') ?
-              backendParams.logintype : '';
+                (backendParams.logintype && backendParams.logintype !== 'undefined') ?
+                backendParams.logintype : '';
             $scope.username =
-              (backendParams.username && backendParams.username !== 'undefined') ?
-              backendParams.username : '';
+                (backendParams.username && backendParams.username !== 'undefined') ?
+                backendParams.username : '';
         } else {
             $scope.ajaxLoadingSpinner++;
             User.check()
@@ -60,7 +60,7 @@
                 price: undefined,
                 keywords: '',
                 description: '',
-                file: null,
+                file: null
             };
 
             $scope.mode = 'addBook';

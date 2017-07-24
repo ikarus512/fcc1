@@ -16,9 +16,9 @@
 'use strict';
 
 var
-  Cafe = require('./../../models/app2-cafes.js'),
-  myErrorLog = require('../../utils/my-error-log.js'),
-  refreshCafesGoogle = require('./refresh-cafes-google.js');
+    Cafe = require('./../../models/app2-cafes.js'),
+    myErrorLog = require('../../utils/my-error-log.js'),
+    refreshCafesGoogle = require('./refresh-cafes-google.js');
 
 function getCafes(obj) {
 

@@ -15,48 +15,48 @@
           maxZoom = 17,
 
           scope = {
-            cafes: '=mapCafes',
-            selectedCafeId: '=mapSelectedCafeId',
-            center: '=mapCenter',
-            zoom: '=mapZoom',
+              cafes: '=mapCafes',
+              selectedCafeId: '=mapSelectedCafeId',
+              center: '=mapCenter',
+              zoom: '=mapZoom',
 
-            mapMoved: '=',
-            onMapInit: '=',
-            mapSelectedCafe: '=',
-            cafesUnselect: '=',
-        },
+              mapMoved: '=',
+              onMapInit: '=',
+              mapSelectedCafe: '=',
+              cafesUnselect: '='
+          },
 
           layerOffline = L.tileLayer(
-            MyConst.urlPref + 'img/OSM5/{z}/{x}/{y}.png', {
-            reuseTiles: true,
-            updateWhenIdle: false,
-            maxZoom: maxZoom,
-        }),
+              MyConst.urlPref + 'img/OSM5/{z}/{x}/{y}.png', {
+              reuseTiles: true,
+              updateWhenIdle: false,
+              maxZoom: maxZoom
+          }),
 
           layerOnline = L.tileLayer(
-            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            reuseTiles: true,
-            updateWhenIdle: false,
-            maxZoom: maxZoom,
-        }),
+              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              reuseTiles: true,
+              updateWhenIdle: false,
+              maxZoom: maxZoom
+          }),
 
           iconBlue = L.icon({
-            iconUrl: MyConst.urlPref + 'img/app2/blue-dot.png',
-            iconSize: [30, 30],
-            iconAnchor: [15, 30],
-        }),
+              iconUrl: MyConst.urlPref + 'img/app2/blue-dot.png',
+              iconSize: [30, 30],
+              iconAnchor: [15, 30]
+          }),
 
           iconGreen = L.icon({
-            iconUrl: MyConst.urlPref + 'img/app2/green-dot.png',
-            iconSize: [30, 30],
-            iconAnchor: [15, 30],
-        }),
+              iconUrl: MyConst.urlPref + 'img/app2/green-dot.png',
+              iconSize: [30, 30],
+              iconAnchor: [15, 30]
+          }),
 
           iconRed = L.icon({
-            iconUrl: MyConst.urlPref + 'img/app2/red-dot.png',
-            iconSize: [30, 30],
-            iconAnchor: [15, 30],
-        });
+              iconUrl: MyConst.urlPref + 'img/app2/red-dot.png',
+              iconSize: [30, 30],
+              iconAnchor: [15, 30]
+          });
 
         // directive link function
         function directiveLinkFunction(scope, element, attrs) {
@@ -69,7 +69,7 @@
                 attributionControl: false, // no link to leaflet
                 zoomControl: true,
                 doubleClickZoom: false, // we do it manually
-                layers: [layerOffline],
+                layers: [layerOffline]
             };
 
             //////////////////////////////////////////////////////////
@@ -94,18 +94,18 @@
             // toggle fullscreen
             //////////////////////////////////////////////////////////
             var
-              fullscreen = false,
-              mainElem = angular.element(element[0]),
-              // mapElem = angular.element(element.find('#leaflet-map-canvas')[0]),
-              el = mainElem,
-              curOpts = {
-                position: el.css('position'),
-                left:     el.css('left'),
-                top:      el.css('top'),
-                height:   el.css('height'),
-                width:    '100%', //el.css('width'),
-                'z-index':el.css('z-index'),
-            };
+                fullscreen = false,
+                mainElem = angular.element(element[0]),
+                // mapElem = angular.element(element.find('#leaflet-map-canvas')[0]),
+                el = mainElem,
+                curOpts = {
+                    position: el.css('position'),
+                    left:     el.css('left'),
+                    top:      el.css('top'),
+                    height:   el.css('height'),
+                    width:    '100%', //el.css('width'),
+                    'z-index':el.css('z-index')
+                };
             scope.fullscreenIcon = 'zoom_out_map';
             scope.toggleFullscreen = function() {
                 if (fullscreen) {
@@ -125,7 +125,7 @@
                         top:   0,
                         height:'100%',
                         width: '100%',
-                        'z-index':1500,
+                        'z-index':1500
                     });
                     angular.element('body').css({overflow:'hidden'});
                     onFullScreen();
@@ -162,7 +162,7 @@
                     circle = L.circle(scope.center,{
                         color: '#FF0000',   opacity: 0.30,     weight: 2,
                         fillColor: '#00FF00',     fillOpacity: 0.10,
-                        radius: scope.radius ? scope.radius : 10000,
+                        radius: scope.radius ? scope.radius : 10000
                     }).addTo(map);
                     circle.on('dblclick', onDblClick);
                     circle.on('click', onClick);
@@ -244,7 +244,7 @@
                             scope.mapMoved({
                                 newZoom: z,
                                 newRadius: r,
-                                newCenter: c,
+                                newCenter: c
                             });
                         });
 
@@ -297,7 +297,7 @@
 
                 var markerOptions = {
                     title: cafe.name,
-                    icon: iconBlue,
+                    icon: iconBlue
                 };
 
                 marker = L.marker(position, markerOptions);
@@ -362,7 +362,7 @@
             templateUrl: MyConst.urlPref + 'js/common/app2/directive-map-leaflet.html',
             replace: true,
             scope: scope,
-            link: directiveLinkFunction,
+            link: directiveLinkFunction
         };
     }]);
 

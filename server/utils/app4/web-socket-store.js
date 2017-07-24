@@ -15,11 +15,11 @@
 'use strict';
 
 var
-  Book = require('../../models/app4-books.js'),
-  myErrorLog = require('../../utils/my-error-log.js'),
-  d3 = require('d3'),
-  wsStore = {},
-  tickets = [];
+    Book = require('../../models/app4-books.js'),
+    myErrorLog = require('../../utils/my-error-log.js'),
+    d3 = require('d3'),
+    wsStore = {},
+    tickets = [];
 
 wsStore.ticketGenerate = function(userinfo) {
     var ticket, TWO_POW_24 = 16 * 1024 * 1024;
@@ -41,8 +41,8 @@ wsStore.ticketCheck = function(ticket) {
 
 wsStore.ticketRemove = function(ticket) {
     var
-      i,
-      found = tickets.some(function(el,idx) { i = idx; return (el.ticket === ticket); });
+        i,
+        found = tickets.some(function(el,idx) { i = idx; return (el.ticket === ticket); });
 
     if (found) {
         tickets.splice(i,1);
@@ -57,7 +57,7 @@ wsStore.broadcastRefreshBids = function(bookId) {
     if (wsClients[bookId]) {
         for (var ticket in wsClients[bookId]) {
             wsClients[bookId][ticket].send(JSON.stringify({
-                msgtype: 'app4-broadcast-refresh-bids',
+                msgtype: 'app4-broadcast-refresh-bids'
             }));
         }
     }
@@ -69,7 +69,7 @@ wsStore.broadcastRefreshDetails = function(bookId) {
     if (wsClients[bookId]) {
         for (var ticket in wsClients[bookId]) {
             wsClients[bookId][ticket].send(JSON.stringify({
-                msgtype: 'app4-broadcast-refresh-details',
+                msgtype: 'app4-broadcast-refresh-details'
             }));
         }
     }
@@ -94,7 +94,7 @@ wsStore.sendMessage = function(bookId, from, to, time, text) {
                         from: from,
                         to: to,
                         time: time,
-                        text: text,
+                        text: text
                     }));
                 }
             }

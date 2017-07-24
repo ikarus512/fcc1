@@ -49,7 +49,7 @@
         $scope.chartData = [];
         $scope.chartOptions = {
             title: {display: true, text: undefined},
-            legend: {display: true, position: 'bottom',},
+            legend: {display: true, position: 'bottom'}
         };
 
         reloadPoll();

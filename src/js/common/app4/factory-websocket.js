@@ -44,7 +44,7 @@
                             msgtype: 'app4-check-ticket',
                             bookId: bookId,
                             uid: uid,
-                            ticket: ticket,
+                            ticket: ticket
                         }));
                         deferred.resolve(1);
                     },1500); // Delay for heroku.com
@@ -82,7 +82,7 @@
                 from: from,
                 to: to,
                 time: time,
-                text: text,
+                text: text
             }));
         };
 

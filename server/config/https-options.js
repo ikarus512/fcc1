@@ -16,16 +16,17 @@
 'use strict';
 
 var
-  fs = require('fs'),
-  httpsOptions = null;
+    fs = require('fs'),
+    httpsOptions = null,
+    path = require('path');
 
 try {
 
     // Try to load .pem files in _certificate/ folder:
 
     httpsOptions = {
-        cert : fs.readFileSync(__dirname + '/../../_certificate/certificate.pem'),
-        key  : fs.readFileSync(__dirname + '/../../_certificate/key.pem')
+        cert : fs.readFileSync(path.join(__dirname, '/../../_certificate/certificate.pem')),
+        key  : fs.readFileSync(path.join(__dirname, '/../../_certificate/key.pem'))
     };
 
 } catch (err) {
@@ -35,8 +36,8 @@ try {
     // Use test/cert/*.pem files instead.
 
     httpsOptions = {
-        cert : fs.readFileSync(__dirname + '/../../test/cert/certificate.pem'),
-        key  : fs.readFileSync(__dirname + '/../../test/cert/key.pem')
+        cert : fs.readFileSync(path.join(__dirname, '/../../test/cert/certificate.pem')),
+        key  : fs.readFileSync(path.join(__dirname, '/../../test/cert/key.pem'))
     };
 
 }

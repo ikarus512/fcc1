@@ -17,8 +17,8 @@
 'use strict';
 
 var
-  LOG_FILE_NAME = __dirname + '/../../logs/test.log',
-  fs = require('fs');
+    LOG_FILE_NAME = __dirname + '/../../logs/test.log',
+    fs = require('fs');
 
 module.exports = function(obj) {
     var txt = '';

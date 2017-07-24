@@ -19,40 +19,40 @@
 require('./../test-utils.js');
 
 var
-  request = require('superagent'),
-  chai = require('chai'),
-  expect = chai.expect,
-  should = chai.should,
-  // parallel = require('mocha.parallel'),
-  // parallel = describe,
-  parallel = (process.env.RUNNING_UNDER_ISTANBUL) ? describe : require('mocha.parallel'),
-  appUrl = require('./../../../server/config/app-url.js'),
-  testLog = require('./../my-test-log.js'),
+    request = require('superagent'),
+    chai = require('chai'),
+    expect = chai.expect,
+    should = chai.should,
+    // parallel = require('mocha.parallel'),
+    // parallel = describe,
+    parallel = (process.env.RUNNING_UNDER_ISTANBUL) ? describe : require('mocha.parallel'),
+    appUrl = require('./../../../server/config/app-url.js'),
+    testLog = require('./../my-test-log.js'),
 
-  // cheerio = require('cheerio'),
-  // extractCsrfToken = function extractCsrfToken_(res) {
-  //   var $ = cheerio.load(res.text);
-  //   return $('[name=_csrf]').val();
-  // },
+    // cheerio = require('cheerio'),
+    // extractCsrfToken = function extractCsrfToken_(res) {
+    //     var $ = cheerio.load(res.text);
+    //     return $('[name=_csrf]').val();
+    // },
 
-  Poll = require('./../../../server/models/app1-polls.js'),
-  User = require('./../../../server/models/users.js'),
-  userA, userB, userU,
-  usersInit = require('./../init-users.js'),
-  pollsInit = require('./../init-app1.js'),
-  polls, // polls that will be crated just for this file tests
-    // Tests will change only polls[0] as follows:
-    // - userU: vote
-    // - userA: add option, vote
-  titlePref = 'test/integr/routes/app1-api.js',
-  titles = [
-    // titles for polls to test
-    titlePref + ' userA question poll 0',
-    titlePref + ' userA question poll 1',
-    titlePref + ' userU question poll 2',
-    titlePref + ' userU question poll 3',
-  ],
-  userANewPollTitle = titlePref + 'auth user should add poll';
+    Poll = require('./../../../server/models/app1-polls.js'),
+    User = require('./../../../server/models/users.js'),
+    userA, userB, userU,
+    usersInit = require('./../init-users.js'),
+    pollsInit = require('./../init-app1.js'),
+    polls, // polls that will be crated just for this file tests
+        // Tests will change only polls[0] as follows:
+        // - userU: vote
+        // - userA: add option, vote
+    titlePref = 'test/integr/routes/app1-api.js',
+    titles = [
+        // titles for polls to test
+        titlePref + ' userA question poll 0',
+        titlePref + ' userA question poll 1',
+        titlePref + ' userU question poll 2',
+        titlePref + ' userU question poll 3',
+    ],
+    userANewPollTitle = titlePref + 'auth user should add poll';
 
 // Init polls:
 before(function() {

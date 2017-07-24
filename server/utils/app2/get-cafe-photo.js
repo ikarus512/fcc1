@@ -16,9 +16,9 @@
 'use strict';
 
 var
-  request = require('request'),
-  // APPCONST = require('./../../config/constants.js'),
-  Promise = require('bluebird');
+    request = require('request'),
+    // APPCONST = require('./../../config/constants.js'),
+    Promise = require('bluebird');
 
 // Using Google Place Photos API
 function getCafePhoto(googlePhotoRef) {

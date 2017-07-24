@@ -57,35 +57,35 @@ var MOBILE_PATHS = {
         src: MOBILE_SRC + 'src/views/mobile/_app_index.pug',
         srcRename: '_app_index',
         dstRename: 'index',
-        dest: MOBILE_DST,
+        dest: MOBILE_DST
     },
     favicon: {
         src: MOBILE_SRC + 'public/favicon.ico',
-        dest: MOBILE_DST,
+        dest: MOBILE_DST
     },
     cordovaJs: {
         src: MOBILE_SRC + 'src/js/mobile/cordova.js',
-        dest: MOBILE_DST,
+        dest: MOBILE_DST
     },
     // jsComponents: {
-    //       MOBILE_SRC + 'src/js/common/components/input-price-update.html',
+    //       MOBILE_SRC + 'src/js/common/components/input-price-update.html'
     // },
     js: {
         src: [
-          MOBILE_SRC + 'src/js/**/*.{js,html}', // js and templates
+          MOBILE_SRC + 'src/js/**/*.{js,html}' // js and templates
         ],
         base: MOBILE_SRC + 'src/js/',
-        dest: MOBILE_DST + 'js/',
+        dest: MOBILE_DST + 'js/'
     },
     copy: {
         src: [
           MOBILE_SRC + 'public/lib/**/*',
           MOBILE_SRC + 'public/css/**/*', // cssMin
           MOBILE_SRC + 'public/fonts/**/*',
-          MOBILE_SRC + 'public/img/**/*',
+          MOBILE_SRC + 'public/img/**/*'
         ],
         base: MOBILE_SRC + 'public/',
-        dest: MOBILE_DST,
+        dest: MOBILE_DST
     },
     views: {
         src: [
@@ -97,15 +97,15 @@ var MOBILE_PATHS = {
           MOBILE_SRC + 'src/views/common/app3_stock.pug',
           MOBILE_SRC + 'src/views/common/app4_book.pug',
           MOBILE_SRC + 'src/views/common/app4_books.pug',
-          MOBILE_SRC + 'src/views/common/app5_pinter.pug',
+          MOBILE_SRC + 'src/views/common/app5_pinter.pug'
         ],
-        dest: MOBILE_DST + 'views/',
+        dest: MOBILE_DST + 'views/'
     },
     less: {
         hdr: '/*! (C) 2017 https://github.com/ikarus512 */',
         src: [MOBILE_SRC + 'src/less/_dynapps.less',
-               MOBILE_SRC + 'src/less/_mobile.less',],
-        dest: MOBILE_DST + 'less/',
+               MOBILE_SRC + 'src/less/_mobile.less'],
+        dest: MOBILE_DST + 'less/'
     },
 };
 
@@ -173,7 +173,7 @@ gulp.task('mobile-app1-prepare', [
   'mobile-app1-views',
   'mobile-app1-less',
       'devserver-public-html',
-      'devserver-public-js',
+      'devserver-public-js'
 ]);
 
 var WEB_SRC = './';
@@ -183,36 +183,36 @@ var DEV_SERVER_PATHS = {
         hdr: '/*! (C) 2017 https://github.com/ikarus512 */',
         src: [
             WEB_SRC + 'src/js/common/**/*.js',
-            WEB_SRC + 'src/js/web/**/*.js',
+            WEB_SRC + 'src/js/web/**/*.js'
         ],
         base: WEB_SRC + 'src/js/',
-        dest: WEB_DST + 'js/',
+        dest: WEB_DST + 'js/'
     },
     // publicCss: {
     //     hdr: '/*! (C) 2017 https://github.com/ikarus512 */',
     //     src: [
-    //         WEB_SRC + 'src/css/**/*.css', // angular templates
+    //         WEB_SRC + 'src/css/**/*.css' // angular templates
     //     ],
     //     base: WEB_SRC + 'src/css/',
-    //     dest: WEB_DST + 'css/',
+    //     dest: WEB_DST + 'css/'
     // },
     publicHtml: {
         hdr: '<!-- (C) 2017 https://github.com/ikarus512 -->',
         src: [
-            WEB_SRC + 'src/js/common/**/*.html', // angular templates
+            WEB_SRC + 'src/js/common/**/*.html' // angular templates
         ],
         base: WEB_SRC + 'src/js/',
-        dest: WEB_DST + 'js/',
+        dest: WEB_DST + 'js/'
     },
     serverJs: {
-        src: WEB_SRC + 'server/**/*.js',
+        src: WEB_SRC + 'server/**/*.js'
     },
     binaries: {
         src: WEB_SRC + 'mobile/fcc1apps/platforms/android/' +
           'build/outputs/apk/android-release-unsigned.apk',
         srcRename: 'android-release-unsigned',
         dstRename: 'ikarus512-fcc1apps',
-        dest: WEB_DST + 'bin/',
+        dest: WEB_DST + 'bin/'
     },
 };
 
@@ -232,7 +232,7 @@ gulp.task('devserver-public-html', function() { // jshint/minify/copy to public
         // https://github.com/kangax/html-minifier
         collapseWhitespace: true,
         // caseSensitive: true, // attributes
-        removeComments: true,
+        removeComments: true
     }))
     .pipe(headerfooter.header(DEV_SERVER_PATHS.publicHtml.hdr))
     .pipe(gulp.dest(DEV_SERVER_PATHS.publicHtml.dest))
@@ -271,7 +271,7 @@ gulp.task('devserver-server-js', function() { // Only syntax check
 gulp.task('mongo-start', function() {
     var paths = {
         dbDir: './_tmp/dbDir',
-        dbLogs: './_tmp/dbLogs',
+        dbLogs: './_tmp/dbLogs'
     };
     var command = ((process.platform === 'win32') ? 'start /MIN ' : '') +
       ' mongod' +
@@ -289,9 +289,9 @@ gulp.task('mongo-stop', function() {
 });
 
 gulp.task('devserver-build', [
-  'devserver-public-html',
-  'devserver-public-js',
-  'devserver-server-js',
+    'devserver-public-html',
+    'devserver-public-js',
+    'devserver-server-js'
 ]);
 
 gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
@@ -308,7 +308,7 @@ gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
           // 'public/**/*',
           // 'src/js/**/*',
           'src/views/**/*',
-          'src/less/**/*',
+          'src/less/**/*'
         ],
         // 'ignore': [ '.git' ],
         // 'verbose': true,
@@ -344,7 +344,7 @@ gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
         // nodeArgs: ['--debug'],
         // legacyWatch: true,
         // options: '--delay 4', //'--delay 1500ms',
-        delay: 500, // to prevent restarting twice
+        delay: 500 // to prevent restarting twice
     })
     // .on('restart', ['devserver-build'])
     // .on('start',  function(a) { console.log('-start!',a); }) //['watch'])
@@ -353,8 +353,8 @@ gulp.task('devserver', ['mongo-start', 'devserver-build'], function(cb) {
 });
 
 gulp.task('default', [
-  'devserver-build',
-  'mobile-app1-prepare',
+    'devserver-build',
+    'mobile-app1-prepare'
 ]);
 
 ////////////////////////////////////////////////////////////////////////////////

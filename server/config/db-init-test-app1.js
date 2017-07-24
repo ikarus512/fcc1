@@ -16,8 +16,8 @@
 'use strict';
 
 var
-  Poll = require('../models/app1-polls.js'),
-  Promise = require('bluebird');
+    Poll = require('../models/app1-polls.js'),
+    Promise = require('bluebird');
 
 function myInit(userA, userB, userU) {
 

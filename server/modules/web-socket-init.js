@@ -17,9 +17,9 @@
 'use strict';
 
 var
-  wss = require('./web-socket-server.js'),
-  wsApp3 = require('./../utils/app3/web-socket.js'),
-  wsApp4 = require('./../utils/app4/web-socket.js');
+    wss = require('./web-socket-server.js'),
+    wsApp3 = require('./../utils/app3/web-socket.js'),
+    wsApp4 = require('./../utils/app4/web-socket.js');
 
 module.exports = function(options) {
 

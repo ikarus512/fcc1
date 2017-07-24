@@ -16,14 +16,14 @@
 'use strict';
 
 var
-  mongoose = require('mongoose'),
-  Promise = require('bluebird'),
-  Schema = mongoose.Schema,
-  APPCONST = require('./../config/constants.js'),
-  PublicError = require('../utils/public-error.js'),
-  mapUtils = require('./../utils/app2/map-utils.js'),
-  myErrorLog = require('./../utils/my-error-log.js'),
-  MAPS_SEARCH_LIMIT = require('./../config/maps-search-limit.js');
+    mongoose = require('mongoose'),
+    Promise = require('bluebird'),
+    Schema = mongoose.Schema,
+    APPCONST = require('./../config/constants.js'),
+    PublicError = require('../utils/public-error.js'),
+    mapUtils = require('./../utils/app2/map-utils.js'),
+    myErrorLog = require('./../utils/my-error-log.js'),
+    MAPS_SEARCH_LIMIT = require('./../config/maps-search-limit.js');
 
 mongoose.Promise = Promise;
 
@@ -41,19 +41,19 @@ var CafeSchema = new Schema({
         id: String,
         icon: String,
         photoRef: String,
-        placeId: String,
+        placeId: String
     },
 
     // Visit plans represented as 1-hour-length time slots
     timeslots: [{
         start: {type: Date, required: true},
-        users: [{type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}],
+        users: [{type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}]
     }],
 
     //createdAt: { type: Date, required:true, expires: '1m', default: Date.now },
     // // db.cafes.getIndexes(); db.cafes.dropIndex('createdAt_1')
     createdAt: {type: Date, required:true, default: Date.now},
-    updatedAt: {type: Date, required:true, default: Date.now},
+    updatedAt: {type: Date, required:true, default: Date.now}
 },
 { // options
     versionKey: false, // do not use __v property
@@ -61,7 +61,7 @@ var CafeSchema = new Schema({
     // Hence we need to cap collection manually. Though workaround possible:
     // http://www.solidsyntax.be/2016/03/26/ ...
     //    MongoDB-Cannot-change-the-size-of-a-document-in-a-capped-collection/
-    timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'},
+    timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}
 });
 
 ////////////////////////////////////////////////////////////////
@@ -73,6 +73,7 @@ CafeSchema.virtual('origin').get(function() {
     try {
         if (this.google.id) { origin = 'google'; }
     } catch (err) {
+        if (err) {}
     }
 
     return origin;
@@ -146,7 +147,7 @@ CafeSchema.statics.findNearbyCafes = function(userId, lat, lng, radius) {
         // language: 'en',
         // origin: 'google',
         lat: {$gte: (Number(lat) - Number(radius)), $lt: (Number(lat) + Number(radius))},
-        lng: {$gte: (Number(lng) - Number(radius)), $lt: (Number(lng) + Number(radius))},
+        lng: {$gte: (Number(lng) - Number(radius)), $lt: (Number(lng) + Number(radius))}
     })
     .limit(5 * MAPS_SEARCH_LIMIT)
     .populate('timeslots.users')
@@ -185,7 +186,7 @@ CafeSchema.statics.findNearbyCafes = function(userId, lat, lng, radius) {
 
             newCafe.timeslots = cafe.timeslots.map(function(timeslot) {
                 var newTimeslot = {
-                    start: timeslot.start,
+                    start: timeslot.start
                 };
                 if (!timeslot.users) { timeslot.users = []; }
 
@@ -214,8 +215,8 @@ CafeSchema.statics.findNearbyCafes = function(userId, lat, lng, radius) {
         // Allowed planned time t range:  min <= t < max
         var allowTimeMin = new Date();
         allowTimeMin.setMinutes(
-          Math.floor(allowTimeMin.getMinutes() / APPCONST.APP2_TIMESLOT_LENGTH) *
-          APPCONST.APP2_TIMESLOT_LENGTH
+            Math.floor(allowTimeMin.getMinutes() / APPCONST.APP2_TIMESLOT_LENGTH) *
+            APPCONST.APP2_TIMESLOT_LENGTH
         );
         allowTimeMin.setSeconds(0);
         allowTimeMin.setMilliseconds(0);
@@ -256,8 +257,8 @@ CafeSchema.statics.planTimeslot = function(args) {
     var cafeId = args.cafeId;
     var startTime = args.startTime;
     startTime.setMinutes(
-      Math.floor(startTime.getMinutes() / APPCONST.APP2_TIMESLOT_LENGTH) *
-      APPCONST.APP2_TIMESLOT_LENGTH
+        Math.floor(startTime.getMinutes() / APPCONST.APP2_TIMESLOT_LENGTH) *
+        APPCONST.APP2_TIMESLOT_LENGTH
     );
     startTime.setSeconds(0); startTime.setMilliseconds(0);
 
@@ -326,7 +327,7 @@ CafeSchema.statics.planTimeslot = function(args) {
         if (!isfound) { // If not found, create it
             var neededTimeslot = {
                 start: startTime,
-                users: [],
+                users: []
             };
             cafe.timeslots.push(neededTimeslot);
             timeslotIdx = cafe.timeslots.length - 1;
@@ -362,8 +363,8 @@ CafeSchema.statics.unplanTimeslot = function(args) {
     var cafeId = args.cafeId;
     var startTime = args.startTime;
     startTime.setMinutes(
-      Math.floor(startTime.getMinutes() / APPCONST.APP2_TIMESLOT_LENGTH) *
-      APPCONST.APP2_TIMESLOT_LENGTH
+        Math.floor(startTime.getMinutes() / APPCONST.APP2_TIMESLOT_LENGTH) *
+        APPCONST.APP2_TIMESLOT_LENGTH
     );
     startTime.setSeconds(0); startTime.setMilliseconds(0);
 

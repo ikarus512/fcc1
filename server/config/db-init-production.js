@@ -16,9 +16,10 @@
 /*jshint node: true*/
 'use strict';
 
-var User = require('../models/users.js'),
-  Promise = require('bluebird'),
-  myErrorLog = require('../utils/my-error-log.js');
+var
+    User = require('../models/users.js'),
+    Promise = require('bluebird'),
+    myErrorLog = require('../utils/my-error-log.js');
 
 function dbInit(done) {
 

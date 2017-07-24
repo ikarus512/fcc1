@@ -16,9 +16,11 @@
 'use strict';
 
 var
-  LOG_FILE_NAME = __dirname + '/../../logs/internal_errors.log',
-  fs = require('fs'),
-  isHeroku = require('./../utils/is-heroku.js');
+    fs = require('fs'),
+    isHeroku = require('./../utils/is-heroku.js'),
+    path = require('path'),
+
+    LOG_FILE_NAME = path.join(__dirname, '/../../logs/internal_errors.log');
 
 module.exports = function(req, err, message) {
 
@@ -35,7 +37,7 @@ module.exports = function(req, err, message) {
     var txt = '';
 
     txt += '\n\n\n';
-    txt += '--- ' + new Date().toISOString() + ' ---' + '\n';
+    txt += '--- ' + new Date().toISOString() + ' ---\n';
     if (message) {
         txt += 'Message: ' + message + '\n';
     }
@@ -43,7 +45,7 @@ module.exports = function(req, err, message) {
         txt += 'Error:\n';
         txt += 'name: ' + err.name + '\n';
         txt += 'message: ' + err.message + '\n';
-        txt += 'stack:' + '\n';
+        txt += 'stack:\n';
         txt += err.stack + '\n';
     }
 

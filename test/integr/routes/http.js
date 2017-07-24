@@ -19,18 +19,17 @@
 require('./../test-utils.js');
 
 var
-  request = require('superagent'),
-  chai = require('chai'),
-  expect = chai.expect,
-  should = chai.should,
-  // parallel = require('mocha.parallel'),
-  // parallel = describe,
-  parallel = (process.env.RUNNING_UNDER_ISTANBUL) ? describe : require('mocha.parallel'),
-  appUrl = require('./../../../server/config/app-url.js'),
-  testLog = require('./../my-test-log.js');
+    request = require('superagent'),
+    chai = require('chai'),
+    expect = chai.expect,
+    should = chai.should,
+    // parallel = require('mocha.parallel'),
+    // parallel = describe,
+    parallel = (process.env.RUNNING_UNDER_ISTANBUL) ? describe : require('mocha.parallel'),
+    appUrl = require('./../../../server/config/app-url.js'),
+    testLog = require('./../my-test-log.js'),
 
-var
-  appHttpUrl = 'http:' + appUrl.replace(/https:/,'').replace(/\:.*$/,':' + process.env.PORT_HTTP);
+    appHttpUrl = 'http:' + appUrl.replace(/https:/,'').replace(/\:.*$/,':' + process.env.PORT_HTTP);
 
 parallel('http', function() {
 

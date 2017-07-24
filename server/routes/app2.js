@@ -48,7 +48,7 @@ router.get('/cafes', function(req, res) {
 
     res.render('app2_nightlife', greet(req, {
         app2state: app2state,
-        APP_GOOGLE_MAPS_API_KEY: APPCONST.env.APP_GOOGLE_MAPS_API_KEY,
+        APP_GOOGLE_MAPS_API_KEY: APPCONST.env.APP_GOOGLE_MAPS_API_KEY
     }));
 
 });
@@ -122,7 +122,7 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, ne
     Cafe.planTimeslot({
         userId: req.user._id,
         cafeId: req.params.cafeId,
-        startTime: new Date(decodeURIComponent(req.params.startTime)),
+        startTime: new Date(decodeURIComponent(req.params.startTime))
     })
 
     // On success, send the response back
@@ -162,7 +162,7 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
     Cafe.unplanTimeslot({
         userId: req.user._id,
         cafeId: req.params.cafeId,
-        startTime: new Date(decodeURIComponent(req.params.startTime)),
+        startTime: new Date(decodeURIComponent(req.params.startTime))
     })
 
     // On success, send the response back

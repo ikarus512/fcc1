@@ -61,7 +61,7 @@
         $scope.chart1Data = {
             title: 'Title',
             note: 'Description',
-            data: initData(),
+            data: initData()
         };
 
         /* On app3 close: */

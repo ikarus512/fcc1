@@ -16,17 +16,17 @@
 'use strict';
 
 var
-  request = require('request'),
-  Promise = require('bluebird'),
-  Cafe = require('./../../models/app2-cafes.js'),
-  APPCONST = require('./../../config/constants.js'),
-  myErrorLog = require('../../utils/my-error-log.js'),
-  MAPS_SEARCH_LIMIT = require('./../../config/maps-search-limit.js'),
-  GOOGLE_DELAY_BETWEEN_REQUESTS = 2000,
+    request = require('request'),
+    Promise = require('bluebird'),
+    Cafe = require('./../../models/app2-cafes.js'),
+    APPCONST = require('./../../config/constants.js'),
+    myErrorLog = require('../../utils/my-error-log.js'),
+    MAPS_SEARCH_LIMIT = require('./../../config/maps-search-limit.js'),
+    GOOGLE_DELAY_BETWEEN_REQUESTS = 2000,
 
-  NEXT_PAGE_TOKEN = 'next_page_token',
-  PHOTO_REFERENCE = 'photo_reference',
-  PLACE_ID = 'place_id';
+    NEXT_PAGE_TOKEN = 'next_page_token',
+    PHOTO_REFERENCE = 'photo_reference',
+    PLACE_ID = 'place_id';
 
 function googleRequest(lat, lng, radius, dataIn) {
 
@@ -61,8 +61,8 @@ function googleRequest(lat, lng, radius, dataIn) {
               {
                 url: url,
                 headers: {
-                    referer : APPCONST.env.APP_GOOGLE_PLACES_API_REFERRER,
-                },
+                    referer : APPCONST.env.APP_GOOGLE_PLACES_API_REFERRER
+                }
             },
 
               function requestHandler(err, response, data) {
@@ -169,15 +169,15 @@ function cafeFilterAndSave(cafes) {
         var newCafe = {google: {}};
 
         // newCafe._id = 0;
-        try { newCafe.lat = cafe.geometry.location.lat; } catch (err) {}
-        try { newCafe.lng = cafe.geometry.location.lng; } catch (err) {}
-        try { newCafe.name = cafe.name; } catch (err) {}
-        try { newCafe.text = cafe.vicinity; } catch (err) {} // address
-        try { newCafe.photo = cafe.icon; } catch (err) {}
-        try { newCafe.google.icon = cafe.icon; } catch (err) {}
-        try { newCafe.google.id = cafe.id; } catch (err) {}
-        try { newCafe.google.photoRef = cafe.photos[0][PHOTO_REFERENCE]; } catch (err) {}
-        try { newCafe.google.placeId = cafe[PLACE_ID]; } catch (err) {}
+        try { newCafe.lat = cafe.geometry.location.lat; } catch (err) { if (err) {} }
+        try { newCafe.lng = cafe.geometry.location.lng; } catch (err) { if (err) {} }
+        try { newCafe.name = cafe.name; } catch (err) { if (err) {} }
+        try { newCafe.text = cafe.vicinity; } catch (err) { if (err) {} } // address
+        try { newCafe.photo = cafe.icon; } catch (err) { if (err) {} }
+        try { newCafe.google.icon = cafe.icon; } catch (err) { if (err) {} }
+        try { newCafe.google.id = cafe.id; } catch (err) { if (err) {} }
+        try { newCafe.google.photoRef = cafe.photos[0][PHOTO_REFERENCE]; } catch (err) {if (err) {}}
+        try { newCafe.google.placeId = cafe[PLACE_ID]; } catch (err) { if (err) {} }
 
         return newCafe;
 

@@ -13,7 +13,7 @@
         return {
             restrict: 'E',
             scope: {
-                data: '=',
+                data: '='
             },
 
             link: function(scope, element, attrs) {
@@ -26,7 +26,7 @@
 
                 // Automatic update elemWidth on element resize
                 scope.$watchGroup([
-                  function() { return element[0].getBoundingClientRect().width; },
+                  function() { return element[0].getBoundingClientRect().width; }
                 ], function(newValues, oldValues) {
                     var x = Number(newValues[0]);
                     if (isFinite(x)) {
@@ -52,7 +52,7 @@
                         left:   Math.floor(width * 0.1),
                         top:    Math.floor(height * 0.03)  + titleHeight,
                         right:  Math.floor(width * (1 - 0.1)),
-                        bottom: Math.floor(height * (1 - 0.14))  + titleHeight,
+                        bottom: Math.floor(height * (1 - 0.14))  + titleHeight
                     };
 
                     var formatCurrency = d3.format('$,.2f');

@@ -18,14 +18,14 @@
 // Example: https://gist.github.com/joshbirk/1732068
 
 var
-  APPCONST = require('./../config/constants.js'),
-  TwitterStrategy = require('passport-twitter').Strategy,
-  FacebookStrategy = require('passport-facebook').Strategy,
-  GitHubStrategy = require('passport-github').Strategy,
-  LocalStrategy = require('passport-local').Strategy,
-  PublicError = require('../utils/public-error.js'),
-  myErrorLog = require('../utils/my-error-log.js'),
-  User = require('../models/users.js');
+    APPCONST = require('./../config/constants.js'),
+    TwitterStrategy = require('passport-twitter').Strategy,
+    FacebookStrategy = require('passport-facebook').Strategy,
+    GitHubStrategy = require('passport-github').Strategy,
+    LocalStrategy = require('passport-local').Strategy,
+    PublicError = require('../utils/public-error.js'),
+    myErrorLog = require('../utils/my-error-log.js'),
+    User = require('../models/users.js');
 
 module.exports = function (passport) {
 

@@ -23,7 +23,7 @@
                 myFocus: '=',
                 myEnter: '&',
 
-                sortIndex: '@',
+                sortIndex: '@'
             },
 
             templateUrl: MyConst.urlPref + 'js/common/components/input-price-update.html',
@@ -77,7 +77,7 @@
                   true // deep watch
                 ); // scope.$watch( ... scope.error )
 
-            }, // link: function(...)
+            } // link: function(...)
 
         };
 

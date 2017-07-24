@@ -16,14 +16,14 @@
 'use strict';
 
 var
-  mongoose = require('mongoose'),
-  Promise = require('bluebird'),
-  Schema = mongoose.Schema,
-  APPCONST = require('./../config/constants.js'),
-  PublicError = require('./../utils/public-error.js'),
-  myErrorLog = require('./../utils/my-error-log.js'),
-  BookPhoto = require('./../models/app4-bookphotos.js'),
-  User = require('./../models/users.js');
+    mongoose = require('mongoose'),
+    Promise = require('bluebird'),
+    Schema = mongoose.Schema,
+    APPCONST = require('./../config/constants.js'),
+    PublicError = require('./../utils/public-error.js'),
+    myErrorLog = require('./../utils/my-error-log.js'),
+    BookPhoto = require('./../models/app4-bookphotos.js'),
+    User = require('./../models/users.js');
 
 mongoose.Promise = Promise;
 
@@ -47,9 +47,9 @@ var BookSchema = new Schema({
         msgs: [{
             at: Date,
             by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            text: String,
-        }],
-    }],
+            text: String
+        }]
+    }]
 });
 
 ////////////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ BookSchema.statics.getBook = function(bookId,uid) {
                         return {
                             by: {_id: msg.by._id, name: msg.by.name},
                             at: msg.at,
-                            text: msg.text,
+                            text: msg.text
                         };
                     });
                 }
@@ -144,11 +144,11 @@ BookSchema.statics.getBook = function(bookId,uid) {
                 _id: bid._id,
                 by: {
                     _id: bid.by._id,
-                    name: bid.by.name,
+                    name: bid.by.name
                 },
                 price: bid.price,
                 chosen: bid.chosen,
-                msgs: msgs,
+                msgs: msgs
             };
         })
 
@@ -270,7 +270,7 @@ BookSchema.statics.addMsg = function(bookId, from, to, time, text) {
             var msg = {
                 at: time,
                 by: from,
-                text: text,
+                text: text
             };
             book.bids[bidIdx].msgs.push(msg);
         } else {

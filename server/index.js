@@ -15,43 +15,48 @@
 /*jshint node: true*/
 'use strict';
 
-var express = require('express'),
-  APPCONST = require('./config/constants.js'),
-  app = express(),
-  appHttp = express(),
-  session = require('express-session'),
-  path = require('path'),
-  fs = require('fs'),
-  http = require('http'),
-  https = require('https'),
-  Promise = require('bluebird'),
-  ExpressStatusMonitor = require('express-status-monitor'),
-  flash = require('connect-flash'),
-  cookieParser = require('cookie-parser'),
-  bodyParser = require('body-parser'),
-  expressLess = require('express-less'),
-  herokuSslRedirect = require('./middleware/heroku-ssl-redirect.js'),
-  greet = require('./utils/greet.js'),
-  app1Voting    = require('./routes/app1.js'),
-  app2Nightlife = require('./routes/app2.js'),
-  app3Stock     = require('./routes/app3.js'),
-  app4Books     = require('./routes/app4.js'),
-  app5Pinter    = require('./routes/app5.js'),
-  isHeroku = require('./utils/is-heroku.js'),
-  isAdmin = require('./middleware/is-admin.js'),
+var
+    express = require('express'),
+    APPCONST = require('./config/constants.js'),
+    app = express(),
+    appHttp = express(),
+    session = require('express-session'),
+    path = require('path'),
+    fs = require('fs'),
+    http = require('http'),
+    https = require('https'),
+    Promise = require('bluebird'),
+    ExpressStatusMonitor = require('express-status-monitor'),
+    flash = require('connect-flash'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    expressLess = require('express-less'),
+    herokuSslRedirect = require('./middleware/heroku-ssl-redirect.js'),
+    securityHeadersHttp = require('./middleware/security-headers-http.js'),
+    httpsOptions = require('./config/https-options.js'),
+    socketIoServer = require('./modules/socket-io-server.js'),
+    webSocketInit = require('./modules/web-socket-init.js'),
+    greet = require('./utils/greet.js'),
+    app1Voting    = require('./routes/app1.js'),
+    app2Nightlife = require('./routes/app2.js'),
+    app3Stock     = require('./routes/app3.js'),
+    app4Books     = require('./routes/app4.js'),
+    app5Pinter    = require('./routes/app5.js'),
+    isHeroku = require('./utils/is-heroku.js'),
+    isAdmin = require('./middleware/is-admin.js'),
 
-  dbConnect = require('./config/db-connect.js'),
-  dbInit = require('./config/db-init.js'),
+    dbConnect = require('./config/db-connect.js'),
+    dbInit = require('./config/db-init.js'),
 
-  morganLogger = require('morgan'),
-  rfs = require('rotating-file-stream'),
-  logDir = path.join(__dirname, '../logs/'),
+    morganLogger = require('morgan'),
+    rfs = require('rotating-file-stream'),
+    logDir = path.join(__dirname, '../logs/'),
 
-  myLogFile = path.join(logDir, 'my-request.log'),
-  myRequestLogger = require('./middleware/my-request-logger.js'),
+    myLogFile = path.join(logDir, 'my-request.log'),
+    myRequestLogger = require('./middleware/my-request-logger.js'),
 
-  passport = require('passport'),
-  isLoggedIn = require('./config/passport')(passport);
+    passport = require('passport'),
+    isLoggedIn = require('./config/passport')(passport);
 
 ////////////////////////////////////////////////////////////////
 //  Settings
@@ -63,7 +68,7 @@ app.enable('trust proxy'); // to get req.ip
 if (!isHeroku()) { appHttp.enable('trust proxy'); }
 
 app.set('view engine', 'pug');
-app.set('views',__dirname + './../src/views/common');
+app.set('views', path.join(__dirname, '../src/views/common'));
 
 dbConnect();
 
@@ -74,9 +79,9 @@ var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-option
 ////////////////////////////////////////////////////////////////
 
 var tmpdir1;
-tmpdir1 = path.join(__dirname, '../public' + '/img/app2tmp/');
+tmpdir1 = path.join(__dirname, '../public/img/app2tmp/');
 fs.exists(tmpdir1, function(exists) { if (!exists) { fs.mkdir(tmpdir1, function() {}); } });
-tmpdir1 = path.join(__dirname, '../public' + '/img/app4tmp/');
+tmpdir1 = path.join(__dirname, '../public/img/app4tmp/');
 fs.exists(tmpdir1, function(exists) { if (!exists) { fs.mkdir(tmpdir1, function() {}); } });
 
 // Logs before all middlewares
@@ -100,7 +105,7 @@ require('./middleware/security-headers-common.js')(app);
 if (!isHeroku()) {
 
     // security headers
-    require('./middleware/security-headers-http.js')(appHttp);
+    securityHeadersHttp(appHttp);
 
     appHttp.get('*', function(req, res, next) {
         res.redirect('https://' + req.hostname + ':' + app.get('port'));
@@ -183,11 +188,11 @@ depStatic('/lib/ng-file-upload-all.min.js',           'ng-file-upload/dist/');
 // Other static files
 app.use(express.static(path.join(__dirname, '../public')));
 // Less
-app.use('/less', expressLess(__dirname + './../src/less', {
+app.use('/less', expressLess(path.join(__dirname + './../src/less'), {
     // compress: true,
     // cache: true,
     // debug: true,
-    debug: APPCONST.env.NODE_ENV !== 'production',
+    debug: APPCONST.env.NODE_ENV !== 'production'
 }));
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -243,7 +248,7 @@ var server, serverHttp, boot, shutdown;
 if (!isHeroku()) {
     // Here if run on local host
 
-    server = https.createServer(require('./config/https-options.js'), app);
+    server = https.createServer(httpsOptions, app);
     serverHttp = http.createServer(appHttp);
 
     boot = function(done) {
@@ -289,10 +294,10 @@ if (!isHeroku()) {
             }
 
             // Start socket.io server
-            require('./modules/socket-io-server.js')(server);
+            socketIoServer(server);
 
             // Start webSocket server
-            require('./modules/web-socket-init.js')({server:server});
+            webSocketInit({server:server});
 
             if (done) { return done(); }
             return;
@@ -332,7 +337,7 @@ if (!isHeroku()) {
             console.log('Heroku app listening on port ' + app.get('port') + '.');
         });
         dbInit(function() {});
-        require('./modules/web-socket-init.js')({server:server});
+        webSocketInit({server:server});
     };
 
     shutdown = function() {

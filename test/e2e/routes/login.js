@@ -20,9 +20,9 @@
 require('./../test-utils.js');
 
 var
-  chai = require('chai').use(require('chai-as-promised')),
-  expect = chai.expect,
-  appUrl = require('./../../../server/config/app-url.js');
+    chai = require('chai').use(require('chai-as-promised')),
+    expect = chai.expect,
+    appUrl = require('./../../../server/config/app-url.js');
 
 describe('app1', function() {
     // https://github.com/sakshisingla/Protractor-Non-Angular-Tests/ ...

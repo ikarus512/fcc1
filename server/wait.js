@@ -13,9 +13,9 @@
  */
 
 var
-  io = require('socket.io-client'),
-  appUrl = require('./config/app-url.js'),
-  socketClient = io.connect(appUrl);
+    io = require('socket.io-client'),
+    appUrl = require('./config/app-url.js'),
+    socketClient = io.connect(appUrl);
 
 console.log('Waiting until http/https server starts.');
 

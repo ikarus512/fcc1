@@ -16,7 +16,7 @@
 'use strict';
 
 var
-  helmet = require('helmet'); // https://helmetjs.github.io/docs
+    helmet = require('helmet'); // https://helmetjs.github.io/docs
 
 module.exports = function (app) {
 

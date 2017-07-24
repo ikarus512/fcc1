@@ -15,9 +15,10 @@
 /*jshint node: true*/
 'use strict';
 
-var extend = require('extend'),
-  pugParams = require('../../src/views/pug-params.js').web,
-  xss = require('../middleware/security-xss-protection.js');
+var
+    extend = require('extend'),
+    pugParams = require('../../src/views/pug-params.js').web,
+    xss = require('../middleware/security-xss-protection.js');
 
 function greet(req,o2,o3) {
     var o = {};

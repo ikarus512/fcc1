@@ -16,8 +16,8 @@
 'use strict';
 
 var
-  // Cafe = require('../models/app2-cafes.js'),
-  Promise = require('bluebird');
+    // Cafe = require('../models/app2-cafes.js'),
+    Promise = require('bluebird');
 
 function myInit() {
 

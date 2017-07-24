@@ -17,10 +17,10 @@
 'use strict';
 
 var
-  Poll = require('./../../server/models/app1-polls.js'),
-  Promise = require('bluebird'),
+    Poll = require('./../../server/models/app1-polls.js'),
+    Promise = require('bluebird'),
 
-  polls = [];
+    polls = [];
 
 function pollsInit(opts) {
 

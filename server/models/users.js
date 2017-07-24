@@ -16,13 +16,14 @@
 /*jshint node: true*/
 'use strict';
 
-var mongoose = require('mongoose'),
-  Promise = require('bluebird'),
-  Schema = mongoose.Schema,
-  bcrypt = require('bcrypt-nodejs'),
-  PublicError = require('./../utils/public-error.js'),
-  myErrorLog = require('./../utils/my-error-log.js'),
-  ADMIN_PASSWORD = require('./../config/admin-password.js');
+var
+    mongoose = require('mongoose'),
+    Promise = require('bluebird'),
+    Schema = mongoose.Schema,
+    bcrypt = require('bcrypt-nodejs'),
+    PublicError = require('./../utils/public-error.js'),
+    myErrorLog = require('./../utils/my-error-log.js'),
+    ADMIN_PASSWORD = require('./../config/admin-password.js');
 
 mongoose.Promise = Promise;
 
@@ -32,9 +33,9 @@ var UserSchema = new Schema({
     // -name
 
     // Social networks ids:
-    facebook:     {id: String, username: String, displayName: String,},
-    github:       {id: String, username: String, displayName: String,}, // publicRepos: Number
-    twitter:      {id: String, username: String, displayName: String,},
+    facebook:     {id: String, username: String, displayName: String},
+    github:       {id: String, username: String, displayName: String}, // publicRepos: Number
+    twitter:      {id: String, username: String, displayName: String},
 
     // Local login:
     local:        {username: String, password: String},
@@ -46,7 +47,7 @@ var UserSchema = new Schema({
     fullName:     String,
     city:         String,
     state:        String,
-    country:      String,
+    country:      String
 
 });
 
@@ -63,6 +64,7 @@ UserSchema.virtual('type').get(function() {
         if (this.twitter.id)      { type = 'twitter'; }
         if (this.unauthorized.ip) { type = 'unauthorized'; }
     } catch (err) {
+        if (err) {}
     }
 
     return type;
@@ -74,6 +76,7 @@ UserSchema.virtual('name').get(function() {
         name = this[this.type].displayName;
         name = (name) ? name : this[this.type].username;
     } catch (err) {
+        if (err) {}
     }
 
     return name;
@@ -162,7 +165,7 @@ UserSchema.statics.createAdmin = function(callback) {
     return UserModel().createLocalUser({
         username: 'admin',
         password: ADMIN_PASSWORD,
-        password2: ADMIN_PASSWORD,
+        password2: ADMIN_PASSWORD
     })
 
     .then(function() {
@@ -342,7 +345,7 @@ function myHashEncode(str) {
 }
 
 function myHashDecode(h) {
-    if (h[0] == '$') { return h; } // No decoding needed.
+    if (h[0] === '$') { return h; } // No decoding needed.
 
     // Decode hash1 and rounds (drop hash2).
     var rounds = String(8 + (h.charCodeAt(0) % 10));

@@ -19,9 +19,9 @@
 // Stops http/s server when DB connection error.
 
 var
-  mongoose = require('mongoose'),
-  Promise = require('bluebird'),
-  dbUrl = require('./../config/db-url.js');
+    mongoose = require('mongoose'),
+    Promise = require('bluebird'),
+    dbUrl = require('./../config/db-url.js');
 
 mongoose.Promise = Promise;
 
