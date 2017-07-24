@@ -172,6 +172,12 @@ depStatic('/lib/leaflet/images/layers-2x.png',        'leaflet/dist/images/');
 depStatic('/lib/leaflet/images/marker-icon.png',      'leaflet/dist/images/');
 depStatic('/lib/leaflet/images/marker-icon-2x.png',   'leaflet/dist/images/');
 depStatic('/lib/leaflet/images/marker-shadow.png',    'leaflet/dist/images/');
+// material design icons from Google but by jossef
+depStatic('/lib/material-icons.css',                  'material-design-icons-iconfont/dist/fonts/');
+depStatic('/lib/MaterialIcons-Regular.eot',           'material-design-icons-iconfont/dist/fonts/');
+depStatic('/lib/MaterialIcons-Regular.ttf',           'material-design-icons-iconfont/dist/fonts/');
+depStatic('/lib/MaterialIcons-Regular.woff',          'material-design-icons-iconfont/dist/fonts/');
+depStatic('/lib/MaterialIcons-Regular.woff2',         'material-design-icons-iconfont/dist/fonts/');
 // ng-file-upload
 depStatic('/lib/ng-file-upload-all.min.js',           'ng-file-upload/dist/');
 // Other static files
