@@ -41,7 +41,7 @@ wsStore.getNewData = function() {
     }
 
     // Generate new stock data
-    for (key in allStocks) {
+    for (key in allStocks) { // eslint-disable-line guard-for-in
         var v1 = allStocks[key][APPCONST.APP3_STOCK_PORTION_LENGTH - 1];
         for (i = 0; i < APPCONST.APP3_STOCK_PORTION_LENGTH; i++) {
             v1 *= gauss();

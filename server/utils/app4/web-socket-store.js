@@ -55,7 +55,7 @@ wsStore.broadcastRefreshBids = function(bookId) {
     var wsClients = wsStore.wsClients;
 
     if (wsClients[bookId]) {
-        for (var ticket in wsClients[bookId]) {
+        for (var ticket in wsClients[bookId]) { // eslint-disable-line guard-for-in
             wsClients[bookId][ticket].send(JSON.stringify({
                 msgtype: 'app4-broadcast-refresh-bids'
             }));
@@ -67,7 +67,7 @@ wsStore.broadcastRefreshDetails = function(bookId) {
     var wsClients = wsStore.wsClients;
 
     if (wsClients[bookId]) {
-        for (var ticket in wsClients[bookId]) {
+        for (var ticket in wsClients[bookId]) { // eslint-disable-line guard-for-in
             wsClients[bookId][ticket].send(JSON.stringify({
                 msgtype: 'app4-broadcast-refresh-details'
             }));

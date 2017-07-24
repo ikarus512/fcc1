@@ -164,7 +164,7 @@ function cafeFilterAndSave(cafes) {
 
     var filteredCafes1 = cafes
 
-    .map(function(cafe) {
+    .map(function(cafe) { // eslint-disable-line complexity
 
         var newCafe = {google: {}};
 

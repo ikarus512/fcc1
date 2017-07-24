@@ -119,8 +119,8 @@ function clearDB(callback) {
     function clearDBLoop(callback) {
         var val = 0,
             i;
-        for (i in mongoose.connection.collections) { val++; }
-        for (i in mongoose.connection.collections) {
+        for (i in mongoose.connection.collections) { val++; } // eslint-disable-line guard-for-in
+        for (i in mongoose.connection.collections) { // eslint-disable-line guard-for-in
             mongoose.connection.collections[i].remove(removeCallback);
         }
 

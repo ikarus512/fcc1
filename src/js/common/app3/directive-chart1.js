@@ -118,6 +118,7 @@
                           .range([chartAreaSz.left, chartAreaSz.right]);
 
                         var stocksArray = [], key;
+                        // eslint-disable-next-line guard-for-in
                         for (key in newData.stocks) { stocksArray.push(newData.stocks[key]); }
 
                         var y = d3.scaleLinear()
