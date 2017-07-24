@@ -29,8 +29,7 @@ var
 
 mongoose.Promise = Promise;
 
-fs.existsAsync = Promise.promisify
-(function exists2(path, exists2callback) {
+fs.existsAsync = Promise.promisify(function exists2(path, exists2callback) {
     fs.exists(path, function callbackWrapper(exists) { exists2callback(null, exists); });
 });
 
@@ -39,7 +38,7 @@ fs.existsAsync = Promise.promisify
 ////////////////////////////////////////////////////////////////
 
 var BookPhotoSchema = new Schema({
-    img: {data: Buffer, contentType: String},
+    img: {data: Buffer, contentType: String}
 });
 
 ////////////////////////////////////////////////////////////////
@@ -49,7 +48,7 @@ var BookPhotoSchema = new Schema({
 // getBookPhoto
 BookPhotoSchema.statics.getBookPhoto = function(id) {
 
-    var fileName = path.join(__dirname, '../../public' + '/img/app4tmp/' + id + '.jpg');
+    var fileName = path.join(__dirname, '../../public/img/app4tmp/', id + '.jpg');
     var data;
 
     return BookPhotoModel().findOne({_id:id}).exec()
