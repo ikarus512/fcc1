@@ -29,6 +29,7 @@ var
   htmlMin       = require('gulp-htmlmin'),
   jscs          = require('gulp-jscs'),
   jshint        = require('gulp-jshint'),
+  // eslint        = require('gulp-eslint'),
   mkdirs        = require('mkdirs'),
   nodemon       = require('gulp-nodemon'),
   pug           = require('gulp-pug'),
@@ -245,6 +246,9 @@ gulp.task('devserver-public-js', function() { // jshint/minify/copy to public
     .pipe(jscs.reporter('inline'))
     .pipe(jshint())
     .pipe(jshint.reporter(require('jshint-stylish')))
+    // .pipe(eslint())
+    // .pipe(eslint.format())
+    // .pipe(eslint.failAfterError())
     .pipe(uglify())
     .pipe(headerfooter.header(DEV_SERVER_PATHS.publicJs.hdr))
     .pipe(gulp.dest(DEV_SERVER_PATHS.publicJs.dest))
@@ -258,6 +262,9 @@ gulp.task('devserver-server-js', function() { // Only syntax check
     .pipe(jscs.reporter('inline'))
     .pipe(jshint())
     .pipe(jshint.reporter(require('jshint-stylish')))
+    // .pipe(eslint())
+    // .pipe(eslint.format())
+    // .pipe(eslint.failAfterError())
     .on('error', gutil.log);
 });
 
