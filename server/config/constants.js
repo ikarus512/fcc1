@@ -31,7 +31,7 @@ APPCONST = {
 
     APP3_STOCK_PORTION_LENGTH: 5,
 
-    // TODO: move it to APPENV.APP_URL etc
+    // WISH: move it to APPENV.APP_URL etc
     env: {
         APP_URL: process.env.APP_URL || 'https://127.0.0.1:5000',
         APP_MONGODB_URI: process.env.APP_MONGODB_URI || 'mongodb://localhost:27017/dbname',

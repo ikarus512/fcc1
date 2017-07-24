@@ -11,11 +11,12 @@
 [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
 [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
 
-[![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1)
-[![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1)
+<!-- [![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1) -->
+<!-- [![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1) -->
 ![Node Version](https://img.shields.io/badge/node-%3E=6.0-brightgreen.svg)
 ![NPM Version](https://img.shields.io/badge/npm-%3E=5.0-brightgreen.svg)
 [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Coding Standard Angular](https://img.shields.io/badge/code%20style-angular-brightgreen.svg)](https://github.com/johnpapa/angular-styleguide/)
 [![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?label=lic&maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
 
@@ -73,9 +74,9 @@ similar to [this](http://whatsgoinontonight.herokuapp.com)
 
 Optional features maybe to do in future:
 
-- TODO: List my reservations, show on map.
-- TODO: List another user's reservations (search by his name), show on map.
-- TODO: Download photos using Google Place Photo API.
+- WISH: List my reservations, show on map.
+- WISH: List another user's reservations (search by his name), show on map.
+- WISH: Download photos using Google Place Photo API.
 
 
 --------------------------------------------------------------------------------
@@ -109,10 +110,10 @@ similar to [this](http://bookjump.herokuapp.com)
 
 Optional features maybe to do in future:
 
-- TODO: Books list filter: all|my offers|my bids|by keywords.
-- TODO: Books list pages (temporary query in DB: query ID, query params, current page).
-- TODO: Unused photos cleanup from disk and DB.
-- TODO: Mail notifications about trade.
+- WISH: Books list filter: all|my offers|my bids|by keywords.
+- WISH: Books list pages (temporary query in DB: query ID, query params, current page).
+- WISH: Unused photos cleanup from disk and DB.
+- WISH: Mail notifications about trade.
 
 
 --------------------------------------------------------------------------------

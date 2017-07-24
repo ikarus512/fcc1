@@ -16,7 +16,7 @@
 'use strict';
 
 var
-    // TODO:
+    // WISH:
     //    hostLocal = 'localhost:5000', // developement/test
     //    hostHeroku = 'localhost:5000', // production
     //    host = APPENV.isHeroku ? hostHeroku : hostLocal,
@@ -31,7 +31,7 @@ module.exports = {
         serverUrl: '',
         // webSocketHost: 'wss://' + window.document.location.host,
 
-        useGoogleMaps: false, // TODO: APPENV.isHeroku ? true : false,
+        useGoogleMaps: false, // WISH: APPENV.isHeroku ? true : false,
     },
     mobile: {
         webApp: false,
