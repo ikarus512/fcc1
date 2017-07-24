@@ -14,7 +14,7 @@
             restrict: 'A',
             scope: {
                 keepFocusVar: '@',
-                keepFocusIndex: '@',
+                keepFocusIndex: '@'
             },
             link: function(scope, element, attrs) {
                 scope.$watch('keepFocusIndex', function(newVal, prevVal) {
@@ -24,7 +24,7 @@
                         });
                     }
                 });
-            },
+            }
         };
     }]); // .directive('keepFocus', ...
 

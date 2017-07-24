@@ -26,7 +26,7 @@
                         $(element).hide();
                     }
                 });
-            },
+            }
         };
     }]); // .directive('ajaxLoadingSpinner', ...
 

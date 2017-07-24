@@ -23,6 +23,7 @@ var
     host = 'ikarus512-fcc1.herokuapp.com'; // production
 
 module.exports = {
+
     web: {
         webApp: true,
         mobileApp: false,
@@ -31,8 +32,9 @@ module.exports = {
         serverUrl: '',
         // webSocketHost: 'wss://' + window.document.location.host,
 
-        useGoogleMaps: false, // WISH: APPENV.isHeroku ? true : false,
+        useGoogleMaps: false // WISH: APPENV.isHeroku ? true : false,
     },
+
     mobile: {
         webApp: false,
         mobileApp: true,
@@ -41,6 +43,7 @@ module.exports = {
         serverUrl: 'https://' + host,
         // webSocketHost: 'wss://' + host,
 
-        useGoogleMaps: false,
-    },
+        useGoogleMaps: false
+    }
+
 };

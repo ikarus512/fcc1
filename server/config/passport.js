@@ -84,42 +84,43 @@ module.exports = function (passport) {
     } // localVerify()
     ));
 
-    passport.use(new FacebookStrategy({
-        clientID: APPCONST.env.APP_FACEBOOK_KEY,
-        clientSecret: APPCONST.env.APP_FACEBOOK_SECRET,
-        callbackURL: APPCONST.env.APP_URL + '/auth/facebook/callback',
-        passReqToCallback: true
-    },
-      function facebookVerify(req, token, refreshToken, profile, done) {
-        process.nextTick(function() {
+    passport.use(new FacebookStrategy(
+        {
+            clientID: APPCONST.env.APP_FACEBOOK_KEY,
+            clientSecret: APPCONST.env.APP_FACEBOOK_SECRET,
+            callbackURL: APPCONST.env.APP_URL + '/auth/facebook/callback',
+            passReqToCallback: true
+        },
+        function facebookVerify(req, token, refreshToken, profile, done) {
+            process.nextTick(function() {
 
-            User.findOneMy({'facebook.id': profile.id})
+                User.findOneMy({'facebook.id': profile.id})
 
-            .then(function(user) {
-                if (user) { return user; } // if user found in database
+                .then(function(user) {
+                    if (user) { return user; } // if user found in database
 
-                // if user not found in database, add him there
-                var newUser = new User();
-                newUser.facebook.id          = profile.id;
-                // newUser.facebook.token       = profile.token;
-                newUser.facebook.displayName = profile.displayName;
-                newUser.facebook.username    = profile.username;
+                    // if user not found in database, add him there
+                    var newUser = new User();
+                    newUser.facebook.id          = profile.id;
+                    // newUser.facebook.token       = profile.token;
+                    newUser.facebook.displayName = profile.displayName;
+                    newUser.facebook.username    = profile.username;
 
-                return newUser.save();
-            })
+                    return newUser.save();
+                })
 
-            .then(function(user) {
-                return done(null, user);
-            })
+                .then(function(user) {
+                    return done(null, user);
+                })
 
-            .catch(function(err) {
-                var message = 'Internal error e0000003.';
-                myErrorLog(req, err, message);
-                return done(null, false, req.flash('message', message));
+                .catch(function(err) {
+                    var message = 'Internal error e0000003.';
+                    myErrorLog(req, err, message);
+                    return done(null, false, req.flash('message', message));
+                });
+
             });
-
-        });
-    } // facebookVerify()
+        } // facebookVerify()
     ));
 
     // Twitter

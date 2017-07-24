@@ -24,7 +24,7 @@
                     self.uid  = res.data.uid;
                     return;
                 })
-                .catch(function(err) {
+                .catch(function(err) { // eslint-disable-line handle-callback-err
                     self.type = undefined;
                     self.name = undefined;
                     self.uid  = undefined;

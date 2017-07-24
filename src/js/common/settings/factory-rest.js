@@ -37,7 +37,7 @@
                     data: settings,
                     url: '/settings/api/users/' + id
                 });
-            },
+            }
 
         };
 

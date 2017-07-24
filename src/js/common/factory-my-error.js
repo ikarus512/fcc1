@@ -17,7 +17,7 @@
 
             alert: function(res) {
                 if (res && res.data && res.data.message) {
-                    alert(res.data.message);
+                    alert(res.data.message); // eslint-disable-line no-alert
                     console.log(res.data.message);
                 } else {
                     console.log(res);
@@ -30,7 +30,7 @@
                 } else {
                     console.log(res);
                 }
-            }, // log: function(...)
+            } // log: function(...)
 
         };
 

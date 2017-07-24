@@ -29,7 +29,7 @@
                     data: {username: username, password: password},
                     url: MyConst.serverUrl + '/auth/api/local'
                 });
-            },
+            }
 
         };
 
