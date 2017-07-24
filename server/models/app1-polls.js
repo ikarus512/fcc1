@@ -23,8 +23,8 @@ var Poll = new Schema({
     createdBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     options: [{
         title: String,
-        votes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    }],
+        votes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
+    }]
 });
 
 module.exports = mongoose.model('Poll', Poll);

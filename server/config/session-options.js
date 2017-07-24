@@ -16,12 +16,13 @@
 'use strict';
 
 var
-    dbUrl = require('./../config/db-url.js');
+    dbUrl = require('./../config/db-url.js'),
+    connectMongo = require('connect-mongo');
 
 module.exports = function(session) {
 
     var
-        MongoStore = require('connect-mongo')(session),
+        MongoStore = connectMongo(session),
 
         sessionOptions = {
             secret: 'Yoursecret key7651894', // Unsecure to keep it here:)

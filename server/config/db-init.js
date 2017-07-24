@@ -15,14 +15,9 @@
 /*jshint node: true*/
 'use strict';
 
-var dbInit;
+var
+    APPCONST = require('./../config/constants.js'),
+    dbInitProduction = require('./db-init-production.js'),
+    dbInitTest = require('./db-init-test.js');
 
-if (process.env.NODE_ENV === 'production') {
-    var init = require('./db-init-production.js');
-    dbInit = init;
-} else {
-    var init = require('./db-init-test.js');
-    dbInit = init;
-}
-
-module.exports = dbInit;
+module.exports = (APPCONST.env.NODE_ENV === 'production') ? dbInitProduction : dbInitTest;

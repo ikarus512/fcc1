@@ -29,8 +29,9 @@ module.exports = function() {
                   req.protocol + '://' + req.headers.host + req.originalUrl + '. Use https.'
                 });
             }
+            return;
         } else {
-            next();
+            return next();
         }
     };
 };

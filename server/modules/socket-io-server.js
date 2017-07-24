@@ -19,7 +19,7 @@ var
     APPCONST = require('./../config/constants.js'),
     socketIo = require('socket.io');
 
-module.exports = function(server) {
+module.exports = function(server, shutdownFunction) {
 
     if (APPCONST.env.NODE_ENV !== 'production') {
 
@@ -30,7 +30,8 @@ module.exports = function(server) {
         io.on('connection', function(socketServer) { // Here if new client connected
             socketServer.on('npmStop', function() {
                 console.log('Server received npmStop.');
-                process.exit(0); // Stop server
+                shutdownFunction(); // Stop server
+                // process.exit(0); // Stop server
             });
             socketServer.on('npmServerRequest', function(data) {
                 console.log('Server received request: ', data);

@@ -23,7 +23,7 @@ module.exports = function (app) {
     // (OFF by default)
     app.use(helmet.contentSecurityPolicy({
         directives: {
-            defaultSrc: ['\'self\''],
+            defaultSrc: ['\'self\'']
         }
     }));
 
@@ -60,7 +60,7 @@ module.exports = function (app) {
     app.use(helmet.hsts({
         maxAge: sixtyDaysInSeconds,
         includeSubDomains: true,
-        preload: true,
+        preload: true
     }));
 
     // (ON by default)

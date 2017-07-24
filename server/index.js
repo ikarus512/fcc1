@@ -305,26 +305,7 @@ if (!isHeroku()) {
 
     };
 
-    shutdown = function(done) {
-        // // The following hangs on travis-ci e2e protractor:
-        // server.close(function() {
-        //     console.log('Stopped https.');
-        //     serverHttp.close(function() {
-        //         console.log('Stopped http.');
-        //         if (done) { return done(); }
-        //     });
-        // });
-
-        // Ok on travis-ci:
-        server.close(function() {
-            console.log('Stopped https.');
-        });
-        serverHttp.close(function() {
-            console.log('Stopped http.');
-        });
-        if (done) { return done(); }
-
-    };
+    shutdown = shutdownFunctionNonHeroku;
 
 } else {
     // Here if run on Heroku
@@ -344,6 +325,30 @@ if (!isHeroku()) {
         server.close();
     };
 
+}
+
+function shutdownFunctionNonHeroku(done) {
+    // // The following hangs on travis-ci e2e protractor:
+    // server.close(function() {
+    //     console.log('Stopped https.');
+    //     serverHttp.close(function() {
+    //         console.log('Stopped http.');
+    //         if (done) { return done(); }
+    //     });
+    // });
+
+    // Ok on travis-ci:
+    server.close(function() {
+        console.log('Stopped https.');
+    });
+
+    if (!isHeroku()) {
+        serverHttp.close(function() {
+            console.log('Stopped http.');
+        });
+    }
+
+    if (done) { return done(); }
 }
 
 if (require.main === module) {
