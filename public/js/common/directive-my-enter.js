@@ -1,1 +1,1 @@
-/*! Copyright 2017 ikarus512 https://github.com/ikarus512/fcc1.git */!function(){"use strict";angular.module("myapp").directive("myEnter",function(){return function(n,e,t){e.bind("keyup",function(e){13===e.keyCode&&n.$apply(t.myEnter)}),n.$on("$destroy",function(){e.unbind("keyup")})}})}();
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("myapp").directive("myEnter",function(){return function(n,e,t){e.bind("keyup",function(e){13===e.keyCode&&n.$apply(t.myEnter)}),n.$on("$destroy",function(){e.unbind("keyup")})}})}();

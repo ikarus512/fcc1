@@ -1,1 +1,1 @@
-/*! Copyright 2017 ikarus512 https://github.com/ikarus512/fcc1.git */!function(){"use strict";angular.module("myapp",["ngRoute","ngAnimate","ngMessages","ngFileUpload"])}();
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("myapp",["ngRoute","ngAnimate","ngMessages","ngFileUpload"])}();

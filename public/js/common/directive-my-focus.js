@@ -1,1 +1,1 @@
-/*! Copyright 2017 ikarus512 https://github.com/ikarus512/fcc1.git */!function(){"use strict";angular.module("myapp").directive("myFocus",["$timeout",function(u){return function(n,t,c){n.$watch(c.myFocus,function(n){n&&u(function(){t[0].focus()},0,!1)})}}])}();
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("myapp").directive("myFocus",["$timeout",function(u){return function(n,t,c){n.$watch(c.myFocus,function(n){n&&u(function(){t[0].focus()},0,!1)})}}])}();

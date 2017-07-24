@@ -4,7 +4,7 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
-;(function() {
+(function() {
     'use strict';
 
     if (window.cordova) {
