@@ -76,6 +76,7 @@
         }
 
         $scope.pollDelete = function() {
+            // eslint-disable-next-line no-alert
             if (confirm('Do you really want to delete the poll?')) {
                 $scope.ajaxLoadingSpinner++;
                 StoragePoll.delete($scope.poll._id)

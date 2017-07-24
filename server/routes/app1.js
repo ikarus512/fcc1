@@ -67,7 +67,7 @@ router.get('/polls/:id',
     })
 
     // In case of error
-    .catch(function(err) {
+    .catch(function(err) { // eslint-disable-line handle-callback-err
         req.pollTitle = '';
         next();
     });

@@ -64,6 +64,7 @@ UserSchema.virtual('type').get(function() { // eslint-disable-line complexity
         if (this.twitter.id)      { type = 'twitter'; }
         if (this.unauthorized.ip) { type = 'unauthorized'; }
     } catch (err) {
+        // Ignore errors
     }
 
     return type;
@@ -75,6 +76,7 @@ UserSchema.virtual('name').get(function() {
         name = this[this.type].displayName;
         name = (name) ? name : this[this.type].username;
     } catch (err) {
+        // Ignore errors
     }
 
     return name;

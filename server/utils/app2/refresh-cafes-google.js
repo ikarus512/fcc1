@@ -66,11 +66,11 @@ function googleRequest(lat, lng, radius, dataIn) {
                     }
                 },
 
-                function requestHandler(err, response, data) { // eslint-disable-line complexity
+                function requestHandler(error, response, data) { // eslint-disable-line complexity
 
                     try {
 
-                        if (err) { throw err; }
+                        if (error) { throw error; }
 
                         if (response.statusCode !== 200) {
                             throw Error('Google Maps API response statusCode=' +
@@ -165,20 +165,24 @@ function cafeFilterAndSave(cafes) {
 
     var filteredCafes1 = cafes
 
-    .map(function(cafe) { // eslint-disable-line complexity
+    .map(function(cafe) {
 
         var newCafe = {google: {}};
 
         // newCafe._id = 0;
-        try { newCafe.lat = cafe.geometry.location.lat; } catch (err) {}
-        try { newCafe.lng = cafe.geometry.location.lng; } catch (err) {}
-        try { newCafe.name = cafe.name; } catch (err) {}
-        try { newCafe.text = cafe.vicinity; } catch (err) {} // address
-        try { newCafe.photo = cafe.icon; } catch (err) {}
-        try { newCafe.google.icon = cafe.icon; } catch (err) {}
-        try { newCafe.google.id = cafe.id; } catch (err) {}
-        try { newCafe.google.photoRef = cafe.photos[0][PHOTO_REFERENCE]; } catch (err) {}
-        try { newCafe.google.placeId = cafe[PLACE_ID]; } catch (err) {}
+        try {
+            newCafe.lat = cafe.geometry.location.lat;
+            newCafe.lng = cafe.geometry.location.lng;
+            newCafe.name = cafe.name;
+            newCafe.text = cafe.vicinity; // address
+            newCafe.photo = cafe.icon;
+            newCafe.google.icon = cafe.icon;
+            newCafe.google.id = cafe.id;
+            newCafe.google.photoRef = cafe.photos[0][PHOTO_REFERENCE];
+            newCafe.google.placeId = cafe[PLACE_ID];
+        } catch (err) {
+            // Ignore errors
+        }
 
         return newCafe;
 

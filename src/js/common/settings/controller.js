@@ -43,7 +43,7 @@
 
         $scope.deleteUser = function() {
 
-            if (confirm('Do you really want to delete the user?')) {
+            if (confirm('Do you really want to delete the user?')) { // eslint-disable-line no-alert
 
                 RestService.deleteUser($scope.uid)
 

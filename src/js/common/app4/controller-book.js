@@ -160,6 +160,7 @@
 
         $scope.chooseBid = function(bid) {
 
+            // eslint-disable-next-line no-alert
             if (confirm('Do you really want to finish trade with price $' +
               bid.price + '?'))
             {
@@ -241,6 +242,7 @@
 
             if ($scope.newBook) {
 
+                // eslint-disable-next-line no-alert
                 if (confirm('Do you really want to delete the book?')) {
 
                     $scope.ajaxLoadingSpinner++;

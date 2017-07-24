@@ -206,7 +206,9 @@
                             }
                         }
                         marker = null;
-                    } catch (err) {}
+                    } catch (err) {
+                        // Ignore errors
+                    }
                 });
 
                 var markerOptions = {
