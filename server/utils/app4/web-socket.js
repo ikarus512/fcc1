@@ -63,7 +63,7 @@ var
                 delete wsClients[bookId];
             }
         }
-    },
+    }
 
 };
 

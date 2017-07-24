@@ -30,7 +30,7 @@ function greet(req,o2,o3) {
             //greeting : 'Hi, '+req.user.name+' ('+req.user.type+')!',
             username : req.user.name,
             logintype: req.user.type,
-            uid      : uid,
+            uid      : uid
         });
     } else {
         //o.greeting='(Not logged in.)';

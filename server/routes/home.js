@@ -33,7 +33,7 @@ module.exports = function (app, passport, isLoggedIn, greet) {
             title: 'DynApps',
             text: 'DynApps',
             img: req.protocol + '://' + req.hostname + 'img/pixabay_com_world.jpg',
-            url: req.protocol + '://' + req.hostname + req.originalUrl,
+            url: req.protocol + '://' + req.hostname + req.originalUrl
         })
         ));
     });

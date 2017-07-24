@@ -61,7 +61,7 @@ module.exports = function (app) {
     app.use(helmet.hsts({
         maxAge: sixtyDaysInSeconds,
         includeSubDomains: true,
-        preload: true,
+        preload: true
     }));
 
     // (ON by default)

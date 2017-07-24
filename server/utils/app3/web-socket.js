@@ -54,7 +54,7 @@ var
             // Remove client
             registeredClients.splice(i,1);
         }
-    },
+    }
 
 };
 
