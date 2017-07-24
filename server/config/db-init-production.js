@@ -38,7 +38,7 @@ function dbInit(done) {
         .catch(function(err) { myErrorLog(null, err); return; }),
 
       User.createLocalUser({username: 'me3', password: 'me3', password2: 'me3'})
-        .catch(function(err) { myErrorLog(null, err); return; }),
+        .catch(function(err) { myErrorLog(null, err); return; })
 
     ];
 

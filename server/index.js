@@ -188,7 +188,7 @@ depStatic('/lib/ng-file-upload-all.min.js',           'ng-file-upload/dist/');
 // Other static files
 app.use(express.static(path.join(__dirname, '../public')));
 // Less
-app.use('/less', expressLess(path.join(__dirname + './../src/less'), {
+app.use('/less', expressLess(path.join(__dirname, './../src/less'), {
     // compress: true,
     // cache: true,
     // debug: true,

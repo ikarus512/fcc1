@@ -32,8 +32,8 @@ module.exports = function(session) {
             secure: true, // only use cookie over https
             // domain: 'example.com',
             path: '/',
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
-        },
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        }
     };
 
     return sessionOptions;

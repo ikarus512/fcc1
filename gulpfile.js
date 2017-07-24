@@ -106,7 +106,7 @@ var MOBILE_PATHS = {
         src: [MOBILE_SRC + 'src/less/_dynapps.less',
                MOBILE_SRC + 'src/less/_mobile.less'],
         dest: MOBILE_DST + 'less/'
-    },
+    }
 };
 
 // gulp.task('get-public-libs', function() {
@@ -213,7 +213,7 @@ var DEV_SERVER_PATHS = {
         srcRename: 'android-release-unsigned',
         dstRename: 'ikarus512-fcc1apps',
         dest: WEB_DST + 'bin/'
-    },
+    }
 };
 
 gulp.task('devserver-binaries-update', function() {

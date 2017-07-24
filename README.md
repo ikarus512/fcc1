@@ -27,7 +27,7 @@ FreeCodeCamp.com developement tasks. Running application available at https://ik
 
 Server side on Node.js platform using Express.js. References Google Places API, MongoDB on mlab.com through Mongoose.
 
-Web clients applications written using Angular 1.5, Bootstrap, WebSocket, D3, Chart.js, Google Maps API.
+Web clients applications are written using Angular 1.5, Bootstrap, WebSocket, D3, Chart.js, Google Maps API.
 
 Android application with same functionality available to download through the link on home page of web application.
 Written on Apache Cordova platform. Sources are in ./mobile folder.

@@ -23,6 +23,7 @@ var
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 APPCONST = {
+
     APP2_MAX_CAFES: (isHeroku() ? 100000 : 100), // max size of cafes collection
     //APP2_GOOGLE_SEARCH_ENABLED: isHeroku(),
     APP2_GOOGLE_SEARCH_ENABLED: true,
@@ -55,9 +56,10 @@ APPCONST = {
         APP_GOOGLE_PLACES_API_KEY: process.env.APP_GOOGLE_PLACES_API_KEY ||
             'AAAAAAAAAAAAAAAA-AAAAAAAAAAAAAAAAAAAA-w',
         APP_GOOGLE_PLACES_API_REFERRER: process.env.APP_GOOGLE_PLACES_API_REFERRER ||
-            '1111111111111111111111',
+            '1111111111111111111111'
 
-    },
+    } // env: {...}
+
 };
 
 module.exports = APPCONST;
