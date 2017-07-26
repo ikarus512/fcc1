@@ -22,6 +22,7 @@ var
   changed       = require('gulp-changed'),
   // debug         = require('gulp-debug'), // .pipe(debug({verbose: true}))
   // es            = require('event-stream'), // For working with streams rather than temp dirs
+  // eslint        = require('gulp-eslint'),
   exec          = require('child_process').exec,
   gulp          = require('gulp'),
   gutil         = require('gulp-util'),
@@ -30,14 +31,14 @@ var
   jscs          = require('gulp-jscs'),
   jshint        = require('gulp-jshint'),
   jshintStylish = require('jshint-stylish'),
-  // eslint        = require('gulp-eslint'),
+  less          = require('gulp-less'),
   mkdirs        = require('mkdirs'),
   nodemon       = require('gulp-nodemon'),
+  path          = require('path'),
   pug           = require('gulp-pug'),
   pugParams     = require('./src/views/pug-params.js').mobile,
-  less          = require('gulp-less'),
-  path          = require('path'),
   rename        = require('gulp-rename'),
+  // runSequence   = require('run-sequence'),
   uglify        = require('gulp-uglify'),
   zzz;
 
@@ -367,6 +368,7 @@ var ALL_JS = [
 gulp.task('jscs', function() { // only syntax check
     return gulp.src(ALL_JS)
     .pipe(jscs())
-    .pipe(jscs.reporter('inline'))
+    // .pipe(jscs.reporter('inline'))
+    .pipe(jscs.reporter('./gulp.jscs.reporter.js'))
     .on('error', gutil.log);
 });

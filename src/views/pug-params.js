@@ -45,41 +45,41 @@ module.exports = {
 
         useGoogleMaps: false,
 
-        cspSettings: ''+
-            'default-src'+
-                ' \'self\''+
-                ' data:'+
-                ' gap:'+
-                ' https://ssl.gstatic.com'+
-                ' \'unsafe-eval\''+
-                ';'+
-            'script-src '+
-                ' \'self\''+
-                ' https://maps.googleapis.com'+
-                ';'+
-            'connect-src '+
-                ' https://ikarus512-fcc1.herokuapp.com'+
-                '   wss://ikarus512-fcc1.herokuapp.com'+
-                ' https://localhost:5000'+
-                '   wss://localhost:5000'+
-                ' \'self\''+
-                ';'+
-            'style-src'+
-                ' \'self\''+
-                ' \'unsafe-inline\''+
-                ';'+
-            'media-src'+
-                ' *'+
-                ';'+
-            'img-src'+
-                ' \'self\''+
-                ' data:'+
-                ' content:'+
-                ' https://ikarus512-fcc1.herokuapp.com'+
-                ' https://localhost:5000'+
-                ' https://maps.gstatic.com'+
-                ' https://*.tile.openstreetmap.org'+
-                ';'+
+        cspSettings: '' +
+            'default-src' +
+                ' \'self\'' +
+                ' data:' +
+                ' gap:' +
+                ' https://ssl.gstatic.com' +
+                ' \'unsafe-eval\'' +
+                ';' +
+            'script-src ' +
+                ' \'self\'' +
+                ' https://maps.googleapis.com' +
+                ';' +
+            'connect-src ' +
+                ' https://ikarus512-fcc1.herokuapp.com' +
+                '   wss://ikarus512-fcc1.herokuapp.com' +
+                ' https://localhost:5000' +
+                '   wss://localhost:5000' +
+                ' \'self\'' +
+                ';' +
+            'style-src' +
+                ' \'self\'' +
+                ' \'unsafe-inline\'' +
+                ';' +
+            'media-src' +
+                ' *' +
+                ';' +
+            'img-src' +
+                ' \'self\'' +
+                ' data:' +
+                ' content:' +
+                ' https://ikarus512-fcc1.herokuapp.com' +
+                ' https://localhost:5000' +
+                ' https://maps.gstatic.com' +
+                ' https://*.tile.openstreetmap.org' +
+                ';' +
             ''
     }
 
