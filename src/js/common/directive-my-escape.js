@@ -9,11 +9,11 @@
 
     angular.module('myapp')
 
-    .directive('myEscape', function () {
+    .directive('myEscape', function myEscape() {
 
         var ESCAPE_KEY = 27;
 
-        return function (scope, elem, attrs) {
+        return function linkFunction(scope, elem, attrs) {
             elem.bind('keyup', function (event) {
                 if (event.keyCode === ESCAPE_KEY) {
                     scope.$apply(attrs.myEscape);

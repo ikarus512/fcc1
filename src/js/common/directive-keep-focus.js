@@ -9,14 +9,14 @@
 
     angular.module('myapp')
 
-    .directive('keepFocus', ['$timeout', function($timeout) {
+    .directive('keepFocus', ['$timeout', function keepFocus($timeout) {
         return {
             restrict: 'A',
             scope: {
                 keepFocusVar: '@',
                 keepFocusIndex: '@'
             },
-            link: function(scope, element, attrs) {
+            link: function linkFunction(scope, element, attrs) {
                 scope.$watch('keepFocusIndex', function(newVal, prevVal) {
                     if (scope.keepFocusVar) {
                         $timeout(function() {
@@ -24,7 +24,7 @@
                         });
                     }
                 });
-            }
+            } // link: function linkFunction(...)
         };
     }]); // .directive('keepFocus', ...
 

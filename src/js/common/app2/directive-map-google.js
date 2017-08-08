@@ -9,7 +9,7 @@
 
     angular.module('myapp')
 
-    .directive('myGoogleMap', function() {
+    .directive('myGoogleMap', function myGoogleMap() {
 
         var scope = {
             cafes: '=mapCafes',

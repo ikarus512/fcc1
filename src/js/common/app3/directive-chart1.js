@@ -9,14 +9,14 @@
 
     angular.module('myapp')
 
-    .directive('chart1', [function() {
+    .directive('chart1', [function chart1() {
         return {
             restrict: 'E',
             scope: {
                 data: '='
             },
 
-            link: function(scope, element, attrs) {
+            link: function linkFunction(scope, element, attrs) {
 
                 var
                   elemWidth = Math.max(200, element[0].getBoundingClientRect().height),

@@ -11,7 +11,7 @@
 
     .value('backendParams', {}) // not used in mobile app
 
-    .service('MyConst', function() {
+    .service('MyConst', function MyConst() {
 
         var host;
 

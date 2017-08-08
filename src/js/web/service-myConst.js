@@ -9,7 +9,7 @@
 
     angular.module('myapp')
 
-    .service('MyConst', function() {
+    .service('MyConst', function MyConst() {
 
         this.urlPref = '/';
         this.urlPrefix = '';

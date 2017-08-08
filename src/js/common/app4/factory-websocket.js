@@ -10,91 +10,99 @@
     angular.module('myapp')
 
     .factory('App4WebSocketService', [
-      'bookStorage', 'MyError', 'MyConst', '$q',
-      function(bookStorage, MyError, MyConst, $q) {
+        'bookStorage', 'MyError', 'MyConst', '$q',
+        function App4WebSocketService(bookStorage, MyError, MyConst, $q) {
 
-        var Service = {};
-        var ws = null;
+            var Service = {};
+            var ws = null;
 
-        Service.subscribe = function(bookId, uid, callback) {
+            Service.subscribe = serviceSubscribe;
+            Service.sendMessage = serviceSendMessage;
+            Service.close = serviceClose;
 
-            var deferred = $q.defer();
+            return Service;
 
-            Service.callback = callback;
+            ////////////////////////////////////////
 
-            // Close WebSocket
-            Service.close();
+            function serviceSubscribe(bookId, uid, callback) {
 
-            // Open WebSocket
-            ws = new WebSocket(MyConst.webSocketHost);
+                var deferred = $q.defer();
 
-            ws.onopen = function(event) {
+                Service.callback = callback;
 
-                // Get WebSocket ticket
-                bookStorage.getWsTicket()
+                // Close WebSocket
+                Service.close();
 
-                .then(function(data) {
-                    var ticket =
-                        (typeof(data) === 'object' && data.data && data.data.ticket) ?
-                        data.data.ticket :
-                        '';
-                    // Register WebSocket ticket (to be able to receive messages from server)
-                    setTimeout(function() {
-                        ws.send(JSON.stringify({
-                            msgtype: 'app4-check-ticket',
-                            bookId: bookId,
-                            uid: uid,
-                            ticket: ticket
-                        }));
-                        deferred.resolve(1);
-                    },1500); // Delay for heroku.com
+                // Open WebSocket
+                ws = new WebSocket(MyConst.webSocketHost);
 
-                })
+                ws.onopen = function(event) {
 
-                .catch(function(res) {
+                    // Get WebSocket ticket
+                    bookStorage.getWsTicket()
+
+                    .then(function(data) {
+                        var ticket =
+                            (typeof(data) === 'object' && data.data && data.data.ticket) ?
+                            data.data.ticket :
+                            '';
+                        // Register WebSocket ticket (to be able to receive messages from server)
+                        setTimeout(function() {
+                            ws.send(JSON.stringify({
+                                msgtype: 'app4-check-ticket',
+                                bookId: bookId,
+                                uid: uid,
+                                ticket: ticket
+                            }));
+                            deferred.resolve(1);
+                        },1500); // Delay for heroku.com
+
+                    })
+
+                    .catch(function(res) {
+                        deferred.reject(0);
+                        MyError.log(res);
+                    });
+
+                };
+
+                ws.onerror = function(event) {
                     deferred.reject(0);
-                    MyError.log(res);
-                });
+                };
 
-            };
+                ws.onclose = function(event) {
+                    deferred.reject(0);
+                };
 
-            ws.onerror = function(event) {
-                deferred.reject(0);
-            };
+                ws.onmessage = function(message) {
+                    var data = JSON.parse(message.data);
+                    Service.callback(data);
+                };
 
-            ws.onclose = function(event) {
-                deferred.reject(0);
-            };
+                return deferred.promise;
 
-            ws.onmessage = function(message) {
-                var data = JSON.parse(message.data);
-                Service.callback(data);
-            };
+            } // function serviceSubscribe(...)
 
-            return deferred.promise;
+            function serviceSendMessage(bookId,from,to,time,text) {
+                ws.send(JSON.stringify({
+                    msgtype: 'app4-message',
+                    bookId: bookId,
+                    from: from,
+                    to: to,
+                    time: time,
+                    text: text
+                }));
+            } // function serviceSendMessage(...)
 
-        }; // Service.subscribe = function(...)
+            function serviceClose() {
+                if (ws) {
+                    ws.close();
+                    ws = null;
+                }
+            } // function serviceClose(...)
 
-        Service.sendMessage = function(bookId,from,to,time,text) {
-            ws.send(JSON.stringify({
-                msgtype: 'app4-message',
-                bookId: bookId,
-                from: from,
-                to: to,
-                time: time,
-                text: text
-            }));
-        };
+        } // function App4WebSocketService(...)
 
-        Service.close = function() {
-            if (ws) {
-                ws.close();
-                ws = null;
-            }
-        };
-
-        return Service;
-
-    }]); // .factory('App4WebSocketService', ...
+    ]); // .factory('App4WebSocketService', ...
 
 }());

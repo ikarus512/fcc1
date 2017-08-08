@@ -9,33 +9,29 @@
 
     angular.module('myapp')
 
-    .factory('MyError',
-
-      function () {
+    .factory('MyError', function MyError() {
 
         return {
 
-            alert: function(res) {
+            alert: function myErrorAlert(res) {
                 if (res && res.data && res.data.message) {
                     alert(res.data.message); // eslint-disable-line no-alert
                     console.log(res.data.message);
                 } else {
                     console.log(res);
                 }
-            }, // alert: function(...)
+            }, // alert: function myErrorAlert(...)
 
-            log: function(res) {
+            log: function myErrorLog(res) {
                 if (res && res.data && res.data.message) {
                     console.log(res.data.message);
                 } else {
                     console.log(res);
                 }
-            } // log: function(...)
+            } // log: function myErrorLog(...)
 
         };
 
-    }
-
-    ); // .factory('MyError', ...
+    }); // .factory('MyError', ...
 
 }());

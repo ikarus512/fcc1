@@ -9,7 +9,7 @@
 
     angular.module('myapp')
 
-    .directive('myLeafletMap', ['MyConst', function(MyConst) {
+    .directive('myLeafletMap', ['MyConst', function myLeafletMap(MyConst) {
 
         var
             maxZoom = 17,

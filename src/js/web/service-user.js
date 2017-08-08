@@ -9,7 +9,7 @@
 
     angular.module('myapp')
 
-    .service('User', function() {
+    .service('User', function User() {
 
         this.type = '';
         this.name = '';

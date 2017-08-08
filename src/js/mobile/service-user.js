@@ -11,12 +11,16 @@
 
     .service('User', [
         'LoginFactory', 'MyConst', '$http',
-        function(LoginFactory, MyConst, $http) {
+        function User(LoginFactory, MyConst, $http) {
 
             var self = this;
 
-            /* Check if user logged in */
-            this.check = function() {
+            self.check = check;
+            self.loginLocal = loginLocal;
+
+            ////////////////////////////////////////
+
+            function check() { // Check if user logged in
                 return LoginFactory.check()
                 .then(function(res) {
                     self.type = res.data.type;
@@ -30,9 +34,9 @@
                     self.uid  = undefined;
                     return;
                 });
-            };
+            } // function check(...)
 
-            this.loginLocal = function(username, password) {
+            function loginLocal(username, password) {
                 return LoginFactory.loginLocal(username, password)
                 .then(function(res) {
                     self.type = res.data.type;
@@ -46,7 +50,7 @@
                     self.uid = undefined;
                     throw err;
                 });
-            };
+            } // function loginLocal(...)
 
         }
 

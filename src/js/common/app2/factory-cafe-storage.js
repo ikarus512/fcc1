@@ -9,9 +9,9 @@
 
     angular.module('myapp')
 
-    .factory('cafeStorage', ['$http', 'MyConst', function ($http, MyConst) {
+    .factory('cafeStorage', ['$http', 'MyConst', function cafeStorage($http, MyConst) {
         return {
-            get: function(location, radius, zoom, selectedCafeId) {
+            get: function getCafe(location, radius, zoom, selectedCafeId) {
                 return $http({
                     method: 'GET',
                     url: MyConst.serverUrl + '/app2/api/cafes' +
@@ -24,7 +24,8 @@
                 });
             },
 
-            updateSessionState: function(location, radius, zoom, selectedCafeId) {
+            updateSessionState: function updateSessionState(location, radius, zoom, selectedCafeId)
+            {
                 return $http({
                     method: 'PUT',
                     url: MyConst.serverUrl + '/app2/api/cafes' +
@@ -37,7 +38,7 @@
                 });
             },
 
-            planCafeTimeslot: function(cafeId, timeslotStart) {
+            planCafeTimeslot: function planCafeTimeslot(cafeId, timeslotStart) {
                 return $http({
                     method: 'PUT',
                     data: {},
@@ -51,7 +52,7 @@
                 });
             },
 
-            unplanCafeTimeslot: function(cafeId, timeslotStart) {
+            unplanCafeTimeslot: function unplanCafeTimeslot(cafeId, timeslotStart) {
                 return $http({
                     method: 'PUT',
                     data: {},

@@ -12,7 +12,7 @@
     .controller('myApp2ControllerMain', [
         '$scope', 'cafeStorage', 'MyError', 'MyConst', 'User', 'backendParams',
         // eslint-disable-next-line complexity, max-statements
-        function($scope, cafeStorage, MyError, MyConst, User, backendParams) {
+        function myApp2ControllerMain($scope, cafeStorage, MyError, MyConst, User, backendParams) {
 
             var APP2_MAX_TIMESLOTS = 4;
             var APP2_TIMESLOT_LENGTH = 30; // timeslot length in minutes (must divide 60)
@@ -65,11 +65,22 @@
                 .finally(function() {$scope.ajaxLoadingSpinner--;});
             }
 
+            $scope.onMapInit = onMapInit;
+            $scope.onPlan = onPlan;
+            $scope.onUnplan = onUnplan;
+            $scope.cafesUnselect = cafesUnselect;
+            $scope.listSelectedCafe = listSelectedCafe;
+            $scope.mapSelectedCafe = mapSelectedCafe;
+            $scope.cafeSelect = cafeSelect;
+            $scope.mapMoved = mapMoved;
+
             cafesRefresh();
 
-            $scope.onMapInit = function() { $scope.mapInit = true; };
+            ////////////////////////////////////////
 
-            $scope.onPlan = function(cafe, timeslot) {
+            function onMapInit() { $scope.mapInit = true; }
+
+            function onPlan(cafe, timeslot) {
                 if ($scope.username) {
                     $scope.ajaxLoadingSpinner++;
                     cafeStorage.planCafeTimeslot(cafe._id, timeslot.start)
@@ -83,9 +94,9 @@
                         MyError.alert(res);
                     });
                 }
-            }; // $scope.onPlan(...)
+            } // function onPlan(...)
 
-            $scope.onUnplan = function(cafe, timeslot) {
+            function onUnplan(cafe, timeslot) {
                 if ($scope.username) {
                     $scope.ajaxLoadingSpinner++;
                     cafeStorage.unplanCafeTimeslot(cafe._id, timeslot.start)
@@ -99,24 +110,24 @@
                         MyError.alert(res);
                     });
                 }
-            }; // $scope.onUnplan(...)
+            } // function onUnplan(...)
 
-            $scope.cafesUnselect = function() {
+            function cafesUnselect() {
                 $scope.cafes.forEach(function(cafe) { cafe.show = true; cafe.selected = false; });
                 if ($scope.selectedCafeId) { $scope.selectedCafeId = undefined; }
-            }; // $scope.cafesUnselect(...)
+            } // function cafesUnselect(...)
 
-            $scope.listSelectedCafe = function(_id) {
+            function listSelectedCafe(_id) {
                 if ($scope.selectedCafeId !== _id) { $scope.selectedCafeId = _id; }
                 $scope.cafeSelect(_id);
-            }; // $scope.listSelectedCafe(...)
+            } // function listSelectedCafe(...)
 
-            $scope.mapSelectedCafe = function(_id) {
+            function mapSelectedCafe(_id) {
                 if ($scope.selectedCafeId !== _id) { $scope.selectedCafeId = _id; }
                 $scope.cafeSelect(_id);
-            }; // $scope.mapSelectedCafe(...)
+            } // function mapSelectedCafe(...)
 
-            $scope.cafeSelect = function(_id) {
+            function cafeSelect(_id) {
                 var selCafe;
                 $scope.cafes.forEach(function(cafe) {
                     cafe.show = cafe.selected = false;
@@ -137,7 +148,7 @@
                 // Refresh timeslots in selected cafe
                 refreshCafeTimeslots(selCafe);
 
-            }; // $scope.cafeSelect(...)
+            } // function cafeSelect(...)
 
             function refreshCafeTimeslots(cafe) {
                 if (cafe) {
@@ -262,14 +273,14 @@
 
             } // function cafesRefresh(...)
 
-            $scope.mapMoved = function(newOpts) {
+            function mapMoved(newOpts) {
                 if (newOpts.newCenter) { $scope.center = newOpts.newCenter; }
                 $scope.zoom   = newOpts.newZoom;
                 $scope.radius = newOpts.newRadius;
                 cafesRefresh();
-            }; // $scope.mapMoved(...)
+            } // function mapMoved(...)
 
-        }
+        } // function myApp2ControllerMain(...)
 
     ]); // .controller('myApp2ControllerMain', ...
 

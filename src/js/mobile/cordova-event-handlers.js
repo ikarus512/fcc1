@@ -10,9 +10,9 @@
     if (window.cordova) {
         // Here if cordova
 
-        document.addEventListener('deviceready', function() {
+        document.addEventListener('deviceready', function devicereadyListener() {
 
-            $(document).ready(function() {
+            $(document).ready(function onDocumentReady() {
 
                 // Android button event handlers
 
@@ -24,7 +24,7 @@
                 if (window.navigator.appVersion.search(/Android/i) >= 0) {
                     navigator.app.overrideButton('menubutton', true);
                 }
-                document.addEventListener('menubutton', function(event) {
+                document.addEventListener('menubutton', function menubuttonListener(event) {
                     event.preventDefault();
                     $('#myNavbar').toggleClass('in');
                 }, false);

@@ -9,8 +9,8 @@
 
     angular.module('myapp')
 
-    .filter('photo', function() {
-        return function(text) {
+    .filter('photo', function photoFilter() {
+        return function photoFunction(text) {
             if (!text) { return text; }
             return '/img/app4tmp/' + text + '.jpg';
         };

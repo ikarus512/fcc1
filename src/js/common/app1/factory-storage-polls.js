@@ -9,11 +9,11 @@
 
     angular.module('myapp')
 
-    .factory('StoragePolls', ['$http', 'MyConst', function ($http, MyConst) {
+    .factory('StoragePolls', ['$http', 'MyConst', function StoragePolls($http, MyConst) {
 
         return {
 
-            get: function () {
+            get: function getPolls() {
                 return $http({
                     method: 'GET',
                     data:{},
@@ -21,7 +21,7 @@
                 });
             },
 
-            post: function (poll) {
+            post: function postPolls(poll) {
                 return $http({
                     method: 'POST',
                     data:poll,

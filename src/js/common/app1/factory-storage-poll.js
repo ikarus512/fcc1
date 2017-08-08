@@ -9,9 +9,9 @@
 
     angular.module('myapp')
 
-    .factory('StoragePoll', ['$http', 'MyConst', function ($http, MyConst) {
+    .factory('StoragePoll', ['$http', 'MyConst', function StoragePoll($http, MyConst) {
         return {
-            get: function (pollId) {
+            get: function getPoll(pollId) {
                 return $http({
                     method: 'GET',
                     data: {},
@@ -19,7 +19,7 @@
                 });
             },
 
-            delete: function (pollId) { // delete poll
+            delete: function deletePoll(pollId) { // delete poll
                 return $http({
                     method: 'DELETE',
                     data: {},
@@ -27,7 +27,7 @@
                 });
             },
 
-            post: function (pollId, title) { // create new option
+            post: function postPoll(pollId, title) { // create new option
                 return $http({
                     method: 'POST',
                     data: {title: title},
@@ -35,7 +35,7 @@
                 });
             },
 
-            put: function (pollId, optId) { // vote for poll option
+            put: function putPoll(pollId, optId) { // vote for poll option
                 return $http({
                     method: 'PUT',
                     data: {},

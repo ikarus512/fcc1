@@ -10,123 +10,132 @@
     angular.module('myapp')
 
     .controller('ControllerPoll', [
-      '$scope', '$location', '$window', 'StoragePoll', 'MyError',
-      '$routeParams', 'MyConst', 'User', 'backendParams',
-      function ($scope, $location, $window, StoragePoll, MyError,
-        $routeParams, MyConst, User, backendParams
-      )
-      {
+        '$scope', '$location', '$window', 'StoragePoll', 'MyError',
+        '$routeParams', 'MyConst', 'User', 'backendParams',
+        function ControllerPoll($scope, $location, $window, StoragePoll, MyError,
+            $routeParams, MyConst, User, backendParams
+        )
+        {
 
-        // Init params from backend
-        if (MyConst.webApp) {
-            $scope.logintype =
-              (backendParams.logintype && backendParams.logintype !== 'undefined') ?
-              backendParams.logintype : '';
-            $scope.username =
-              (backendParams.username && backendParams.username !== 'undefined') ?
-              backendParams.username : '';
-            $scope.pollId =
-              (backendParams.pollId && backendParams.pollId !== 'undefined') ?
-              backendParams.pollId : '';
-        } else {
-            User.check()
-            .then(function() {
-                $scope.logintype = User.type;
-                $scope.username  = User.name;
-            });
-            $scope.pollId = $routeParams.pollId; // #!app1/polls/:pollId
-        }
-
-        $scope.urlPrefix = MyConst.urlPrefix;
-
-        $scope.view = 'poll'; // poll/newOption
-        $scope.newOptionTitle = '';
-
-        $scope.ajaxLoadingSpinner = 0;
-
-        $scope.poll = null;
-        $scope.chartLabels = [];
-        $scope.chartData = [];
-        $scope.chartOptions = {
-            title: {display: true, text: undefined},
-            legend: {display: true, position: 'bottom'}
-        };
-
-        reloadPoll();
-
-        function reloadPoll() {
-            $scope.ajaxLoadingSpinner++;
-            StoragePoll.get($scope.pollId)
-            .then(function(res) {
-                $scope.poll = res.data;
-
-                $scope.chartOptions.title.text = $scope.poll.title;
-
-                $scope.chartLabels = [];
-                $scope.chartData = [];
-
-                $scope.poll.options.forEach(function(option) {
-                    $scope.chartLabels.push(option.title);
-                    $scope.chartData.push(option.votes.length);
+            // Init params from backend
+            if (MyConst.webApp) {
+                $scope.logintype =
+                    (backendParams.logintype && backendParams.logintype !== 'undefined') ?
+                    backendParams.logintype : '';
+                $scope.username =
+                    (backendParams.username && backendParams.username !== 'undefined') ?
+                    backendParams.username : '';
+                $scope.pollId =
+                    (backendParams.pollId && backendParams.pollId !== 'undefined') ?
+                    backendParams.pollId : '';
+            } else {
+                User.check()
+                .then(function() {
+                    $scope.logintype = User.type;
+                    $scope.username  = User.name;
                 });
+                $scope.pollId = $routeParams.pollId; // #!app1/polls/:pollId
+            }
 
-            })
-            .catch(function(err) { MyError.alert(err); })
-            .finally(function() {$scope.ajaxLoadingSpinner--;});
-        }
+            $scope.urlPrefix = MyConst.urlPrefix;
 
-        $scope.pollDelete = function() {
-            // eslint-disable-next-line no-alert
-            if (confirm('Do you really want to delete the poll?')) {
+            $scope.view = 'poll'; // poll/newOption
+            $scope.newOptionTitle = '';
+
+            $scope.ajaxLoadingSpinner = 0;
+
+            $scope.poll = null;
+            $scope.chartLabels = [];
+            $scope.chartData = [];
+            $scope.chartOptions = {
+                title: {display: true, text: undefined},
+                legend: {display: true, position: 'bottom'}
+            };
+
+            $scope.pollDelete = pollDelete;
+            $scope.optionVote = optionVote;
+            $scope.newOptionCreate = newOptionCreate;
+            $scope.newOptionMode = newOptionMode;
+            $scope.newOptionCancel = newOptionCancel;
+
+            reloadPoll();
+
+            ////////////////////////////////////////
+
+            function reloadPoll() {
                 $scope.ajaxLoadingSpinner++;
-                StoragePoll.delete($scope.poll._id)
-                .then(function(res) { // Poll successfully deleted on server
-                    // return to polls page
-                    $window.location.href = MyConst.urlPrefix + '/app1/polls';
+                StoragePoll.get($scope.pollId)
+                .then(function(res) {
+                    $scope.poll = res.data;
+
+                    $scope.chartOptions.title.text = $scope.poll.title;
+
+                    $scope.chartLabels = [];
+                    $scope.chartData = [];
+
+                    $scope.poll.options.forEach(function(option) {
+                        $scope.chartLabels.push(option.title);
+                        $scope.chartData.push(option.votes.length);
+                    });
+
                 })
                 .catch(function(err) { MyError.alert(err); })
                 .finally(function() {$scope.ajaxLoadingSpinner--;});
-            }
-        };
+            } // function reloadPoll(...)
 
-        $scope.newOptionMode = function() {
-            $scope.view = 'newOption';
-        };
+            function pollDelete() {
+                // eslint-disable-next-line no-alert
+                if (confirm('Do you really want to delete the poll?')) {
+                    $scope.ajaxLoadingSpinner++;
+                    StoragePoll.delete($scope.poll._id)
+                    .then(function(res) { // Poll successfully deleted on server
+                        // return to polls page
+                        $window.location.href = MyConst.urlPrefix + '/app1/polls';
+                    })
+                    .catch(function(err) { MyError.alert(err); })
+                    .finally(function() {$scope.ajaxLoadingSpinner--;});
+                }
+            } // function pollDelete(...)
 
-        $scope.newOptionCancel = function() {
-            $scope.newOptionTitle = '';
-            $scope.view = 'poll';
-        };
+            function newOptionMode() {
+                $scope.view = 'newOption';
+            } // function newOptionMode(...)
 
-        $scope.newOptionCreate = function() {
-            var title = $scope.newOptionTitle.trim();
+            function newOptionCancel() {
+                $scope.newOptionTitle = '';
+                $scope.view = 'poll';
+            } // function newOptionCancel(...)
 
-            if (title) {
+            function newOptionCreate() {
+                var title = $scope.newOptionTitle.trim();
+
+                if (title) {
+                    $scope.ajaxLoadingSpinner++;
+                    StoragePoll.post($scope.poll._id, title)
+                    .then(function(res) {
+                        reloadPoll();
+
+                        $scope.newOptionTitle = '';
+                        $scope.view = 'poll';
+                    })
+                    .catch(function(err) { MyError.alert(err); })
+                    .finally(function() {$scope.ajaxLoadingSpinner--;});
+
+                }
+            } // function newOptionCreate(...)
+
+            function optionVote(option) {
                 $scope.ajaxLoadingSpinner++;
-                StoragePoll.post($scope.poll._id, title)
+                StoragePoll.put($scope.poll._id, option._id)
                 .then(function(res) {
                     reloadPoll();
-
-                    $scope.newOptionTitle = '';
-                    $scope.view = 'poll';
                 })
                 .catch(function(err) { MyError.alert(err); })
                 .finally(function() {$scope.ajaxLoadingSpinner--;});
+            } // function optionVote(...)
 
-            }
-        };
+        } // function ControllerPoll(...)
 
-        $scope.optionVote = function(option) {
-            $scope.ajaxLoadingSpinner++;
-            StoragePoll.put($scope.poll._id, option._id)
-            .then(function(res) {
-                reloadPoll();
-            })
-            .catch(function(err) { MyError.alert(err); })
-            .finally(function() {$scope.ajaxLoadingSpinner--;});
-        };
-
-    }
     ]);
 
 }());

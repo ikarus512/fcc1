@@ -10,89 +10,106 @@
     angular.module('myapp')
 
     .factory('App3WebSocketService', [
-      'App3RestService', 'MyError', 'MyConst', '$q',
-      function(App3RestService, MyError, MyConst, $q) {
+        'App3RestService', 'MyError', 'MyConst', '$q',
+        function App3WebSocketService(App3RestService, MyError, MyConst, $q) {
 
-        var Service = {};
-        var ws = null;
+            var Service = {};
+            var ws = null;
 
-        Service.open = function() {
+            Service.open = serviceOpen;
+            Service.subscribe = serviceSubscribe;
+            Service.addStockName = serviceAddStockName;
+            Service.removeStockName = serviceRemoveStockName;
+            Service.close = serviceClose;
 
-            var deferred = $q.defer();
+            return Service;
 
-            if (!ws) {
+            ////////////////////////////////////////
 
-                ws = new WebSocket(MyConst.webSocketHost);
+            function serviceOpen() {
 
-                ws.onopen = function(event) {
+                var deferred = $q.defer();
 
-                    // Get WebSocket ticket
-                    App3RestService.getWsTicket()
-                    .then(function(data) {
-                        var wsTicket =
-                            (typeof(data) === 'object' && data.data && data.data.ticket) ?
-                            data.data.ticket :
-                            '';
-                        // Register WebSocket ticket (to be able to receive messages from server)
-                        setTimeout(function() {
-                            ws.send(JSON.stringify({msgtype:'app3-check-ticket',ticket:wsTicket}));
-                            deferred.resolve(1);
-                        },1500); // Delay for heroku.com
-                    })
-                    .catch(function(res) {
+                if (!ws) {
+
+                    ws = new WebSocket(MyConst.webSocketHost);
+
+                    ws.onopen = function(event) {
+
+                        // Get WebSocket ticket
+                        App3RestService.getWsTicket()
+                        .then(function(data) {
+                            var wsTicket =
+                                (typeof(data) === 'object' && data.data && data.data.ticket) ?
+                                data.data.ticket :
+                                '';
+                            // Register WebSocket ticket (to be able to receive messages
+                            // from server)
+                            setTimeout(function() {
+                                ws.send(JSON.stringify({
+                                    msgtype:'app3-check-ticket',
+                                    ticket:wsTicket
+                                }));
+                                deferred.resolve(1);
+                            },1500); // Delay for heroku.com
+                        })
+                        .catch(function(res) {
+                            deferred.reject(0);
+                            MyError.log(res);
+                        });
+
+                    };
+
+                    ws.onerror = function(event) {
                         deferred.reject(0);
-                        MyError.log(res);
-                    });
+                    };
 
-                };
+                    ws.onclose = function(event) {
+                        deferred.reject(0);
+                    };
 
-                ws.onerror = function(event) {
-                    deferred.reject(0);
-                };
+                    ws.onmessage = function(message) {
+                        var data = JSON.parse(message.data);
+                        if (Service.callback && data.msgtype === 'app3-stocks-data') {
+                            Service.callback(data.data);
+                        }
+                    };
 
-                ws.onclose = function(event) {
-                    deferred.reject(0);
-                };
+                }
 
-                ws.onmessage = function(message) {
-                    var data = JSON.parse(message.data);
-                    if (Service.callback && data.msgtype === 'app3-stocks-data') {
-                        Service.callback(data.data);
-                    }
-                };
+                return deferred.promise;
 
-            }
+            } // function serviceOpen(...)
 
-            return deferred.promise;
+            function serviceSubscribe(callback) {
+                Service.callback = callback;
+                return Service.open();
+            } // function serviceSubscribe(...)
 
-        }; // Service.open = function(...)
+            function serviceAddStockName(stockName) {
+                if (ws) {
+                    ws.send(JSON.stringify({msgtype: 'app3-add-stock-name', stockName: stockName}));
+                }
+            } // function serviceAddStockName(...)
 
-        Service.subscribe = function(callback) {
-            Service.callback = callback;
-            return Service.open();
-        };
+            function serviceRemoveStockName(stockName) {
+                if (ws) {
+                    ws.send(JSON.stringify({
+                        msgtype: 'app3-remove-stock-name',
+                        stockName: stockName
+                    }));
+                }
+            } // function serviceRemoveStockName(...)
 
-        Service.addStockName = function(stockName) {
-            if (ws) {
-                ws.send(JSON.stringify({msgtype: 'app3-add-stock-name', stockName: stockName}));
-            }
-        };
+            function serviceClose() {
+                if (ws) {
+                    ws.close();
+                    ws = null;
+                }
+            } // function serviceClose(...)
 
-        Service.removeStockName = function(stockName) {
-            if (ws) {
-                ws.send(JSON.stringify({msgtype: 'app3-remove-stock-name', stockName: stockName}));
-            }
-        };
+        } // function App3WebSocketService(...)
 
-        Service.close = function() {
-            if (ws) {
-                ws.close();
-                ws = null;
-            }
-        };
-
-        return Service;
-
-    }]); // .factory('App3WebSocketService', ...
+    ]); // .factory('App3WebSocketService', ...
 
 }());

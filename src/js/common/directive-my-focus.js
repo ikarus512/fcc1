@@ -9,9 +9,9 @@
 
     angular.module('myapp')
 
-    .directive('myFocus', ['$timeout', function($timeout) {
+    .directive('myFocus', ['$timeout', function myFocus($timeout) {
 
-        return function (scope, elem, attrs) {
+        return function linkFunction(scope, elem, attrs) {
             scope.$watch(attrs.myFocus, function (newVal) {
                 if (newVal) {
                     $timeout(function() {

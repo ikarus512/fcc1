@@ -9,10 +9,12 @@
 
     angular.module('myapp')
 
-    .config(['$httpProvider', function($httpProvider) {
+    .config(['$httpProvider', function appConfigHttp($httpProvider) {
+
         $httpProvider.defaults.withCredentials = true;
         // $httpProvider.defaults.useXDomain = true;
         // delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    }]);
+
+    }]); // .config(...)
 
 }());

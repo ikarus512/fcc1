@@ -66,6 +66,7 @@ Read next:
  map
   http://leafletjs.com
   http://davidrs.com/wp/phonegap-3-0-leaflet-offline-maps
+  imagemagic:
   for f in $(ls */*/*.png);do echo $f ../OSM5/$f; convert $f -quality 90 -strip png8:../OSM5/$f; done
 
 
@@ -93,7 +94,7 @@ In case of 'npm i' problems:
  npm cache verify
  npm cache clean
  npm i -g npm
-Should help in case 
+Should help in case
  ... npm\node_modules\npm\node_modules\ssri\index.js ...
  4551 error Cannot read property 'find' of undefined
 ------------------------------------------------
@@ -183,6 +184,7 @@ jsDoc (API, REST API, angular apps, publish)
 ------------------------------------------------
 WISH:
   https://github.com/johnpapa/angular-styleguide
+    controllerAs*,
   jsDoc
   dev: no minify js/css(less)/html(pug)
   test,prod: minify

@@ -9,10 +9,10 @@
 
     angular.module('myapp')
 
-    .factory('App3RestService', ['$http', 'MyConst', function ($http, MyConst) {
+    .factory('App3RestService', ['$http', 'MyConst', function App3RestService($http, MyConst) {
         return {
 
-            getWsTicket: function () {
+            getWsTicket: function getWsTicket() {
                 return $http({
                     method: 'GET',
                     data:{},

@@ -9,8 +9,8 @@
 
     angular.module('myapp')
 
-    .filter('msgtime', ['$filter', function($filter) {
-        return function(date) {
+    .filter('msgtime', ['$filter', function msgtimeFilter($filter) {
+        return function msgtimeFunction(date) {
             if (!date) { return date; }
 
             date = new Date(date);

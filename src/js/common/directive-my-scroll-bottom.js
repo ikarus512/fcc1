@@ -9,13 +9,13 @@
 
     angular.module('myapp')
 
-    .directive('myScrollBottom', ['$timeout', function($timeout) {
+    .directive('myScrollBottom', ['$timeout', function myScrollBottom($timeout) {
 
         return {
             scope: {
                 myScrollBottom: '='
             },
-            link: function ($scope, $element) {
+            link: function linkFunction($scope, $element) {
                 $scope.$watchCollection('myScrollBottom', function (newValue) {
                     if (newValue) {
                         $timeout(function() {
@@ -23,7 +23,7 @@
                         }, 0);
                     }
                 });
-            }
+            } // link: function linkFunction(...)
         };
 
     }]); // .directive('myScrollBottom', ...

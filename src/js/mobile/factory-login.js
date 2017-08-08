@@ -10,30 +10,30 @@
     angular.module('myapp')
 
     .factory('LoginFactory', [
-      '$http', 'MyConst',
-      function ($http, MyConst) {
+        '$http', 'MyConst',
+        function LoginFactory($http, MyConst) {
 
-        return {
+            return {
 
-            check: function() {
-                return $http({
-                    method: 'GET',
-                    data: {},
-                    url: MyConst.serverUrl + '/auth/api/check'
-                });
-            },
+                check: function check() {
+                    return $http({
+                        method: 'GET',
+                        data: {},
+                        url: MyConst.serverUrl + '/auth/api/check'
+                    });
+                },
 
-            loginLocal: function(username, password) {
-                return $http({
-                    method: 'POST',
-                    data: {username: username, password: password},
-                    url: MyConst.serverUrl + '/auth/api/local'
-                });
-            }
+                loginLocal: function loginLocal(username, password) {
+                    return $http({
+                        method: 'POST',
+                        data: {username: username, password: password},
+                        url: MyConst.serverUrl + '/auth/api/local'
+                    });
+                }
 
-        };
+            };
 
-    }
+        } // function LoginFactory(...)
 
     ]); // .factory('LoginFactory', ...
 
