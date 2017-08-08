@@ -74,6 +74,19 @@ Read next:
  npm i --dev        # recoursive, deprecated?
  npm i --only=dev   # removes production dependencies
 ------------------------------------------------
+ssh-agent:
+  https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+  1. generate key:
+    ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+  2. use key:
+    eval $(ssh-agent -s); ps
+    ssh-add ~/.ssh/id_rsa
+    - add key to github account
+------------------------------------------------
+checkin:
+ git fetch origin; git merge --no-edit -m "[ci skip] merge branch 'master' of github.com:ikarus512/fcc1"; git status
+ git add -A; git commit -m "[ci skip] cosmetic"; git push origin master
+------------------------------------------------
 In case of 'npm i' problems:
  npm cache verify && npm i -S gulp-less
  use LTS version of node (currently 6.10.3)
