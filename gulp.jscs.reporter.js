@@ -46,9 +46,7 @@ module.exports = function(errorsCollection) {
     if (errorCount) {
         exitCode = 1;
         console.log(errorCount + ' error' + (errorCount===1?'':'s') + ' (found by gulp-jscs).');
-        process.nextTick(function() {
-            process.exit(exitCode);
-        });
-        // throw Error('gulp jscs failed');
+        // process.nextTick(function() { process.exit(exitCode); });
+        throw Error('gulp jscs failed');
     }
 };

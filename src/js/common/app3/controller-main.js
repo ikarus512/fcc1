@@ -50,7 +50,6 @@
 
             if ($scope.logintype) {
                 $scope.ajaxLoadingSpinner++;
-                // eslint-disable-next-line complexity
                 App3WebSocketService.subscribe(onWsMessage)
                 .finally(function() {$scope.ajaxLoadingSpinner--;});
             }
@@ -89,7 +88,7 @@
                 return data;
             } // function initData(...)
 
-            function onWsMessage(newDataPortion) {
+            function onWsMessage(newDataPortion) { // eslint-disable-line complexity
                 var key, newData = $scope.chart1Data;
 
                 // newDataPortion update: convert all dates from String() to Date()

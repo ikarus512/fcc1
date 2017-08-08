@@ -19,44 +19,20 @@
 
             $scope.ajaxLoadingSpinner = 0;
 
-            // Init params from backend
-            if (MyConst.webApp) {
-                $scope.logintype =
-                    (backendParams.logintype && backendParams.logintype !== 'undefined') ?
-                    backendParams.logintype : '';
-                $scope.username =
-                    (backendParams.username && backendParams.username !== 'undefined') ?
-                    backendParams.username : '';
-                $scope.uid =
-                    (backendParams.uid && backendParams.uid !== 'undefined') ?
-                    backendParams.uid : '';
-                $scope.bookId =
-                    (backendParams.bookId && backendParams.bookId !== 'undefined') ?
-                    backendParams.bookId : '';
-            } else {
-                $scope.ajaxLoadingSpinner++;
-                User.check()
-                .then(function() {
-                    $scope.logintype = User.type;
-                    $scope.username  = User.name;
-                    $scope.uid       = User.uid;
-                })
-                .finally(function() {$scope.ajaxLoadingSpinner--;});
-                $scope.bookId = $routeParams.bookId; // #!app4/books/:bookId
-            }
             $scope.urlPrefix = MyConst.urlPrefix;
             $scope.serverUrl = MyConst.serverUrl;
 
-            $scope.chooseBid = chooseBid;
             $scope.addBid = addBid;
-            $scope.updateBid = updateBid;
-            $scope.bookEditCancelChanges = bookEditCancelChanges;
-            $scope.clearFile = clearFile;
-            $scope.bookSaveChanges = bookSaveChanges;
             $scope.bookDelete = bookDelete;
+            $scope.bookEditCancelChanges = bookEditCancelChanges;
+            $scope.bookSaveChanges = bookSaveChanges;
+            $scope.chooseBid = chooseBid;
+            $scope.clearFile = clearFile;
             $scope.goBooksPage = goBooksPage;
             $scope.sendMsg = sendMsg;
+            $scope.updateBid = updateBid;
 
+            initParams();
             bookRefresh({details:1, bids:1});
 
             /* On app4 close: */
@@ -65,6 +41,33 @@
             });
 
             ////////////////////////////////////////
+
+            function initParams() {
+                if (MyConst.webApp) { // Init params from backend
+                    $scope.logintype =
+                        (backendParams.logintype && backendParams.logintype !== 'undefined') ?
+                        backendParams.logintype : '';
+                    $scope.username =
+                        (backendParams.username && backendParams.username !== 'undefined') ?
+                        backendParams.username : '';
+                    $scope.uid =
+                        (backendParams.uid && backendParams.uid !== 'undefined') ?
+                        backendParams.uid : '';
+                    $scope.bookId =
+                        (backendParams.bookId && backendParams.bookId !== 'undefined') ?
+                        backendParams.bookId : '';
+                } else { // Init params by requesting server
+                    $scope.ajaxLoadingSpinner++;
+                    User.check()
+                    .then(function() {
+                        $scope.logintype = User.type;
+                        $scope.username  = User.name;
+                        $scope.uid       = User.uid;
+                    })
+                    .finally(function() {$scope.ajaxLoadingSpinner--;});
+                    $scope.bookId = $routeParams.bookId; // #!app4/books/:bookId
+                }
+            } // function initParams(...)
 
             function bookRefresh(opts) {
 
