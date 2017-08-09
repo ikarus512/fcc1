@@ -4,6 +4,37 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
+/**
+ *  @ngdoc component
+ *  @memberof myapp
+ *  @name input-price-update
+ *  @restrict E
+ *  @description
+ *      Ajax loader spinner
+ *
+ *  @attr {String} placeholder
+ *  @attr {String} name
+ *  @attr {String} error
+ *  @attr {String} ng-model
+ *  @attr {String} my-enter
+ *  @attr {String} my-focus
+ *  @attr {String} start-index
+ *  @example
+ *
+ *  Example:
+ *      <input-price-update
+ *          placeholder='\'Bid Price\''
+ *          name='price{{bid._id}}'
+ *          error='updateBidForm[\'price\'+bid._id].$error'
+ *          ng-model='bid.updateBidPrice'
+ *          my-enter='updateBid(updateBidForm[\'price\'+bid._id].$valid, '+
+ *           'bid.price, bid.updateBidPrice)'
+ *          my-focus='bid.focusMe'
+ *          sort-index='{{$index}}'
+ *      >
+ *      </input-price-update>
+ *
+ */
 (function() {
     'use strict';
 

@@ -176,18 +176,35 @@ CI:
     http://eslint.org/docs/user-guide/configuring.html#configuring-rules
 ------------------------------------------------
 jsDoc (API, REST API, angular apps, publish)
-  https://doclets.io/
-  https://www.npmjs.com/package/jsdoc-githubify
-  https://www.npmjs.com/package/swagger-jsdoc
+  RestAPI:
+    1) apiDoc  http://apidocjs.com  http://sochix.ru/documenting-node-js-rest-api
+  angular:
+    1) angular-jsdoc
+      angular template example (https://www.npmjs.com/package/angular-jsdoc):
+      https://rawgit.com/allenhwkim/angularjs-google-maps/master/build/docs/index.html
+    2) gulp-ngdocs
+      http://www.shristitechlabs.com/adding-automatic-documentation-for-angularjs-apps
+      https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation
+      https://www.npmjs.com/package/gulp-ngdocs
+  ? https://doclets.io/
+  ? https://www.npmjs.com/package/jsdoc-githubify
+  ? https://www.npmjs.com/package/swagger-jsdoc
   https://www.google.ru/search?q=jsdoc+hosting&oq=jsdoc+hosting&aqs=chrome..69i57.11465j0j7&sourceid=chrome&ie=UTF-8
-  https://www.npmjs.com/package/jsdoc-to-markdown
+  ? https://www.npmjs.com/package/jsdoc-to-markdown
 ------------------------------------------------
 WISH:
   https://github.com/johnpapa/angular-styleguide
-    controllerAs*,
   jsDoc
+  add tests for app2,3,4
+  test-e2e: fix flaky test, and remove second  npm run test-e2e-cmd1
+  codeClimate: reduce duplication
   dev: no minify js/css(less)/html(pug)
   test,prod: minify
   devserver --> runs devmobile (browser) --> mobile tests (android debug/release build only by demand)
-  add tests for app2,3,4
-  test-e2e: fix flaky test, and remove second  npm run test-e2e-cmd1
+  Further reading https://github.com/johnpapa/angular-styleguide:
+    controllerAs*,Y080,Y192?(Karma)-Y197,
+    ngAnimate
+    jsHint file Y230 ?
+    Sublime Angular snippets Y250 ?
+    Yeoman Generator ?
+    Task Automation ?

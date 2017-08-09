@@ -4,33 +4,58 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
+/**
+ * @ngdoc factory
+ * @memberof app1
+ * @name StoragePolls
+ * @description
+ *   App1 polls storage
+ */
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular
+    .module('myapp')
+    .factory('StoragePolls', StoragePolls);
 
-    .factory('StoragePolls', ['$http', 'MyConst', function StoragePolls($http, MyConst) {
+    function StoragePolls($http, MyConst) {
 
         return {
-
-            get: function getPolls() {
-                return $http({
-                    method: 'GET',
-                    data:{},
-                    url: MyConst.serverUrl + '/app1/api/polls'
-                });
-            },
-
-            post: function postPolls(poll) {
-                return $http({
-                    method: 'POST',
-                    data:poll,
-                    url: MyConst.serverUrl + '/app1/api/polls'
-                });
-            }
-
+            get: getPolls,
+            post: postPoll
         };
 
-    }]); // .factory('StoragePolls', ...
+        ////////////////////////////////////////
+
+        /**
+         * Get polls
+         * @memberof StoragePolls
+         * @returns {Promise} promise with polls
+         */
+        function getPolls() {
+            return $http({
+                method: 'GET',
+                data:{},
+                url: MyConst.serverUrl + '/app1/api/polls'
+            });
+        }
+
+        /**
+         * Create poll
+         * @memberof StoragePolls
+         * @param {Object} poll Poll to create (contains title)
+         * @returns {Promise} promise with created poll
+         */
+        function postPoll(poll) {
+            return $http({
+                method: 'POST',
+                data:poll,
+                url: MyConst.serverUrl + '/app1/api/polls'
+            });
+        }
+
+    } // function StoragePolls(...)
+
+    StoragePolls.$inject = ['$http', 'MyConst'];
 
 }());

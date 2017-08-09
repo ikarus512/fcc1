@@ -12,6 +12,11 @@
  *
  */
 
+/**
+ * Server
+ * @module Server
+ */
+
 /*jshint node: true*/
 'use strict';
 

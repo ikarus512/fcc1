@@ -1,6 +1,7 @@
 # Logs
 logs
 _tmp
+doc_output
 *.log
 npm-debug.log*
 debug.log

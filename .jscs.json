@@ -74,7 +74,14 @@
     "disallowSpacesInsideParentheses": true,
 
     "jsDoc": {
-        "checkAnnotations": true,
+        //http://jscs.info/rule/jsDoc#user-content-tag-values
+        "checkAnnotations": {
+            "preset": "jsdoc3",
+            "extra": {
+                "ngdoc": true, // true means tag available with any value
+                "memberOf": true
+            }
+        },
         "checkParamNames": true,
         "requireParamTypes": true,
         "checkReturnTypes": true,

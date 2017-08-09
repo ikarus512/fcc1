@@ -4,6 +4,24 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
+/**
+ *  @ngdoc component
+ *  @memberof myapp
+ *  @name ajax-loading-spinner
+ *  @restrict E
+ *  @description
+ *      Ajax loader spinner
+ *
+ *  @attr {String} ajax-loading-var optional, toggle variable (if positive, then spinner visible)
+ *  @example
+ *
+ *  Example:
+ *      <ajax-loading-spinner
+ *          ajax-loading-var='{{ajaxLoadingSpinner}}'
+ *      >
+ *      </ajax-loading-spinner>
+ *
+ */
 (function() {
     'use strict';
 

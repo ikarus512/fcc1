@@ -4,87 +4,110 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
+/**
+ * @ngdoc controller
+ * @memberof app1
+ * @name ControllerPolls
+ * @description
+ *   App1 polls controller
+ */
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular
+    .module('myapp')
+    .controller('ControllerPolls', ControllerPolls);
 
-    .controller('ControllerPolls', [
-        '$scope', 'StoragePolls', 'MyError', 'MyConst', 'User',
-        'backendParams',
-        function ControllerPolls($scope, StoragePolls, MyError, MyConst, User,
-            backendParams
-        )
-        {
+    function ControllerPolls(
+        $scope, StoragePolls, MyError, MyConst, User, backendParams
+    )
+    {
 
-            $scope.ajaxLoadingSpinner = 0;
+        $scope.ajaxLoadingSpinner = 0;
 
-            // Init params from backend
-            if (MyConst.webApp) {
-                $scope.logintype =
-                    (backendParams.logintype && backendParams.logintype !== 'undefined') ?
-                    backendParams.logintype : '';
-                $scope.username =
-                    (backendParams.username && backendParams.username !== 'undefined') ?
-                    backendParams.username : '';
-            } else {
-                $scope.ajaxLoadingSpinner++;
-                User.check()
-                .then(function() {
-                    $scope.logintype = User.type;
-                    $scope.username  = User.name;
-                })
-                .finally(function() {$scope.ajaxLoadingSpinner--;});
-            }
-            $scope.urlPrefix = MyConst.urlPrefix;
-
-            $scope.view = 'polls'; // polls/newPoll
-            $scope.newPollTitle = '';
-            $scope.editedPoll = null;
-
-            $scope.newPollMode = newPollMode;
-            $scope.newPollCancel = newPollCancel;
-            $scope.newPollCreate = newPollCreate;
-
-            $scope.polls = [];
+        // Init params from backend
+        if (MyConst.webApp) {
+            $scope.logintype =
+                (backendParams.logintype && backendParams.logintype !== 'undefined') ?
+                backendParams.logintype : '';
+            $scope.username =
+                (backendParams.username && backendParams.username !== 'undefined') ?
+                backendParams.username : '';
+        } else {
             $scope.ajaxLoadingSpinner++;
-            StoragePolls.get()
-            .then(function(res) { $scope.polls = res.data; })
-            .catch(function(err) { MyError.alert(err); })
+            User.check()
+            .then(function() {
+                $scope.logintype = User.type;
+                $scope.username  = User.name;
+            })
             .finally(function() {$scope.ajaxLoadingSpinner--;});
+        }
+        $scope.urlPrefix = MyConst.urlPrefix;
 
-            ////////////////////////////////////////
+        $scope.view = 'polls'; // polls/newPoll
+        $scope.newPollTitle = '';
+        $scope.editedPoll = null;
 
-            function newPollMode() {
-                $scope.view = 'newPoll';
-            } // function newPollMode(...)
+        $scope.newPollMode = newPollMode;
+        $scope.newPollCancel = newPollCancel;
+        $scope.newPollCreate = newPollCreate;
 
-            function newPollCancel() {
-                $scope.newPollTitle = ''; $scope.view = 'polls';
-            } // function newPollCancel(...)
+        $scope.polls = [];
+        $scope.ajaxLoadingSpinner++;
+        StoragePolls.get()
+        .then(function(res) { $scope.polls = res.data; })
+        .catch(function(err) { MyError.alert(err); })
+        .finally(function() {$scope.ajaxLoadingSpinner--;});
 
-            function newPollCreate() {
-                var title = $scope.newPollTitle.trim();
+        ////////////////////////////////////////
 
-                if (title) {
-                    $scope.ajaxLoadingSpinner++;
-                    StoragePolls.post({title: title})
-                    .then(function onOk(res) {
-                        var poll = res.data;
+        /**
+         * Switch to 'creating new poll' mode
+         * @returns {undefined}
+         * @memberof ControllerPolls
+         */
+        function newPollMode() {
+            $scope.view = 'newPoll';
+        } // function newPollMode(...)
 
-                        $scope.polls.push(poll);
+        /**
+         * Cancel 'creating new poll' mode
+         * @returns {undefined}
+         * @memberof ControllerPolls
+         */
+        function newPollCancel() {
+            $scope.newPollTitle = ''; $scope.view = 'polls';
+        } // function newPollCancel(...)
 
-                        $scope.newPollTitle = '';
-                        $scope.view = 'polls';
-                    })
-                    .catch(function(err) { MyError.alert(err); })
-                    .finally(function() {$scope.ajaxLoadingSpinner--;});
+        /**
+         * Create new poll
+         * @returns {undefined}
+         * @memberof ControllerPolls
+         */
+        function newPollCreate() {
+            var title = $scope.newPollTitle.trim();
 
-                }
-            } // function newPollCreate(...)
+            if (title) {
+                $scope.ajaxLoadingSpinner++;
+                StoragePolls.post({title: title})
+                .then(function onOk(res) {
+                    var poll = res.data;
 
-        } // function ControllerPolls(...)
+                    $scope.polls.push(poll);
 
-    ]); // .controller('ControllerPolls', ...
+                    $scope.newPollTitle = '';
+                    $scope.view = 'polls';
+                })
+                .catch(function(err) { MyError.alert(err); })
+                .finally(function() {$scope.ajaxLoadingSpinner--;});
+
+            }
+        } // function newPollCreate(...)
+
+    } // function ControllerPolls(...)
+
+    ControllerPolls.$inject = [
+        '$scope', 'StoragePolls', 'MyError', 'MyConst', 'User', 'backendParams'
+    ];
 
 }());

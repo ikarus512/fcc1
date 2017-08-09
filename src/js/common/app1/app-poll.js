@@ -4,6 +4,13 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
+/**
+ * @ngdoc module
+ * @memberof app1
+ * @name App1Poll module
+ * @description
+ *   App1 poll module
+ */
 (function() {
     'use strict';
 
