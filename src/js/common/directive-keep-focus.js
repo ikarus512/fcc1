@@ -8,8 +8,8 @@
  * @ngdoc directive
  * @memberof myapp
  * @name directive-keep-focus
- * @param Attr2Options {service} convert html attribute to Google map api options
- * @param $timeout {service} AngularJS $timeout
+ * @param {service} Attr2Options convert html attribute to Google map api options
+ * @param {service} $timeout AngularJS $timeout
  * @description
  *   Marker with html
  *   Requires:  map directive

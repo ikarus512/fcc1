@@ -79,7 +79,9 @@
             "preset": "jsdoc3",
             "extra": {
                 "ngdoc": true, // true means tag available with any value
-                "memberOf": true
+                "memberOf": true,
+                "restrict": true,
+                "attr": true
             }
         },
         "checkParamNames": true,
