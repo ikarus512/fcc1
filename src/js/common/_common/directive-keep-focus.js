@@ -26,10 +26,10 @@
      * @param {Object} $timeout
      * @memberOf clients.Modules._common.Directives
      *
-     * @example
+     * @example {@lang xml}
      *
      * <textarea
-     *     keep-focus>
+     *     keep-focus
      *     keep-focus-var='{{bid.biddersEditMsgFocusVar}}'
      *     keep-focus-index='{{$index}}'
      * >

@@ -23,6 +23,6 @@
     "outputSourcePath": true,
     "protocol": "html://",
     "systemName": "DynApps-Docs",
-    "theme": "cosmo"
+    "theme": "cerulean"
   }
 }
