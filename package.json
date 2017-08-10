@@ -120,7 +120,7 @@
     "express-less": "^0.1.0",
     "express-rate-limit": "^2.8.0",
     "express-session": "^1.15.4",
-    "express-status-monitor": "^0.1.9",
+    "express-status-monitor": "^1.0.0",
     "extend": "^3.0.0",
     "font-awesome": "^4.7.0",
     "helmet": "^3.8.0",
