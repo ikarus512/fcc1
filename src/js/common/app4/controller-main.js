@@ -10,8 +10,8 @@
     angular.module('app4books')
 
     .controller('myApp4Controller', [
-        '$scope', 'bookStorage', 'MyError', 'MyConst', 'User', 'backendParams',
-        function myApp4Controller($scope, bookStorage, MyError, MyConst, User, backendParams) {
+        '$scope', 'booksStorage', 'MyError', 'MyConst', 'User', 'backendParams',
+        function myApp4Controller($scope, booksStorage, MyError, MyConst, User, backendParams) {
 
             $scope.ajaxLoadingSpinner = 0;
 
@@ -50,7 +50,7 @@
 
             function booksRefresh() {
                 $scope.ajaxLoadingSpinner++;
-                bookStorage.getBooks()
+                booksStorage.getBooks()
                 .then(function(res) { $scope.books = res.data; })
                 .catch(function(res) { MyError.alert(res); })
                 .finally(function() {$scope.ajaxLoadingSpinner--;});
@@ -89,7 +89,7 @@
 
                     $scope.ajaxLoadingSpinner++;
 
-                    bookStorage.postBook($scope.newBook)
+                    booksStorage.postBook($scope.newBook)
 
                     .then(function(res) {
                         booksRefresh();

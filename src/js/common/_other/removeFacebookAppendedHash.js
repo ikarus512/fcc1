@@ -4,6 +4,18 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
+/**
+ * @namespace _other
+ * @desc non-angular functions
+ * @memberOf clients.Modules
+ */
+
+/**
+ * @classdesc Remove Facebook appended hash
+ * @class
+ * @name removeFacebookAppendedHash
+ * @memberOf clients.Modules._other
+ */
 $(document).ready(function() {
     if (window.location.hash && window.location.hash === '#_=_') {
         if (window.history && history.pushState) {

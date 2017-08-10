@@ -7,80 +7,83 @@
 (function() {
     'use strict';
 
-    angular.module('app4book')
+    angular
+    .module('app4book')
+    .factory('bookStorage', bookStorage);
 
-    .factory('bookStorage',
-        ['$http', 'Upload', 'MyConst',
-        function bookStorage($http, Upload, MyConst) {
+    bookStorage.$inject = [
+        '$http', 'Upload', 'MyConst'
+    ];
 
-            return {
-                getBook: function getBook(id) {
-                    return $http({
-                        method: 'GET',
-                        data:{},
-                        url: MyConst.serverUrl + '/app4/api/books/' + id
-                    });
-                },
+    function bookStorage($http, Upload, MyConst) {
 
-                bookDelete: function bookDelete(id) {
-                    return $http({
-                        method: 'DELETE',
-                        data:{},
-                        url: MyConst.serverUrl + '/app4/api/books/' + id
-                    });
-                },
+        return {
+            getBook: getBook,
+            bookDelete: bookDelete,
+            postBook: postBook,
+            addBid: addBid,
+            chooseBid: chooseBid,
+            getWsTicket: getWsTicket
+        };
 
-                getBooks: function getBooks() {
-                    return $http({
-                        method: 'GET',
-                        data:{},
-                        url: MyConst.serverUrl + '/app4/api/books'
-                    });
-                },
+        ////////////////////////////////////////
 
-                postBook: function postBook(book) {
-                    if (book.file) {
-                        return Upload.upload({
-                            method: 'POST',
-                            data: book,
-                            url: MyConst.serverUrl + '/app4/api/books'
-                        });
-                    } else {
-                        return $http({
-                            method: 'POST',
-                            data: book,
-                            url: MyConst.serverUrl + '/app4/api/books'
-                        });
-                    }
-                },
+        function getBook(id) {
+            return $http({
+                method: 'GET',
+                data:{},
+                url: MyConst.serverUrl + '/app4/api/books/' + id
+            });
+        } // function getBook(...)
 
-                addBid: function addBid(id, price) {
-                    return $http({
-                        method: 'POST',
-                        data: {price:price},
-                        url: MyConst.serverUrl + '/app4/api/books/' + id + '/bid'
-                    });
-                },
+        function bookDelete(id) {
+            return $http({
+                method: 'DELETE',
+                data:{},
+                url: MyConst.serverUrl + '/app4/api/books/' + id
+            });
+        } // function bookDelete(...)
 
-                chooseBid: function chooseBid(bookId, bidOwnerId) {
-                    return $http({
-                        method: 'POST',
-                        data: {bidOwnerId:bidOwnerId},
-                        url: MyConst.serverUrl + '/app4/api/books/' + bookId + '/choose'
-                    });
-                },
+        function postBook(book) {
+            if (book.file) {
+                return Upload.upload({
+                    method: 'POST',
+                    data: book,
+                    url: MyConst.serverUrl + '/app4/api/books'
+                });
+            } else {
+                return $http({
+                    method: 'POST',
+                    data: book,
+                    url: MyConst.serverUrl + '/app4/api/books'
+                });
+            }
+        } // function postBook(...)
 
-                getWsTicket: function getWsTicket() {
-                    return $http({
-                        method: 'GET',
-                        data:{},
-                        url: MyConst.serverUrl + '/app4/api/get-ws-ticket'
-                    });
-                }
-            };
+        function addBid(id, price) {
+            return $http({
+                method: 'POST',
+                data: {price:price},
+                url: MyConst.serverUrl + '/app4/api/books/' + id + '/bid'
+            });
+        } // function addBid(...)
 
-        } // function bookStorage(...)
+        function chooseBid(bookId, bidOwnerId) {
+            return $http({
+                method: 'POST',
+                data: {bidOwnerId:bidOwnerId},
+                url: MyConst.serverUrl + '/app4/api/books/' + bookId + '/choose'
+            });
+        } // function chooseBid(...)
 
-    ]); // .factory('bookStorage', ...
+        function getWsTicket() {
+            return $http({
+                method: 'GET',
+                data:{},
+                url: MyConst.serverUrl + '/app4/api/get-ws-ticket'
+            });
+        } // function getWsTicket(...)
+
+    } // function bookStorage(...)
 
 }());
