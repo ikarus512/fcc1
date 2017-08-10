@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('app4filters')
 
     .filter('msgtime', ['$filter', function msgtimeFilter($filter) {
         return function msgtimeFunction(date) {

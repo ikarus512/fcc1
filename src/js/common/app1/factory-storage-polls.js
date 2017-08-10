@@ -5,19 +5,24 @@
  */
 
 /**
- * @ngdoc factory
- * @memberof app1
- * @name StoragePolls
- * @description
- *   App1 polls storage
+ * @namespace Factories
+ * @desc app1polls factories
+ * @memberOf clients.Modules.app1polls
  */
 (function() {
     'use strict';
 
     angular
-    .module('myapp')
+    .module('app1polls')
     .factory('StoragePolls', StoragePolls);
 
+    /**
+     * @classdesc Polls storage factory
+     * @class
+     * @param {Object} $http
+     * @param {Object} MyConst
+     * @memberOf clients.Modules.app1polls.Factories
+     */
     function StoragePolls($http, MyConst) {
 
         return {
@@ -29,8 +34,9 @@
 
         /**
          * Get polls
-         * @memberof StoragePolls
          * @returns {Promise} promise with polls
+         * @static
+         * @memberOf clients.Modules.app1polls.Factories.StoragePolls
          */
         function getPolls() {
             return $http({
@@ -42,9 +48,10 @@
 
         /**
          * Create poll
-         * @memberof StoragePolls
          * @param {Object} poll Poll to create (contains title)
          * @returns {Promise} promise with created poll
+         * @static
+         * @memberOf clients.Modules.app1polls.Factories.StoragePolls
          */
         function postPoll(poll) {
             return $http({

@@ -5,19 +5,31 @@
  */
 
 /**
- * @ngdoc controller
- * @memberof app1
- * @name ControllerPoll
- * @description
- *   App1 poll controller
+ * @namespace Controllers
+ * @desc app1poll controllers
+ * @memberOf clients.Modules.app1poll
  */
 (function() {
     'use strict';
 
     angular
-    .module('myapp')
+    .module('app1poll')
     .controller('ControllerPoll', ControllerPoll);
 
+    /**
+     * @classdesc App1 poll controller
+     * @class
+     * @param {Object} $scope
+     * @param {Object} $location
+     * @param {Object} $window
+     * @param {Object} StoragePoll
+     * @param {Object} MyError
+     * @param {Object} $routeParams
+     * @param {Object} MyConst
+     * @param {Object} User
+     * @param {Object} backendParams
+     * @memberOf clients.Modules.app1poll.Controllers
+     */
     function ControllerPoll(
         $scope, $location, $window, StoragePoll, MyError,
         $routeParams, MyConst, User, backendParams
@@ -71,8 +83,8 @@
 
         /**
          * Reload poll data from server (discard temporary local changes)
-         * @returns {undefined}
-         * @memberof ControllerPoll
+         * @static
+         * @memberOf clients.Modules.app1poll.Controllers.ControllerPoll
          */
         function reloadPoll() {
             $scope.ajaxLoadingSpinner++;
@@ -97,8 +109,8 @@
 
         /**
          * Delete poll
-         * @returns {undefined}
-         * @memberof ControllerPoll
+         * @static
+         * @memberOf clients.Modules.app1poll.Controllers.ControllerPoll
          */
         function pollDelete() {
             // eslint-disable-next-line no-alert
@@ -116,8 +128,8 @@
 
         /**
          * Switch to 'creating new option' mode
-         * @returns {undefined}
-         * @memberof ControllerPoll
+         * @static
+         * @memberOf clients.Modules.app1poll.Controllers.ControllerPoll
          */
         function newOptionMode() {
             $scope.view = 'newOption';
@@ -125,8 +137,8 @@
 
         /**
          * Cancel 'creating new option' mode
-         * @returns {undefined}
-         * @memberof ControllerPoll
+         * @static
+         * @memberOf clients.Modules.app1poll.Controllers.ControllerPoll
          */
         function newOptionCancel() {
             $scope.newOptionTitle = '';
@@ -135,8 +147,8 @@
 
         /**
          * Create new option
-         * @returns {undefined}
-         * @memberof ControllerPoll
+         * @static
+         * @memberOf clients.Modules.app1poll.Controllers.ControllerPoll
          */
         function newOptionCreate() {
             var title = $scope.newOptionTitle.trim();
@@ -158,9 +170,9 @@
 
         /**
          * Vote for option
+         * @static
          * @param {Object} option Option to vote for
-         * @returns {undefined}
-         * @memberof ControllerPoll
+         * @memberOf clients.Modules.app1poll.Controllers.ControllerPoll
          */
         function optionVote(option) {
             $scope.ajaxLoadingSpinner++;

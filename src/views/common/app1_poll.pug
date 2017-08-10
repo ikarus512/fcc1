@@ -26,18 +26,20 @@ block scriptBeforeBody
     script(src='/lib/angular-route.min.js')
     script(src='/lib/Chart.bundle.min.js')
     script(src='/lib/angular-chart.min.js')
-    script(src='/js/common/app1/app-poll.js')
+    script(src='/js/common/app1/app1poll.module.js')
     script(src='/js/common/app1/controller-poll.js')
     script(src='/js/common/app1/factory-storage-poll.js')
-    script(src='/js/common/components/ajax-loading-spinner.js')
-    script(src='/js/common/directive-my-enter.js')
-    script(src='/js/common/directive-my-escape.js')
-    script(src='/js/common/directive-my-focus.js')
-    script(src='/js/common/factory-my-error.js')
+    script(src='/js/common/_components/_components.module.js')
+    script(src='/js/common/_components/ajax-loading-spinner.js')
+    script(src='/js/common/_common/_common.module.js')
+    script(src='/js/common/_common/directive-my-enter.js')
+    script(src='/js/common/_common/directive-my-escape.js')
+    script(src='/js/common/_common/directive-my-focus.js')
+    script(src='/js/common/_common/factory-my-error.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
     script.
-      angular.module('myapp')
+      angular.module('app1poll')
       .value('backendParams', {
         logintype: '#{logintype}',
         username:  '#{username}',
@@ -49,7 +51,7 @@ block content
 
   div(
     class='ng-app'
-    ng-app=(webApp?'myapp':false)
+    ng-app=(webApp?'app1poll':false)
     ng-controller='ControllerPoll'
     ng-cloak
   )

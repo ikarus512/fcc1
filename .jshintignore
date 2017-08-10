@@ -1,6 +1,7 @@
 _certificate/
 coverage/
+doc_output/
+mobile/
 node_modules/
 public/
-mobile/
 gulpfile.js

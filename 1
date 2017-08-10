@@ -80,8 +80,7 @@ ssh-agent:
   1. generate key:
     ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
   2. use key:
-    eval $(ssh-agent -s); ps
-    ssh-add ~/.ssh/id_rsa
+    eval $(ssh-agent -s); ps; ssh-add ~/.ssh/id_rsa
     - add key to github account
 ------------------------------------------------
 checkin:
@@ -182,7 +181,7 @@ jsDoc (API, REST API, angular apps, publish)
     1) angular-jsdoc
       angular template example (https://www.npmjs.com/package/angular-jsdoc):
       https://rawgit.com/allenhwkim/angularjs-google-maps/master/build/docs/index.html
-    2) gulp-ngdocs
+    2) gulp-ngdocs needs to start separate doc server
       http://www.shristitechlabs.com/adding-automatic-documentation-for-angularjs-apps
       https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation
       https://www.npmjs.com/package/gulp-ngdocs

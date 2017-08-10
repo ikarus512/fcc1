@@ -70,7 +70,7 @@ var MOBILE_PATHS = {
         dest: MOBILE_DST
     },
     // jsComponents: {
-    //       MOBILE_SRC + 'src/js/common/components/input-price-update.html'
+    //       MOBILE_SRC + 'src/js/common/_components/input-price-update.html'
     // },
     js: {
         src: [

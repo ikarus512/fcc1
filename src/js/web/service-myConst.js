@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('_common')
 
     .service('MyConst', function MyConst() {
 

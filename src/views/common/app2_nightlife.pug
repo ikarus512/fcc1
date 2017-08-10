@@ -23,18 +23,20 @@ block scriptBeforeBody
   if webApp
     //- Here if webApp
     script(src='/lib/angular.min.js')
-    script(src='/js/common/app2/app.js')
+    script(src='/js/common/app2/app2.module.js')
     script(src='/js/common/app2/controller-main.js')
     if useGoogleMaps
         script(src='/js/common/app2/directive-map-google.js')
     script(src='/js/common/app2/directive-map-leaflet.js')
     script(src='/js/common/app2/factory-cafe-storage.js')
-    script(src='/js/common/components/ajax-loading-spinner.js')
-    script(src='/js/common/factory-my-error.js')
+    script(src='/js/common/_components/_components.module.js')
+    script(src='/js/common/_components/ajax-loading-spinner.js')
+    script(src='/js/common/_common/_common.module.js')
+    script(src='/js/common/_common/factory-my-error.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
     script.
-      angular.module('myapp')
+      angular.module('app2')
       .value('backendParams', {
         logintype: '#{logintype}',
         username:  '#{username}',
@@ -59,7 +61,7 @@ block content
 
   div(
     class='ng-app'
-    ng-app=(webApp?'myapp':false)
+    ng-app=(webApp?'app2':false)
     ng-controller='myApp2ControllerMain'
     ng-cloak
   )

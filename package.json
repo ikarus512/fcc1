@@ -88,9 +88,7 @@
     "0120a": "echo ===============================================================================",
     "0120b": "echo === DOC =======================================================================",
     "0120c": "echo ===============================================================================",
-    "doc": "npm run doc:clients && npm run doc:server",
-    "doc:clients": "jsdoc -d ./doc_output/clients   -c ./node_modules/angular-jsdoc/common/conf.json -t ./node_modules/angular-jsdoc/angular-template -R ./src/README.md -r ./src",
-    "doc:server": "jsdoc -d ./doc_output/server -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ./server"
+    "doc": "jsdoc -d ./doc_output -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -u ./doc/tutorials -r ./server -r ./src"
   },
   "repository": {
     "type": "git",
@@ -147,7 +145,6 @@
     "ws": "^3.0.0"
   },
   "devDependencies": {
-    "angular-jsdoc": "^1.5.0",
     "browser-sync": "^2.18.13",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",

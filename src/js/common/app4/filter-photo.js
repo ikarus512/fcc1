@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('app4filters')
 
     .filter('photo', function photoFilter() {
         return function photoFunction(text) {

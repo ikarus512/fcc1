@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('app4book')
 
     .factory('App4WebSocketService', [
         'bookStorage', 'MyError', 'MyConst', '$q',

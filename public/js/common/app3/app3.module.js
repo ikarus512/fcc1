@@ -1,0 +1,1 @@
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("app3",["_common","_components"])}();

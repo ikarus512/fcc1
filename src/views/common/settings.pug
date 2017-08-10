@@ -22,11 +22,12 @@ block vars
 
 block scriptBeforeBody
   script(src='/lib/angular.min.js')
-  script(src='/js/common/settings/app.js')
+  script(src='/js/common/settings/settings.module.js')
   script(src='/js/common/settings/controller.js')
   script(src='/js/common/settings/factory-rest.js')
-  script(src='/js/common/directive-my-focus.js')
-  script(src='/js/common/factory-my-error.js')
+  script(src='/js/common/_common/_common.module.js')
+  script(src='/js/common/_common/directive-my-focus.js')
+  script(src='/js/common/_common/factory-my-error.js')
   script(src='/js/web/service-myConst.js')
 
 
@@ -52,7 +53,7 @@ block content
 
   .row(
     class='ng-app'
-    ng-app=(webApp?'myapp':false)
+    ng-app=(webApp?'settings':false)
     ng-controller='ctrSettings'
     ng-init='' +
         'init("' +

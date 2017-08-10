@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('app4books')
 
     .controller('myApp4Controller', [
         '$scope', 'bookStorage', 'MyError', 'MyConst', 'User', 'backendParams',

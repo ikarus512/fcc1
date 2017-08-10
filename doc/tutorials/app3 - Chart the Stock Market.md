@@ -1,0 +1,1 @@
+Accessible via 'Stock' menu.

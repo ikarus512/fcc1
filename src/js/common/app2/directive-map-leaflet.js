@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('app2')
 
     .directive('myLeafletMap', ['MyConst', function myLeafletMap(MyConst) {
 

@@ -5,19 +5,28 @@
  */
 
 /**
- * @ngdoc controller
- * @memberof app1
- * @name ControllerPolls
- * @description
- *   App1 polls controller
+ * @namespace Controllers
+ * @desc app1poll controllers
+ * @memberOf clients.Modules.app1polls
  */
 (function() {
     'use strict';
 
     angular
-    .module('myapp')
+    .module('app1polls')
     .controller('ControllerPolls', ControllerPolls);
 
+    /**
+     * @classdesc App1 polls controller
+     * @class
+     * @param {Object} $scope
+     * @param {Object} StoragePolls
+     * @param {Object} MyError
+     * @param {Object} MyConst
+     * @param {Object} User
+     * @param {Object} backendParams
+     * @memberOf clients.Modules.app1polls.Controllers
+     */
     function ControllerPolls(
         $scope, StoragePolls, MyError, MyConst, User, backendParams
     )
@@ -63,8 +72,8 @@
 
         /**
          * Switch to 'creating new poll' mode
-         * @returns {undefined}
-         * @memberof ControllerPolls
+         * @static
+         * @memberOf clients.Modules.app1polls.Controllers.ControllerPolls
          */
         function newPollMode() {
             $scope.view = 'newPoll';
@@ -72,8 +81,8 @@
 
         /**
          * Cancel 'creating new poll' mode
-         * @returns {undefined}
-         * @memberof ControllerPolls
+         * @static
+         * @memberOf clients.Modules.app1polls.Controllers.ControllerPolls
          */
         function newPollCancel() {
             $scope.newPollTitle = ''; $scope.view = 'polls';
@@ -81,8 +90,8 @@
 
         /**
          * Create new poll
-         * @returns {undefined}
-         * @memberof ControllerPolls
+         * @static
+         * @memberOf clients.Modules.app1polls.Controllers.ControllerPolls
          */
         function newPollCreate() {
             var title = $scope.newPollTitle.trim();

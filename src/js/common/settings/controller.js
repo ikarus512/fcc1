@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('settings')
 
     .controller('ctrSettings', [
         '$scope', '$window', 'RestService', 'MyError',

@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('_common')
 
     .value('backendParams', {}) // not used in mobile app
 

@@ -5,19 +5,24 @@
  */
 
 /**
- * @ngdoc factory
- * @memberof app1
- * @name StoragePoll
- * @description
- *   App1 poll storage
+ * @namespace Factories
+ * @desc app1poll factories
+ * @memberOf clients.Modules.app1poll
  */
 (function() {
     'use strict';
 
     angular
-    .module('myapp')
+    .module('app1poll')
     .factory('StoragePoll', StoragePoll);
 
+    /**
+     * @classdesc Poll storage factory
+     * @class
+     * @param {Object} $http
+     * @param {Object} MyConst
+     * @memberOf clients.Modules.app1poll.Factories
+     */
     function StoragePoll($http, MyConst) {
 
         return {
@@ -32,8 +37,9 @@
         /**
          * Get poll data from server
          * @param {number} pollId Poll id
-         * @memberof StoragePoll
          * @returns {Promise} promise with poll data
+         * @static
+         * @memberOf clients.Modules.app1poll.Factories.StoragePoll
          */
         function getPoll(pollId) {
             return $http({
@@ -47,7 +53,8 @@
          * Delete poll
          * @param {number} pollId Poll id
          * @returns {Promise}
-         * @memberof StoragePoll
+         * @static
+         * @memberOf clients.Modules.app1poll.Factories.StoragePoll
          */
         function deletePoll(pollId) { // delete poll
             return $http({
@@ -62,7 +69,8 @@
          * @param {number} pollId Poll id
          * @param {String} title New option title
          * @returns {Promise} promise with updated poll data
-         * @memberof StoragePoll
+         * @static
+         * @memberOf clients.Modules.app1poll.Factories.StoragePoll
          */
         function postPoll(pollId, title) { // create new option
             return $http({
@@ -77,7 +85,8 @@
          * @param {number} pollId Poll id
          * @param {number} optId Id of the option to vote for
          * @returns {Promise} promise with updated poll data
-         * @memberof StoragePoll
+         * @static
+         * @memberOf clients.Modules.app1poll.Factories.StoragePoll
          */
         function putPoll(pollId, optId) { // vote for poll option
             return $http({

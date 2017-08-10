@@ -1,28 +1,28 @@
 {
+  "markdown": {
+    "hardwrap": true,
+    "parser": "gfm"
+  },
+  "plugins": ["plugins/markdown"],
   "tags": {
     "allowUnknownTags": true
   },
-  "plugins": ["plugins/markdown"],
   "templates": {
-    "logoFile": "",
     "cleverLinks": false,
+    "collapseSymbols": false,
+    "copyright": "Copyright © 2017 ikarus512",
+    "dateFormat": "YYYY/MM/DD",
+    "footer": "<center> <a href='https://ikarus512-fcc1.herokuapp.com'>app</a>, <a href='index.html'>doc</a>, <a href='https://github.com/ikarus512/fcc1.git'>source</a>. </center>",
+    "inverseNav": true,
+    "linenums": true,
+    "logoFile": "../public/img/logo.png",
+    "methodHeadingReturns": false,
     "monospaceLinks": false,
-    "dateFormat": "YYYY/MMM/DD",
+    "navType": "vertical",
     "outputSourceFiles": true,
     "outputSourcePath": true,
-    "systemName": "DynApps",
-    "footer": "",
-    "copyright": "Copyright © 2017 ikarus512",
-    "navType": "vertical",
-    "theme": "cosmo",
-    "linenums": true,
-    "collapseSymbols": false,
-    "inverseNav": true,
     "protocol": "html://",
-    "methodHeadingReturns": false
-  },
-  "markdown": {
-    "parser": "gfm",
-    "hardwrap": true
+    "systemName": "DynApps-Docs",
+    "theme": "cosmo"
   }
 }

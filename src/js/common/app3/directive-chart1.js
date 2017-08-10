@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('app3')
 
     .directive('chart1', [function chart1() {
         return {

@@ -29,24 +29,27 @@ block scriptBeforeBody
     script(src='/lib/angular-animate.min.js')
     script(src='/lib/angular-messages.min.js')
     script(src='/lib/ng-file-upload-all.min.js')
-    script(src='/js/common/app4/app.js')
+    script(src='/js/common/app4/app4book.module.js')
     script(src='/js/common/app4/controller-book.js')
     script(src='/js/common/app4/factory-book-storage.js')
     script(src='/js/common/app4/factory-websocket.js')
+    script(src='/js/common/app4/app4filters.module.js')
     script(src='/js/common/app4/filter-msgtime.js')
     script(src='/js/common/app4/filter-photo.js')
-    script(src='/js/common/components/input-price-update.js')
-    script(src='/js/common/components/ajax-loading-spinner.js')
-    script(src='/js/common/directive-keep-focus.js')
-    script(src='/js/common/directive-my-enter.js')
-    script(src='/js/common/directive-my-escape.js')
-    script(src='/js/common/directive-my-focus.js')
-    script(src='/js/common/directive-my-scroll-bottom.js')
-    script(src='/js/common/factory-my-error.js')
+    script(src='/js/common/_components/_components.module.js')
+    script(src='/js/common/_components/input-price-update.js')
+    script(src='/js/common/_components/ajax-loading-spinner.js')
+    script(src='/js/common/_common/_common.module.js')
+    script(src='/js/common/_common/directive-keep-focus.js')
+    script(src='/js/common/_common/directive-my-enter.js')
+    script(src='/js/common/_common/directive-my-escape.js')
+    script(src='/js/common/_common/directive-my-focus.js')
+    script(src='/js/common/_common/directive-my-scroll-bottom.js')
+    script(src='/js/common/_common/factory-my-error.js')
     script(src='/js/web/service-myConst.js')
     script(src='/js/web/service-user.js')
     script.
-      angular.module('myapp')
+      angular.module('app4book')
       .value('backendParams', {
         logintype: '#{logintype}',
         username:  '#{username}',
@@ -58,7 +61,7 @@ block content
 
   div(
     class='ng-app'
-    ng-app=(webApp?'myapp':false)
+    ng-app=(webApp?'app4book':false)
     ng-controller='myApp4ControllerBook'
     ng-cloak
   )

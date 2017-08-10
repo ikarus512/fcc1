@@ -1,1 +1,1 @@
-/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("myapp").factory("App3RestService",["$http","MyConst",function(t,e){return{getWsTicket:function(){return t({method:"GET",data:{},url:e.serverUrl+"/app3/api/get-ws-ticket"})}}}])}();
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("app3").factory("App3RestService",["$http","MyConst",function(t,e){return{getWsTicket:function(){return t({method:"GET",data:{},url:e.serverUrl+"/app3/api/get-ws-ticket"})}}}])}();

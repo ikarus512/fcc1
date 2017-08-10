@@ -1,1 +1,0 @@
-/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("myapp").directive("myEscape",function(){return function(n,e,u){e.bind("keyup",function(e){27===e.keyCode&&n.$apply(u.myEscape)}),n.$on("$destroy",function(){e.unbind("keyup")})}})}();

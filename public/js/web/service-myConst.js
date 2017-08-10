@@ -1,1 +1,1 @@
-/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("myapp").service("MyConst",function(){this.urlPref="/",this.urlPrefix="",this.serverUrl="",this.webSocketHost="wss://"+window.document.location.host,this.webApp=!0,this.mobileApp=!this.webApp})}();
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("_common").service("MyConst",function(){this.urlPref="/",this.urlPrefix="",this.serverUrl="",this.webSocketHost="wss://"+window.document.location.host,this.webApp=!0,this.mobileApp=!this.webApp})}();

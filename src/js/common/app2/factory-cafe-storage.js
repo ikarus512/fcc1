@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('app2')
 
     .factory('cafeStorage', ['$http', 'MyConst', function cafeStorage($http, MyConst) {
         return {

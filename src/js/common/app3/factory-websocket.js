@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('myapp')
+    angular.module('app3')
 
     .factory('App3WebSocketService', [
         'App3RestService', 'MyError', 'MyConst', '$q',
