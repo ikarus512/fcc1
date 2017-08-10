@@ -7,9 +7,11 @@
 (function() {
     'use strict';
 
-    angular.module('_common')
+    angular
+    .module('_common')
+    .directive('myEnter', myEnter);
 
-    .directive('myEnter', function myEnter() {
+    function myEnter() {
 
         var ENTER_KEY = 13;
 
@@ -25,6 +27,6 @@
             });
         };
 
-    }); // .directive('myEnter', ...
+    } // function myEnter(...)
 
 }());
