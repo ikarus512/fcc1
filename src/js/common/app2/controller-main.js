@@ -31,7 +31,7 @@
      * @param {Object} backendParams
      * @memberOf clients.Modules.app2.Controllers
      */
-    function myApp2ControllerMain( // eslint-disable-line complexity, max-statements
+    function myApp2ControllerMain(// eslint-disable-line complexity, max-statements
         $scope, cafeStorage, MyError, MyConst, User, backendParams
     )
     {
