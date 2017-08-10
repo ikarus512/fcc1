@@ -11,6 +11,8 @@
     .module('_common')
     .directive('myEnter', myEnter);
 
+    myEnter.$inject = [];
+
     function myEnter() {
 
         var ENTER_KEY = 13;

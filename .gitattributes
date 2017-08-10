@@ -11,4 +11,4 @@
 *.yml text eol=lf
 
 #excude from diff:
-public/js/* -diff
+public/js/**/*.js -diff
