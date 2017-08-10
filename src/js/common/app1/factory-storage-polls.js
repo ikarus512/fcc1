@@ -34,6 +34,7 @@
 
         /**
          * Get polls
+         * @alias get
          * @returns {Promise} promise with polls
          * @static
          * @memberOf clients.Modules.app1polls.Factories.StoragePolls
@@ -48,6 +49,7 @@
 
         /**
          * Create poll
+         * @alias post
          * @param {Object} poll Poll to create (contains title)
          * @returns {Promise} promise with created poll
          * @static

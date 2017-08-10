@@ -4,28 +4,77 @@
  * https://github.com/ikarus512/fcc1.git
  */
 
+/**
+ * @namespace Directives
+ * @desc common directives
+ * @memberOf clients.Modules._common
+ */
 (function() {
     'use strict';
 
-    angular.module('_common')
+    angular
+    .module('_common')
+    .directive('myScrollBottom', myScrollBottom);
 
-    .directive('myScrollBottom', ['$timeout', function myScrollBottom($timeout) {
+    myScrollBottom.$inject = [
+        '$timeout'
+    ];
 
-        return {
+    /**
+     * @classdesc attribute directive to scroll ng-repeat array to bottom
+     * @class
+     * @param {Object} $timeout
+     * @memberOf clients.Modules._common.Directives
+     *
+     * @example {@lang xml}
+     * <div my-scroll-bottom='msgs'>
+     *     <div ng-repeat='msg in msgs'>
+     *         {{msg}}
+     *     </div>
+     * </div>
+     */
+    function myScrollBottom($timeout) {
+
+        /**
+         * @member {Object}
+         * @memberOf clients.Modules._common.Directives.myScrollBottom
+         * @type {Object}
+         *
+         * @property {String} restrict Restricted to attributes
+         * @property {Object} scope Scoped variables
+         * @property {Object} scope.myScrollBottom  ng-repeat array name to scroll
+         * @property {function} link Link fuction
+         */
+        var directive = {
+            restrict: 'A',
             scope: {
                 myScrollBottom: '='
             },
-            link: function linkFunction($scope, $element) {
-                $scope.$watchCollection('myScrollBottom', function (newValue) {
-                    if (newValue) {
-                        $timeout(function() {
-                            $element.scrollTop($element[0].scrollHeight);
-                        }, 0);
-                    }
-                });
-            } // link: function linkFunction(...)
+            link: linkFunction
         };
 
-    }]); // .directive('myScrollBottom', ...
+        return directive;
+
+        ////////////////////////////////////////
+
+        /**
+         * Link function
+         * @alias link
+         * @static
+         * @param {Object} $scope
+         * @param {Object} $element
+         * @memberOf clients.Modules._common.Directives.myScrollBottom
+         */
+        function linkFunction($scope, $element) {
+            $scope.$watchCollection('myScrollBottom', function (newValue) {
+                if (newValue) {
+                    $timeout(function() {
+                        $element.scrollTop($element[0].scrollHeight);
+                    }, 0);
+                }
+            });
+        } // function linkFunction(...)
+
+    } // function myScrollBottom(...)
 
 }());

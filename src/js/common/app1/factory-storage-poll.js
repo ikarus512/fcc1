@@ -36,6 +36,7 @@
 
         /**
          * Get poll data from server
+         * @alias get
          * @param {number} pollId Poll id
          * @returns {Promise} promise with poll data
          * @static
@@ -51,6 +52,7 @@
 
         /**
          * Delete poll
+         * @alias delete
          * @param {number} pollId Poll id
          * @returns {Promise}
          * @static
@@ -66,6 +68,7 @@
 
         /**
          * Create new option in the poll
+         * @alias post
          * @param {number} pollId Poll id
          * @param {String} title New option title
          * @returns {Promise} promise with updated poll data
@@ -82,6 +85,7 @@
 
         /**
          * Votes for poll option
+         * @alias put
          * @param {number} pollId Poll id
          * @param {number} optId Id of the option to vote for
          * @returns {Promise} promise with updated poll data

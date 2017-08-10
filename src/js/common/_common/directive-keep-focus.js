@@ -27,7 +27,6 @@
      * @memberOf clients.Modules._common.Directives
      *
      * @example {@lang xml}
-     *
      * <textarea
      *     keep-focus
      *     keep-focus-var='{{bid.biddersEditMsgFocusVar}}'
@@ -63,6 +62,7 @@
 
         /**
          * Link function
+         * @alias link
          * @static
          * @param {Object} scope
          * @param {Object} element
