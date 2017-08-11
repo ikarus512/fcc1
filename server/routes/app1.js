@@ -95,7 +95,6 @@ router.all('/api/polls/:id', myEnableCORS);
 router.all('/api/polls/:id/options', myEnableCORS);
 router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
 
-
 /**
  * @api {get} /app1/api/polls Get Polls
  * @apiName App1GetPolls

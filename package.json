@@ -97,7 +97,7 @@
     "doc:main": "jsdoc -d ./doc_output/main -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -u ./doc_output/REST_API/MD -r ./server -r ./src"
   },
   "apidoc": {
-    "version": "1.0",
+    "version": "1.0.0",
     "title": "DynApps REST API",
     "url": "https://ikarus512-fcc1.herokuapp.com"
   },
