@@ -83,7 +83,6 @@
                 "restrict": true,
                 "attr": true,
 
-
                 "api": true,
                 "apiName": true,
                 "apiGroup": true,

@@ -93,12 +93,14 @@
     "doc:api:1": "apidoc -i ./server/routes -o ./doc_output/REST_API/HTML/",
     "doc:api:2": "mkdirp ./doc_output/REST_API/MD",
     "doc:api:3": "copyfiles ./doc/tutorials/*.md ./doc_output/REST_API/MD/",
-    "doc:api:4": "apidoc-markdown -p ./doc_output/REST_API/HTML/ -o ./doc_output/REST_API/MD/REST_API.md",
+    "doc:api:4": "apidoc-markdown2 -p ./doc_output/REST_API/HTML/ -o ./doc_output/REST_API/MD/REST_API.md",
     "doc:main": "jsdoc -d ./doc_output/main -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -u ./doc_output/REST_API/MD -r ./server -r ./src"
   },
   "apidoc": {
-    "version": "1.0.0",
-    "title": "DynApps REST API",
+    "name": "DynApps REST API",
+    "version": "0.1.0",
+    "description": "DynApps REST API",
+    "title": "fcc1 DynApps REST API",
     "url": "https://ikarus512-fcc1.herokuapp.com"
   },
   "repository": {
@@ -157,7 +159,7 @@
   },
   "devDependencies": {
     "apidoc": "^0.17.6",
-    "apidoc-markdown": "^0.2.0",
+    "apidoc-markdown2": "^0.3.4",
     "browser-sync": "^2.18.13",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
