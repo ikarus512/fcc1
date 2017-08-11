@@ -60,6 +60,16 @@ router.all('/api/cafes', myEnableCORS);
 router.all('/api/cafes/:cafeId/timeslots/:startTime/plan', myEnableCORS);
 router.all('/api/cafes/:cafeId/timeslots/:startTime/unplan', myEnableCORS);
 
+/**
+ * @api {get} /app2/api/polls/user/:id Request User information
+ * @apiName GetUser
+ * @apiGroup app2
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
 // RESTAPI GET    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - get cafes
 router.get('/api/cafes', function(req, res, next) { // eslint-disable-line complexity
 

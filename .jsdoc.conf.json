@@ -15,7 +15,7 @@
     "footer": "<center> <a href='https://ikarus512-fcc1.herokuapp.com'>app</a>, <a href='index.html'>doc</a>, <a href='https://github.com/ikarus512/fcc1.git'>source</a>. </center>",
     "inverseNav": true,
     "linenums": true,
-    "logoFile": "../public/img/logo.png",
+    "logoFile": "../../public/img/logo.png",
     "methodHeadingReturns": false,
     "monospaceLinks": false,
     "navType": "vertical",

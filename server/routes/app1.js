@@ -95,6 +95,17 @@ router.all('/api/polls/:id', myEnableCORS);
 router.all('/api/polls/:id/options', myEnableCORS);
 router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
 
+
+/**
+ * @api {get} /app1/api/polls/user/:id Request User information
+ * @apiName GetUser
+ * @apiGroup app1
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
 // RESTAPI GET    /app1/api/polls - get polls
 router.get('/api/polls', function(req, res, next) {
 

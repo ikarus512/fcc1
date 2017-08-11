@@ -1,7 +1,7 @@
 {
   "name": "fcc1",
   "version": "1.0.0",
-  "description": "",
+  "description": "fcc1 DynApps",
   "keywords": [
     "node",
     "express",
@@ -88,7 +88,18 @@
     "0120a": "echo ===============================================================================",
     "0120b": "echo === DOC =======================================================================",
     "0120c": "echo ===============================================================================",
-    "doc": "jsdoc -d ./doc_output -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -u ./doc/tutorials -r ./server -r ./src"
+    "doc": "npm run doc:api && npm run doc:main",
+    "doc:api": "npm run doc:api:1 && npm run doc:api:2 && npm run doc:api:3 && npm run doc:api:4",
+    "doc:api:1": "apidoc -i ./server/routes -o ./doc_output/REST_API/HTML/",
+    "doc:api:2": "mkdirp ./doc_output/REST_API/MD",
+    "doc:api:3": "copyfiles ./doc/tutorials/*.md ./doc_output/REST_API/MD/",
+    "doc:api:4": "apidoc-markdown -p ./doc_output/REST_API/HTML/ -o ./doc_output/REST_API/MD/REST_API.md",
+    "doc:main": "jsdoc -d ./doc_output/main -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -u ./doc_output/REST_API/MD -r ./server -r ./src"
+  },
+  "apidoc": {
+    "version": "1.0",
+    "title": "DynApps REST API",
+    "url": "https://ikarus512-fcc1.herokuapp.com"
   },
   "repository": {
     "type": "git",
@@ -145,10 +156,13 @@
     "ws": "^3.0.0"
   },
   "devDependencies": {
+    "apidoc": "^0.17.6",
+    "apidoc-markdown": "^0.2.0",
     "browser-sync": "^2.18.13",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "cheerio": "^1.0.0-rc.2",
+    "copyfiles": "^1.2.0",
     "coveralls": "^2.13.1",
     "cross-env": "^5.0.1",
     "event-stream": "^3.3.4",
@@ -181,6 +195,7 @@
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-requirejs": "^1.1.0",
+    "mkdirp": "^0.5.1",
     "mkdirs": "0.0.2",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.3.0",
