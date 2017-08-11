@@ -97,15 +97,15 @@ router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
 
 
 /**
- * @api {get} /app1/api/polls/user/:id Request User information
- * @apiName GetUser
- * @apiGroup app1
+ * @api {get} /app1/api/polls Get Polls
+ * @apiName App1GetPolls
+ * @apiGroup app1 polls
  *
- * @apiParam {Number} id Users unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccess {Object[]} results Firstname of the User.
+ * @apiSuccess {String} results.firstname Firstname of the User.
+ * @apiSuccess {String} results.lastname  Lastname of the User.
  */
+
 // RESTAPI GET    /app1/api/polls - get polls
 router.get('/api/polls', function(req, res, next) {
 
@@ -123,6 +123,16 @@ router.get('/api/polls', function(req, res, next) {
     });
 
 });
+
+/**
+ * @api {post} /app1/api/polls Create New Poll With Given Title
+ * @apiName App1PostPolls
+ * @apiGroup app1 polls
+ *
+ * @apiSuccess {Object[]} results Firstname of the User.
+ * @apiSuccess {String} results.firstname Firstname of the User.
+ * @apiSuccess {String} results.lastname  Lastname of the User.
+ */
 
 // RESTAPI POST   /app1/api/polls {title} - create new poll with title (authorized only)
 router.post('/api/polls', function(req, res, next) {
@@ -161,6 +171,17 @@ router.post('/api/polls', function(req, res, next) {
     });
 
 });
+
+/**
+ * @api {get} /app1/api/polls/user/:id Request User information
+ * @apiName GetUser
+ * @apiGroup app1
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ */
 
 // RESTAPI DELETE /app1/api/polls/:id - remove poll (authorized only)
 router.delete('/api/polls/:id', function(req, res, next) {

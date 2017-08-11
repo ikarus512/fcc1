@@ -81,7 +81,14 @@
                 "ngdoc": true, // true means tag available with any value
                 "memberOf": true,
                 "restrict": true,
-                "attr": true
+                "attr": true,
+
+
+                "api": true,
+                "apiName": true,
+                "apiGroup": true,
+                "apiParam": true,
+                "apiSuccess": true
             }
         },
         "checkParamNames": true,
