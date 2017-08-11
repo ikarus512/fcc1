@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# file: curl.sh
+# /*!
+#  * Copyright 2017 ikarus512
+#  * https://github.com/ikarus512/tripSave.git
+#  *
+#  * DESCRIPTION: curl for development server
+#  * AUTHOR: ikarus512
+#  * CREATED: 2017/08/11
+#  *
+#  * MODIFICATION HISTORY
+#  *  2017/08/11, ikarus512. Initial version.
+#  *
+#  * USAGE EXAMPLE
+#  *  devcurl -X GET --data {} https://ikarus512-fcc1.herokuapp.com/app1/api/polls
+#  *
+#  */
+
+args=$(echo "$*" | perl -e '$_=<>; s/ikarus512-fcc1.herokuapp.com/127.0.0.1:5000/g; print; print " --silent --cacert ./_certificate/certificate.pem";')
+# echo $args; echo "---"
+curl $args; echo; echo "---"
+curl -i $args | head -n 1 # status code
+curl $args | ./node_modules/.bin/jq2 "$"

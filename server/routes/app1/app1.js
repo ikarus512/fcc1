@@ -32,14 +32,14 @@
 var
     express = require('express'),
     router = express.Router(),
-    greet = require('../utils/greet.js'),
-    shareit = require('../utils/shareit.js'),
-    createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
+    greet = require('../../utils/greet.js'),
+    shareit = require('../../utils/shareit.js'),
+    createUnauthorizedUser = require('../../middleware/create-unauthorized-user.js'),
     Promise = require('bluebird'),
-    myEnableCORS = require('../middleware/my-enable-cors.js'),
+    myEnableCORS = require('../../middleware/my-enable-cors.js'),
 
-    Poll = require('../models/app1-polls.js'),
-    User = require('../models/users.js');
+    Poll = require('../../models/app1-polls.js'),
+    User = require('../../models/users.js');
 
 // GET /app1 - redirected to /app1/polls
 router.get('/', function(req, res) {
@@ -96,15 +96,34 @@ router.all('/api/polls/:id/options', myEnableCORS);
 router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
 
 /**
- * @api {get} /app1/api/polls Get Polls
+ * @api {get} /app1/api/polls Get polls
  * @apiName App1GetPolls
  * @apiGroup app1 polls
  *
- * @apiSuccess {Object[]} results Firstname of the User.
- * @apiSuccess {String} results.firstname Firstname of the User.
- * @apiSuccess {String} results.lastname  Lastname of the User.
+ * @apiSuccess {Poll[]} results Polls
+ *
+ * @apiSuccessExample Success-Response:
+ *    curl -X GET https://ikarus512-fcc1.herokuapp.com/app1/api/polls
+ *    HTTP/1.1 200 OK
+ *    [ { "title": "Poll 1",
+ *        "options": [
+ *          { "title": "Option 1", "votes": ["598e02799a3b760d309f9137"] },
+ *          { "title": "Option 2", "votes": [] } ] },
+ *      { "title": "Poll 2",
+ *        "options": [
+ *          {"title": "Option 1", "votes": ["598e02799a3b760d309f9137","598e02799a3b760d309f9136"]},
+ *          {"title": "Option 2", "votes": ["598e02779a3b760d309f9134"] } ] } ]
+ *
+ * @apiError {String} error Error title.
+ * @apiError {String} message Error details.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error details."
+ *     }
  */
-
 // RESTAPI GET    /app1/api/polls - get polls
 router.get('/api/polls', function(req, res, next) {
 
@@ -118,7 +137,10 @@ router.get('/api/polls', function(req, res, next) {
 
     // Catch all errors and respond with error message
     .catch(function(err) {
-        return res.status(400).json({message:err.toString()});
+        return res.status(404).json({
+            message: err.toString(),
+            error: 'Not Found'
+        });
     });
 
 });
@@ -132,7 +154,6 @@ router.get('/api/polls', function(req, res, next) {
  * @apiSuccess {String} results.firstname Firstname of the User.
  * @apiSuccess {String} results.lastname  Lastname of the User.
  */
-
 // RESTAPI POST   /app1/api/polls {title} - create new poll with title (authorized only)
 router.post('/api/polls', function(req, res, next) {
 

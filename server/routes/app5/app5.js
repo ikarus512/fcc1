@@ -19,11 +19,17 @@ var
     express = require('express'),
     router = express.Router(),
     path = require('path'),
-    greet = require(path.join(__dirname, '../utils/greet.js'));
+    greet = require(path.join(__dirname, '../../utils/greet.js'));
 
 // /app5
 router.get('/', function(req, res) {
     res.render('app5_pinter', greet(req));
 });
+
+/**
+ * @api {get} /app5/api/items Get items
+ * @apiName getItems
+ * @apiGroup items
+ */
 
 module.exports = router;

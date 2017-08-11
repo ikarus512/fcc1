@@ -87,7 +87,10 @@
                 "apiName": true,
                 "apiGroup": true,
                 "apiParam": true,
-                "apiSuccess": true
+                "apiSuccess": true,
+                "apiSuccessExample": true,
+                "apiError": true,
+                "apiErrorExample": true
             }
         },
         "checkParamNames": true,

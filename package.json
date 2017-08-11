@@ -90,10 +90,10 @@
     "0120c": "echo ===============================================================================",
     "doc": "npm run doc:api && npm run doc:main",
     "doc:api": "npm run doc:api:1 && npm run doc:api:2 && npm run doc:api:3 && npm run doc:api:4",
-    "doc:api:1": "apidoc -i ./server/routes -o ./doc_output/REST_API/HTML/",
+    "doc:api:1": "apidoc -i ./server/routes/app1 -o ./doc_output/REST_API/HTML/app1/ && apidoc -i ./server/routes/app2 -o ./doc_output/REST_API/HTML/app2/ && apidoc -i ./server/routes/app3 -o ./doc_output/REST_API/HTML/app3/ && apidoc -i ./server/routes/app4 -o ./doc_output/REST_API/HTML/app4/ && apidoc -i ./server/routes/app5 -o ./doc_output/REST_API/HTML/app5/",
     "doc:api:2": "mkdirp ./doc_output/REST_API/MD",
     "doc:api:3": "copyfiles ./doc/tutorials/*.md ./doc_output/REST_API/MD/",
-    "doc:api:4": "apidoc-markdown2 -p ./doc_output/REST_API/HTML/ -o ./doc_output/REST_API/MD/REST_API.md",
+    "doc:api:4": "apidoc-markdown2 -p ./doc_output/REST_API/HTML/app1/ -o ./doc_output/REST_API/MD/REST_API_app1.md && apidoc-markdown2 -p ./doc_output/REST_API/HTML/app2/ -o ./doc_output/REST_API/MD/REST_API_app2.md && apidoc-markdown2 -p ./doc_output/REST_API/HTML/app3/ -o ./doc_output/REST_API/MD/REST_API_app3.md && apidoc-markdown2 -p ./doc_output/REST_API/HTML/app4/ -o ./doc_output/REST_API/MD/REST_API_app4.md && apidoc-markdown2 -p ./doc_output/REST_API/HTML/app5/ -o ./doc_output/REST_API/MD/REST_API_app5.md",
     "doc:main": "jsdoc -d ./doc_output/main -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -u ./doc_output/REST_API/MD -r ./server -r ./src"
   },
   "apidoc": {
@@ -187,6 +187,7 @@
     "gulp-util": "^3.0.8",
     "ink-docstrap": "^1.3.0",
     "istanbul": "^0.4.5",
+    "jq2": "^1.0.1",
     "jsdoc": "^3.5.4",
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",

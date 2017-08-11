@@ -19,14 +19,14 @@ var
     express = require('express'),
     router = express.Router(),
     path = require('path'),
-    wsStore = require('./../utils/app4/web-socket-store.js'),
-    greet = require(path.join(__dirname, '../utils/greet.js')),
+    wsStore = require('../../utils/app4/web-socket-store.js'),
+    greet = require(path.join(__dirname, '../../utils/greet.js')),
     Promise = require('bluebird'),
-    PublicError = require('../utils/public-error.js'),
-    myErrorLog = require('../utils/my-error-log.js'),
-    Book = require('../models/app4-books.js'),
-    upload = require('multer')({dest: path.join(__dirname, '../../_tmp')}),
-    myEnableCORS = require('../middleware/my-enable-cors.js');
+    PublicError = require('../../utils/public-error.js'),
+    myErrorLog = require('../../utils/my-error-log.js'),
+    Book = require('../../models/app4-books.js'),
+    upload = require('multer')({dest: path.join(__dirname, '../../../_tmp')}),
+    myEnableCORS = require('../../middleware/my-enable-cors.js');
 
 // GET /app4 - redirected to /app4/books
 router.get('/', function(req, res) {
@@ -54,6 +54,11 @@ router.all('/api/books/:id/bid', myEnableCORS);
 router.all('/api/books/:bookId/choose', myEnableCORS);
 router.all('/api/get-ws-ticket', myEnableCORS);
 
+/**
+ * @api {get} /app4/api/books Get books
+ * @apiName getBooks
+ * @apiGroup books
+ */
 // GET /app4/api/books - get books
 router.get('/api/books', function(req, res, next) {
 

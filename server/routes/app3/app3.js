@@ -19,12 +19,12 @@ var
     express = require('express'),
     router = express.Router(),
     path = require('path'),
-    wsStore = require('./../utils/app3/web-socket-store.js'),
-    greet = require(path.join(__dirname, '../utils/greet.js')),
-    createUnauthorizedUser = require('./../middleware/create-unauthorized-user.js'),
-    PublicError = require('../utils/public-error.js'),
-    myErrorLog = require('../utils/my-error-log.js'),
-    myEnableCORS = require('../middleware/my-enable-cors.js');
+    wsStore = require('../../utils/app3/web-socket-store.js'),
+    greet = require(path.join(__dirname, '../../utils/greet.js')),
+    createUnauthorizedUser = require('../../middleware/create-unauthorized-user.js'),
+    PublicError = require('../../utils/public-error.js'),
+    myErrorLog = require('../../utils/my-error-log.js'),
+    myEnableCORS = require('../../middleware/my-enable-cors.js');
 
 // /app3
 router.get('/',
@@ -38,6 +38,11 @@ router.get('/',
 // Enable CORS on selected REST API
 router.all('/api/get-ws-ticket', myEnableCORS);
 
+/**
+ * @api {get} /app3/api/get-ws-ticket Get web socket ticket
+ * @apiName getWsTicket
+ * @apiGroup ticket
+ */
 // RESTAPI GET    /app3/api/get-ws-ticket - get web socket ticket
 router.get('/api/get-ws-ticket', function(req, res, next) {
 

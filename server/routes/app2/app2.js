@@ -16,16 +16,16 @@
 'use strict';
 
 var
-    APPCONST = require('./../config/constants.js'),
+    APPCONST = require('../../config/constants.js'),
     express = require('express'),
     router = express.Router(),
     path = require('path'),
-    greet = require(path.join(__dirname, '../utils/greet.js')),
-    Cafe = require('./../models/app2-cafes.js'),
-    PublicError = require('../utils/public-error.js'),
-    getCafes = require('../utils/app2/get-cafes.js'),
-    myErrorLog = require('../utils/my-error-log.js'),
-    myEnableCORS = require('../middleware/my-enable-cors.js');
+    greet = require(path.join(__dirname, '../../utils/greet.js')),
+    Cafe = require('../../models/app2-cafes.js'),
+    PublicError = require('../../utils/public-error.js'),
+    getCafes = require('../../utils/app2/get-cafes.js'),
+    myErrorLog = require('../../utils/my-error-log.js'),
+    myEnableCORS = require('../../middleware/my-enable-cors.js');
 
 // GET /app2 - redirected to /app2/cafes
 router.get('/', function(req, res) {
@@ -61,14 +61,9 @@ router.all('/api/cafes/:cafeId/timeslots/:startTime/plan', myEnableCORS);
 router.all('/api/cafes/:cafeId/timeslots/:startTime/unplan', myEnableCORS);
 
 /**
- * @api {get} /app2/api/polls/user/:id Request User information
- * @apiName GetUser
- * @apiGroup app2
- *
- * @apiParam {Number} id Users unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @api {get} /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD Get cafes
+ * @apiName getCafes
+ * @apiGroup cafes
  */
 // RESTAPI GET    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - get cafes
 router.get('/api/cafes', function(req, res, next) { // eslint-disable-line complexity
