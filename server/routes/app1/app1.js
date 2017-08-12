@@ -150,7 +150,8 @@ router.get('/api/polls', function(req, res, next) {
 });
 
 /**
- * @api {post} /app1/api/polls Create new poll with given title, authorized only
+ * @api {post} /app1/api/polls
+ *              Create new poll with given title, authorized only
  * @apiName postPolls
  * @apiGroup polls
  *
@@ -391,8 +392,8 @@ router.get('/api/polls/:id', function(req, res, next) {
 });
 
 /**
- * @api {post} /app1/api/polls/:id/options Create new option for poll with
- *              given id, authorized only
+ * @api {post} /app1/api/polls/:id/options
+ *              Create new option for poll with given id, authorized only
  * @apiName postPollOption
  * @apiGroup pollOptions
  *
@@ -485,8 +486,8 @@ router.post('/api/polls/:id/options', function(req, res, next) {
 });
 
 /**
- * @api {post} /app1/api/polls/:id/options/:oid/vote Vote for poll option, id is poll id,
- *              oid is option id
+ * @api {post} /app1/api/polls/:id/options/:oid/vote
+ *              Vote for poll option, id is poll id, oid is option id
  * @apiName postPollOptionVote
  * @apiGroup pollOptions
  *
