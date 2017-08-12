@@ -188,7 +188,7 @@
 
     ControllerPoll.$inject = [
         '$scope', '$location', '$window', 'StoragePoll', 'MyError',
-        '$routeParams', 'MyConst', 'User', 'backendParams',
+        '$routeParams', 'MyConst', 'User', 'backendParams'
     ];
 
 }());
