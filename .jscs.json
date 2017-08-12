@@ -87,6 +87,7 @@
                 "apiName": true,
                 "apiGroup": true,
                 "apiParam": true,
+                "apiParamExample": true,
                 "apiSuccess": true,
                 "apiSuccessExample": true,
                 "apiError": true,

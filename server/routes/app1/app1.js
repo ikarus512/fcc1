@@ -97,10 +97,14 @@ router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
 
 /**
  * @api {get} /app1/api/polls Get polls
- * @apiName App1GetPolls
- * @apiGroup app1 polls
+ * @apiName getPolls
+ * @apiGroup polls
  *
- * @apiSuccess {Poll[]} results Polls
+ * @apiSuccess {Poll[]} results Array of polls
+ * @apiSuccess {String} results.title Poll title
+ * @apiSuccess {Option[]} results.options Poll options
+ * @apiSuccess {String} results.options.title Poll option title
+ * @apiSuccess {Vote[]} results.options.votes Poll option votes
  *
  * @apiSuccessExample Success-Response:
  *    curl -X GET https://ikarus512-fcc1.herokuapp.com/app1/api/polls
@@ -138,27 +142,71 @@ router.get('/api/polls', function(req, res, next) {
     // Catch all errors and respond with error message
     .catch(function(err) {
         return res.status(404).json({
-            message: err.toString(),
-            error: 'Not Found'
+            error: 'Not Found',
+            message: err.toString()
         });
     });
 
 });
 
 /**
- * @api {post} /app1/api/polls Create New Poll With Given Title
- * @apiName App1PostPolls
- * @apiGroup app1 polls
+ * @api {post} /app1/api/polls Create New Poll With Given Title (authorized only)
+ * @apiName postPolls
+ * @apiGroup polls
  *
- * @apiSuccess {Object[]} results Firstname of the User.
- * @apiSuccess {String} results.firstname Firstname of the User.
- * @apiSuccess {String} results.lastname  Lastname of the User.
+ * @apiParam {Number} title New poll title.
+ *
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "title": "New poll title"
+ *    }
+ *
+ * @apiSuccess {Poll} results Poll
+ *
+ * @apiSuccessExample Success-Response:
+ *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+ *        https://ikarus512-fcc1.herokuapp.com/auth/api/local
+ *    curl -X POST -b ../cookies.jar -d 'title="New poll title"' \
+ *        https://ikarus512-fcc1.herokuapp.com/app1/api/polls
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "_id": "598f72c73b0962106839617a",
+ *      "title": "NewPollTitle",
+ *      "options": []
+ *    }
+ *
+ * @apiError {String} error Error title.
+ * @apiError {String} message Error details.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "error": "Unauthorized",
+ *       "message": "Error: Only authorized person can create new poll."
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error details."
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error: Poll with this title alredy exists."
+ *     }
  */
 // RESTAPI POST   /app1/api/polls {title} - create new poll with title (authorized only)
 router.post('/api/polls', function(req, res, next) {
 
     if (!req.isAuthenticated()) {
-        return res.status(401).json({message:'Error: Only authorized person can create new poll.'});
+        return res.status(401).json({
+            error: 'Unauthorized',
+            message: 'Error: Only authorized person can create new poll.'
+        });
     }
 
     // Find poll with same title
@@ -187,27 +235,58 @@ router.post('/api/polls', function(req, res, next) {
 
     // Catch all errors and respond with error message
     .catch(function(err) {
-        return res.status(400).json({message:err.toString()});
+        return res.status(404).json({
+            error: 'Not Found',
+            message: err.toString()
+        });
     });
 
 });
 
 /**
- * @api {get} /app1/api/polls/user/:id Request User information
- * @apiName GetUser
- * @apiGroup app1
+ * @api {delete} /app1/api/polls/:id Delete poll with given id (authorized only)
+ * @apiName deletePolls
+ * @apiGroup polls
  *
- * @apiParam {Number} id Users unique ID.
+ * @apiSuccess {Poll} results Poll
  *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
+ * @apiSuccessExample Success-Response:
+ *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+ *      https://ikarus512-fcc1.herokuapp.com/auth/api/local
+ *    curl -X DELETE -b ../cookies.jar \
+ *      https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "_id": "598f72c73b0962106839617a",
+ *      "title": "NewPollTitle",
+ *      "options": []
+ *    }
+ *
+ * @apiError {String} error Error title.
+ * @apiError {String} message Error details.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "error": "Unauthorized",
+ *       "message": "Error: Only authorized person can delete the poll."
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error: No poll with _id=598f72c73b0962106839617a."
+ *     }
  */
-
 // RESTAPI DELETE /app1/api/polls/:id - remove poll (authorized only)
 router.delete('/api/polls/:id', function(req, res, next) {
 
     if (!req.isAuthenticated()) {
-        return res.status(401).json({message:'Error: Only authorized person can delete the poll.'});
+        return res.status(401).json({
+            error: 'Unauthorized',
+            message: 'Error: Only authorized person can delete the poll.'
+        });
     }
 
     // Find poll by id
@@ -245,11 +324,44 @@ router.delete('/api/polls/:id', function(req, res, next) {
 
     // Catch all errors and respond with error message
     .catch(function(err) {
-        return res.status(400).json({message:err.toString()});
+        return res.status(404).json({
+            error: 'Not Found',
+            message: err.toString()
+        });
     });
 
 });
 
+/**
+ * @api {get} /app1/api/polls/:id Get details of poll with given id
+ * @apiName getPoll
+ * @apiGroup polls
+ *
+ * @apiSuccess {Poll} results Poll
+ * @apiSuccess {String} results.title Poll title
+ * @apiSuccess {Option[]} results.options Poll options
+ * @apiSuccess {String} results.options.title Poll option title
+ * @apiSuccess {Vote[]} results.options.votes Poll option votes
+ *
+ * @apiSuccessExample Success-Response:
+ *    curl -X GET https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a
+ *    HTTP/1.1 200 OK
+ *    { "title": "Poll 1",
+ *      "options": [
+ *        { "title": "Option 1", "votes": ["598e02799a3b760d309f9137"] },
+ *        { "title": "Option 2", "votes": [] } ]
+ *    }
+ *
+ * @apiError {String} error Error title.
+ * @apiError {String} message Error details.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error details."
+ *     }
+ */
 // RESTAPI GET    /app1/api/polls/:id - get poll
 router.get('/api/polls/:id', function(req, res, next) {
     // Find poll by id
@@ -270,17 +382,69 @@ router.get('/api/polls/:id', function(req, res, next) {
 
     // Catch all errors and respond with error message
     .catch(function(err) {
-        return res.status(400).json({message:err.toString()});
+        return res.status(404).json({
+            error: 'Not Found',
+            message: err.toString()
+        });
     });
 
 });
 
+/**
+ * @api {post} /app1/api/polls/:id/options Create new option for poll with given id
+ *              (authorized only)
+ * @apiName postPollOption
+ * @apiGroup pollOptions
+ *
+ * @apiParam {Number} title New option title.
+ *
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *      "title": "New option title"
+ *    }
+ *
+ * @apiSuccess {Poll} results Poll with new option
+ * @apiSuccess {String} results.title Poll title
+ * @apiSuccess {Option[]} results.options Poll options
+ * @apiSuccess {String} results.options.title Poll option title
+ * @apiSuccess {Vote[]} results.options.votes Poll option votes
+ *
+ * @apiSuccessExample Success-Response:
+ *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+ *      https://ikarus512-fcc1.herokuapp.com/auth/api/local
+ *    curl -X POST -b ../cookies.jar \
+ *      https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a/options
+ *    HTTP/1.1 200 OK
+ *    { "title": "Poll 1",
+ *      "options": [
+ *        { "title": "Option 1", "votes": ["598e02799a3b760d309f9137"] },
+ *        { "title": "Option 2", "votes": [] } ]
+ *    }
+ *
+ * @apiError {String} error Error title.
+ * @apiError {String} message Error details.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "error": "Unauthorized",
+ *       "message": "Error: Only authorized person can create new poll."
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error details."
+ *     }
+ */
 // RESTAPI POST   /app1/api/polls/:id/options {title} - create new option with title
 //     (authorized only)
 router.post('/api/polls/:id/options', function(req, res, next) {
 
     if (!req.isAuthenticated()) {
         return res.status(401).json({
+            error: 'Unauthorized',
             message: 'Error: Only authorized person can add poll options.'
         });
     }
@@ -312,11 +476,48 @@ router.post('/api/polls/:id/options', function(req, res, next) {
 
     // Catch all errors and respond with error message
     .catch(function(err) {
-        return res.status(400).json({message:err.toString()});
+        return res.status(404).json({
+            error: 'Not Found',
+            message: err.toString()
+        });
     });
 
 });
 
+/**
+ * @api {post} /app1/api/polls/:id/options/:oid/vote Vote for poll option (id is poll id,
+ *              iod is option id)
+ * @apiName postPollOptionVote
+ * @apiGroup pollOptions
+ *
+ * @apiSuccess {Poll} results Poll with new option
+ * @apiSuccess {String} results.title Poll title
+ * @apiSuccess {Option[]} results.options Poll options
+ * @apiSuccess {String} results.options.title Poll option title
+ * @apiSuccess {Vote[]} results.options.votes Poll option votes
+ *
+ * @apiSuccessExample Success-Response:
+ *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+ *      https://ikarus512-fcc1.herokuapp.com/auth/api/local
+ *    curl -X POST -b ../cookies.jar \
+ *      https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a/options
+ *    HTTP/1.1 200 OK
+ *    { "title": "Poll 1",
+ *      "options": [
+ *        { "title": "Option 1", "votes": ["598e02799a3b760d309f9137"] },
+ *        { "title": "Option 2", "votes": [] } ]
+ *    }
+ *
+ * @apiError {String} error Error title.
+ * @apiError {String} message Error details.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error details."
+ *     }
+ */
 // RESTAPI PUT    /app1/api/polls/:id/options/:oid/vote - vote for poll option
 router.put('/api/polls/:id/options/:oid/vote',
   createUnauthorizedUser,
@@ -382,7 +583,10 @@ router.put('/api/polls/:id/options/:oid/vote',
 
     // Catch all errors and respond with error message
     .catch(function(err) {
-        return res.status(400).json({message:err.toString()});
+        return res.status(404).json({
+            error: 'Not Found',
+            message: err.toString()
+        });
     });
 
 });

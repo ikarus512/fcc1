@@ -17,8 +17,9 @@
 #  *
 #  */
 
-args=$(echo "$*" | perl -e '$_=<>; s/ikarus512-fcc1.herokuapp.com/127.0.0.1:5000/g; print; print " --silent --cacert ./_certificate/certificate.pem";')
-# echo $args; echo "---"
-curl $args; echo; echo "---"
-curl -i $args | head -n 1 # status code
-curl $args | ./node_modules/.bin/jq2 "$"
+args=$(echo "$*" | perl -e '$_=<>; s/ikarus512-fcc1.herokuapp.com/127.0.0.1:5000/g; print;')
+# --insecure
+# curl -i $args --silent --cacert ./_certificate/certificate.pem | perl -e 'while(<>){ print; }'
+# curl -i $args --silent --cacert ./_certificate/certificate.pem | perl -e '@_=<>; print "$_[0]$_[$#_]";'
+curl -i $args --silent --cacert ./_certificate/certificate.pem | perl -e '@_=<>; print "$_[0]$_[$#_]";'
+# curl $args | ./node_modules/.bin/jq2 "$"
