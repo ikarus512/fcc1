@@ -221,7 +221,7 @@ parallel('app1-api', function() {
         .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
         .end(function(err, res) {
             expect(err).to.not.equal(null);
-            expect(res.status).to.equal(400);
+            expect(res.status).to.equal(404);
             expect(res.text).to.contain('Error: You already voted in this poll for Option 2.');
             done();
         });
@@ -267,7 +267,7 @@ parallel('app1-api', function() {
         .send({title: titles[2]})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
-            expect(res.status).to.equal(400);
+            expect(res.status).to.equal(404);
             expect(res.text).to.contain('Error: Poll with this title alredy exists.');
             done();
         });
@@ -309,7 +309,7 @@ parallel('app1-api', function() {
         .end(function(err, res) {
             // testLog({res:res,err:err});
             expect(err).to.not.equal(null);
-            expect(res.status).to.equal(400);
+            expect(res.status).to.equal(404);
             expect(res.text).to.contain(
                 'Error: Only poll creator and local admin can remove the poll.'
             );
@@ -352,7 +352,7 @@ parallel('app1-api', function() {
         .send({title: 'Option 1'})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
-            expect(res.status).to.equal(400);
+            expect(res.status).to.equal(404);
             expect(res.text).to.contain('Error: Option with this title already exists.');
             done();
         });
@@ -383,7 +383,7 @@ parallel('app1-api', function() {
         .send({})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
-            expect(res.status).to.equal(400);
+            expect(res.status).to.equal(404);
             expect(res.text).to.contain('Error: You already voted in this poll for Option 1.');
             done();
         });
