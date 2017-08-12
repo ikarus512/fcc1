@@ -155,7 +155,7 @@ router.get('/api/polls', function(req, res, next) {
  * @apiName postPolls
  * @apiGroup polls
  *
- * @apiParam {Number} title New poll title.
+ * @apiParam {String} title New poll title.
  *
  * @apiParamExample {json} Request-Example:
  *    {
@@ -397,7 +397,7 @@ router.get('/api/polls/:id', function(req, res, next) {
  * @apiName postPollOption
  * @apiGroup pollOptions
  *
- * @apiParam {Number} title New option title.
+ * @apiParam {String} title New option title.
  *
  * @apiParamExample {json} Request-Example:
  *    {
@@ -498,10 +498,9 @@ router.post('/api/polls/:id/options', function(req, res, next) {
  * @apiSuccess {Vote[]} results.options.votes Poll option votes
  *
  * @apiSuccessExample Success-Response:
- *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
- *      https://ikarus512-fcc1.herokuapp.com/auth/api/local
  *    curl -X POST -b ../cookies.jar \
- *      https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a/options
+ *      https://ikarus512-fcc1.herokuapp.com/app1/api/polls/ \
+ *      598f72c73b0962106839617a/options/598f72c73b0962106839617b/vote
  *    HTTP/1.1 200 OK
  *    { "title": "Poll 1",
  *      "options": [
