@@ -93,7 +93,7 @@
     "doc:api:2": "mkdirp ./doc_output/REST_API/MD",
     "doc:api:3": "copyfiles ./doc/tutorials/*.md ./doc_output/REST_API/MD/",
     "doc:api:4": "apidoc-markdown2 -p ./doc_output/REST_API/HTML/app1/ -o ./doc_output/REST_API/MD/REST_API_app1.md && apidoc-markdown2 -p ./doc_output/REST_API/HTML/app2/ -o ./doc_output/REST_API/MD/REST_API_app2.md && apidoc-markdown2 -p ./doc_output/REST_API/HTML/app3/ -o ./doc_output/REST_API/MD/REST_API_app3.md && apidoc-markdown2 -p ./doc_output/REST_API/HTML/app4/ -o ./doc_output/REST_API/MD/REST_API_app4.md && apidoc-markdown2 -p ./doc_output/REST_API/HTML/app5/ -o ./doc_output/REST_API/MD/REST_API_app5.md",
-    "doc:main": "jsdoc -d ./doc_output/main -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -u ./doc_output/REST_API/MD -r ./server -r ./src"
+    "doc:main": "jsdoc -d ./public/doc -c .jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -u ./doc_output/REST_API/MD -r ./server -r ./src"
   },
   "apidoc": {
     "name": "DynApps REST API",

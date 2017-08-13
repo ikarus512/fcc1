@@ -12,3 +12,4 @@
 
 #excude from diff:
 public/js/**/*.js -diff
+public/doc/**/*.* -diff
