@@ -1,0 +1,5 @@
+### https://docs.codeclimate.com/v1.0/docs/default-analysis-configuration
+### https://github.com/codeclimate/codeclimate/tree/master/config
+--exclude-exts=.min.css
+--ignore=adjoining-classes,box-model,ids,order-alphabetical,unqualified-attributes
+--excludeList=public/doc/
