@@ -1,19 +1,8 @@
-/* file: .csslintrc */
-/*!
- * Copyright 2017 ikarus512
- * https://github.com/ikarus512/fcc1.git
- *
- * DESCRIPTION: CSS-LINT Default Config
- * AUTHOR: ikarus512
- * CREATED: 2017/08/13
- *
- * MODIFICATION HISTORY
- *  2017/08/13, ikarus512. Initial version.
- *
- */
-
 {
     "excludeList": [
-        "public/doc/"
+        "public/doc/",
+        "public/doc/*",
+        "public/doc/**/*",
+        "public/doc/**/*.*"
     ],
 }
