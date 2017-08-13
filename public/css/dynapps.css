@@ -33,13 +33,13 @@
 }
 
 .bg-footer-hands {
-  height: 50px;
   background-image: url(/img/pixabay_com_hands.png);
+  height: 50px;
 }
 
 .bg-world {
-  background-image: url(/img/pixabay_com_world.jpg);
   background-attachment: fixed;
+  background-image: url(/img/pixabay_com_world.jpg);
 }
 
 .bg-content {
