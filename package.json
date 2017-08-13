@@ -46,7 +46,6 @@
     "linters": "npm run lint && npm run jscs && npm run lint:pug",
     "lint": "jshint .",
     "jscs": "gulp jscs",
-    "disabled jscs": "jscs . ### Deprecated. Will be replaced by jslint.",
     "lint:pug": "pug-lint .",
     "0060a": "echo ===============================================================================",
     "0060b": "echo === TESTS =====================================================================",

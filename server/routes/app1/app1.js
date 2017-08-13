@@ -96,17 +96,46 @@ router.all('/api/polls/:id/options', myEnableCORS);
 router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
 
 /**
- * @api {get} /app1/api/polls Get polls
+ * @apiDefine UnauthorizedError
+ *
+ * @apiError (Error 401) {Object} Unauthorized
+ *      User has not logged in.
+ *
+ * @apiErrorExample {json} Error response example:
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "error": "Unauthorized",
+ *       "message": "Error: User has not logged in."
+ *     }
+ */
+
+/**
+ * @apiDefine NotFoundError
+ *
+ * @apiError (Error 404) {Object} NotFound
+ *      Resource not found.
+ *
+ * @apiErrorExample {json} Error response example:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error: Resource not found."
+ *     }
+ */
+
+/**
+ * @api {get} /app1/api/polls
+ *              Get polls
  * @apiName getPolls
  * @apiGroup polls
  *
- * @apiSuccess {Poll[]} results Array of polls
- * @apiSuccess {String} results.title Poll title
- * @apiSuccess {Option[]} results.options Poll options
- * @apiSuccess {String} results.options.title Poll option title
- * @apiSuccess {Vote[]} results.options.votes Poll option votes
+ * @apiSuccess {Poll[]}   results               Array of polls
+ * @apiSuccess {String}   results.title         Poll title
+ * @apiSuccess {Option[]} results.options       Poll options
+ * @apiSuccess {String}   results.options.title Poll option title
+ * @apiSuccess {Vote[]}   results.options.votes Poll option votes
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success response example:
  *    curl -X GET https://ikarus512-fcc1.herokuapp.com/app1/api/polls
  *    HTTP/1.1 200 OK
  *    [ { "title": "Poll 1",
@@ -118,15 +147,7 @@ router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
  *          {"title": "Option 1", "votes": ["598e02799a3b760d309f9137","598e02799a3b760d309f9136"]},
  *          {"title": "Option 2", "votes": ["598e02779a3b760d309f9134"] } ] } ]
  *
- * @apiError {String} error Error title.
- * @apiError {String} message Error details.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "Not Found",
- *       "message": "Error details."
- *     }
+ * @apiUse NotFoundError
  */
 // RESTAPI GET    /app1/api/polls - get polls
 router.get('/api/polls', function(req, res, next) {
@@ -155,16 +176,16 @@ router.get('/api/polls', function(req, res, next) {
  * @apiName postPolls
  * @apiGroup polls
  *
- * @apiParam {String} title New poll title.
+ * @apiParam (Request parameters) {String} title New poll title.
  *
- * @apiParamExample {json} Request-Example:
+ * @apiParamExample {json} Parameter example:
  *    {
  *      "title": "New poll title"
  *    }
  *
- * @apiSuccess {Poll} results Poll
+ * @apiSuccess {Poll} results   Poll
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success response example:
  *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
  *        https://ikarus512-fcc1.herokuapp.com/auth/api/local
  *    curl -X POST -b ../cookies.jar -d 'title="New poll title"' \
@@ -176,29 +197,8 @@ router.get('/api/polls', function(req, res, next) {
  *      "options": []
  *    }
  *
- * @apiError {String} error Error title.
- * @apiError {String} message Error details.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 401 Unauthorized
- *     {
- *       "error": "Unauthorized",
- *       "message": "Error: Only authorized person can create new poll."
- *     }
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "Not Found",
- *       "message": "Error details."
- *     }
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "Not Found",
- *       "message": "Error: Poll with this title alredy exists."
- *     }
+ * @apiUse UnauthorizedError
+ * @apiUse NotFoundError
  */
 // RESTAPI POST   /app1/api/polls {title} - create new poll with title (authorized only)
 router.post('/api/polls', function(req, res, next) {
@@ -245,40 +245,24 @@ router.post('/api/polls', function(req, res, next) {
 });
 
 /**
- * @api {delete} /app1/api/polls/:id Delete poll with given id, authorized only
+ * @api {delete} /app1/api/polls/:id
+ *                  Delete poll by id, authorized only
  * @apiName deletePolls
  * @apiGroup polls
  *
- * @apiSuccess {Poll} results Poll
+ * @apiSuccess {Poll} results   Poll
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success response example:
  *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
  *      https://ikarus512-fcc1.herokuapp.com/auth/api/local
  *    curl -X DELETE -b ../cookies.jar \
  *      https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a
  *    HTTP/1.1 200 OK
  *    {
- *      "_id": "598f72c73b0962106839617a",
- *      "title": "NewPollTitle",
- *      "options": []
  *    }
  *
- * @apiError {String} error Error title.
- * @apiError {String} message Error details.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 401 Unauthorized
- *     {
- *       "error": "Unauthorized",
- *       "message": "Error: Only authorized person can delete the poll."
- *     }
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "Not Found",
- *       "message": "Error: No poll with _id=598f72c73b0962106839617a."
- *     }
+ * @apiUse UnauthorizedError
+ * @apiUse NotFoundError
  */
 // RESTAPI DELETE /app1/api/polls/:id - remove poll (authorized only)
 router.delete('/api/polls/:id', function(req, res, next) {
@@ -334,17 +318,18 @@ router.delete('/api/polls/:id', function(req, res, next) {
 });
 
 /**
- * @api {get} /app1/api/polls/:id Get details of poll with given id
+ * @api {get} /app1/api/polls/:id
+ *              Get poll by id
  * @apiName getPoll
  * @apiGroup polls
  *
- * @apiSuccess {Poll} results Poll
- * @apiSuccess {String} results.title Poll title
- * @apiSuccess {Option[]} results.options Poll options
- * @apiSuccess {String} results.options.title Poll option title
- * @apiSuccess {Vote[]} results.options.votes Poll option votes
+ * @apiSuccess {Poll}     results               Poll
+ * @apiSuccess {String}   results.title         Poll title
+ * @apiSuccess {Option[]} results.options       Poll options
+ * @apiSuccess {String}   results.options.title Poll option title
+ * @apiSuccess {Vote[]}   results.options.votes Poll option votes
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success response example:
  *    curl -X GET https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a
  *    HTTP/1.1 200 OK
  *    { "title": "Poll 1",
@@ -353,15 +338,7 @@ router.delete('/api/polls/:id', function(req, res, next) {
  *        { "title": "Option 2", "votes": [] } ]
  *    }
  *
- * @apiError {String} error Error title.
- * @apiError {String} message Error details.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "Not Found",
- *       "message": "Error details."
- *     }
+ * @apiUse NotFoundError
  */
 // RESTAPI GET    /app1/api/polls/:id - get poll
 router.get('/api/polls/:id', function(req, res, next) {
@@ -395,49 +372,35 @@ router.get('/api/polls/:id', function(req, res, next) {
  * @api {post} /app1/api/polls/:id/options
  *              Create new option for poll with given id, authorized only
  * @apiName postPollOption
- * @apiGroup pollOptions
+ * @apiGroup pollsOptions
  *
- * @apiParam {String} title New option title.
+ * @apiParam (Request parameters) {String} title New option title.
  *
- * @apiParamExample {json} Request-Example:
+ * @apiParamExample {json} Parameter example:
  *    {
  *      "title": "New option title"
  *    }
  *
- * @apiSuccess {Poll} results Poll with new option
- * @apiSuccess {String} results.title Poll title
- * @apiSuccess {Option[]} results.options Poll options
- * @apiSuccess {String} results.options.title Poll option title
- * @apiSuccess {Vote[]} results.options.votes Poll option votes
+ * @apiSuccess {Poll}     results               Poll with new option
+ * @apiSuccess {String}   results.title         Poll title
+ * @apiSuccess {Option[]} results.options       Poll options
+ * @apiSuccess {String}   results.options.title Poll option title
+ * @apiSuccess {Vote[]}   results.options.votes Poll option votes
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success response example:
  *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
  *      https://ikarus512-fcc1.herokuapp.com/auth/api/local
- *    curl -X POST -b ../cookies.jar \
+ *    curl -X POST -b ../cookies.jar -d 'title="New option title"' \
  *      https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a/options
  *    HTTP/1.1 200 OK
  *    { "title": "Poll 1",
  *      "options": [
- *        { "title": "Option 1", "votes": ["598e02799a3b760d309f9137"] },
- *        { "title": "Option 2", "votes": [] } ]
+ *        { "title": "New option title", "votes": [] }
+ *      ]
  *    }
  *
- * @apiError {String} error Error title.
- * @apiError {String} message Error details.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 401 Unauthorized
- *     {
- *       "error": "Unauthorized",
- *       "message": "Error: Only authorized person can create new poll."
- *     }
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "Not Found",
- *       "message": "Error details."
- *     }
+ * @apiUse UnauthorizedError
+ * @apiUse NotFoundError
  */
 // RESTAPI POST   /app1/api/polls/:id/options {title} - create new option with title
 //     (authorized only)
@@ -489,16 +452,16 @@ router.post('/api/polls/:id/options', function(req, res, next) {
  * @api {post} /app1/api/polls/:id/options/:oid/vote
  *              Vote for poll option, id is poll id, oid is option id
  * @apiName postPollOptionVote
- * @apiGroup pollOptions
+ * @apiGroup pollsOptions
  *
- * @apiSuccess {Poll} results Poll with new option
- * @apiSuccess {String} results.title Poll title
- * @apiSuccess {Option[]} results.options Poll options
- * @apiSuccess {String} results.options.title Poll option title
- * @apiSuccess {Vote[]} results.options.votes Poll option votes
+ * @apiSuccess {Poll}     results               Poll with new option
+ * @apiSuccess {String}   results.title         Poll title
+ * @apiSuccess {Option[]} results.options       Poll options
+ * @apiSuccess {String}   results.options.title Poll option title
+ * @apiSuccess {Vote[]}   results.options.votes Poll option votes
  *
- * @apiSuccessExample Success-Response:
- *    curl -X POST -b ../cookies.jar \
+ * @apiSuccessExample Success response example:
+ *    curl -X POST \
  *      https://ikarus512-fcc1.herokuapp.com/app1/api/polls/ \
  *      598f72c73b0962106839617a/options/598f72c73b0962106839617b/vote
  *    HTTP/1.1 200 OK
@@ -508,15 +471,7 @@ router.post('/api/polls/:id/options', function(req, res, next) {
  *        { "title": "Option 2", "votes": [] } ]
  *    }
  *
- * @apiError {String} error Error title.
- * @apiError {String} message Error details.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "Not Found",
- *       "message": "Error details."
- *     }
+ * @apiUse NotFoundError
  */
 // RESTAPI PUT    /app1/api/polls/:id/options/:oid/vote - vote for poll option
 router.put('/api/polls/:id/options/:oid/vote',

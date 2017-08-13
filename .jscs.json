@@ -84,14 +84,16 @@
                 "attr": true,
 
                 "api": true,
-                "apiName": true,
+                "apiDefine": true,
+                "apiError": true,
+                "apiErrorExample": true,
                 "apiGroup": true,
+                "apiName": true,
                 "apiParam": true,
                 "apiParamExample": true,
                 "apiSuccess": true,
                 "apiSuccessExample": true,
-                "apiError": true,
-                "apiErrorExample": true
+                "apiUse": true
             }
         },
         "checkParamNames": true,
