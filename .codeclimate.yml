@@ -6,4 +6,4 @@ engines:
     config:
       languages:
 exclude_paths:
-- "public/doc/"
+- public/doc/**/*
