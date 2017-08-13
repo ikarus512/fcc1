@@ -12,8 +12,6 @@
  *
  */
 
-// https://github.com/pugjs/pug-lint/blob/master/docs/rules.md
-
 {
     "excludeList": [
         "public/doc/**"
