@@ -1,9 +1,0 @@
-engines:
-  csslint:
-    enabled: true
-  duplication:
-    enabled: true
-    config:
-      languages:
-exclude_paths:
-- public/doc/**/*
