@@ -57,9 +57,9 @@ router.all('/api/get-ws-ticket', myEnableCORS);
 /**
  * @api {get} /app4/api/books Get books
  * @apiName getBooks
- * @apiGroup books
+ * @apiGroup app4Books
  */
-// GET /app4/api/books - get books
+// RESTAPI GET /app4/api/books - get books
 router.get('/api/books', function(req, res, next) {
 
     Book.getBooks()
@@ -83,7 +83,7 @@ router.get('/api/books', function(req, res, next) {
 
 });
 
-// GET /app4/api/books/:id - get book
+// RESTAPI GET /app4/api/books/:id - get book
 router.get('/api/books/:id', function(req, res, next) {
 
     var uid;
@@ -111,7 +111,7 @@ router.get('/api/books/:id', function(req, res, next) {
 
 });
 
-// DELETE /app4/api/books/:id - delete book
+// RESTAPI DELETE /app4/api/books/:id - delete book
 router.delete('/api/books/:id', function(req, res, next) {
 
     var uid;
@@ -178,7 +178,7 @@ router.post('/api/books', upload.single('file'), function(req, res, next) {
 
 });
 
-// POST /app4/api/books/:id/bid {price} - add bid
+// RESTAPI POST /app4/api/books/:id/bid {price} - add bid
 router.post('/api/books/:id/bid', function(req, res, next) {
 
     var bookId = req.params.id;
@@ -209,7 +209,7 @@ router.post('/api/books/:id/bid', function(req, res, next) {
 
 });
 
-// POST /app4/api/books/:bookId/choose {bidOwnerId} - choose bid to finish trade
+// RESTAPI POST /app4/api/books/:bookId/choose {bidOwnerId} - choose bid to finish trade
 router.post('/api/books/:bookId/choose', function(req, res, next) {
 
     var bookId = req.params.bookId;

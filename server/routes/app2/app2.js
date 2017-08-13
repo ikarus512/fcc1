@@ -63,7 +63,7 @@ router.all('/api/cafes/:cafeId/timeslots/:startTime/unplan', myEnableCORS);
 /**
  * @api {get} /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD Get cafes
  * @apiName getCafes
- * @apiGroup cafes
+ * @apiGroup app2Cafes
  */
 // RESTAPI GET    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - get cafes
 router.get('/api/cafes', function(req, res, next) { // eslint-disable-line complexity

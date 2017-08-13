@@ -127,7 +127,7 @@ router.all('/api/polls/:id/options/:oid/vote', myEnableCORS);
  * @api {get} /app1/api/polls
  *              Get polls
  * @apiName getPolls
- * @apiGroup polls
+ * @apiGroup app1Polls
  *
  * @apiSuccess {Poll[]}   results               Array of polls
  * @apiSuccess {String}   results.title         Poll title
@@ -174,7 +174,7 @@ router.get('/api/polls', function(req, res, next) {
  * @api {post} /app1/api/polls
  *              Create new poll with given title, authorized only
  * @apiName postPolls
- * @apiGroup polls
+ * @apiGroup app1Polls
  *
  * @apiParam (Request parameters) {String} title New poll title.
  *
@@ -248,7 +248,7 @@ router.post('/api/polls', function(req, res, next) {
  * @api {delete} /app1/api/polls/:id
  *                  Delete poll by id, authorized only
  * @apiName deletePolls
- * @apiGroup polls
+ * @apiGroup app1Polls
  *
  * @apiSuccess {Poll} results   Poll
  *
@@ -321,7 +321,7 @@ router.delete('/api/polls/:id', function(req, res, next) {
  * @api {get} /app1/api/polls/:id
  *              Get poll by id
  * @apiName getPoll
- * @apiGroup polls
+ * @apiGroup app1Polls
  *
  * @apiSuccess {Poll}     results               Poll
  * @apiSuccess {String}   results.title         Poll title
@@ -372,7 +372,7 @@ router.get('/api/polls/:id', function(req, res, next) {
  * @api {post} /app1/api/polls/:id/options
  *              Create new option for poll with given id, authorized only
  * @apiName postPollOption
- * @apiGroup pollsOptions
+ * @apiGroup app1PollsOptions
  *
  * @apiParam (Request parameters) {String} title New option title.
  *
@@ -452,7 +452,7 @@ router.post('/api/polls/:id/options', function(req, res, next) {
  * @api {post} /app1/api/polls/:id/options/:oid/vote
  *              Vote for poll option, id is poll id, oid is option id
  * @apiName postPollOptionVote
- * @apiGroup pollsOptions
+ * @apiGroup app1PollsOptions
  *
  * @apiSuccess {Poll}     results               Poll with new option
  * @apiSuccess {String}   results.title         Poll title

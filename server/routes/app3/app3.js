@@ -41,7 +41,7 @@ router.all('/api/get-ws-ticket', myEnableCORS);
 /**
  * @api {get} /app3/api/get-ws-ticket Get web socket ticket
  * @apiName getWsTicket
- * @apiGroup ticket
+ * @apiGroup app3Ticket
  */
 // RESTAPI GET    /app3/api/get-ws-ticket - get web socket ticket
 router.get('/api/get-ws-ticket', function(req, res, next) {

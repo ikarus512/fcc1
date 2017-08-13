@@ -97,13 +97,13 @@
     <p><a name="top"></a></p>
 <h1>DynApps REST API v0.1.0</h1><p>DynApps REST API</p>
 <ul>
-<li><p><a href="#pollsoptions">pollsOptions</a></p>
+<li><p><a href="#app1pollsoptions">app1PollsOptions</a></p>
 <ul>
 <li><a href="#create-new-option-for-poll-with-given-id,-authorized-only">Create new option for poll with given id, authorized only</a></li>
 <li><a href="#vote-for-poll-option,-id-is-poll-id,-oid-is-option-id">Vote for poll option, id is poll id, oid is option id</a></li>
 </ul>
 </li>
-<li><p><a href="#polls">polls</a></p>
+<li><p><a href="#app1polls">app1Polls</a></p>
 <ul>
 <li><a href="#delete-poll-by-id,-authorized-only">Delete poll by id, authorized only</a></li>
 <li><a href="#get-poll-by-id">Get poll by id</a></li>
@@ -112,7 +112,7 @@
 </ul>
 </li>
 </ul>
-<h1>pollsOptions</h1><h2>Create new option for poll with given id, authorized only</h2><p><a href="#top">Back to top</a></p>
+<h1>app1PollsOptions</h1><h2>Create new option for poll with given id, authorized only</h2><p><a href="#top">Back to top</a></p>
 <pre class="prettyprint source"><code>POST /app1/api/polls/:id/options</code></pre><h3>Request parameters Parameters</h3><table>
 <thead>
 <tr>
@@ -236,7 +236,7 @@ HTTP/1.1 200 OK
 {
   &quot;error&quot;: &quot;Not Found&quot;,
   &quot;message&quot;: &quot;Error: Resource not found.&quot;
-}</code></pre><h1>polls</h1><h2>Delete poll by id, authorized only</h2><p><a href="#top">Back to top</a></p>
+}</code></pre><h1>app1Polls</h1><h2>Delete poll by id, authorized only</h2><p><a href="#top">Back to top</a></p>
 <pre class="prettyprint source"><code>DELETE /app1/api/polls/:id</code></pre><h3>Success Response</h3><p>Success response example:</p>
 <pre class="prettyprint source"><code>curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
   https://ikarus512-fcc1.herokuapp.com/auth/api/local

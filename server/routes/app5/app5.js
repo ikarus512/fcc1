@@ -29,7 +29,7 @@ router.get('/', function(req, res) {
 /**
  * @api {get} /app5/api/items Get items
  * @apiName getItems
- * @apiGroup items
+ * @apiGroup app5Items
  */
 
 module.exports = router;

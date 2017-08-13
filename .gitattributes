@@ -1,15 +1,19 @@
-# https://help.github.com/articles/dealing-with-line-endings
+### https://help.github.com/articles/dealing-with-line-endings
+
+### File attributes:
 1 text eol=lf
 *.css text eol=lf
 *.md text eol=lf
 *.html text eol=lf
+public/doc/*.html binary
 *.js text eol=lf
 *.json text eol=lf
 *.pug text eol=lf
 *.sh text eol=lf
+*.svg text eol=lf
 *.xml text eol=lf
 *.yml text eol=lf
 
-#excude from diff:
+### Excude from diff:
 public/js/**/*.js -diff
-public/doc/**/*.* -diff
+public/doc/*.html -diff
