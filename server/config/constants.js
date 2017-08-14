@@ -18,7 +18,8 @@
 
 var
     APPCONST,
-    isHeroku = require('./../utils/is-heroku.js');
+    isHeroku = require('./../utils/is-heroku.js'),
+    PORT = process.env.PORT || 5000;
 
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
@@ -34,10 +35,10 @@ APPCONST = {
 
     // WISH: move it to APPENV.APP_URL etc
     env: {
-        APP_URL: process.env.APP_URL || 'https://127.0.0.1:5000',
+        APP_URL: process.env.APP_URL || 'https://127.0.0.1:' + PORT,
         APP_MONGODB_URI: process.env.APP_MONGODB_URI || 'mongodb://localhost:27017/dbname',
 
-        PORT: process.env.PORT || 5000,
+        PORT: PORT,
         PORT_HTTP: process.env.PORT_HTTP || 80,
         NODE_ENV: process.env.NODE_ENV || 'production',
 
