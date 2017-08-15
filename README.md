@@ -19,7 +19,7 @@
 [![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?label=lic&maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
 
-FreeCodeCamp.com developement tasks. Running application available at https://ikarus512-fcc1.herokuapp.com
+FreeCodeCamp.com development tasks. Running application available at https://ikarus512-fcc1.herokuapp.com
 
 
 

@@ -1,4 +1,4 @@
-Developement settings:
+Development settings:
  mkdir _tmpdb && start /MIN bin/mongod.exe --dbpath %CD%\_tmpdb
  start bin/mongo.exe 127.0.0.1:27017/dbname   |rem db.users.find({})
 NODE_ENV=production
@@ -149,7 +149,7 @@ SSL/TLS certificate generation instructions
   #openssl pkcs12 -inkey key.pem -in certificate.pem -export -out certificate.p12
   ### Validate your P2 file.
   #openssl pkcs12 -in certificate.p12 -noout -info
-2) Put cert/key file to ./_certificate folder (for developement on local server).
+2) Put cert/key file to ./_certificate folder (for development on local server).
 ------------------------------------------------
 CI:
   travis-ci.com

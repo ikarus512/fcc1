@@ -22,8 +22,7 @@ var
     APPCONST = require('./../config/constants.js'),
     PublicError = require('../utils/public-error.js'),
     mapUtils = require('./../utils/app2/map-utils.js'),
-    myErrorLog = require('./../utils/my-error-log.js'),
-    MAPS_SEARCH_LIMIT = require('./../config/maps-search-limit.js');
+    myErrorLog = require('./../utils/my-error-log.js');
 
 mongoose.Promise = Promise;
 
@@ -149,7 +148,7 @@ CafeSchema.statics.findNearbyCafes = function(userId, lat, lng, radius) {
         lat: {$gte: (Number(lat) - Number(radius)), $lt: (Number(lat) + Number(radius))},
         lng: {$gte: (Number(lng) - Number(radius)), $lt: (Number(lng) + Number(radius))}
     })
-    .limit(5 * MAPS_SEARCH_LIMIT)
+    .limit(5 * APPCONST.APP2_MAPS_SEARCH_LIMIT)
     .populate('timeslots.users')
     .exec()
 
@@ -170,7 +169,7 @@ CafeSchema.statics.findNearbyCafes = function(userId, lat, lng, radius) {
         })
 
         // Limit search
-        .filter(function(cafe, idx) { return (idx < MAPS_SEARCH_LIMIT); })
+        .filter(function(cafe, idx) { return (idx < APPCONST.APP2_MAPS_SEARCH_LIMIT); })
 
         // Filter internal fields, such as user id and password hash
         .map(function(cafe) {

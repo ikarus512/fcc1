@@ -26,17 +26,22 @@ var
 APPCONST = {
 
     APP2_MAX_CAFES: (isHeroku() ? 100000 : 100), // max size of cafes collection
-    //APP2_GOOGLE_SEARCH_ENABLED: isHeroku(),
-    APP2_GOOGLE_SEARCH_ENABLED: true,
+    APP2_GOOGLE_SEARCH_ENABLED: isHeroku(),
+    // APP2_GOOGLE_SEARCH_ENABLED: true,
     APP2_MAX_TIMESLOTS: 4,
     APP2_TIMESLOT_LENGTH: 30, // timeslot length in minutes (must divide 60)
+    APP2_MAPS_SEARCH_LIMIT: 15, // max number of cafes to return in response to one search request
 
     APP3_STOCK_PORTION_LENGTH: 5,
 
     // WISH: move it to APPENV.APP_URL etc
     env: {
         APP_URL: process.env.APP_URL || 'https://127.0.0.1:' + PORT,
-        APP_MONGODB_URI: process.env.APP_MONGODB_URI || 'mongodb://localhost:27017/dbname',
+        APP_MONGODB_URI: process.env.APP_MONGODB_URI || (// production
+            process.env.NODE_ENV === 'test' ?
+            'mongodb://localhost:27017/test' : // test
+            'mongodb://localhost:27017/dbname' // development
+        ),
 
         PORT: PORT,
         PORT_HTTP: process.env.PORT_HTTP || 80,

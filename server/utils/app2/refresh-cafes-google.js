@@ -21,7 +21,6 @@ var
     Cafe = require('./../../models/app2-cafes.js'),
     APPCONST = require('./../../config/constants.js'),
     myErrorLog = require('../../utils/my-error-log.js'),
-    MAPS_SEARCH_LIMIT = require('./../../config/maps-search-limit.js'),
     GOOGLE_DELAY_BETWEEN_REQUESTS = 2000,
 
     NEXT_PAGE_TOKEN = 'next_page_token',
@@ -96,12 +95,12 @@ function googleRequest(lat, lng, radius, dataIn) {
                         // Concatenate with previous portion of results
                         dataObj.results = dataObj.results.concat(dataIn.results);
 
-                        if (dataObj.results.length >= MAPS_SEARCH_LIMIT) {
+                        if (dataObj.results.length >= APPCONST.APP2_MAPS_SEARCH_LIMIT) {
 
                             delete dataObj[NEXT_PAGE_TOKEN]; // Stop request loop
 
                             dataObj.results = dataObj.results.filter(function(el,idx) {
-                                return (idx < MAPS_SEARCH_LIMIT);
+                                return (idx < APPCONST.APP2_MAPS_SEARCH_LIMIT);
                             });
 
                         }
