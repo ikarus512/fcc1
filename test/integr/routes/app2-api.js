@@ -54,7 +54,7 @@ parallel('app2-api', function() {
     //==========================================================
     //  unauth user
     //==========================================================
-    it.only('unauth user should view cafes', function(done) {
+    it('unauth user should view cafes', function(done) {
         request
         .agent() // to make authenticated requests
         .get(appUrl + '/app2/api/cafes?lat=56.312956&lng=43.989955&radius=188.796&zoom=16')
