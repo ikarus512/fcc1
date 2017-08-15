@@ -33,7 +33,6 @@ var
     app1Data,
     pollId;
 
-
 before(function() {
     return initApp1Data()
     .then(function(res) {
