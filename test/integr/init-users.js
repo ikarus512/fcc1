@@ -21,7 +21,7 @@ var
     Promise = require('bluebird'),
     initUsersSessions = require('./init-users-sessions.js'),
 
-    result = undefined,
+    result,
     userA, userB, userU; // a, b, unonimous
 
 function usersInit() {

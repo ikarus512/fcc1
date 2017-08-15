@@ -34,7 +34,7 @@ var
     // },
 
     Promise = require('bluebird'),
-    result = undefined;
+    result;
 
 function initUsersSessions(users) {
 

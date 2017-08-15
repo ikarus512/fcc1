@@ -21,7 +21,7 @@ var
     usersInit = require('./init-users.js'),
     Promise = require('bluebird'),
 
-    result = undefined,
+    result,
     polls = [],
 
     titles = [
