@@ -29,86 +29,20 @@ var
     appUrl = require('./../../../server/config/app-url.js'),
     testLog = require('./../my-test-log.js'),
 
-    // cheerio = require('cheerio'),
-    // extractCsrfToken = function extractCsrfToken_(res) {
-    //     var $ = cheerio.load(res.text);
-    //     return $('[name=_csrf]').val();
-    // },
-
-    Poll = require('./../../../server/models/app1-polls.js'),
-    User = require('./../../../server/models/users.js'),
-    userA, userB, userU,
-    usersInit = require('./../init-users.js'),
-    pollsInit = require('./../init-app1.js'),
-    polls, // polls that will be crated just for this file tests
-        // Tests will change only polls[0] as follows:
+    initApp1Data = require('./../init-app1.js'),
+    app1Data,
+        // Tests here will change only app1Data.polls[0] as follows:
         // - userU: vote
         // - userA: add option, vote
     titlePref = 'test/integr/routes/app1-api.js',
-    titles = [
-        // titles for polls to test
-        titlePref + ' userA question poll 0',
-        titlePref + ' userA question poll 1',
-        titlePref + ' userU question poll 2',
-        titlePref + ' userU question poll 3',
-    ],
-    userANewPollTitle = titlePref + 'auth user should add poll';
+    userANewPollTitle = titlePref + ' auth user should add poll';
 
-// Init polls:
 before(function() {
-    return usersInit()
-    .then(function(users) {
-        userA = users.userA;
-        userB = users.userB;
-        userU = users.userU;
-    })
-    .then(function(users) {
-        return pollsInit({
-            userA: userA,
-            userB: userB,
-            userU: userU,
-            titles: titles,
-        });
-    })
-    .then(function(aPolls) {
-        polls = aPolls.polls;
+    return initApp1Data()
+    .then(function(res) {
+        app1Data = res;
+        return undefined;
     });
-});
-
-// Get session id cookie of user a
-
-var userACookies;
-
-before(function(done) {
-    //   request
-    //   .agent() // to make authenticated requests
-    //   .get(appUrl+'/login')
-    //   .end(function(err, res) {
-    //     // this is the route which renders the HTML form that
-    //     // asks for our username and password. Let’s retrieve
-    //     // the token from that form:
-    //     var csrfToken = extractCsrfToken(res);
-    //     expect(err).to.equal(null);
-    //     expect(res.status).to.equal(200);
-
-    // Log in as user a, and get cookie with session id
-    request
-    .agent() // to make authenticated requests
-    .post(appUrl + '/auth/local')
-    .send({username:'a', password:'a'})
-    // .send({username:'a', password:'a', _csrf: csrfToken})
-    .end(function(err, res) {
-        userACookies = res.request.cookies;
-        expect(err).to.equal(null);
-        expect(res.status).to.equal(200);
-
-        expect(res.text).to.contain('local / a');
-
-        // and should redirect to home
-        expect(res.request.url).to.equal(appUrl + '/');
-        done();
-    });
-    // });
 });
 
 parallel('app1-api', function() {
@@ -123,10 +57,10 @@ parallel('app1-api', function() {
         .end(function(err, res) {
             expect(err).to.equal(null);
             expect(res.status).to.equal(200);
-            expect(res.body.length).to.be.at.least(polls.length);
-            expect(res.body).to.include.deep.members([polls[1]]);
-            expect(res.body).to.include.deep.members([polls[2]]);
-            expect(res.body).to.include.deep.members([polls[3]]);
+            expect(res.body.length).to.be.at.least(app1Data.polls.length);
+            expect(res.body).to.include.deep.members([app1Data.polls[1]]);
+            expect(res.body).to.include.deep.members([app1Data.polls[2]]);
+            expect(res.body).to.include.deep.members([app1Data.polls[3]]);
             done();
         });
     });
@@ -135,7 +69,7 @@ parallel('app1-api', function() {
         request
         .agent() // to make authenticated requests
         .post(appUrl + '/app1/api/polls')
-        .send({title: titlePref + 'unauth user should not add poll'})
+        .send({title: titlePref + ' unauth user should not add poll'})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
             expect(res.status).to.equal(401);
@@ -147,7 +81,7 @@ parallel('app1-api', function() {
     it('unauth user should not delete any poll', function(done) {
         request
         .agent() // to make authenticated requests
-        .delete(appUrl + '/app1/api/polls/' + polls[0]._id)
+        .delete(appUrl + '/app1/api/polls/' + app1Data.polls[0]._id)
         .send({})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
@@ -160,12 +94,12 @@ parallel('app1-api', function() {
     it('unauth user should view poll', function(done) {
         request
         .agent() // to make authenticated requests
-        .get(appUrl + '/app1/api/polls/' + polls[0]._id)
+        .get(appUrl + '/app1/api/polls/' + app1Data.polls[0]._id)
         .send({})
         .end(function(err, res) {
             expect(err).to.equal(null);
             expect(res.status).to.equal(200);
-            expect(res.body.title).to.equal(titles[0]);
+            expect(res.body.title).to.equal(app1Data.titles[0]);
             done();
         });
     });
@@ -173,7 +107,7 @@ parallel('app1-api', function() {
     it('unauth user should not add poll option', function(done) {
         request
         .agent() // to make authenticated requests
-        .post(appUrl + '/app1/api/polls/' + polls[0]._id + '/options')
+        .post(appUrl + '/app1/api/polls/' + app1Data.polls[0]._id + '/options')
         .send({title: 'Option 3.1'})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
@@ -186,7 +120,7 @@ parallel('app1-api', function() {
     it('unauth user should not add existing poll option', function(done) {
         request
         .agent() // to make authenticated requests
-        .post(appUrl + '/app1/api/polls/' + polls[0]._id + '/options')
+        .post(appUrl + '/app1/api/polls/' + app1Data.polls[0]._id + '/options')
         .send({title: 'Option 1'})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
@@ -199,8 +133,8 @@ parallel('app1-api', function() {
     it('unauth user should vote', function(done) {
         request
         .agent() // to make authenticated requests
-        .put(appUrl + '/app1/api/polls/' + polls[0]._id +
-            '/options/' + polls[0].options[0]._id + '/vote'
+        .put(appUrl + '/app1/api/polls/' + app1Data.polls[0]._id +
+            '/options/' + app1Data.polls[0].options[0]._id + '/vote'
         )
         .send({})
         .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
@@ -214,8 +148,8 @@ parallel('app1-api', function() {
     it('unauth user should not vote twice', function(done) {
         request
         .agent() // to make authenticated requests
-        .put(appUrl + '/app1/api/polls/' + polls[1]._id +
-            '/options/' + polls[1].options[0]._id + '/vote'
+        .put(appUrl + '/app1/api/polls/' + app1Data.polls[1]._id +
+            '/options/' + app1Data.polls[1].options[0]._id + '/vote'
         )
         .send({})
         .set('X-Forwarded-For','x.x.x.y') // make server detect user ip from this header
@@ -234,14 +168,14 @@ parallel('app1-api', function() {
         request
         .agent() // to make authenticated requests
         .get(appUrl + '/app1/api/polls')
-        .set('Cookie', userACookies) // authorize user a
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .end(function(err, res) {
             expect(err).to.equal(null);
             expect(res.status).to.equal(200);
-            expect(res.body.length).to.be.at.least(polls.length);
-            expect(res.body).to.include.deep.members([polls[1]]);
-            expect(res.body).to.include.deep.members([polls[2]]);
-            expect(res.body).to.include.deep.members([polls[3]]);
+            expect(res.body.length).to.be.at.least(app1Data.polls.length);
+            expect(res.body).to.include.deep.members([app1Data.polls[1]]);
+            expect(res.body).to.include.deep.members([app1Data.polls[2]]);
+            expect(res.body).to.include.deep.members([app1Data.polls[3]]);
             done();
         });
     });
@@ -250,7 +184,7 @@ parallel('app1-api', function() {
         request
         .agent() // to make authenticated requests
         .post(appUrl + '/app1/api/polls')
-        .set('Cookie', userACookies) // authorize user a
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .send({title: userANewPollTitle})
         .end(function(err, res) {
             expect(err).to.equal(null);
@@ -263,8 +197,8 @@ parallel('app1-api', function() {
         request
         .agent() // to make authenticated requests
         .post(appUrl + '/app1/api/polls')
-        .set('Cookie', userACookies) // authorize user a
-        .send({title: titles[2]})
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
+        .send({title: app1Data.titles[2]})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
             expect(res.status).to.equal(404);
@@ -278,7 +212,7 @@ parallel('app1-api', function() {
         request
         .agent() // to make authenticated requests
         .post(appUrl + '/app1/api/polls')
-        .set('Cookie', userACookies) // authorize user a
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .send({title: 'Poll 4'})
         .end(function(err, res) {
             expect(err).to.equal(null);
@@ -290,7 +224,7 @@ parallel('app1-api', function() {
             request
             .agent() // to make authenticated requests
             .delete(appUrl + '/app1/api/polls/' + poll4._id)
-            .set('Cookie', userACookies) // authorize user a
+            .set('Cookie', app1Data.users.userACookies) // authorize user a
             .send({})
             .end(function(err, res) {
                 expect(err).to.equal(null);
@@ -303,8 +237,8 @@ parallel('app1-api', function() {
     it('auth user should not delete other\'s poll', function(done) {
         request
         .agent() // to make authenticated requests
-        .delete(appUrl + '/app1/api/polls/' + polls[3]._id)
-        .set('Cookie', userACookies) // authorize user a
+        .delete(appUrl + '/app1/api/polls/' + app1Data.polls[3]._id)
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .send({})
         .end(function(err, res) {
             // testLog({res:res,err:err});
@@ -320,13 +254,13 @@ parallel('app1-api', function() {
     it('auth user should view poll', function(done) {
         request
         .agent() // to make authenticated requests
-        .get(appUrl + '/app1/api/polls/' + polls[2]._id)
-        .set('Cookie', userACookies) // authorize user a
+        .get(appUrl + '/app1/api/polls/' + app1Data.polls[2]._id)
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .send({})
         .end(function(err, res) {
             expect(err).to.equal(null);
             expect(res.status).to.equal(200);
-            expect(res.body.title).to.equal(titles[2]);
+            expect(res.body.title).to.equal(app1Data.titles[2]);
             done();
         });
     });
@@ -334,8 +268,8 @@ parallel('app1-api', function() {
     it('auth user should add poll option', function(done) {
         request
         .agent() // to make authenticated requests
-        .post(appUrl + '/app1/api/polls/' + polls[0]._id + '/options')
-        .set('Cookie', userACookies) // authorize user a
+        .post(appUrl + '/app1/api/polls/' + app1Data.polls[0]._id + '/options')
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .send({title: 'Option 3.2'})
         .end(function(err, res) {
             expect(err).to.equal(null);
@@ -347,8 +281,8 @@ parallel('app1-api', function() {
     it('auth user should not add existing poll option', function(done) {
         request
         .agent() // to make authenticated requests
-        .post(appUrl + '/app1/api/polls/' + polls[2]._id + '/options')
-        .set('Cookie', userACookies) // authorize user a
+        .post(appUrl + '/app1/api/polls/' + app1Data.polls[2]._id + '/options')
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .send({title: 'Option 1'})
         .end(function(err, res) {
             expect(err).to.not.equal(null);
@@ -361,10 +295,10 @@ parallel('app1-api', function() {
     it('auth user should vote', function(done) {
         request
         .agent() // to make authenticated requests
-        .put(appUrl + '/app1/api/polls/' + polls[0]._id +
-            '/options/' + polls[0].options[0]._id + '/vote'
+        .put(appUrl + '/app1/api/polls/' + app1Data.polls[0]._id +
+            '/options/' + app1Data.polls[0].options[0]._id + '/vote'
         )
-        .set('Cookie', userACookies) // authorize user a
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .send({})
         .end(function(err, res) {
             expect(err).to.equal(null);
@@ -376,10 +310,10 @@ parallel('app1-api', function() {
     it('auth user should not vote twice', function(done) {
         request
         .agent() // to make authenticated requests
-        .put(appUrl + '/app1/api/polls/' + polls[3]._id +
-            '/options/' + polls[3].options[0]._id + '/vote'
+        .put(appUrl + '/app1/api/polls/' + app1Data.polls[3]._id +
+            '/options/' + app1Data.polls[3].options[0]._id + '/vote'
         )
-        .set('Cookie', userACookies) // authorize user a
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .send({})
         .end(function(err, res) {
             expect(err).to.not.equal(null);

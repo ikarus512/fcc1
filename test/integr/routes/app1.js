@@ -29,37 +29,17 @@ var
     appUrl = require('./../../../server/config/app-url.js'),
     testLog = require('./../my-test-log.js'),
 
-    Poll = require('../../../server/models/app1-polls.js'),
+    initApp1Data = require('./../init-app1.js'),
+    app1Data,
     pollId;
 
+
 before(function() {
-    return Poll.findOne({}).exec()
-    .then(function(poll) {
-        if (!poll) { throw Error('Polls not found.'); }
-        pollId = poll._id;
-    });
-});
-
-var userACookies;
-
-before(function(done) {
-    // Log in as user a, and get cookie with session id
-    request
-    .agent() // to make authenticated requests
-    .post(appUrl + '/auth/local')
-    .send({username:'a', password:'a'})
-    .end(function(err, res) {
-        // testLog({res:res,err:err});
-        userACookies = res.request.cookies;
-
-        expect(err).to.equal(null);
-        expect(res.status).to.equal(200);
-
-        expect(res.text).to.contain('local / a');
-
-        // and should redirect to home
-        expect(res.request.url).to.equal(appUrl + '/');
-        done();
+    return initApp1Data()
+    .then(function(res) {
+        app1Data = res;
+        pollId = app1Data.polls[0]._id;
+        return undefined;
     });
 });
 
@@ -103,7 +83,7 @@ parallel('app1', function() {
         return request
         .agent() // to make authenticated requests
         .get(appUrl + '/app1')
-        .set('Cookie', userACookies) // authorize user a
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .then(function(res) {
             expect(res.status).to.equal(200);
 
@@ -121,7 +101,7 @@ parallel('app1', function() {
         return request
         .agent() // to make authenticated requests
         .get(appUrl + '/app1/polls/' + pollId)
-        .set('Cookie', userACookies) // authorize user a
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
         .then(function(res) {
             expect(res.status).to.equal(200);
 

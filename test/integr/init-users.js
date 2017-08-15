@@ -19,7 +19,9 @@
 var
     User = require('./../../server/models/users.js'),
     Promise = require('bluebird'),
+    initUsersSessions = require('./init-users-sessions.js'),
 
+    result = undefined,
     userA, userB, userU; // a, b, unonimous
 
 function usersInit() {
@@ -31,37 +33,46 @@ function usersInit() {
     //  local.username=b, password=b
     //  unauthorized.ip=x.x.x.y
 
+    if (result) {
+        return Promise.resolve(result);
+    }
+
     var promises = [
 
-      User.createAdmin(),
+        User.createAdmin(),
 
-      User.findOneMy({'local.username': 'a'})
-      .then(function(user) { userA = user; })
-      .catch(function(err) {
-        return User.createLocalUser({username: 'a', password: 'a', password2: 'a'})
-        .then(function(user) { userA = user; });
-    }),
+        User.findOneMy({'local.username': 'a'})
+        .then(function(user) { userA = user; })
+        .catch(function(err) {
+            return User.createLocalUser({username: 'a', password: 'a', password2: 'a'})
+            .then(function(user) { userA = user; });
+        }),
 
-      User.findOneMy({'local.username': 'b'})
-      .then(function(user) { userB = user; })
-      .catch(function(err) {
-        return User.createLocalUser({username: 'b', password: 'b', password2: 'b'})
-        .then(function(user) { userB = user; });
-    }),
+        User.findOneMy({'local.username': 'b'})
+        .then(function(user) { userB = user; })
+        .catch(function(err) {
+            return User.createLocalUser({username: 'b', password: 'b', password2: 'b'})
+            .then(function(user) { userB = user; });
+        }),
 
-      User.createUnauthorizedUser('x.x.x.y')
-      .then(function(createdUser) { userU = createdUser; }),
+        User.createUnauthorizedUser('x.x.x.y')
+        .then(function(createdUser) { userU = createdUser; }),
 
     ];
 
     return Promise.all(promises)
 
     .then(function() {
-        return {
+        return initUsersSessions({
             userA: userA,
             userB: userB,
             userU: userU,
-        };
+        });
+    })
+
+    .then(function(res) {
+        result = res;
+        return result;
     });
 
 }

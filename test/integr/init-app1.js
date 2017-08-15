@@ -18,9 +18,19 @@
 
 var
     Poll = require('./../../server/models/app1-polls.js'),
+    usersInit = require('./init-users.js'),
     Promise = require('bluebird'),
 
-    polls = [];
+    result = undefined,
+    polls = [],
+
+    titles = [
+        // titles for polls to test
+        'userA question poll 0',
+        'userA question poll 1',
+        'userU question poll 2',
+        'userU question poll 3',
+    ];
 
 function pollsInit(opts) {
 
@@ -70,4 +80,29 @@ function pollsInit(opts) {
 
 }
 
-module.exports = pollsInit;
+function initApp1Data() {
+    var resultTmp = {titles: titles};
+
+    if (result) {
+        return Promise.resolve(result);
+    }
+
+    // Init polls:
+    return usersInit()
+    .then(function(res) {
+        resultTmp.users = res;
+        return res;
+    })
+    .then(function(users) {
+        var aOpts = users;
+        aOpts.titles = titles;
+        return pollsInit(aOpts);
+    })
+    .then(function(res) {
+        resultTmp.polls = res.polls;
+        result = resultTmp;
+        return result;
+    });
+}
+
+module.exports = initApp1Data;
