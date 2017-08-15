@@ -50,7 +50,7 @@ router.get('/cafes', function(req, res) {
         app2state.lng = lng;
         app2state.zoom = zoom;
         app2state.radius = radius;
-        app2state.selectedCafeId = "undefined";
+        app2state.selectedCafeId = 'undefined';
     }
 
     res.render('app2_nightlife', greet(req, {
