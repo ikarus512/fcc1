@@ -44,6 +44,13 @@ router.get('/cafes', function(req, res) {
         app2state.zoom = req.session.app2state.zoom;
         app2state.radius = req.session.app2state.radius;
         app2state.selectedCafeId = req.session.app2state.selectedCafeId;
+    } else {
+        var radius = 188.796, lat = 56.312956, lng = 43.989955, zoom = 16; // Nizhny
+        app2state.lat = lat;
+        app2state.lng = lng;
+        app2state.zoom = zoom;
+        app2state.radius = radius;
+        app2state.selectedCafeId = "undefined";
     }
 
     res.render('app2_nightlife', greet(req, {
