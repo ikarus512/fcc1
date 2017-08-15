@@ -97,18 +97,21 @@ router.get('/api/cafes', function(req, res, next) { // eslint-disable-line compl
 
 });
 
-// RESTAPI PUT    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - update session state
+// RESTAPI PUT    /app2/api/cafes {lat,lng,radius,zoom,selectedCafeId} - update session state
 router.put('/api/cafes', function(req, res, next) {
 
+    req.session = req.session || {};
+    req.session.app2state = req.session.app2state || {};
+
     // Save user state to session
-    if (isFinite(Number(req.query.lat)))    { req.session.app2state.lat = Number(req.query.lat); }
-    if (isFinite(Number(req.query.lng)))    { req.session.app2state.lng = Number(req.query.lng); }
-    if (isFinite(Number(req.query.zoom)))   { req.session.app2state.zoom = Number(req.query.zoom); }
-    if (isFinite(Number(req.query.radius))) {
-        req.session.app2state.radius = Number(req.query.radius);
+    if (isFinite(Number(req.body.lat)))    { req.session.app2state.lat = Number(req.body.lat); }
+    if (isFinite(Number(req.body.lng)))    { req.session.app2state.lng = Number(req.body.lng); }
+    if (isFinite(Number(req.body.zoom)))   { req.session.app2state.zoom = Number(req.body.zoom); }
+    if (isFinite(Number(req.body.radius))) {
+        req.session.app2state.radius = Number(req.body.radius);
     }
-    if (req.query.selectedCafeId) {
-        req.session.app2state.selectedCafeId = req.query.selectedCafeId;
+    if (req.body.selectedCafeId) {
+        req.session.app2state.selectedCafeId = req.body.selectedCafeId;
     }
 
     res.status(200).json();

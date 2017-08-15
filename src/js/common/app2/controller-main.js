@@ -202,7 +202,7 @@
             });
             $scope.ajaxLoadingSpinnerSmall++;
             cafeStorage.updateSessionState(
-                $scope.location,
+                $scope.center,
                 $scope.radius,
                 $scope.zoom,
                 $scope.selectedCafeId

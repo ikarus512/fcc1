@@ -11,12 +11,12 @@
 
     .factory('cafeStorage', ['$http', 'MyConst', function cafeStorage($http, MyConst) {
         return {
-            get: function getCafe(location, radius, zoom, selectedCafeId) {
+            get: function getCafe(center, radius, zoom, selectedCafeId) {
                 return $http({
                     method: 'GET',
                     url: MyConst.serverUrl + '/app2/api/cafes' +
-                      '?lat='     + encodeURIComponent(location.lat) +
-                      '&lng='     + encodeURIComponent(location.lng) +
+                      '?lat='     + encodeURIComponent(center.lat) +
+                      '&lng='     + encodeURIComponent(center.lng) +
                       '&zoom='    + encodeURIComponent(zoom) +
                       '&radius='  + encodeURIComponent(radius) +
                       '&selectedCafeId=' + encodeURIComponent(selectedCafeId) +
@@ -24,17 +24,18 @@
                 });
             },
 
-            updateSessionState: function updateSessionState(location, radius, zoom, selectedCafeId)
+            updateSessionState: function updateSessionState(center, radius, zoom, selectedCafeId)
             {
                 return $http({
                     method: 'PUT',
-                    url: MyConst.serverUrl + '/app2/api/cafes' +
-                      '?lat='     + encodeURIComponent(location ? location.lat : undefined) +
-                      '&lng='     + encodeURIComponent(location ? location.lng : undefined) +
-                      '&zoom='    + encodeURIComponent(zoom) +
-                      '&radius='  + encodeURIComponent(radius) +
-                      '&selectedCafeId=' + encodeURIComponent(selectedCafeId) +
-                      ''
+                    url: MyConst.serverUrl + '/app2/api/cafes',
+                    data: {
+                        lat:              encodeURIComponent(center ? center.lat : undefined),
+                        lng:              encodeURIComponent(center ? center.lng : undefined),
+                        zoom:             encodeURIComponent(zoom),
+                        radius:           encodeURIComponent(radius),
+                        selectedCafeId:   encodeURIComponent(selectedCafeId)
+                    }
                 });
             },
 
