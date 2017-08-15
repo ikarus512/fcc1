@@ -23,6 +23,7 @@ git log --name-status
 
  heroku login
 heroku create ikarus512-fcc1
+ heroku git:remote -a ikarus512-fcc1
 //heroku features:enable http-session-affinity        (Apps using Socket.io should enable session affinity: https://devcenter.heroku.com/articles/node-websockets)
 heroku config:set APP_URL=https://ikarus512-fcc1.herokuapp.com
 heroku config:set APP_MONGODB_URI=mongodb://user:password@mongo.com:port/dbname

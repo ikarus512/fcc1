@@ -281,7 +281,7 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, ne
 
 /**
  * @api {put} /app2/api/cafes/:cafeId/timeslots/:startTime/unplan Unplan cafe timeslot
- * @apiName planCafeTimeslot
+ * @apiName unplanCafeTimeslot
  * @apiGroup app2Cafes
  *
  * @apiParam (Request parameters) {String} cafeId Cafe id.
