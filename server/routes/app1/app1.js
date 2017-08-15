@@ -53,38 +53,38 @@ router.get('/polls', function(req, res) {
 
 // GET /app1/polls/:id - view poll details
 router.get('/polls/:id',
-  function pollTitleMiddleware(req, res, next) {
-    // Find poll title (needed for sharing)
-    Poll.findOne({_id:req.params.id}).exec()
+    function pollTitleMiddleware(req, res, next) {
+        // Find poll title (needed for sharing)
+        Poll.findOne({_id:req.params.id}).exec()
 
-    .then(function(poll) {
-        if (!poll) { // if found, add to req
-            throw new Error('Poll not found.');
-        } else { // if found, add to req
-            req.pollTitle = poll.title;
-            return next();
-        }
-    })
+        .then(function(poll) {
+            if (!poll) { // if found, add to req
+                throw new Error('Poll not found.');
+            } else { // if found, add to req
+                req.pollTitle = poll.title;
+                return next();
+            }
+        })
 
-    // In case of error
-    .catch(function(err) { // eslint-disable-line handle-callback-err
-        req.pollTitle = '';
-        next();
-    });
+        // In case of error
+        .catch(function(err) { // eslint-disable-line handle-callback-err
+            req.pollTitle = '';
+            next();
+        });
 
-},
-  function(req, res, next) {
-    res.render('app1_poll', greet(
-      req,
-      {pollId: req.params.id},
-      shareit({
-        title: req.pollTitle + ' (DynApps Poll)',
-        text: req.pollTitle + ' (DynApps Poll)',
-        img: req.protocol + '://' + req.headers.host + 'img/pixabay_com_world.jpg',
-        url: req.protocol + '://' + req.headers.host + req.originalUrl
-    })
-    ));
-}
+    },
+    function(req, res, next) {
+        res.render('app1_poll', greet(
+            req,
+            {pollId: req.params.id},
+            shareit({
+                title: req.pollTitle + ' (DynApps Poll)',
+                text: req.pollTitle + ' (DynApps Poll)',
+                img: req.protocol + '://' + req.headers.host + 'img/pixabay_com_world.jpg',
+                url: req.protocol + '://' + req.headers.host + req.originalUrl
+            })
+        ));
+    }
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

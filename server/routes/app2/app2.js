@@ -68,9 +68,71 @@ router.all('/api/cafes/:cafeId/timeslots/:startTime/plan', myEnableCORS);
 router.all('/api/cafes/:cafeId/timeslots/:startTime/unplan', myEnableCORS);
 
 /**
+ * @apiDefine UnauthorizedError
+ *
+ * @apiError (Error 401) {Object} Unauthorized
+ *      User has not logged in.
+ *
+ * @apiErrorExample {json} Error response example:
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "error": "Unauthorized",
+ *       "message": "Error: User has not logged in."
+ *     }
+ */
+
+/**
+ * @apiDefine NotFoundError
+ *
+ * @apiError (Error 404) {Object} NotFound
+ *      Resource not found.
+ *
+ * @apiErrorExample {json} Error response example:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "Not Found",
+ *       "message": "Error: Resource not found."
+ *     }
+ */
+
+/**
  * @api {get} /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD Get cafes
  * @apiName getCafes
  * @apiGroup app2Cafes
+ *
+ * @apiParam (Request parameters) {Number} lat Circle center latitude.
+ * @apiParam (Request parameters) {Number} lng Circle center longitude.
+ * @apiParam (Request parameters) {Number} radius Circle radius.
+ * @apiParam (Request parameters) {Number} zoom Map zoom.
+ *
+ * @apiSuccess {Cafe[]}     results                 Array of cafes inside given circle
+ * @apiSuccess {String}     results.name            Cafe name
+ * @apiSuccess {Timeslot[]} results.timeslots       Cafe timeslots
+ * @apiSuccess {Date}       results.timeslots.start Cafe timeslot start time
+ * @apiSuccess {User[]}     results.timeslots.users Users that planned the cafe timeslot
+ * @apiSuccess {String}     results.timeslots.users.id User id
+ * @apiSuccess {String}     results.timeslots.users.name User name
+ *
+ * @apiSuccessExample Success response example:
+ *    curl -X GET https://ikarus512-fcc1.herokuapp.com \
+ *          /app2/api/cafes?lat=56.312956&lng=43.989955&radius=188.796&zoom=16
+ *    HTTP/1.1 200 OK
+ *    [ { "_id": "5946d049de602f8d6b121f1c",
+ *        "lat": 56.31200089999999,
+ *        "lng": 43.99179479999999,
+ *        "name": "Aladdin, Kafe",
+ *        "text": "ulitsa Kostina, 2, Nizhny Novgorod",
+ *        "photo": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+ *        "timeslots": [] },
+ *      { "_id": "5946d049de602f8d6b121f19",
+ *        "lat": 56.311938,
+ *        "lng": 43.99059800000001,
+ *        "name": "Karamel'",
+ *        "text": "ulitsa Kostina, 3, Nizhny Novgorod",
+ *        "photo": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+ *        "timeslots":[] } ]
+ *
+ * @apiUse NotFoundError
  */
 // RESTAPI GET    /app2/api/cafes?lat=DDD&lng=DDD&radius=DDD&zoom=DDD - get cafes
 router.get('/api/cafes', function(req, res, next) { // eslint-disable-line complexity
@@ -94,16 +156,48 @@ router.get('/api/cafes', function(req, res, next) { // eslint-disable-line compl
     getCafes({userId: userId, lat:lat, lng:lng, radius:radius})
 
     .then(function(cafes) {
-        res.status(200).json(cafes);
+        return res.status(200).json(cafes);
     })
 
     .catch(function(err) {
         myErrorLog(null, err);
-        res.status(400).json([]);
+        return res.status(404).json({
+            error: 'Not Found',
+            message: err.toString()
+        });
     });
 
 });
 
+/**
+ * @api {put} /app2/api/cafes Update user session state
+ * @apiName putCafes
+ * @apiGroup app2Cafes
+ *
+ * @apiParam (Request parameters) {Number} lat Circle center latitude.
+ * @apiParam (Request parameters) {Number} lng Circle center longitude.
+ * @apiParam (Request parameters) {Number} radius Circle radius.
+ * @apiParam (Request parameters) {Number} zoom Map zoom.
+ * @apiParam (Request parameters) {String} [selectedCafeId=undefined] Selected cafe id.
+ *
+ * @apiParamExample {json} Parameter example:
+ *    {
+ *      "lat": 56.312956,
+ *      "lng": 43.989955,
+ *      "radius": 188.796,
+ *      "zoom": 16,
+ *      "selectedCafeId": "5946d049de602f8d6b121f1c"
+ *    }
+ *
+ * @apiSuccessExample Success response example:
+ *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+ *        https://ikarus512-fcc1.herokuapp.com/auth/api/local
+ *    curl -X PUT -b ../cookies.jar -d 'lat=56.312956&lng=43.989955& \
+ *        radius=188.796&zoom=16&selectedCafeId="5946d049de602f8d6b121f1c"' \
+ *        https://ikarus512-fcc1.herokuapp.com/app2/api/cafes
+ *    HTTP/1.1 200 OK
+ *
+ */
 // RESTAPI PUT    /app2/api/cafes {lat,lng,radius,zoom,selectedCafeId} - update session state
 router.put('/api/cafes', function(req, res, next) {
 
@@ -125,11 +219,31 @@ router.put('/api/cafes', function(req, res, next) {
 
 });
 
+/**
+ * @api {put} /app2/api/cafes/:cafeId/timeslots/:startTime/plan Plan cafe timeslot
+ * @apiName planCafeTimeslot
+ * @apiGroup app2Cafes
+ *
+ * @apiParam (Request parameters) {String} cafeId Cafe id.
+ * @apiParam (Request parameters) {String} startTime Start time.
+ *
+ * @apiSuccessExample Success response example:
+ *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+ *        https://ikarus512-fcc1.herokuapp.com/auth/api/local
+ *    curl -X PUT -b ../cookies.jar \
+ *        https://ikarus512-fcc1.herokuapp.com/app2/api/cafes/ \
+ *        5946d049de602f8d6b121f1c/timeslots/15%20Aug%202017%2023:30:00/plan
+ *    HTTP/1.1 200 OK
+ *
+ * @apiUse UnauthorizedError
+ * @apiUse NotFoundError
+ */
 // RESTAPI PUT    /app2/api/cafes/:cafeId/timeslots/:startTime/plan - plan cafe timeslot
 router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, next) {
 
     if (!req.isAuthenticated()) {
         return res.status(401).json({
+            error: 'Unauthorized',
             message: 'Error: Only authorized person can plan cafe timeslot.'
         });
     }
@@ -147,29 +261,56 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, ne
 
     // On fail, send error response
     .catch(PublicError, function(err) {
-        return res.status(400).json({message:err.toString()});
+        return res.status(404).json({
+            error: 'Not Found',
+            message: err.toString()
+        });
     })
 
     // Internal error
     .catch(function(err) {
         var message = 'Internal error e0000007.';
         myErrorLog(req, err, message);
-        return res.status(400).json({message:message});
+        return res.status(404).json({
+            error: 'Not Found',
+            message: message
+        });
     });
 
 });
 
+/**
+ * @api {put} /app2/api/cafes/:cafeId/timeslots/:startTime/unplan Unplan cafe timeslot
+ * @apiName planCafeTimeslot
+ * @apiGroup app2Cafes
+ *
+ * @apiParam (Request parameters) {String} cafeId Cafe id.
+ * @apiParam (Request parameters) {String} startTime Start time.
+ *
+ * @apiSuccessExample Success response example:
+ *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+ *        https://ikarus512-fcc1.herokuapp.com/auth/api/local
+ *    curl -X PUT -b ../cookies.jar \
+ *        https://ikarus512-fcc1.herokuapp.com/app2/api/cafes/ \
+ *        5946d049de602f8d6b121f1c/timeslots/15%20Aug%202017%2023:30:00/unplan
+ *    HTTP/1.1 200 OK
+ *
+ * @apiUse UnauthorizedError
+ * @apiUse NotFoundError
+ */
 // RESTAPI PUT    /app2/api/cafes/:cafeId/timeslots/:startTime/unplan - unplan cafe timeslot
 router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, next) {
 
     if (!req.isAuthenticated()) {
         return res.status(401).json({
+            error: 'Unauthorized',
             message: 'Error: Only authorized person can unplan cafe timeslot.'
         });
     }
 
     if (!req.isAuthenticated()) {
         return res.status(401).json({
+            error: 'Unauthorized',
             message:'Error: Only authorized person can plan cafe timeslot.'
         });
     }
@@ -187,14 +328,20 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
 
     // On fail, send error response
     .catch(PublicError, function(err) {
-        return res.status(400).json({message:err.toString()});
+        return res.status(404).json({
+            error: 'Not Found',
+            message:err.toString()
+        });
     })
 
     // Internal error
     .catch(function(err) {
         var message = 'Internal error e0000007.';
         myErrorLog(req, err, message);
-        return res.status(400).json({message:message});
+        return res.status(404).json({
+            error: 'Not Found',
+            message:message
+        });
     });
 
 });

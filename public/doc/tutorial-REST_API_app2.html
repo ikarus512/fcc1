@@ -99,11 +99,193 @@
 <ul>
 <li><a href="#app2cafes">app2Cafes</a><ul>
 <li><a href="#get-cafes">Get cafes</a></li>
+<li><a href="#plan-cafe-timeslot">Plan cafe timeslot</a></li>
+<li><a href="#update-user-session-state">Update user session state</a></li>
 </ul>
 </li>
 </ul>
 <h1>app2Cafes</h1><h2>Get cafes</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>GET /app2/api/cafes?lat=DDD&amp;lng=DDD&amp;radius=DDD&amp;zoom=DDD</code></pre>
+<pre class="prettyprint source"><code>GET /app2/api/cafes?lat=DDD&amp;lng=DDD&amp;radius=DDD&amp;zoom=DDD</code></pre><h3>Request parameters Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">lat</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left"><p>Circle center latitude.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">lng</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left"><p>Circle center longitude.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">radius</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left"><p>Circle radius.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">zoom</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left"><p>Map zoom.</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Success Response</h3><p>Success response example:</p>
+<pre class="prettyprint source"><code>curl -X GET https://ikarus512-fcc1.herokuapp.com \
+      /app2/api/cafes?lat=56.312956&lng=43.989955&radius=188.796&zoom=16
+HTTP/1.1 200 OK
+[ { &quot;_id&quot;: &quot;5946d049de602f8d6b121f1c&quot;,
+    &quot;lat&quot;: 56.31200089999999,
+    &quot;lng&quot;: 43.99179479999999,
+    &quot;name&quot;: &quot;Aladdin, Kafe&quot;,
+    &quot;text&quot;: &quot;ulitsa Kostina, 2, Nizhny Novgorod&quot;,
+    &quot;photo&quot;: &quot;https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png&quot;,
+    &quot;timeslots&quot;: [] },
+  { &quot;_id&quot;: &quot;5946d049de602f8d6b121f19&quot;,
+    &quot;lat&quot;: 56.311938,
+    &quot;lng&quot;: 43.99059800000001,
+    &quot;name&quot;: &quot;Karamel'&quot;,
+    &quot;text&quot;: &quot;ulitsa Kostina, 3, Nizhny Novgorod&quot;,
+    &quot;photo&quot;: &quot;https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png&quot;,
+    &quot;timeslots&quot;:[] } ]</code></pre><h3>Success 200</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">results</td>
+<td style="text-align:left">Cafe[]</td>
+<td style="text-align:left"><p>Array of cafes inside given circle</p></td>
+</tr>
+<tr>
+<td style="text-align:left">results.name</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Cafe name</p></td>
+</tr>
+<tr>
+<td style="text-align:left">results.timeslots</td>
+<td style="text-align:left">Timeslot[]</td>
+<td style="text-align:left"><p>Cafe timeslots</p></td>
+</tr>
+<tr>
+<td style="text-align:left">results.timeslots.start</td>
+<td style="text-align:left">Date</td>
+<td style="text-align:left"><p>Cafe timeslot start time</p></td>
+</tr>
+<tr>
+<td style="text-align:left">results.timeslots.users</td>
+<td style="text-align:left">User[]</td>
+<td style="text-align:left"><p>Users that planned the cafe timeslot</p></td>
+</tr>
+<tr>
+<td style="text-align:left">results.timeslots.users.id</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>User id</p></td>
+</tr>
+<tr>
+<td style="text-align:left">results.timeslots.users.name</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>User name</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Error Response</h3><p>Error response example:</p>
+<pre class="prettyprint source"><code>HTTP/1.1 404 Not Found
+{
+  &quot;error&quot;: &quot;Not Found&quot;,
+  &quot;message&quot;: &quot;Error: Resource not found.&quot;
+}</code></pre><h2>Plan cafe timeslot</h2><p><a href="#top">Back to top</a></p>
+<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/plan</code></pre><h3>Request parameters Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">cafeId</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Cafe id.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">startTime</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Start time.</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Success Response</h3><p>Success response example:</p>
+<pre class="prettyprint source"><code>curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+    https://ikarus512-fcc1.herokuapp.com/auth/api/local
+curl -X PUT -b ../cookies.jar \
+    https://ikarus512-fcc1.herokuapp.com/app2/api/cafes/ \
+    5946d049de602f8d6b121f1c/timeslots/15%20Aug%202017%2023:30:00/plan
+HTTP/1.1 200 OK</code></pre><h3>Error Response</h3><p>Error response example:</p>
+<pre class="prettyprint source"><code>HTTP/1.1 401 Unauthorized
+{
+  &quot;error&quot;: &quot;Unauthorized&quot;,
+  &quot;message&quot;: &quot;Error: User has not logged in.&quot;
+}</code></pre><p>Error response example:</p>
+<pre class="prettyprint source"><code>HTTP/1.1 404 Not Found
+{
+  &quot;error&quot;: &quot;Not Found&quot;,
+  &quot;message&quot;: &quot;Error: Resource not found.&quot;
+}</code></pre><h2>Update user session state</h2><p><a href="#top">Back to top</a></p>
+<pre class="prettyprint source"><code>PUT /app2/api/cafes</code></pre><h3>Request parameters Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">lat</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left"><p>Circle center latitude.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">lng</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left"><p>Circle center longitude.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">radius</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left"><p>Circle radius.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">zoom</td>
+<td style="text-align:left">Number</td>
+<td style="text-align:left"><p>Map zoom.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">selectedCafeId</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><strong>optional</strong><p>Selected cafe id.</p><em>Default value: undefined</em><br></td>
+</tr>
+</tbody>
+</table>
+<h3>Success Response</h3><p>Success response example:</p>
+<pre class="prettyprint source"><code>curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+    https://ikarus512-fcc1.herokuapp.com/auth/api/local
+curl -X PUT -b ../cookies.jar -d 'lat=56.312956&lng=43.989955& \
+    radius=188.796&zoom=16&selectedCafeId=&quot;5946d049de602f8d6b121f1c&quot;' \
+    https://ikarus512-fcc1.herokuapp.com/app2/api/cafes
+HTTP/1.1 200 OK</code></pre>
 </article>
 
 </section>
@@ -147,7 +329,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
 	
-		on 2017/08/13
+		on 2017/08/15
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
