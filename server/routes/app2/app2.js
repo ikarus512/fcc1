@@ -199,7 +199,7 @@ router.get('/api/cafes', function(req, res, next) { // eslint-disable-line compl
  *
  */
 // RESTAPI PUT    /app2/api/cafes {lat,lng,radius,zoom,selectedCafeId} - update session state
-router.put('/api/cafes', function(req, res, next) {
+router.put('/api/cafes', function(req, res, next) { // eslint-disable-line complexity
 
     req.session = req.session || {};
     req.session.app2state = req.session.app2state || {};
