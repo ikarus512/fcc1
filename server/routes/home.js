@@ -26,7 +26,8 @@ module.exports = function (app, passport, isLoggedIn, greet) {
     app.route('/')
     .get(function(req, res) {
         var savedUrl = req.flash('savedUrl')[0];
-        if (savedUrl) { /*istanbul ignore next*/ return res.redirect(savedUrl); }
+        // istanbul ignore next
+        if (savedUrl) { return res.redirect(savedUrl); }
 
         res.render('home', greet(
           req,

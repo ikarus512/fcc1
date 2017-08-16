@@ -100,9 +100,11 @@ function dbInit(done) {
 function clearSessionsCollection(callback) {
     var MongoClient = mongoDb.MongoClient;
     MongoClient.connect(dbUrl, function(err, db) {
-        if (err) { /*istanbul ignore next*/ throw err; }
+        // istanbul ignore next
+        if (err) { throw err; }
         db.collection('sessions').remove({}, function(err, result) {
-            if (err) { /*istanbul ignore next*/ throw err; }
+            // istanbul ignore next
+            if (err) { throw err; }
             db.close(callback);
         });
     });
@@ -127,14 +129,15 @@ function clearDB(callback) {
         function removeCallback() {
             val--; // (safe because no race condition in single-threaded node.js)
             if (val === 0) {
+                // istanbul ignore else
                 if (callback) { return callback(); }
             }
             return;
         }
     }
 
+    // istanbul ignore if
     if (mongoose.connection.readyState === 0) {
-        // istanbul ignore next
         mongoose.connect(dbUrl, function(err) {
             if (err) { throw err; }
             clearDBLoop(callback);

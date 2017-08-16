@@ -24,6 +24,7 @@ var
 
 module.exports = function(req, err, message) { // eslint-disable-line complexity
 
+    // istanbul ignore next
     if (isHeroku()) {
         if (message) {
             console.log('Message: ', message);
@@ -41,6 +42,7 @@ module.exports = function(req, err, message) { // eslint-disable-line complexity
     if (message) {
         txt += 'Message: ' + message + '\n';
     }
+    // istanbul ignore else
     if (err) {
         txt += 'Error:\n';
         txt += 'name: ' + err.name + '\n';
@@ -52,17 +54,19 @@ module.exports = function(req, err, message) { // eslint-disable-line complexity
     if (req) {
         txt += '\n';
         txt += req.method + ' ' + req.protocol + '://' + req.headers.host + req.originalUrl + '\n';
+        // istanbul ignore else
         if (req.user) {
             txt += 'user=' +
-              req.user._id + ' ' +
-              req.user.type + '/' +
-              req.user.name + '\n';
+                req.user._id + ' ' +
+                req.user.type + '/' +
+                req.user.name + '\n';
         }
+        // istanbul ignore if
         if (req.unauthorizedUser) {
             txt += 'unauthorizedUser=' +
-              req.unauthorizedUser._id + ' ' +
-              req.unauthorizedUser.type + '/' +
-              req.unauthorizedUser.ip + '\n';
+                req.unauthorizedUser._id + ' ' +
+                req.unauthorizedUser.type + '/' +
+                req.unauthorizedUser.ip + '\n';
         }
     }
 

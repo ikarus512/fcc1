@@ -18,6 +18,7 @@
 var extend = require('extend');
 
 function shareit(opt) {
+    // istanbul ignore else
     if (opt &&
           opt.title &&
           opt.text &&
@@ -81,6 +82,8 @@ function shareit(opt) {
 
         };
     }
+
+    // istanbul ignore next
     return {};
 }
 

@@ -58,11 +58,16 @@ var UserSchema = new Schema({
 UserSchema.virtual('type').get(function() { // eslint-disable-line complexity
     var type = 'unknown';
     try {
-        if (this.facebook.id)     { /*istanbul ignore next*/ type = 'facebook'; }
-        if (this.github.id)       { /*istanbul ignore next*/ type = 'github'; }
-        if (this.local.username)  {                          type = 'local'; }
-        if (this.twitter.id)      { /*istanbul ignore next*/ type = 'twitter'; }
-        if (this.unauthorized.ip) { /*istanbul ignore next*/ type = 'unauthorized'; }
+        // istanbul ignore if
+        if (this.facebook.id)     { type = 'facebook'; }
+        // istanbul ignore if
+        if (this.github.id)       { type = 'github'; }
+        // istanbul ignore else
+        if (this.local.username)  { type = 'local'; }
+        // istanbul ignore if
+        if (this.twitter.id)      { type = 'twitter'; }
+        // istanbul ignore if
+        if (this.unauthorized.ip) { type = 'unauthorized'; }
     } catch (err) {
         // Ignore errors
     }
@@ -91,7 +96,8 @@ UserSchema.statics.findOneMy = function(filter) {
 
     return new Promise(function(resolve, reject) {
 
-        if (!mongoose.connection.readyState) { // istanbul ignore next
+        // istanbul ignore if
+        if (!mongoose.connection.readyState) {
             throw new Error('No connection to users database.');
         }
 
@@ -182,7 +188,8 @@ UserSchema.statics.createAdmin = function(callback) {
     .catch(function(err) {
         // no throw err, as we ignore errors here
         myErrorLog(null, err); // log error
-        if (callback) { /*istanbul ignore next*/ return callback(err); }
+        // istanbul ignore if
+        if (callback) { return callback(err); }
         return;
     });
 
@@ -211,7 +218,8 @@ UserSchema.statics.generateHash = function(password) {
 
     return new Promise(function(resolve, reject) {
 
-        if (!self) { // istanbul ignore next
+        // istanbul ignore if
+        if (!self) {
             throw new Error('this undefined. User.generateHash() returns promise, ' +
               'but not result (rewrite program)!');
         }
@@ -229,7 +237,8 @@ UserSchema.methods.validatePassword = function(password, callback) {
 
     return new Promise(function(resolve, reject) {
 
-        if (!self) { // istanbul ignore next
+        // istanbul ignore if
+        if (!self) {
             throw new Error('this undefined. User.validatePassword() returns promise, ' +
               'but not result (rewrite program)!');
         }
@@ -322,7 +331,8 @@ function myHashEncode(str) {
       h = bcrypt.hashSync(str + PWD_SUFFIX, bcrypt.genSaltSync(8 + roundsD)),
       h1 = h.split('$');
 
-    if (h1[1] !== '2a') { /*istanbul ignore next*/ return h1; } // No additional encoding on h1.
+    // istanbul ignore if
+    if (h1[1] !== '2a') { return h1; } // No additional encoding on h1.
 
     // Here is what we have to encode:
     var hash1 = h1[3]; // 53 symbols of useful hash string.
@@ -346,11 +356,16 @@ function myHashEncode(str) {
 }
 
 function myHashDecode(h) {
-    if (h[0] === '$') { /*istanbul ignore next*/ return h; } // No decoding needed.
+    // istanbul ignore if
+    if (h[0] === '$') { return h; } // No decoding needed.
 
     // Decode hash1 and rounds (drop hash2).
     var rounds = String(8 + (h.charCodeAt(0) % 10));
-    rounds = (rounds.length < 2) ? /*istanbul ignore next*/ ('0' + rounds) : (rounds);
+    rounds = (rounds.length < 2) ?
+        // istanbul ignore next
+        ('0' + rounds) :
+        // istanbul ignore next
+        (rounds);
 
     var i,
       hash1 = '';

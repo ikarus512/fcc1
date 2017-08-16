@@ -27,6 +27,7 @@ module.exports = function(req, res, next) {
 
     // Save user to req.unauthorizedUser
     .then(function(user) {
+        // istanbul ignore else
         if (!req.unauthorizedUser) {
             req.unauthorizedUser = {};
             req.unauthorizedUser._id = user._id;

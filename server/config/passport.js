@@ -212,6 +212,7 @@ module.exports = function (passport) {
         if (req.isAuthenticated()) { return next(null); }
 
         // Remember curent url
+        // istanbul ignore else
         if (req.originalUrl.search(/^app\d_/)) {
             req.flash('savedUrl', req.originalUrl);
         }

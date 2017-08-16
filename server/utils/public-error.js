@@ -17,7 +17,7 @@
 
 function PublicError(message) {
     this.name = 'PublicError';
-    this.message = message || 'PublicError';
+    this.message = message || /*istanbul ignore next*/ 'PublicError';
     this.stack = (new Error()).stack;
 }
 PublicError.prototype = Object.create(Error.prototype);

@@ -138,9 +138,13 @@ router.all('/api/cafes/:cafeId/timeslots/:startTime/unplan', myEnableCORS);
 router.get('/api/cafes', function(req, res, next) { // eslint-disable-line complexity
 
     var radius = 188.796, lat = 56.312956, lng = 43.989955, zoom = 16; // Nizhny
+    // istanbul ignore else
     if (isFinite(Number(req.query.lat)))    { lat = Number(req.query.lat); }
+    // istanbul ignore else
     if (isFinite(Number(req.query.lng)))    { lng = Number(req.query.lng); }
+    // istanbul ignore else
     if (isFinite(Number(req.query.zoom)))   { zoom = Number(req.query.zoom); }
+    // istanbul ignore else
     if (isFinite(Number(req.query.radius))) { radius = Number(req.query.radius); }
 
     // Save user state to session
@@ -201,13 +205,17 @@ router.get('/api/cafes', function(req, res, next) { // eslint-disable-line compl
 // RESTAPI PUT    /app2/api/cafes {lat,lng,radius,zoom,selectedCafeId} - update session state
 router.put('/api/cafes', function(req, res, next) { // eslint-disable-line complexity
 
-    req.session = req.session || {};
+    req.session = req.session || /*istanbul ignore next*/ {};
     req.session.app2state = req.session.app2state || {};
 
     // Save user state to session
+    // istanbul ignore else
     if (isFinite(Number(req.body.lat)))    { req.session.app2state.lat = Number(req.body.lat); }
+    // istanbul ignore else
     if (isFinite(Number(req.body.lng)))    { req.session.app2state.lng = Number(req.body.lng); }
+    // istanbul ignore else
     if (isFinite(Number(req.body.zoom)))   { req.session.app2state.zoom = Number(req.body.zoom); }
+    // istanbul ignore else
     if (isFinite(Number(req.body.radius))) {
         req.session.app2state.radius = Number(req.body.radius);
     }
@@ -320,7 +328,7 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
     })
 
     // On fail, send error response
-    .catch(/*istanbul ignore next*/ PublicError, function(err) {
+    .catch(PublicError, /*istanbul ignore next*/ function(err) {
         return res.status(404).json({
             error: 'Not Found',
             message:err.toString()

@@ -181,7 +181,8 @@ CafeSchema.statics.findNearbyCafes = function(userId, lat, lng, radius) {
             newCafe.text = cafe.text;
             newCafe.photo = cafe.photo;
 
-            if (!cafe.timeslots) { /*istanbul ignore next*/ cafe.timeslots = []; }
+            // istanbul ignore if
+            if (!cafe.timeslots) { cafe.timeslots = []; }
 
             newCafe.timeslots = cafe.timeslots.map(/*istanbul ignore next*/ function(timeslot) {
                 var newTimeslot = {
@@ -226,7 +227,8 @@ CafeSchema.statics.findNearbyCafes = function(userId, lat, lng, radius) {
 
         cafes.forEach(function(cafe) {
 
-            if (!cafe.timeslots) { /*istanbul ignore next*/ cafe.timeslots = []; }
+            // istanbul ignore if
+            if (!cafe.timeslots) { cafe.timeslots = []; }
 
             cafe.timeslots = cafe.timeslots.filter(/*istanbul ignore next*/ function(timeslot) {
 
@@ -275,8 +277,10 @@ CafeSchema.statics.planTimeslot = function(args) {
     );
 
     return new Promise(function(resolve, reject) {
-        if (!userId) { /*istanbul ignore next*/ throw new PublicError('user not authorized'); }
-        if (!cafeId) { /*istanbul ignore next*/ throw new PublicError('cafeId not specified'); }
+        // istanbul ignore next
+        if (!userId) { throw new PublicError('user not authorized'); }
+        // istanbul ignore next
+        if (!cafeId) { throw new PublicError('cafeId not specified'); }
         resolve();
     })
 
@@ -287,16 +291,18 @@ CafeSchema.statics.planTimeslot = function(args) {
 
     .then(function(cafe) {
 
+        // istanbul ignore if
         if (!cafe) { // if not found, report error
-            // istanbul ignore next
             throw new PublicError('No cafe with id=' + cafeId + '.');
         }
 
-        if (startTime < allowTimeMin) { // istanbul ignore next
+        // istanbul ignore if
+        if (startTime < allowTimeMin) {
             throw new PublicError('Cannot plan in the past.');
         }
 
-        if (startTime >= allowTimeMax) { // istanbul ignore next
+        // istanbul ignore if
+        if (startTime >= allowTimeMax) {
             throw new PublicError('Cannot plan too far in the future.');
         }
 
@@ -307,7 +313,8 @@ CafeSchema.statics.planTimeslot = function(args) {
     // Find needed timeslot, add user there, save cafe
     .then(function(cafe) {
 
-        if (!cafe.timeslots) { /*istanbul ignore next*/ cafe.timeslots = []; }
+        // istanbul ignore if
+        if (!cafe.timeslots) { cafe.timeslots = []; }
 
         // Remove old timeslots (database cleanup)
         cafe.timeslots = cafe.timeslots.filter(function(timeslot) {
@@ -321,6 +328,7 @@ CafeSchema.statics.planTimeslot = function(args) {
         var timeslotIdx;
         var isfound = cafe.timeslots.some(function(timeslot, idx) {
             var found = (timeslot.start.getTime() === startTime.getTime());
+            // istanbul ignore else
             if (found) { timeslotIdx = idx; }
             return found;
         });
@@ -382,8 +390,10 @@ CafeSchema.statics.unplanTimeslot = function(args) {
     );
 
     return new Promise(function(resolve, reject) {
-        if (!userId) { /*istanbul ignore next*/ throw new PublicError('user not authorized'); }
-        if (!cafeId) { /*istanbul ignore next*/ throw new PublicError('cafeId not specified'); }
+        // istanbul ignore if
+        if (!userId) { throw new PublicError('user not authorized'); }
+        // istanbul ignore if
+        if (!cafeId) { throw new PublicError('cafeId not specified'); }
         resolve();
     })
 
@@ -394,16 +404,18 @@ CafeSchema.statics.unplanTimeslot = function(args) {
 
     .then(function(cafe) {
 
+        // istanbul ignore if
         if (!cafe) { // if not found, report error
-            // istanbul ignore next
             throw new PublicError('No cafe with id=' + cafeId + '.');
         }
 
-        if (startTime < allowTimeMin) { // istanbul ignore next
+        // istanbul ignore if
+        if (startTime < allowTimeMin) {
             throw new PublicError('Cannot plan in the past.');
         }
 
-        if (startTime >= allowTimeMax) { //istanbul ignore next
+        // istanbul ignore if
+        if (startTime >= allowTimeMax) {
             throw new PublicError('Cannot plan too far in the future.');
         }
 
@@ -414,7 +426,8 @@ CafeSchema.statics.unplanTimeslot = function(args) {
     // Find needed timeslot, add user there, save cafe
     .then(function(cafe) {
 
-        if (!cafe.timeslots) { /*istanbul ignore next*/ cafe.timeslots = []; }
+        // istanbul ignore if
+        if (!cafe.timeslots) { cafe.timeslots = []; }
 
         // Remove old timeslots (database cleanup)
         cafe.timeslots = cafe.timeslots.filter(function(timeslot) {
@@ -426,10 +439,12 @@ CafeSchema.statics.unplanTimeslot = function(args) {
         var timeslotIdx;
         var isfound = cafe.timeslots.some(function(timeslot, idx) {
             var found = (timeslot.start.getTime() === startTime.getTime());
+            // istanbul ignore else
             if (found) { timeslotIdx = idx; }
             return found;
         });
-        if (!isfound) { // istanbul ignore next
+        // istanbul ignore if
+        if (!isfound) {
             throw new PublicError('No timeslot started at ' + startTime.toISOString());
         }
 
@@ -437,10 +452,12 @@ CafeSchema.statics.unplanTimeslot = function(args) {
         var userIdx;
         isfound = cafe.timeslots[timeslotIdx].users.some(function(user, idx) {
             var found = userId.equals(user);
+            // istanbul ignore else
             if (found) { userIdx = idx; }
             return found;
         });
-        if (!isfound) { // istanbul ignore next
+        // istanbul ignore if
+        if (!isfound) {
             throw new PublicError('You did not plan this timeslot before. Nothing to unplan.');
         }
 

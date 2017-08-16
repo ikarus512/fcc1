@@ -23,26 +23,27 @@ var
 
 myCsrf.protection =
 
-  (APPCONST.env.NODE_ENV === 'production') ?
+    (APPCONST.env.NODE_ENV === 'production') ?
 
-  // Here if production:
-  csrf({
-    cookie: false, // Keep tocken secret in session, not in cookie
-    key: '_csrf',
-    httpOnly: true,  // dont let browser javascript access cookie ever
-    secure: true // only use cookie over https
-})
+    // Here if production:
+    // istanbul ignore next
+    csrf({
+        cookie: false, // Keep tocken secret in session, not in cookie
+        key: '_csrf',
+        httpOnly: true,  // dont let browser javascript access cookie ever
+        secure: true // only use cookie over https
+    })
 
-  :
+    :
 
-  // Here if test env:
-  // Switch off CSRF
-  function(req,res,next) {
-    req.csrfToken = function() { return 1; };
-    next();
-};
+    // Here if test env:
+    // Switch off CSRF
+    function(req,res,next) {
+        req.csrfToken = function() { return 1; };
+        next();
+    };
 
-myCsrf.errHandler = function csrfErrorHandler(err, req, res, next) {
+myCsrf.errHandler = /*istanbul ignore next*/ function csrfErrorHandler(err, req, res, next) {
     if (err && err.code === 'EBADCSRFTOKEN') {
         // handle CSRF token errors here
 

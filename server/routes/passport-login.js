@@ -33,7 +33,8 @@ module.exports = function (app, passport) {
     app.route('/login')
     .all(csrf.protection)
     .get(function(req, res) {
-        if (req.isAuthenticated()) { /*istanbul ignore next*/ req.logout(); }
+        // istanbul ignore if
+        if (req.isAuthenticated()) { req.logout(); }
 
         var csrfToken = req.csrfToken();
 
@@ -49,7 +50,8 @@ module.exports = function (app, passport) {
     app.route('/signup')
     .all(csrf.protection)
     .get(function(req, res) {
-        if (req.isAuthenticated()) { /*istanbul ignore next*/ req.logout(); }
+        // istanbul ignore if
+        if (req.isAuthenticated()) { req.logout(); }
         res.render('signup', greet(req, {csrfToken: req.csrfToken()}));
     });
 
@@ -88,7 +90,8 @@ module.exports = function (app, passport) {
                 // return next(err);
                 return res.status(401).json({success: false, message: req.flash('message')[0]});
             }
-            if (!account) { // istanbul ignore next
+            // istanbul ignore if
+            if (!account) {
                 return res.status(401).json({success: false, message: req.flash('message')[0]});
             }
 
@@ -96,7 +99,8 @@ module.exports = function (app, passport) {
             // responsibility to establish a session (by calling req.login()) and send
             // a response."           -- http://passportjs.org/docs/login
             req.logIn(account, function(loginErr) {
-                if (loginErr) { // istanbul ignore next
+                // istanbul ignore if
+                if (loginErr) {
                     // return next(loginErr);
                     return res.status(401).json({success: false, message: req.flash('message')[0]});
                 }

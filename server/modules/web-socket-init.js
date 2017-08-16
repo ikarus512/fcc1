@@ -23,6 +23,7 @@ var
 
 module.exports = function(options) {
 
+    // istanbul ignore else
     if (options && options.server) { wss.init(options.server); }
 
     wss.registerHandlers(wsApp3);

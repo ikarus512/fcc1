@@ -271,7 +271,7 @@ if (!isHeroku()) {
             console.log('Trying to start https on port ' + app.get('port'));
             server.listen(app.get('port'), function (err) {
                 console.log('NODE_ENV = ' + APPCONST.env.NODE_ENV);
-                // istanbul ignore else
+                // istanbul ignore next
                 if (err) { throw err; }
                 console.log('Started https.');
                 return resolve();
@@ -280,17 +280,19 @@ if (!isHeroku()) {
 
         promises.push(new Promise(function(resolve, reject) {
             console.log('Trying to start http on port ' + APPCONST.env.PORT_HTTP);
-            // istanbul ignore else
+            // istanbul ignore next
             if (APPCONST.env.PORT_HTTP === 80) {
                 console.log('Port 80 not accessible on travis-ci.org Linux wihout sudo.');
             }
             serverHttp.listen(APPCONST.env.PORT_HTTP, function (err) {
-                if (err) { /*istanbul ignore next*/ throw err; }
+                // istanbul ignore next
+                if (err) { throw err; }
                 console.log('Started http.');
                 return resolve();
             });
         }));
 
+        // istanbul ignore next
         if (APPCONST.env.NODE_ENV.match(/^test/)) {
             // Here if test env.
             // Wait for DB initialization:
@@ -301,7 +303,8 @@ if (!isHeroku()) {
         .then(function() {
             console.log('Server ready.');
 
-            if (!APPCONST.env.NODE_ENV.match(/^test/)) { // istanbul ignore next
+            // istanbul ignore next
+            if (!APPCONST.env.NODE_ENV.match(/^test/)) {
                 // Here if not test env (production).
                 // Do not wait for DB initialization.
                 dbInit(function() { console.log('DB initialized.'); });
@@ -313,6 +316,7 @@ if (!isHeroku()) {
             // Start webSocket server
             webSocketInit({server:server});
 
+            // istanbul ignore next
             if (done) { return done(); }
 
             // istanbul ignore next
@@ -358,16 +362,19 @@ function shutdownFunctionNonHeroku(done) {
         console.log('Stopped https.');
     });
 
+    // istanbul ignore else
     if (!isHeroku()) {
         serverHttp.close(function() {
             console.log('Stopped http.');
         });
     }
 
+    // istanbul ignore else
     if (done) { return done(); }
 }
 
-if (require.main === module) { // istanbul ignore next
+// istanbul ignore if
+if (require.main === module) {
     boot();
 } else {
     console.info('Running application as a module');

@@ -59,8 +59,8 @@ router.get('/polls/:id',
         Poll.findOne({_id:req.params.id}).exec()
 
         .then(function(poll) {
+            // istanbul ignore if
             if (!poll) { // if found, add to req
-                // istanbul ignore next
                 throw new Error('Poll not found.');
             } else { // if found, add to req
                 req.pollTitle = poll.title;
@@ -290,10 +290,10 @@ router.delete('/api/polls/:id', function(req, res, next) {
     Poll.findOne({_id:req.params.id}).exec()
 
     .then(function(poll) {
+        // istanbul ignore else
         if (poll) { // if found
             return poll;
         } else { // if not found, report error
-            // istanbul ignore next
             throw new Error('No poll with _id=' + req.params.id + '.');
         }
     })
@@ -361,10 +361,10 @@ router.get('/api/polls/:id', function(req, res, next) {
     Poll.findOne({_id:req.params.id}).exec()
 
     .then(function(poll) {
+        // istanbul ignore else
         if (poll) { // if found
             return poll;
         } else { // if not found, report error
-            // istanbul ignore next
             throw new Error('No poll with _id=' + req.params.id + '.');
         }
     })
@@ -434,10 +434,10 @@ router.post('/api/polls/:id/options', function(req, res, next) {
     Poll.findOne({_id:req.params.id}).exec()
 
     .then(function(poll) {
+        // istanbul ignore else
         if (poll) { // if found
             return poll;
         } else { // if not found, report error
-            // istanbul ignore next
             throw new Error('No poll with _id=' + req.params.id + '.');
         }
     })
@@ -504,10 +504,10 @@ router.put('/api/polls/:id/options/:oid/vote',
     Poll.findOne({_id:req.params.id}).exec()
 
     .then(function(poll) {
+        // istanbul ignore else
         if (poll) { // if found
             return poll;
         } else { // if not found, report error
-            // istanbul ignore next
             throw new Error('No poll with _id=' + req.params.id + '.');
         }
     })
@@ -518,10 +518,11 @@ router.put('/api/polls/:id/options/:oid/vote',
         var userId =
           req.isAuthenticated() ? req.user._id :
           req.unauthorizedUser ? req.unauthorizedUser._id :
+          // istanbul ignore next
           undefined;
 
+        // istanbul ignore if
         if (!userId) {
-            // istanbul ignore next
             throw new Error('Problem identifying user for voting.');
         }
 
@@ -541,13 +542,13 @@ router.put('/api/polls/:id/options/:oid/vote',
         }
 
         var idx;
+        // istanbul ignore if
         if (
             !poll.options.some(function(option,i) {
                 idx = i; return option.id === req.params.oid;
             })
         )
         {
-            // istanbul ignore next
             throw new Error('Option with this title does not exist.');
         }
 

@@ -35,6 +35,7 @@ module.exports = function(options) {
             case 'undefined':
                 logStream.write('undefined');
             break;
+            // istanbul ignore next
             case 'null':
                 logStream.write('null');
             break;
@@ -48,6 +49,7 @@ module.exports = function(options) {
 
     return function(req, res, next) { // eslint-disable-line complexity
 
+        // istanbul ignore if
         if (
             req.originalUrl.match(/^\/img/) ||
             req.originalUrl.match(/^\/lib/) ||
@@ -59,12 +61,14 @@ module.exports = function(options) {
             return next();
         }
 
+        // istanbul ignore if
         if (!immediate) { logStream.cork(); }
 
         logWriteLn();
         logWriteLn('--- ' + new Date().toISOString() + ' --- ' +
           req.method + ' ' + req.protocol + '://' + req.headers.host + req.originalUrl);
 
+        // istanbul ignore else
         if (!short) {
             logWriteLn('req.body=',req.body);
             logWriteLn('req.cookies=',req.cookies);
@@ -78,6 +82,7 @@ module.exports = function(options) {
             logWriteLn('req=', util.inspect(req,{depth:0}));
         }
 
+        // istanbul ignore if
         if (!immediate) { process.nextTick(function() { logStream.uncork(); }); } // flush stream
 
         return next();

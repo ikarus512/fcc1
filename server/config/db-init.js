@@ -20,4 +20,5 @@ var
     dbInitProduction = require('./db-init-production.js'),
     dbInitTest = require('./db-init-test.js');
 
-module.exports = (APPCONST.env.NODE_ENV === 'production') ? dbInitProduction : dbInitTest;
+module.exports = (APPCONST.env.NODE_ENV === 'production') ?
+    /*istanbul ignore next*/ dbInitProduction : dbInitTest;
