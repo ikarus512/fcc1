@@ -16,13 +16,17 @@
 'use strict';
 
 module.exports = {
-    check: /*istanbul ignore next*/ function check(req, res, next) {
-        // istanbul ignore next
+    check: /*istanbul ignore next :nocov:*/ function check(req, res, next) {
+        // istanbul ignore next :nocov:
         if (
-          req.isAuthenticated() &&
-          req.user && req.user.local && req.user.local.username === 'admin'
+            // istanbul ignore next :nocov:
+            req.isAuthenticated() &&
+            req.user && req.user.local &&
+            // istanbul ignore next :nocov:
+            req.user.local.username === 'admin'
         )
         {
+            // istanbul ignore next :nocov:
             return next();
         }
 
