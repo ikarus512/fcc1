@@ -71,7 +71,7 @@ router.all('/api/get-ws-ticket', myEnableCORS);
  * @apiName getWsTicket
  * @apiGroup app3Ticket
  *
- * @apiSuccess {String}     ticket                 Ticket id
+ * @apiSuccess {String}     ticket                 Ticket id.
  *
  * @apiSuccessExample Success response example:
  *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \

@@ -100,10 +100,10 @@ router.all('/api/cafes/:cafeId/timeslots/:startTime/unplan', myEnableCORS);
  * @apiName getCafes
  * @apiGroup app2Cafes
  *
- * @apiParam (Request parameters) {Number} lat Circle center latitude.
- * @apiParam (Request parameters) {Number} lng Circle center longitude.
- * @apiParam (Request parameters) {Number} radius Circle radius.
- * @apiParam (Request parameters) {Number} zoom Map zoom.
+ * @apiParam (Query String Params) {Number} lat Circle center latitude.
+ * @apiParam (Query String Params) {Number} lng Circle center longitude.
+ * @apiParam (Query String Params) {Number} radius Circle radius.
+ * @apiParam (Query String Params) {Number} zoom Map zoom.
  *
  * @apiSuccess {Cafe[]}     results                 Array of cafes inside given circle
  * @apiSuccess {String}     results.name            Cafe name
@@ -174,11 +174,11 @@ router.get('/api/cafes', function(req, res, next) { // eslint-disable-line compl
  * @apiName putCafes
  * @apiGroup app2Cafes
  *
- * @apiParam (Request parameters) {Number} lat Circle center latitude.
- * @apiParam (Request parameters) {Number} lng Circle center longitude.
- * @apiParam (Request parameters) {Number} radius Circle radius.
- * @apiParam (Request parameters) {Number} zoom Map zoom.
- * @apiParam (Request parameters) {String} [selectedCafeId=undefined] Selected cafe id.
+ * @apiParam (Body Params) {Number} lat Circle center latitude.
+ * @apiParam (Body Params) {Number} lng Circle center longitude.
+ * @apiParam (Body Params) {Number} radius Circle radius.
+ * @apiParam (Body Params) {Number} zoom Map zoom.
+ * @apiParam (Body Params) {String} [selectedCafeId=undefined] Selected cafe id.
  *
  * @apiParamExample {json} Parameter example:
  *    {
@@ -224,8 +224,8 @@ router.put('/api/cafes', function(req, res, next) { // eslint-disable-line compl
  * @apiName planCafeTimeslot
  * @apiGroup app2Cafes
  *
- * @apiParam (Request parameters) {String} cafeId Cafe id.
- * @apiParam (Request parameters) {String} startTime Start time.
+ * @apiParam (Url Path Params) {String} cafeId Cafe id.
+ * @apiParam (Url Path Params) {String} startTime Start time.
  *
  * @apiSuccessExample Success response example:
  *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
@@ -284,8 +284,8 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, ne
  * @apiName unplanCafeTimeslot
  * @apiGroup app2Cafes
  *
- * @apiParam (Request parameters) {String} cafeId Cafe id.
- * @apiParam (Request parameters) {String} startTime Start time.
+ * @apiParam (Url Path Params) {String} cafeId Cafe id.
+ * @apiParam (Url Path Params) {String} startTime Start time.
  *
  * @apiSuccessExample Success response example:
  *    curl -X POST -c ../cookies.jar -d 'username=a&password=a' \

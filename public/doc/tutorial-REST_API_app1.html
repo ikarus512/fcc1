@@ -113,7 +113,23 @@
 </li>
 </ul>
 <h1>app1PollsOptions</h1><h2>Create new option for poll with given id, authorized only</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>POST /app1/api/polls/:id/options</code></pre><h3>Request parameters Parameters</h3><table>
+<pre class="prettyprint source"><code>POST /app1/api/polls/:id/options</code></pre><h3>Url Path Params Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">id</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Poll id.</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Body Params Parameters</h3><table>
 <thead>
 <tr>
 <th style="text-align:left">Name</th>
@@ -186,7 +202,28 @@ HTTP/1.1 200 OK
   &quot;error&quot;: &quot;Not Found&quot;,
   &quot;message&quot;: &quot;Error: Resource not found.&quot;
 }</code></pre><h2>Vote for poll option, id is poll id, oid is option id</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>POST /app1/api/polls/:id/options/:oid/vote</code></pre><h3>Success Response</h3><p>Success response example:</p>
+<pre class="prettyprint source"><code>POST /app1/api/polls/:id/options/:oid/vote</code></pre><h3>Url Path Params Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">id</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Poll id.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">oid</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Poll option id.</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Success Response</h3><p>Success response example:</p>
 <pre class="prettyprint source"><code>curl -X POST \
   https://ikarus512-fcc1.herokuapp.com/app1/api/polls/ \
   598f72c73b0962106839617a/options/598f72c73b0962106839617b/vote
@@ -237,7 +274,23 @@ HTTP/1.1 200 OK
   &quot;error&quot;: &quot;Not Found&quot;,
   &quot;message&quot;: &quot;Error: Resource not found.&quot;
 }</code></pre><h1>app1Polls</h1><h2>Delete poll by id, authorized only</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>DELETE /app1/api/polls/:id</code></pre><h3>Success Response</h3><p>Success response example:</p>
+<pre class="prettyprint source"><code>DELETE /app1/api/polls/:id</code></pre><h3>Url Path Params Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">id</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Poll id.</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Success Response</h3><p>Success response example:</p>
 <pre class="prettyprint source"><code>curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
   https://ikarus512-fcc1.herokuapp.com/auth/api/local
 curl -X DELETE -b ../cookies.jar \
@@ -271,7 +324,23 @@ HTTP/1.1 200 OK
   &quot;error&quot;: &quot;Not Found&quot;,
   &quot;message&quot;: &quot;Error: Resource not found.&quot;
 }</code></pre><h2>Get poll by id</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>GET /app1/api/polls/:id</code></pre><h3>Success Response</h3><p>Success response example:</p>
+<pre class="prettyprint source"><code>GET /app1/api/polls/:id</code></pre><h3>Url Path Params Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">id</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Poll id.</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Success Response</h3><p>Success response example:</p>
 <pre class="prettyprint source"><code>curl -X GET https://ikarus512-fcc1.herokuapp.com/app1/api/polls/598f72c73b0962106839617a
 HTTP/1.1 200 OK
 { &quot;title&quot;: &quot;Poll 1&quot;,
@@ -372,7 +441,7 @@ HTTP/1.1 200 OK
   &quot;error&quot;: &quot;Not Found&quot;,
   &quot;message&quot;: &quot;Error: Resource not found.&quot;
 }</code></pre><h2>Create new poll with given title, authorized only</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>POST /app1/api/polls</code></pre><h3>Request parameters Parameters</h3><table>
+<pre class="prettyprint source"><code>POST /app1/api/polls</code></pre><h3>Body Params Parameters</h3><table>
 <thead>
 <tr>
 <th style="text-align:left">Name</th>

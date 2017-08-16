@@ -106,7 +106,7 @@
 </li>
 </ul>
 <h1>app2Cafes</h1><h2>Get cafes</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>GET /app2/api/cafes?lat=DDD&amp;lng=DDD&amp;radius=DDD&amp;zoom=DDD</code></pre><h3>Request parameters Parameters</h3><table>
+<pre class="prettyprint source"><code>GET /app2/api/cafes?lat=DDD&amp;lng=DDD&amp;radius=DDD&amp;zoom=DDD</code></pre><h3>Query String Params Parameters</h3><table>
 <thead>
 <tr>
 <th style="text-align:left">Name</th>
@@ -206,7 +206,7 @@ HTTP/1.1 200 OK
   &quot;error&quot;: &quot;Not Found&quot;,
   &quot;message&quot;: &quot;Error: Resource not found.&quot;
 }</code></pre><h2>Plan cafe timeslot</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/plan</code></pre><h3>Request parameters Parameters</h3><table>
+<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/plan</code></pre><h3>Url Path Params Parameters</h3><table>
 <thead>
 <tr>
 <th style="text-align:left">Name</th>
@@ -244,7 +244,7 @@ HTTP/1.1 200 OK</code></pre><h3>Error Response</h3><p>Error response example:</p
   &quot;error&quot;: &quot;Not Found&quot;,
   &quot;message&quot;: &quot;Error: Resource not found.&quot;
 }</code></pre><h2>Update user session state</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>PUT /app2/api/cafes</code></pre><h3>Request parameters Parameters</h3><table>
+<pre class="prettyprint source"><code>PUT /app2/api/cafes</code></pre><h3>Body Params Parameters</h3><table>
 <thead>
 <tr>
 <th style="text-align:left">Name</th>
@@ -287,7 +287,7 @@ curl -X PUT -b ../cookies.jar -d 'lat=56.312956&lng=43.989955& \
     radius=188.796&zoom=16&selectedCafeId=&quot;5946d049de602f8d6b121f1c&quot;' \
     https://ikarus512-fcc1.herokuapp.com/app2/api/cafes
 HTTP/1.1 200 OK</code></pre><h2>Unplan cafe timeslot</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/unplan</code></pre><h3>Request parameters Parameters</h3><table>
+<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/unplan</code></pre><h3>Url Path Params Parameters</h3><table>
 <thead>
 <tr>
 <th style="text-align:left">Name</th>

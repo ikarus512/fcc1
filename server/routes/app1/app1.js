@@ -176,7 +176,7 @@ router.get('/api/polls', function(req, res, next) {
  * @apiName postPolls
  * @apiGroup app1Polls
  *
- * @apiParam (Request parameters) {String} title New poll title.
+ * @apiParam (Body Params) {String} title New poll title.
  *
  * @apiParamExample {json} Parameter example:
  *    {
@@ -249,6 +249,8 @@ router.post('/api/polls', function(req, res, next) {
  *                  Delete poll by id, authorized only
  * @apiName deletePolls
  * @apiGroup app1Polls
+ *
+ * @apiParam (Url Path Params) {String} id Poll id.
  *
  * @apiSuccess {Poll} results   Poll
  *
@@ -323,6 +325,8 @@ router.delete('/api/polls/:id', function(req, res, next) {
  * @apiName getPoll
  * @apiGroup app1Polls
  *
+ * @apiParam (Url Path Params) {String} id Poll id.
+ *
  * @apiSuccess {Poll}     results               Poll
  * @apiSuccess {String}   results.title         Poll title
  * @apiSuccess {Option[]} results.options       Poll options
@@ -374,7 +378,8 @@ router.get('/api/polls/:id', function(req, res, next) {
  * @apiName postPollOption
  * @apiGroup app1PollsOptions
  *
- * @apiParam (Request parameters) {String} title New option title.
+ * @apiParam (Url Path Params) {String} id Poll id.
+ * @apiParam (Body Params) {String} title New option title.
  *
  * @apiParamExample {json} Parameter example:
  *    {
@@ -453,6 +458,9 @@ router.post('/api/polls/:id/options', function(req, res, next) {
  *              Vote for poll option, id is poll id, oid is option id
  * @apiName postPollOptionVote
  * @apiGroup app1PollsOptions
+ *
+ * @apiParam (Url Path Params) {String} id Poll id.
+ * @apiParam (Url Path Params) {String} oid Poll option id.
  *
  * @apiSuccess {Poll}     results               Poll with new option
  * @apiSuccess {String}   results.title         Poll title
