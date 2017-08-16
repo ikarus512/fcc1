@@ -70,7 +70,7 @@ var
 app.set('port', APPCONST.env.PORT);
 
 app.enable('trust proxy'); // to get req.ip
-if (!isHeroku()) { appHttp.enable('trust proxy'); }
+/*istanbul ignore next*/ if (!isHeroku()) { appHttp.enable('trust proxy'); }
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '../src/views/common'));
@@ -85,17 +85,17 @@ var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-option
 
 var tmpdir1;
 tmpdir1 = path.join(__dirname, '../public/img/app2tmp/');
-fs.exists(tmpdir1, function(exists) { if (!exists) { fs.mkdir(tmpdir1, function() {}); } });
+fs.exists(tmpdir1, /*istanbul ignore next*/ function(exists) {
+    if (!exists) { fs.mkdir(tmpdir1, function() {}); }});
 tmpdir1 = path.join(__dirname, '../public/img/app4tmp/');
-fs.exists(tmpdir1, function(exists) {
-    if (!exists) { // istanbul ignore next
-        fs.mkdir(tmpdir1, function() {});
-    }
-});
+fs.exists(tmpdir1, /*istanbul ignore next*/ function(exists) {
+    if (!exists) { fs.mkdir(tmpdir1, function() {}); }});
 
 // Logs before all middlewares
+// istanbul ignore else
 if (!isHeroku()) {
-    if (!fs.existsSync(logDir)) { /*istanbul ignore next*/ fs.mkdirSync(logDir); }
+    // istanbul ignore next
+    if (!fs.existsSync(logDir)) { fs.mkdirSync(logDir); }
     var logStream = rfs('access.log', {interval: '1d', path: logDir});
 
     // log requests to file
@@ -111,6 +111,7 @@ if (!isHeroku()) {
 require('./middleware/security-headers-common.js')(app);
 
 // Redirect http GET to https
+// istanbul ignore else
 if (!isHeroku()) {
 
     // security headers
@@ -126,7 +127,7 @@ if (!isHeroku()) {
         });
     });
 
-} else { // istanbul ignore next
+} else {
 
     app.use(herokuSslRedirect());
 
@@ -213,6 +214,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Logs, detaled
+// istanbul ignore else
 if (!isHeroku()) {
     app.use(myRequestLogger({file: myLogFile, immediate: true}));
 }
@@ -269,7 +271,8 @@ if (!isHeroku()) {
             console.log('Trying to start https on port ' + app.get('port'));
             server.listen(app.get('port'), function (err) {
                 console.log('NODE_ENV = ' + APPCONST.env.NODE_ENV);
-                if (err) { /*istanbul ignore next*/ throw err; }
+                // istanbul ignore else
+                if (err) { throw err; }
                 console.log('Started https.');
                 return resolve();
             });
@@ -277,7 +280,8 @@ if (!isHeroku()) {
 
         promises.push(new Promise(function(resolve, reject) {
             console.log('Trying to start http on port ' + APPCONST.env.PORT_HTTP);
-            if (APPCONST.env.PORT_HTTP === 80) { // istanbul ignore next
+            // istanbul ignore else
+            if (APPCONST.env.PORT_HTTP === 80) {
                 console.log('Port 80 not accessible on travis-ci.org Linux wihout sudo.');
             }
             serverHttp.listen(APPCONST.env.PORT_HTTP, function (err) {

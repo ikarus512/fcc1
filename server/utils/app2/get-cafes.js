@@ -24,10 +24,10 @@ function getCafes(obj) {
 
     // Default search parameters
     var radius = 188.796, lat = 56.312956, lng = 43.989955; // Nizhny
-    if (obj && obj.lat)    { lat = obj.lat; }
-    if (obj && obj.lng)    { lng = obj.lng; }
-    if (obj && obj.radius) { radius = obj.radius; }
-    var userId; if (obj) { userId = obj.userId; }
+    /*istanbul ignore next*/ if (obj && obj.lat)    { lat = obj.lat; }
+    /*istanbul ignore next*/ if (obj && obj.lng)    { lng = obj.lng; }
+    /*istanbul ignore next*/ if (obj && obj.radius) { radius = obj.radius; }
+    var userId; /*istanbul ignore next*/ if (obj) { userId = obj.userId; }
 
     // Refresh cafes DB (in background)
     refreshCafesGoogle(lat, lng, radius);
@@ -37,14 +37,14 @@ function getCafes(obj) {
 
     // If not found, refresh DB from Google
     .then(function(cafes) {
+        // istanbul ignore next
         if (cafes.length === 0) {
-            // istanbul ignore next
             return refreshCafesGoogle(lat, lng, radius); // Try refresh DB again
         }
         return cafes;
     })
 
-    .catch(/* istanbul ignore next */ function(err) {
+    .catch(/*istanbul ignore next*/ function(err) {
         myErrorLog(null, err);
         return [];
     });
