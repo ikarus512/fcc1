@@ -31,6 +31,7 @@ var
 
     initApp1Data = require('./../init-app1.js'),
     app1Data,
+    pollIdInexistent,
         // Tests here will change only app1Data.polls[0] as follows:
         // - userU: vote
         // - userA: add option, vote
@@ -41,6 +42,8 @@ before(function() {
     return initApp1Data()
     .then(function(res) {
         app1Data = res;
+
+        pollIdInexistent = app1Data.polls[0]._id + 'aaa';
         return undefined;
     });
 });
@@ -100,6 +103,18 @@ parallel('app1-api', function() {
             expect(err).to.equal(null);
             expect(res.status).to.equal(200);
             expect(res.body.title).to.equal(app1Data.titles[0]);
+            done();
+        });
+    });
+
+    it('unauth user should not view inexistent poll', function(done) {
+        request
+        .agent() // to make authenticated requests
+        .get(appUrl + '/app1/api/polls/' + pollIdInexistent)
+        .send({})
+        .end(function(err, res) {
+            expect(err).to.not.equal(null);
+            expect(res.status).to.equal(404);
             done();
         });
     });
@@ -261,6 +276,19 @@ parallel('app1-api', function() {
             expect(err).to.equal(null);
             expect(res.status).to.equal(200);
             expect(res.body.title).to.equal(app1Data.titles[2]);
+            done();
+        });
+    });
+
+    it('auth user should not view inexistent poll', function(done) {
+        request
+        .agent() // to make authenticated requests
+        .get(appUrl + '/app1/api/polls/' + pollIdInexistent)
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
+        .send({})
+        .end(function(err, res) {
+            expect(err).to.not.equal(null);
+            expect(res.status).to.equal(404);
             done();
         });
     });

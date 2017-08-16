@@ -16,7 +16,7 @@
 'use strict';
 
 var ADMIN_PASSWORD;
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') { // istanbul ignore next
     ADMIN_PASSWORD = 'admin'; // Unsecure to keep it here:) But ok for education purposes.
 } else { // test* environment
     ADMIN_PASSWORD = '1234';

@@ -38,12 +38,13 @@ function getCafes(obj) {
     // If not found, refresh DB from Google
     .then(function(cafes) {
         if (cafes.length === 0) {
+            // istanbul ignore next
             return refreshCafesGoogle(lat, lng, radius); // Try refresh DB again
         }
         return cafes;
     })
 
-    .catch(function(err) {
+    .catch(/* istanbul ignore next */ function(err) {
         myErrorLog(null, err);
         return [];
     });

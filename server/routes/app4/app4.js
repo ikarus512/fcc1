@@ -70,12 +70,12 @@ router.get('/api/books', function(req, res, next) {
     })
 
     // On fail, send error response
-    .catch(PublicError, function(err) {
+    .catch(PublicError, /*istanbul ignore next*/ function(err) {
         return res.status(400).json({message:err.toString()});
     })
 
     // Internal error
-    .catch(function(err) {
+    .catch(/*istanbul ignore next*/ function(err) {
         var message = 'Internal error e000000b.';
         myErrorLog(null, err, message);
         return res.status(400).json({message: message});
@@ -98,14 +98,12 @@ router.get('/api/books/:id', function(req, res, next) {
     })
 
     // On fail, send error response
-    // istanbul ignore next
-    .catch(PublicError, function(err) {
+    .catch(PublicError, /*istanbul ignore next*/ function(err) {
         return res.status(400).json({message:err.toString()});
     })
 
     // Internal error
-    // istanbul ignore next
-    .catch(function(err) {
+    .catch(/*istanbul ignore next*/ function(err) {
         var message = 'Internal error e000000c.';
         myErrorLog(null, err, message);
         return res.status(400).json({message: message});

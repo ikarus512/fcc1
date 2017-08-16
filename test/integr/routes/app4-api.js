@@ -55,6 +55,41 @@ parallel('app4-api', function() {
         });
     });
 
+    // WISH: move it to login-api.js test
+    it('unauth user should be able to login via api', function(done) {
+        request.agent()
+        .post(appUrl + '/auth/api/local')
+        .send({username:'a', password:'a'})
+        .end(function(err, res) {
+            expect(err).to.equal(null);
+            expect(res.status).to.equal(200);
+            done();
+        });
+    });
+
+    // WISH: move it to login-api.js test
+    it('unauth user should be able to check if he is logged in, via api', function(done) {
+        request.agent()
+        .get(appUrl + '/auth/api/check')
+        .end(function(err, res) {
+            expect(err).to.not.equal(null);
+            expect(res.status).to.equal(401);
+            done();
+        });
+    });
+
+    // WISH: move it to login-api.js test
+    it('auth user should be able to check if he is logged in, via api', function(done) {
+        request.agent()
+        .get(appUrl + '/auth/api/check')
+        .set('Cookie', app4Data.users.userACookies) // authorize user a
+        .end(function(err, res) {
+            expect(err).to.equal(null);
+            expect(res.status).to.equal(200);
+            done();
+        });
+    });
+
     //==========================================================
     //  auth user
     //==========================================================

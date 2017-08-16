@@ -19,6 +19,7 @@
 /*jshint node: true*/
 'use strict';
 
+// istanbul ignore next
 module.exports = function() {
     return function(req, res, next) {
         if (req.headers['x-forwarded-proto'] !== 'https') {

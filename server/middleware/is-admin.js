@@ -15,15 +15,31 @@
 /*jshint node: true*/
 'use strict';
 
-module.exports = function isAdmin(req, res, next) {
-    if (
-      req.isAuthenticated() &&
-      req.user && req.user.local && req.user.local.username === 'admin'
-    )
-    {
-        return next(null);
-    }
+module.exports = {
+    check: /*istanbul ignore next*/ function check(req, res, next) {
+        if (
+          req.isAuthenticated() &&
+          req.user && req.user.local && req.user.local.username === 'admin'
+        )
+        {
+            return next();
+        }
 
-    res.redirect('/');
+        return next(new Error('Please login as admin to see statmon page'));
+
+    },
+
+    errHandler: /*istanbul ignore next*/ function errHandler(err, req, res, next) {
+
+        // res.redirect('/login');
+
+        var message = 'Internal error e0000015.';
+        // myErrorLog(req, err, message);
+        return res.status(404).json({
+            error: 'Not Found',
+            message: message
+        });
+
+    }
 
 };

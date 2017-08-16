@@ -36,6 +36,7 @@ var
     shareit = require('../../utils/shareit.js'),
     createUnauthorizedUser = require('../../middleware/create-unauthorized-user.js'),
     Promise = require('bluebird'),
+    myErrorLog = require('../../utils/my-error-log.js'),
     myEnableCORS = require('../../middleware/my-enable-cors.js'),
 
     Poll = require('../../models/app1-polls.js'),
@@ -59,6 +60,7 @@ router.get('/polls/:id',
 
         .then(function(poll) {
             if (!poll) { // if found, add to req
+                // istanbul ignore next
                 throw new Error('Poll not found.');
             } else { // if found, add to req
                 req.pollTitle = poll.title;
@@ -69,9 +71,17 @@ router.get('/polls/:id',
         // In case of error
         .catch(function(err) { // eslint-disable-line handle-callback-err
             req.pollTitle = '';
-            next();
+            return next(err);
         });
 
+    },
+    function(err, req, res, next) { // Error handler
+        var message = 'Internal error e0000014.';
+        myErrorLog(req, err, message);
+        return res.status(404).json({
+            error: 'Not Found',
+            message: message
+        });
     },
     function(req, res, next) {
         res.render('app1_poll', greet(
@@ -161,7 +171,7 @@ router.get('/api/polls', function(req, res, next) {
     })
 
     // Catch all errors and respond with error message
-    .catch(function(err) {
+    .catch(/*istanbul ignore next*/ function(err) {
         return res.status(404).json({
             error: 'Not Found',
             message: err.toString()
@@ -283,6 +293,7 @@ router.delete('/api/polls/:id', function(req, res, next) {
         if (poll) { // if found
             return poll;
         } else { // if not found, report error
+            // istanbul ignore next
             throw new Error('No poll with _id=' + req.params.id + '.');
         }
     })
@@ -353,6 +364,7 @@ router.get('/api/polls/:id', function(req, res, next) {
         if (poll) { // if found
             return poll;
         } else { // if not found, report error
+            // istanbul ignore next
             throw new Error('No poll with _id=' + req.params.id + '.');
         }
     })
@@ -425,6 +437,7 @@ router.post('/api/polls/:id/options', function(req, res, next) {
         if (poll) { // if found
             return poll;
         } else { // if not found, report error
+            // istanbul ignore next
             throw new Error('No poll with _id=' + req.params.id + '.');
         }
     })
@@ -494,6 +507,7 @@ router.put('/api/polls/:id/options/:oid/vote',
         if (poll) { // if found
             return poll;
         } else { // if not found, report error
+            // istanbul ignore next
             throw new Error('No poll with _id=' + req.params.id + '.');
         }
     })
@@ -507,6 +521,7 @@ router.put('/api/polls/:id/options/:oid/vote',
           undefined;
 
         if (!userId) {
+            // istanbul ignore next
             throw new Error('Problem identifying user for voting.');
         }
 
@@ -521,6 +536,7 @@ router.put('/api/polls/:id/options/:oid/vote',
         })
         )
         {
+            // istanbul ignore next
             throw new Error('You already voted in this poll for ' + votedOption.title + '.');
         }
 
@@ -531,6 +547,7 @@ router.put('/api/polls/:id/options/:oid/vote',
             })
         )
         {
+            // istanbul ignore next
             throw new Error('Option with this title does not exist.');
         }
 

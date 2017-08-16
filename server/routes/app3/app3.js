@@ -102,6 +102,7 @@ router.get('/api/get-ws-ticket', function(req, res, next) {
 
     } catch (err) {
 
+        // istanbul ignore next
         if (err instanceof PublicError) {
             return res.status(404).json({
                 error: 'Not Found',

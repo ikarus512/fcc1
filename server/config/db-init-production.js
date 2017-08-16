@@ -21,6 +21,7 @@ var
     Promise = require('bluebird'),
     myErrorLog = require('../utils/my-error-log.js');
 
+// istanbul ignore next
 function dbInit(done) {
 
     var promises = [

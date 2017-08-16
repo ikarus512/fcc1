@@ -19,7 +19,7 @@ var
     APPCONST = require('./../config/constants.js'),
     socketIo = require('socket.io');
 
-module.exports = function(server, shutdownFunction) {
+module.exports = /*istanbul ignore next*/ function(server, shutdownFunction) {
 
     if (APPCONST.env.NODE_ENV !== 'production') {
 

@@ -92,7 +92,7 @@ function dbInit(done) {
         return done();
     })
 
-    .catch(function(err) {
+    .catch(/*istanbul ignore next*/ function(err) {
         throw err;
     });
 }
@@ -100,9 +100,9 @@ function dbInit(done) {
 function clearSessionsCollection(callback) {
     var MongoClient = mongoDb.MongoClient;
     MongoClient.connect(dbUrl, function(err, db) {
-        if (err) { throw err; }
+        if (err) { /*istanbul ignore next*/ throw err; }
         db.collection('sessions').remove({}, function(err, result) {
-            if (err) { throw err; }
+            if (err) { /*istanbul ignore next*/ throw err; }
             db.close(callback);
         });
     });
@@ -134,7 +134,8 @@ function clearDB(callback) {
     }
 
     if (mongoose.connection.readyState === 0) {
-        mongoose.connect(dbUrl, function (err) {
+        // istanbul ignore next
+        mongoose.connect(dbUrl, function(err) {
             if (err) { throw err; }
             clearDBLoop(callback);
         });

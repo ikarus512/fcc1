@@ -159,7 +159,7 @@ router.get('/api/cafes', function(req, res, next) { // eslint-disable-line compl
         return res.status(200).json(cafes);
     })
 
-    .catch(function(err) {
+    .catch(/*istanbul ignore next*/ function(err) {
         myErrorLog(null, err);
         return res.status(404).json({
             error: 'Not Found',
@@ -268,7 +268,7 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, ne
     })
 
     // Internal error
-    .catch(function(err) {
+    .catch(/*istanbul ignore next*/ function(err) {
         var message = 'Internal error e0000007.';
         myErrorLog(req, err, message);
         return res.status(404).json({
@@ -308,13 +308,6 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
         });
     }
 
-    if (!req.isAuthenticated()) {
-        return res.status(401).json({
-            error: 'Unauthorized',
-            message:'Error: Only authorized person can plan cafe timeslot.'
-        });
-    }
-
     Cafe.unplanTimeslot({
         userId: req.user._id,
         cafeId: req.params.cafeId,
@@ -327,7 +320,7 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
     })
 
     // On fail, send error response
-    .catch(PublicError, function(err) {
+    .catch(/*istanbul ignore next*/ PublicError, function(err) {
         return res.status(404).json({
             error: 'Not Found',
             message:err.toString()
@@ -335,7 +328,7 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/unplan', function(req, res, 
     })
 
     // Internal error
-    .catch(function(err) {
+    .catch(/*istanbul ignore next*/ function(err) {
         var message = 'Internal error e0000007.';
         myErrorLog(req, err, message);
         return res.status(404).json({

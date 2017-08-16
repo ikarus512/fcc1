@@ -36,7 +36,7 @@ module.exports = function(req, res, next) {
     })
 
     // Ignore errors
-    .catch(function(err) { // eslint-disable-line handle-callback-err
+    .catch(/*istanbul ignore next*/ function(err) { // eslint-disable-line handle-callback-err
         return next();
     });
 

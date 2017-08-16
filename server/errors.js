@@ -16,6 +16,7 @@
 'use strict';
 
 var internalErrors = {
+    'e0000014': 'Error during GET /app1/polls/:id',
     'e0000013': 'Error during GET /app4/api/get-ws-ticket',
     'e0000012': 'Error during POST /app4/api/books/:bookId/choose',
     'e0000011': 'Error during POST /app4/api/books/:id/bid',

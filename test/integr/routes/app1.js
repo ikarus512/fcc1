@@ -31,13 +31,15 @@ var
 
     initApp1Data = require('./../init-app1.js'),
     app1Data,
-    pollId;
+    pollId,
+    pollIdInexistent;
 
 before(function() {
     return initApp1Data()
     .then(function(res) {
         app1Data = res;
         pollId = app1Data.polls[0]._id;
+        pollIdInexistent = pollId + 'aaa';
         return undefined;
     });
 });
@@ -54,7 +56,7 @@ parallel('app1', function() {
 
             expect(res.text).to.not.contain('local / a');
 
-            // and should redirect to home
+            // and should redirect
             expect(res.request.url).to.equal(appUrl + '/app1/polls');
             expect(res.redirects).to.have.lengthOf(1);
             expect(res.redirects[0]).to.equal(appUrl + '/app1/polls');
@@ -71,7 +73,7 @@ parallel('app1', function() {
 
             expect(res.text).to.not.contain('local / a');
 
-            // and should redirect to home
+            // and should redirect
             expect(res.request.url).to.equal(appUrl + '/app1/polls/' + pollId);
             expect(res.redirects).to.have.lengthOf(0);
         });
@@ -88,7 +90,7 @@ parallel('app1', function() {
 
             expect(res.text).to.contain('local / a');
 
-            // and should redirect to home
+            // and should redirect
             expect(res.request.url).to.equal(appUrl + '/app1/polls');
             expect(res.redirects).to.have.lengthOf(1);
             expect(res.redirects[0]).to.equal(appUrl + '/app1/polls');
@@ -106,9 +108,27 @@ parallel('app1', function() {
 
             expect(res.text).to.contain('local / a');
 
-            // and should redirect to home
+            // and should not redirect
             expect(res.request.url).to.equal(appUrl + '/app1/polls/' + pollId);
             expect(res.redirects).to.have.lengthOf(0);
+        });
+
+    });
+
+    it('auth user should not view inexsistent poll', function() {
+        return request
+        .agent() // to make authenticated requests
+        .get(appUrl + '/app1/polls/' + pollIdInexistent)
+        .set('Cookie', app1Data.users.userACookies) // authorize user a
+        .then(function(res) {
+            throw new Error('This test branch is not expected');
+        })
+        .catch(function(err) {
+            expect(err).to.not.equal(null);
+            expect(err.response.status).to.equal(404);
+            // and should not redirect
+            expect(err.response.request.url).to.equal(appUrl + '/app1/polls/' + pollIdInexistent);
+            expect(err.response.redirects).to.have.lengthOf(0);
         });
 
     });

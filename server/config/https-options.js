@@ -20,6 +20,7 @@ var
     httpsOptions = null,
     path = require('path');
 
+// istanbul ignore next
 try {
 
     // Try to load .pem files in _certificate/ folder:

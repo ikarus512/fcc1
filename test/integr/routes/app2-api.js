@@ -78,8 +78,8 @@ parallel('app2-api', function() {
             lat: 56.312956,
             lng: 43.989955,
             radius: 188.796,
-            zoom: 16
-            // selectedCafeId: undefined
+            zoom: 16,
+            selectedCafeId: app2Data.cafes[0]._id
         })
         .end(function(err, res) {
             expect(err).to.equal(null);
@@ -88,7 +88,7 @@ parallel('app2-api', function() {
         });
     });
 
-    it('auth user should add himself to a cafe plans', function(done) {
+    it('unauth user should not plan to attend cafe', function(done) {
         var start = new Date();
         start.setMinutes(
             Math.floor(start.getMinutes() / APPCONST.APP2_TIMESLOT_LENGTH) *
@@ -103,6 +103,29 @@ parallel('app2-api', function() {
             '/timeslots/' +
             start +
             '/plan'
+        )
+        .end(function(err, res) {
+            expect(err).to.not.equal(null);
+            expect(res.status).to.equal(401);
+            done();
+        });
+    });
+
+    it('unauth user should not unplan to attend cafe', function(done) {
+        var start = new Date();
+        start.setMinutes(
+            Math.floor(start.getMinutes() / APPCONST.APP2_TIMESLOT_LENGTH) *
+            APPCONST.APP2_TIMESLOT_LENGTH + 5
+        );
+
+        request
+        .agent() // to make authenticated requests
+        .put(appUrl +
+            '/app2/api/cafes/' +
+            app2Data.cafes[0]._id +
+            '/timeslots/' +
+            start +
+            '/unplan'
         )
         .end(function(err, res) {
             expect(err).to.not.equal(null);

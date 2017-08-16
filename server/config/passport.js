@@ -41,7 +41,7 @@ module.exports = function (passport) {
             return done(null, user);
         })
 
-        .catch(function(err) {
+        .catch(/*istanbul ignore next*/ function(err) {
             var message = 'Internal error e0000001.';
             myErrorLog(req, err, message);
             return done(null, false, req.flash('message', message));
@@ -76,7 +76,7 @@ module.exports = function (passport) {
                 return done(null, false, req.flash('message', err.message));
             })
 
-            .catch(function(err) {
+            .catch(/*istanbul ignore next*/ function(err) {
                 var message = 'Internal error e0000002.';
                 myErrorLog(req, err, message);
                 return done(null, false, req.flash('message', message));
@@ -85,6 +85,7 @@ module.exports = function (passport) {
         } // localVerify()
     ));
 
+    // istanbul ignore next
     passport.use(new FacebookStrategy(
         {
             clientID: APPCONST.env.APP_FACEBOOK_KEY,
@@ -127,6 +128,7 @@ module.exports = function (passport) {
     // Twitter
     // Docs: https://dev.twitter.com/docs --> my apps / create app
     // My apps: https://apps.twitter.com/app
+    // istanbul ignore next
     passport.use(new TwitterStrategy(
         {
             consumerKey: APPCONST.env.APP_TWITTER_KEY,
@@ -166,6 +168,7 @@ module.exports = function (passport) {
         } // twitterVerify()
     ));
 
+    // istanbul ignore next
     passport.use(new GitHubStrategy(
         {
             clientID: APPCONST.env.APP_GITHUB_KEY,

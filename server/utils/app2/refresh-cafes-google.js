@@ -27,6 +27,7 @@ var
     PHOTO_REFERENCE = 'photo_reference',
     PLACE_ID = 'place_id';
 
+// istanbul ignore next
 function googleRequest(lat, lng, radius, dataIn) {
 
     // Delay between google requests
@@ -135,6 +136,7 @@ function googleRequest(lat, lng, radius, dataIn) {
 
 } // function googleRequest(...)
 
+// istanbul ignore next
 function googleRequestLoop(lat, lng, radius, dataIn) {
 
     if (!dataIn) { // Here if first request
@@ -156,6 +158,7 @@ function googleRequestLoop(lat, lng, radius, dataIn) {
 
 } // function googleRequestLoop(...)
 
+// istanbul ignore next
 function cafeFilterAndSave(cafes) {
 
     //
@@ -222,6 +225,7 @@ function cafeFilterAndSave(cafes) {
 
 } // function cafeFilterAndSave(...)
 
+// istanbul ignore next
 function refreshCafesGoogle(lat, lng, radius) {
 
     if (APPCONST.APP2_GOOGLE_SEARCH_ENABLED) {

@@ -20,17 +20,17 @@ var
     PublicError = require('../utils/public-error.js'),
     myErrorLog = require('../utils/my-error-log.js');
 
-module.exports = function (app, passport, isLoggedIn, greet) {
+module.exports = function(app, passport, isLoggedIn, greet) {
 
     // /settings route (protected)
     app.route('/settings')
-    .get(isLoggedIn, function (req, res) {
+    .get(isLoggedIn, function(req, res) {
         res.render('settings', greet(req));
     });
 
     // GET /settings/api/users/:id
     app.route('/settings/api/users/:id')
-    .get(function (req, res) {
+    .get(/*istanbul ignore next*/ function(req, res) {
 
         var uid;
         if (req.isAuthenticated()) { uid = req.user._id; }
@@ -59,7 +59,7 @@ module.exports = function (app, passport, isLoggedIn, greet) {
 
     // DELETE /settings/api/users/:id
     app.route('/settings/api/users/:id')
-    .delete(function (req, res) {
+    .delete(/*istanbul ignore next*/ function(req, res) {
 
         var uid;
         if (req.isAuthenticated()) { uid = req.user._id; }
@@ -88,7 +88,7 @@ module.exports = function (app, passport, isLoggedIn, greet) {
 
     // POST /settings/api/users/:id
     app.route('/settings/api/users/:id')
-    .post(function (req, res) {
+    .post(/*istanbul ignore next*/ function(req, res) {
 
         var uid;
         if (req.isAuthenticated()) { uid = req.user._id; }
