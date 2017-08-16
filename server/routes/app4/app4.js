@@ -98,11 +98,13 @@ router.get('/api/books/:id', function(req, res, next) {
     })
 
     // On fail, send error response
+    // istanbul ignore next
     .catch(PublicError, function(err) {
         return res.status(400).json({message:err.toString()});
     })
 
     // Internal error
+    // istanbul ignore next
     .catch(function(err) {
         var message = 'Internal error e000000c.';
         myErrorLog(null, err, message);
