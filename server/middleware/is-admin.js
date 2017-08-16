@@ -17,6 +17,7 @@
 
 module.exports = {
     check: /*istanbul ignore next*/ function check(req, res, next) {
+        // istanbul ignore next
         if (
           req.isAuthenticated() &&
           req.user && req.user.local && req.user.local.username === 'admin'
