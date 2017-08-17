@@ -97,15 +97,96 @@
     <p><a name="top"></a></p>
 <h1>DynApps REST API v0.1.0</h1><p>DynApps REST API</p>
 <ul>
-<li><a href="#app2cafes">app2Cafes</a><ul>
-<li><a href="#get-cafes">Get cafes</a></li>
+<li><p><a href="#app2cafestimeslots">app2CafesTimeslots</a></p>
+<ul>
 <li><a href="#plan-cafe-timeslot">Plan cafe timeslot</a></li>
-<li><a href="#update-user-session-state">Update user session state</a></li>
 <li><a href="#unplan-cafe-timeslot">Unplan cafe timeslot</a></li>
 </ul>
 </li>
+<li><p><a href="#app2cafes">app2Cafes</a></p>
+<ul>
+<li><a href="#get-cafes">Get cafes</a></li>
+<li><a href="#update-user-session-state">Update user session state</a></li>
 </ul>
-<h1>app2Cafes</h1><h2>Get cafes</h2><p><a href="#top">Back to top</a></p>
+</li>
+</ul>
+<h1>app2CafesTimeslots</h1><h2>Plan cafe timeslot</h2><p><a href="#top">Back to top</a></p>
+<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/plan</code></pre><h3>Url Path Params Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">cafeId</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Cafe id.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">startTime</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Start time.</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Success Response</h3><p>Success response example:</p>
+<pre class="prettyprint source"><code>curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+    https://ikarus512-fcc1.herokuapp.com/auth/api/local
+curl -X PUT -b ../cookies.jar \
+    https://ikarus512-fcc1.herokuapp.com/app2/api/cafes/ \
+    5946d049de602f8d6b121f1c/timeslots/15%20Aug%202017%2023:30:00/plan
+HTTP/1.1 200 OK</code></pre><h3>Error Response</h3><p>Error response example:</p>
+<pre class="prettyprint source"><code>HTTP/1.1 401 Unauthorized
+{
+  &quot;error&quot;: &quot;Unauthorized&quot;,
+  &quot;message&quot;: &quot;Error: User has not logged in.&quot;
+}</code></pre><p>Error response example:</p>
+<pre class="prettyprint source"><code>HTTP/1.1 404 Not Found
+{
+  &quot;error&quot;: &quot;Not Found&quot;,
+  &quot;message&quot;: &quot;Error: Resource not found.&quot;
+}</code></pre><h2>Unplan cafe timeslot</h2><p><a href="#top">Back to top</a></p>
+<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/unplan</code></pre><h3>Url Path Params Parameters</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">cafeId</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Cafe id.</p></td>
+</tr>
+<tr>
+<td style="text-align:left">startTime</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left"><p>Start time.</p></td>
+</tr>
+</tbody>
+</table>
+<h3>Success Response</h3><p>Success response example:</p>
+<pre class="prettyprint source"><code>curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
+    https://ikarus512-fcc1.herokuapp.com/auth/api/local
+curl -X PUT -b ../cookies.jar \
+    https://ikarus512-fcc1.herokuapp.com/app2/api/cafes/ \
+    5946d049de602f8d6b121f1c/timeslots/15%20Aug%202017%2023:30:00/unplan
+HTTP/1.1 200 OK</code></pre><h3>Error Response</h3><p>Error response example:</p>
+<pre class="prettyprint source"><code>HTTP/1.1 401 Unauthorized
+{
+  &quot;error&quot;: &quot;Unauthorized&quot;,
+  &quot;message&quot;: &quot;Error: User has not logged in.&quot;
+}</code></pre><p>Error response example:</p>
+<pre class="prettyprint source"><code>HTTP/1.1 404 Not Found
+{
+  &quot;error&quot;: &quot;Not Found&quot;,
+  &quot;message&quot;: &quot;Error: Resource not found.&quot;
+}</code></pre><h1>app2Cafes</h1><h2>Get cafes</h2><p><a href="#top">Back to top</a></p>
 <pre class="prettyprint source"><code>GET /app2/api/cafes?lat=DDD&amp;lng=DDD&amp;radius=DDD&amp;zoom=DDD</code></pre><h3>Query String Params Parameters</h3><table>
 <thead>
 <tr>
@@ -205,44 +286,6 @@ HTTP/1.1 200 OK
 {
   &quot;error&quot;: &quot;Not Found&quot;,
   &quot;message&quot;: &quot;Error: Resource not found.&quot;
-}</code></pre><h2>Plan cafe timeslot</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/plan</code></pre><h3>Url Path Params Parameters</h3><table>
-<thead>
-<tr>
-<th style="text-align:left">Name</th>
-<th style="text-align:left">Type</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">cafeId</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left"><p>Cafe id.</p></td>
-</tr>
-<tr>
-<td style="text-align:left">startTime</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left"><p>Start time.</p></td>
-</tr>
-</tbody>
-</table>
-<h3>Success Response</h3><p>Success response example:</p>
-<pre class="prettyprint source"><code>curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
-    https://ikarus512-fcc1.herokuapp.com/auth/api/local
-curl -X PUT -b ../cookies.jar \
-    https://ikarus512-fcc1.herokuapp.com/app2/api/cafes/ \
-    5946d049de602f8d6b121f1c/timeslots/15%20Aug%202017%2023:30:00/plan
-HTTP/1.1 200 OK</code></pre><h3>Error Response</h3><p>Error response example:</p>
-<pre class="prettyprint source"><code>HTTP/1.1 401 Unauthorized
-{
-  &quot;error&quot;: &quot;Unauthorized&quot;,
-  &quot;message&quot;: &quot;Error: User has not logged in.&quot;
-}</code></pre><p>Error response example:</p>
-<pre class="prettyprint source"><code>HTTP/1.1 404 Not Found
-{
-  &quot;error&quot;: &quot;Not Found&quot;,
-  &quot;message&quot;: &quot;Error: Resource not found.&quot;
 }</code></pre><h2>Update user session state</h2><p><a href="#top">Back to top</a></p>
 <pre class="prettyprint source"><code>PUT /app2/api/cafes</code></pre><h3>Body Params Parameters</h3><table>
 <thead>
@@ -286,45 +329,7 @@ HTTP/1.1 200 OK</code></pre><h3>Error Response</h3><p>Error response example:</p
 curl -X PUT -b ../cookies.jar -d 'lat=56.312956&lng=43.989955& \
     radius=188.796&zoom=16&selectedCafeId=&quot;5946d049de602f8d6b121f1c&quot;' \
     https://ikarus512-fcc1.herokuapp.com/app2/api/cafes
-HTTP/1.1 200 OK</code></pre><h2>Unplan cafe timeslot</h2><p><a href="#top">Back to top</a></p>
-<pre class="prettyprint source"><code>PUT /app2/api/cafes/:cafeId/timeslots/:startTime/unplan</code></pre><h3>Url Path Params Parameters</h3><table>
-<thead>
-<tr>
-<th style="text-align:left">Name</th>
-<th style="text-align:left">Type</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">cafeId</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left"><p>Cafe id.</p></td>
-</tr>
-<tr>
-<td style="text-align:left">startTime</td>
-<td style="text-align:left">String</td>
-<td style="text-align:left"><p>Start time.</p></td>
-</tr>
-</tbody>
-</table>
-<h3>Success Response</h3><p>Success response example:</p>
-<pre class="prettyprint source"><code>curl -X POST -c ../cookies.jar -d 'username=a&password=a' \
-    https://ikarus512-fcc1.herokuapp.com/auth/api/local
-curl -X PUT -b ../cookies.jar \
-    https://ikarus512-fcc1.herokuapp.com/app2/api/cafes/ \
-    5946d049de602f8d6b121f1c/timeslots/15%20Aug%202017%2023:30:00/unplan
-HTTP/1.1 200 OK</code></pre><h3>Error Response</h3><p>Error response example:</p>
-<pre class="prettyprint source"><code>HTTP/1.1 401 Unauthorized
-{
-  &quot;error&quot;: &quot;Unauthorized&quot;,
-  &quot;message&quot;: &quot;Error: User has not logged in.&quot;
-}</code></pre><p>Error response example:</p>
-<pre class="prettyprint source"><code>HTTP/1.1 404 Not Found
-{
-  &quot;error&quot;: &quot;Not Found&quot;,
-  &quot;message&quot;: &quot;Error: Resource not found.&quot;
-}</code></pre>
+HTTP/1.1 200 OK</code></pre>
 </article>
 
 </section>

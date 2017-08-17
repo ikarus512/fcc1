@@ -230,7 +230,7 @@ router.put('/api/cafes', function(req, res, next) { // eslint-disable-line compl
 /**
  * @api {put} /app2/api/cafes/:cafeId/timeslots/:startTime/plan Plan cafe timeslot
  * @apiName planCafeTimeslot
- * @apiGroup app2Cafes
+ * @apiGroup app2CafesTimeslots
  *
  * @apiParam (Url Path Params) {String} cafeId Cafe id.
  * @apiParam (Url Path Params) {String} startTime Start time.
@@ -290,7 +290,7 @@ router.put('/api/cafes/:cafeId/timeslots/:startTime/plan', function(req, res, ne
 /**
  * @api {put} /app2/api/cafes/:cafeId/timeslots/:startTime/unplan Unplan cafe timeslot
  * @apiName unplanCafeTimeslot
- * @apiGroup app2Cafes
+ * @apiGroup app2CafesTimeslots
  *
  * @apiParam (Url Path Params) {String} cafeId Cafe id.
  * @apiParam (Url Path Params) {String} startTime Start time.
