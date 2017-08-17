@@ -7,14 +7,11 @@
 [![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1) <!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status", src="https://saucelabs.com/browser-matrix/chaijs.svg") --> <!-- [![Code Climate Coverage](https://img.shields.io/codeclimate/coverage/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1) -->
 [![Code Climate Issues](https://img.shields.io/codeclimate/issues/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1/issues)
 
-[![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1)
-[![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1)
-[![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies)
+[![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1) <!-- [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1) --> <!-- [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies) -->
 
 <!-- [![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1) -->
 <!-- [![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1) -->
-![Node Version](https://img.shields.io/badge/node-%3E=6.0-brightgreen.svg)
-![NPM Version](https://img.shields.io/badge/npm-%3E=5.0-brightgreen.svg) <!-- [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) -->
+![Node Version](https://img.shields.io/badge/node-v6-brightgreen.svg) <!-- ![NPM Version](https://img.shields.io/badge/npm-%3E=5.0-brightgreen.svg) --> <!-- [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) -->
 [![Coding Standard Angular](https://img.shields.io/badge/code%20style-angular-brightgreen.svg)](https://github.com/johnpapa/angular-styleguide/)
 [![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?label=lic&maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
