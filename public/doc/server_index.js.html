@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>DynApps-Docs Source: server/index.js</title>
+	<title>DynApps Source: server/index.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -21,7 +21,7 @@
 <div class="container">
 	<div class="navbar-header">
 		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="/img/logo.png"
-		alt="logo"/>DynApps-Docs</a>
+		alt="logo"/>DynApps</a>
 		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -164,7 +164,7 @@ var
 app.set('port', APPCONST.env.PORT);
 
 app.enable('trust proxy'); // to get req.ip
-if (!isHeroku()) { appHttp.enable('trust proxy'); }
+/*istanbul ignore next*/ if (!isHeroku()) { appHttp.enable('trust proxy'); }
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '../src/views/common'));
@@ -179,12 +179,16 @@ var expressStatusMonitor = ExpressStatusMonitor(require('./config/statmon-option
 
 var tmpdir1;
 tmpdir1 = path.join(__dirname, '../public/img/app2tmp/');
-fs.exists(tmpdir1, function(exists) { if (!exists) { fs.mkdir(tmpdir1, function() {}); } });
+fs.exists(tmpdir1, /*istanbul ignore next*/ function(exists) {
+    if (!exists) { fs.mkdir(tmpdir1, function() {}); }});
 tmpdir1 = path.join(__dirname, '../public/img/app4tmp/');
-fs.exists(tmpdir1, function(exists) { if (!exists) { fs.mkdir(tmpdir1, function() {}); } });
+fs.exists(tmpdir1, /*istanbul ignore next*/ function(exists) {
+    if (!exists) { fs.mkdir(tmpdir1, function() {}); }});
 
 // Logs before all middlewares
+// istanbul ignore else
 if (!isHeroku()) {
+    // istanbul ignore next
     if (!fs.existsSync(logDir)) { fs.mkdirSync(logDir); }
     var logStream = rfs('access.log', {interval: '1d', path: logDir});
 
@@ -201,6 +205,7 @@ if (!isHeroku()) {
 require('./middleware/security-headers-common.js')(app);
 
 // Redirect http GET to https
+// istanbul ignore else
 if (!isHeroku()) {
 
     // security headers
@@ -226,7 +231,7 @@ app.use(expressStatusMonitor);
 
 // Static
 function depStatic(url, localFilePath) {
-    app.get(url, function(req, res) {
+    app.get(url, /*istanbul ignore next*/ function(req, res) {
         var
             basename = path.basename(url),
             fullLocalFilePath = path.join(
@@ -303,6 +308,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Logs, detaled
+// istanbul ignore else
 if (!isHeroku()) {
     app.use(myRequestLogger({file: myLogFile, immediate: true}));
 }
@@ -315,7 +321,7 @@ app.use(rateLimitAll);
 ////////////////////////////////////////////////////////////////
 
 // status monitor
-app.get('/statmon', isAdmin, expressStatusMonitor.pageRoute);
+app.get('/statmon', isAdmin.check, isAdmin.errHandler, expressStatusMonitor.pageRoute);
 
 // passport login-related routes
 require('./routes/passport-login.js')(app, passport);
@@ -344,6 +350,7 @@ app.all('*', function (req, res) {
 
 var server, serverHttp, boot, shutdown;
 
+// istanbul ignore else
 if (!isHeroku()) {
     // Here if run on local host
 
@@ -358,6 +365,7 @@ if (!isHeroku()) {
             console.log('Trying to start https on port ' + app.get('port'));
             server.listen(app.get('port'), function (err) {
                 console.log('NODE_ENV = ' + APPCONST.env.NODE_ENV);
+                // istanbul ignore next
                 if (err) { throw err; }
                 console.log('Started https.');
                 return resolve();
@@ -366,16 +374,19 @@ if (!isHeroku()) {
 
         promises.push(new Promise(function(resolve, reject) {
             console.log('Trying to start http on port ' + APPCONST.env.PORT_HTTP);
+            // istanbul ignore next
             if (APPCONST.env.PORT_HTTP === 80) {
                 console.log('Port 80 not accessible on travis-ci.org Linux wihout sudo.');
             }
             serverHttp.listen(APPCONST.env.PORT_HTTP, function (err) {
+                // istanbul ignore next
                 if (err) { throw err; }
                 console.log('Started http.');
                 return resolve();
             });
         }));
 
+        // istanbul ignore next
         if (APPCONST.env.NODE_ENV.match(/^test/)) {
             // Here if test env.
             // Wait for DB initialization:
@@ -386,6 +397,7 @@ if (!isHeroku()) {
         .then(function() {
             console.log('Server ready.');
 
+            // istanbul ignore next
             if (!APPCONST.env.NODE_ENV.match(/^test/)) {
                 // Here if not test env (production).
                 // Do not wait for DB initialization.
@@ -398,7 +410,10 @@ if (!isHeroku()) {
             // Start webSocket server
             webSocketInit({server:server});
 
+            // istanbul ignore next
             if (done) { return done(); }
+
+            // istanbul ignore next
             return;
         });
 
@@ -441,15 +456,18 @@ function shutdownFunctionNonHeroku(done) {
         console.log('Stopped https.');
     });
 
+    // istanbul ignore else
     if (!isHeroku()) {
         serverHttp.close(function() {
             console.log('Stopped http.');
         });
     }
 
+    // istanbul ignore else
     if (done) { return done(); }
 }
 
+// istanbul ignore if
 if (require.main === module) {
     boot();
 } else {
@@ -505,7 +523,7 @@ if (require.main === module) {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
 	
-		on 2017/08/16
+		on 2017/08/17
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

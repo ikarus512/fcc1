@@ -23,7 +23,7 @@
     "outputSourceFiles": true,
     "outputSourcePath": true,
     "protocol": "html://",
-    "systemName": "DynApps-Docs",
+    "systemName": "DynApps",
     "theme": "cerulean"
   }
 }

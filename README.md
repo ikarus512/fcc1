@@ -1,44 +1,27 @@
 # fcc1 DynApps
 
-[![Build Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1)
-[![Build Status on Windows](https://ci.appveyor.com/api/projects/status/github/ikarus512/fcc1?branch=master&svg=true)](https://ci.appveyor.com/project/ikarus512/fcc1)
+[FreeCodeCamp](https://FreeCodeCamp.com) development tasks. Running application available at [ikarus512-fcc1.herokuapp.com](https://ikarus512-fcc1.herokuapp.com)
 
-[![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1) <!-- [![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1) -->
-[![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1) <!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status", src="https://saucelabs.com/browser-matrix/chaijs.svg") --> <!-- [![Code Climate Coverage](https://img.shields.io/codeclimate/coverage/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1) -->
-[![Code Climate Issues](https://img.shields.io/codeclimate/issues/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1/issues)
+[![Build Status](https://travis-ci.org/ikarus512/fcc1.svg?branch=master)](https://travis-ci.org/ikarus512/fcc1) [![Build Status on Windows](https://ci.appveyor.com/api/projects/status/github/ikarus512/fcc1?branch=master&svg=true)](https://ci.appveyor.com/project/ikarus512/fcc1) [![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1) <!-- [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1) --> <!-- [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies) --> [![Coverage Status](https://coveralls.io/repos/github/ikarus512/fcc1/badge.svg)](https://coveralls.io/github/ikarus512/fcc1) <!-- [![Code Coverage](https://codecov.io/gh/ikarus512/fcc1/branch/master/graph/badge.svg)](https://codecov.io/gh/ikarus512/fcc1) --> [![Code Climate](https://codeclimate.com/github/ikarus512/fcc1/badges/gpa.svg)](https://codeclimate.com/github/ikarus512/fcc1) <!-- a(href='https://saucelabs.com/u/chaijs')  img(alt="Selenium Test Status", src="https://saucelabs.com/browser-matrix/chaijs.svg") --> <!-- [![Code Climate Coverage](https://img.shields.io/codeclimate/coverage/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1) --> [![Code Climate Issues](https://img.shields.io/codeclimate/issues/github/ikarus512/fcc1.svg)](https://codeclimate.com/github/ikarus512/fcc1/issues)
 
-[![Dependency Status](https://dependencyci.com/github/ikarus512/fcc1/badge)](https://dependencyci.com/github/ikarus512/fcc1) <!-- [![Dependencies](https://david-dm.org/ikarus512/fcc1.svg)](https://david-dm.org/ikarus512/fcc1) --> <!-- [![DevDependencies](https://david-dm.org/ikarus512/fcc1/dev-status.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies) -->
+<!-- [![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1) --> <!-- [![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1) --> ![Node Version](https://img.shields.io/badge/node-v6-brightgreen.svg) <!-- ![NPM Version](https://img.shields.io/badge/npm-%3E=5.0-brightgreen.svg) --> <!-- [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) --> [![Coding Standard Angular](https://img.shields.io/badge/code%20style-angular-brightgreen.svg)](https://github.com/johnpapa/angular-styleguide/) [![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?label=lic&maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
 
-<!-- [![GitHub Version of ikarus512/fcc1](https://badge.fury.io/gh/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1) -->
-<!-- [![GitHub Version of ikarus512/fcc1](https://img.shields.io/github/tag/ikarus512/fcc1.svg)](https://badge.fury.io/gh/ikarus512/fcc1) -->
-![Node Version](https://img.shields.io/badge/node-v6-brightgreen.svg) <!-- ![NPM Version](https://img.shields.io/badge/npm-%3E=5.0-brightgreen.svg) --> <!-- [![Coding Standard](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) -->
-[![Coding Standard Angular](https://img.shields.io/badge/code%20style-angular-brightgreen.svg)](https://github.com/johnpapa/angular-styleguide/)
-[![License](https://img.shields.io/github/license/ikarus512/fcc1.svg?label=lic&maxAge=2592000&colorB=4bc51d)](https://github.com/ikarus512/fcc1/blob/master/LICENSE)
+--------------------------------------------------------------------------------
 
+## Implementation Details
 
-FreeCodeCamp.com development tasks. Running application available at https://ikarus512-fcc1.herokuapp.com
+*Server side* is written in JavaScript ES5 using Express.js, run on Node.js platform. References Google Places API, MongoDB on mlab.com through Mongoose.
 
+*Web clients* applications are written using Angular 1, Bootstrap, WebSocket, D3, Chart.js, Google Maps API.
 
-
-
-Server side on Node.js platform using Express.js. References Google Places API, MongoDB on mlab.com through Mongoose.
-
-Web clients applications are written using Angular 1.5, Bootstrap, WebSocket, D3, Chart.js, Google Maps API.
-
-Android application with same functionality available to download through the link on home page of web application.
-Written on Apache Cordova platform. Sources are in ./mobile folder.
-Mobile application references same server REST API/Websocket API that uses web application.
-Uses Leaflet.js with online/offline map instead of Google Maps API.
-<!-- [![Android App File Size](https://img.shields.io/github/size/ikarus512/fcc1/blob/master/public/bin/ikarus512-fcc1apps.apk.svg)](https://david-dm.org/ikarus512/fcc1#info=devDependencies) -->
-
-Using same JavaScript source and pug templates shared by both web and mobile application (see ./src folder).
+*Android application* with same functionality available to download through the link on home page of web application. It is built with Apache Cordova. The mobile application references same server REST API/Websocket API that uses web application. It uses Leaflet.js with online/offline maps instead of Google Maps API. JavaScript source and pug templates are shared by both web and mobile application.
 
 --------------------------------------------------------------------------------
 
 ## app1: Voting App
 Accessible via 'Voting' menu.
 
-### Task
+#### Tasks
 Build a Voting App similar to [this](https://fcc-voting-arthow4n.herokuapp.com)
 
 + User Story: As an authenticated user, I can keep my polls and come back later to access them.
@@ -56,7 +39,7 @@ Build a Voting App similar to [this](https://fcc-voting-arthow4n.herokuapp.com)
 ## app2: Nightlife Coordination App
 Accessible via 'Nightlife' menu.
 
-### Task
+#### Tasks
 Build a Nightlife Coordination App
 similar to [this](http://whatsgoinontonight.herokuapp.com)
 
@@ -80,7 +63,7 @@ Optional features maybe to do in future:
 ## app3: Chart the Stock Market
 Accessible via 'Stock' menu.
 
-### Task
+#### Tasks
 Chart the Stock Market
 similar to [this](http://watchstocks.herokuapp.com)
 
@@ -95,7 +78,7 @@ similar to [this](http://watchstocks.herokuapp.com)
 ## app4: Book Trading Club
 Accessible via 'Books' menu.
 
-### Task
+#### Tasks
 Manage a Book Trading Club
 similar to [this](http://bookjump.herokuapp.com)
 
@@ -117,7 +100,7 @@ Optional features maybe to do in future:
 ## app5: Pinterest Clone
 Accessible via 'Pinter' menu.
 
-### Task
+#### Tasks
 Build a Pinterest Clone
 similar to [this](https://midnight-dust.hyperdev.space)
 
