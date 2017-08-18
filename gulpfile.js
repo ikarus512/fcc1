@@ -74,20 +74,88 @@ var MOBILE_PATHS = {
     // },
     js: {
         src: [
-          MOBILE_SRC + 'src/js/**/*.{js,html}' // js and templates
+            MOBILE_SRC + 'src/js/**/*.{js,html}' // js and templates
         ],
         base: MOBILE_SRC + 'src/js/',
         dest: MOBILE_DST + 'js/'
     },
     copy: {
         src: [
-          MOBILE_SRC + 'public/lib/**/*',
-          MOBILE_SRC + 'public/css/**/*', // cssMin
-          MOBILE_SRC + 'public/fonts/**/*',
-          MOBILE_SRC + 'public/img/**/*'
+            MOBILE_SRC + 'public/lib/**/*',
+            MOBILE_SRC + 'public/css/**/*', // cssMin
+            MOBILE_SRC + 'public/fonts/**/*',
+            MOBILE_SRC + 'public/img/**/*'
         ],
         base: MOBILE_SRC + 'public/',
         dest: MOBILE_DST
+    },
+    copy_fonts: {
+        src: [
+            // bootstrap
+            MOBILE_SRC + 'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
+            MOBILE_SRC + 'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
+            MOBILE_SRC + 'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
+            MOBILE_SRC + 'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+            MOBILE_SRC + 'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2',
+            // font-awesome
+            MOBILE_SRC + 'node_modules/font-awesome/fonts/FontAwesome.otf',
+            MOBILE_SRC + 'node_modules/font-awesome/fonts/fontawesome-webfont.eot',
+            MOBILE_SRC + 'node_modules/font-awesome/fonts/fontawesome-webfont.svg',
+            MOBILE_SRC + 'node_modules/font-awesome/fonts/fontawesome-webfont.ttf',
+            MOBILE_SRC + 'node_modules/font-awesome/fonts/fontawesome-webfont.woff',
+            MOBILE_SRC + 'node_modules/font-awesome/fonts/fontawesome-webfont.woff2',
+        ],
+        dest: MOBILE_DST + 'fonts/'
+    },
+    copy_lib_leaflet: {
+        src: [
+            // leaflet
+            MOBILE_SRC + 'node_modules/leaflet/dist/leaflet.js',
+            MOBILE_SRC + 'node_modules/leaflet/dist/leaflet.css',
+            MOBILE_SRC + 'node_modules/leaflet/dist/images/layers.png',
+            MOBILE_SRC + 'node_modules/leaflet/dist/images/layers-2x.png',
+            MOBILE_SRC + 'node_modules/leaflet/dist/images/marker-icon.png',
+            MOBILE_SRC + 'node_modules/leaflet/dist/images/marker-icon-2x.png',
+            MOBILE_SRC + 'node_modules/leaflet/dist/images/marker-shadow.png',
+        ],
+        base: MOBILE_SRC + 'node_modules/leaflet/dist/',
+        dest: MOBILE_DST + 'lib/leaflet/'
+    },
+    copy_lib: {
+        src: [
+            // angular
+            MOBILE_SRC + 'node_modules/angular/angular.min.js',
+            MOBILE_SRC + 'node_modules/angular/angular.min.js.map',
+            MOBILE_SRC + 'node_modules/angular-animate/angular-animate.min.js',
+            MOBILE_SRC + 'node_modules/angular-animate/angular-animate.min.js.map',
+            MOBILE_SRC + 'node_modules/angular-messages/angular-messages.min.js',
+            MOBILE_SRC + 'node_modules/angular-messages/angular-messages.min.js.map',
+            MOBILE_SRC + 'node_modules/angular-route/angular-route.min.js',
+            MOBILE_SRC + 'node_modules/angular-route/angular-route.min.js.map',
+            // bootstrap
+            MOBILE_SRC + 'node_modules/bootstrap/dist/css/bootstrap.min.css',
+            MOBILE_SRC + 'node_modules/bootstrap/dist/js/bootstrap.min.js',
+            // chart.js
+            MOBILE_SRC + 'node_modules/chart.js/dist/Chart.bundle.min.js',
+            MOBILE_SRC + 'node_modules/angular-chart.js/dist/angular-chart.min.js',
+            MOBILE_SRC + 'node_modules/angular-chart.js/dist/angular-chart.min.js.map',
+            MOBILE_SRC + 'node_modules/tc-angular-chartjs/dist/tc-angular-chartjs.min.js',
+            // d3
+            MOBILE_SRC + 'node_modules/d3/build/d3.min.js',
+            // font-awesome
+            MOBILE_SRC + 'node_modules/font-awesome/css/font-awesome.min.css',
+            // jquery
+            MOBILE_SRC + 'node_modules/jquery/dist/jquery.min.js',
+            // material design icons from Google but by jossef
+            MOBILE_SRC + 'node_modules/material-design-icons-iconfont/dist/fonts/material-icons.css',
+            MOBILE_SRC + 'node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.eot',
+            MOBILE_SRC + 'node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.ttf',
+            MOBILE_SRC + 'node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff',
+            MOBILE_SRC + 'node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff2',
+            // ng-file-upload
+            MOBILE_SRC + 'node_modules/ng-file-upload/dist/ng-file-upload-all.min.js',
+        ],
+        dest: MOBILE_DST + 'lib/'
     },
     views: {
         src: [
@@ -111,17 +179,32 @@ var MOBILE_PATHS = {
     }
 };
 
-gulp.task('mobile-public-libs-copy', function() {
-// bootstrap
-// leaflet
-    // return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
-    // .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
+gulp.task('mobile-public-fonts-copy', function() {
+    return gulp.src(MOBILE_PATHS.copy_fonts.src)
+    .pipe(gulp.dest(MOBILE_PATHS.copy_fonts.dest));
 });
 
-gulp.task('mobile-app1-copy', ['mobile-public-libs-copy'], function() {
-    return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
-    .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
+gulp.task('mobile-public-lib-copy', function() {
+    return gulp.src(MOBILE_PATHS.copy_lib.src)
+    .pipe(gulp.dest(MOBILE_PATHS.copy_lib.dest));
 });
+
+gulp.task('mobile-public-lib-leaflet-copy', function() {
+    return gulp.src(MOBILE_PATHS.copy_lib_leaflet.src, {base: MOBILE_PATHS.copy_lib_leaflet.base})
+    .pipe(gulp.dest(MOBILE_PATHS.copy_lib_leaflet.dest));
+});
+
+gulp.task('mobile-app1-copy',
+    [
+      'mobile-public-lib-copy',
+      'mobile-public-lib-leaflet-copy',
+      'mobile-public-fonts-copy'
+    ],
+    function() {
+      return gulp.src(MOBILE_PATHS.copy.src, {base: MOBILE_PATHS.copy.base})
+      .pipe(gulp.dest(MOBILE_PATHS.copy.dest));
+    }
+);
 
 gulp.task('mobile-app1-js', function() {
     return gulp.src(MOBILE_PATHS.js.src, {base: MOBILE_PATHS.js.base})
