@@ -1,4 +1,4 @@
-/* file: protractor-conf.js */
+/* file: protractor-conf-mobile-browser.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -22,8 +22,9 @@ exports.config = {
     specs: ['routes/**/*.js'],
 
     // baseUrl: 'https://localhost:' + process.env.PORT,
-    baseUrl: 'https://127.0.0.1:' + process.env.PORT,
-    // baseUrl: 'https://localhost:' + '5005/#!',
+    // baseUrl: 'https://127.0.0.1:' + process.env.PORT,
+    // baseUrl: 'https://localhost:5006/index.html#!',
+    baseUrl: 'http://localhost:5006/index.html#!',
     seleniumServerJar: './../../node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-2.53.1.jar',
     seleniumPort: 4444,
     seleniumArgs: '',
@@ -38,7 +39,7 @@ exports.config = {
         reporter: 'dot',
         // defaultTimeoutInterval: 10000,
         // enableTimeouts: false,
-        timeout: 20000,//10000,
+        timeout: 40000,//10000,
         // slow: 5000
     },
     // framework: 'jasmine',
@@ -67,6 +68,7 @@ exports.config = {
     // localSeleniumStandaloneOpts : {
     //   jvmArgs : ['-Dwebdriver.ie.driver=node_modules/protractor/node_modules/webdriver-manager/selenium/IEDriverServer.exe']
     // },
+
 };
 
 // // Start server for testing on port 9201.

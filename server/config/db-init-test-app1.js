@@ -21,22 +21,21 @@ var
 
 function myInit(userA, userB, userU) {
 
-    var promises = [
+    // Create poll 1
+    return new Promise(function(resolve) {
+        var p = new Poll();
+        p.title = 'Poll 1';
+        p.createdBy = userA._id;
+        p.options = [
+            {title: 'Option 1', votes:[userB._id]},
+            {title: 'Option 2', votes:[]}
+        ];
+        return resolve(p.save());
+    })
 
-        // Create poll 1
-        new Promise(function(resolve) {
-            var p = new Poll();
-            p.title = 'Poll 1';
-            p.createdBy = userA._id;
-            p.options = [
-                {title: 'Option 1', votes:[userB._id]},
-                {title: 'Option 2', votes:[]}
-            ];
-            return resolve(p.save());
-        }),
-
-        // Create poll 2
-        new Promise(function(resolve) {
+    // Create poll 2 (in deterministic order)
+    .then(function() {
+        return new Promise(function(resolve) {
             var p = new Poll();
             p.title = 'Poll 2';
             p.createdBy = userB._id;
@@ -45,11 +44,8 @@ function myInit(userA, userB, userU) {
                 {title: 'Option 2', votes:[userU._id]}
             ];
             return resolve(p.save());
-        })
-
-    ];
-
-    return Promise.all(promises);
+        });
+    });
 
 }
 

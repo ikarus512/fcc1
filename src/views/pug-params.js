@@ -62,6 +62,10 @@ module.exports = {
                 '   wss://ikarus512-fcc1.herokuapp.com' +
                 ' https://localhost:5000' +
                 '   wss://localhost:5000' +
+                ' https://localhost:5005' +
+                '   wss://localhost:5005' +
+                ' https://127.0.0.1:5005' +
+                '   wss://127.0.0.1:5005' +
                 ' \'self\'' +
                 ';' +
             'style-src' +
@@ -77,6 +81,8 @@ module.exports = {
                 ' content:' +
                 ' https://ikarus512-fcc1.herokuapp.com' +
                 ' https://localhost:5000' +
+                ' https://localhost:5005' +
+                ' https://127.0.0.1:5005' +
                 ' https://maps.gstatic.com' +
                 ' https://*.tile.openstreetmap.org' +
                 ';' +

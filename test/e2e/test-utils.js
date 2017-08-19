@@ -30,3 +30,20 @@ before(function(done) {
 after(function(done) {
     server.shutdown(done);
 });
+
+if (process.env.MOBILE_APP_TEST) {
+    before(function(done) {
+        var opts = {
+            // root: 'mobile/fcc1apps',
+            root: '../../mobile/fcc1apps/platforms/browser/www',
+            port: 5006,
+            noLogOutput: true
+        };
+        var serve = require('cordova-serve')();
+        serve.launchServer(opts);
+        serve.servePlatform('browser', opts);
+        // serve.launchBrowser(opts);
+        setTimeout(function() {done();}, 5000);
+        // browser.pause(); // webDriver debug
+    });
+}

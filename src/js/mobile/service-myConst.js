@@ -16,7 +16,9 @@
         var host;
 
         if (window && window.cordova && window.cordova.platformId === 'browser') {
-            host = 'localhost:5000'; // developement
+            // host = 'localhost:5000'; // developement
+            host = '127.0.0.1:5005'; // test
+            // host = 'localhost:5005'; // test
         } else {
             // Here if run on devide (android)
             host = 'ikarus512-fcc1.herokuapp.com'; // production
