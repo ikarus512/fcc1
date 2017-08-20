@@ -5,7 +5,7 @@
  */
 
 /**
- * @namespace _other
+ * @namespace a_other
  * @desc non-angular functions
  * @memberOf clients.Modules
  */
@@ -14,7 +14,7 @@
  * @classdesc Remove Facebook appended hash
  * @class
  * @name removeFacebookAppendedHash
- * @memberOf clients.Modules._other
+ * @memberOf clients.Modules.a_other
  */
 $(document).ready(function() {
     if (window.location.hash && window.location.hash === '#_=_') {

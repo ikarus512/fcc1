@@ -7,13 +7,13 @@
 /**
  * @namespace Directives
  * @desc common directives
- * @memberOf clients.Modules._common
+ * @memberOf clients.Modules.a_common
  */
 (function() {
     'use strict';
 
     angular
-    .module('_common')
+    .module('a_common')
     .directive('myFocus', myFocus);
 
     myFocus.$inject = [
@@ -24,7 +24,7 @@
      * @classdesc attribute directive to focus element when expression is true
      * @class
      * @param {Object} $timeout
-     * @memberOf clients.Modules._common.Directives
+     * @memberOf clients.Modules.a_common.Directives
      *
      * @example {@lang xml}
      *
@@ -44,7 +44,7 @@
          * @param {Object} scope
          * @param {Object} elem
          * @param {Object} attrs
-         * @memberOf clients.Modules._common.Directives.myFocus
+         * @memberOf clients.Modules.a_common.Directives.myFocus
          */
         function linkFunction(scope, elem, attrs) {
             scope.$watch(attrs.myFocus, function (newVal) {

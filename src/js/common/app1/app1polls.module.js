@@ -10,15 +10,15 @@
     /**
      * @namespace app1polls
      * @desc app1polls angular module
-     * @requires clients.Modules._common
-     * @requires clients.Modules._components
+     * @requires clients.Modules.a_common
+     * @requires clients.Modules.a_components
      * @memberOf clients.Modules
      */
     angular.module('app1polls', [
         'ngRoute',
 
-        '_common',
-        '_components'
+        'a_common',
+        'a_components'
     ]);
 
 }());

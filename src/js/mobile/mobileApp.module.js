@@ -17,8 +17,8 @@
      * @requires clients.Modules.app4book
      * @requires clients.Modules.app4books
      * @requires clients.Modules.app4filters
-     * @requires clients.Modules._common
-     * @requires clients.Modules._components
+     * @requires clients.Modules.a_common
+     * @requires clients.Modules.a_components
      * @memberOf clients.Modules
      */
     angular.module('mobileApp', [
@@ -36,8 +36,8 @@
       'app4books',
       'app4filters',
 
-      '_common',
-      '_components'
+      'a_common',
+      'a_components'
     ]);
 
 }());

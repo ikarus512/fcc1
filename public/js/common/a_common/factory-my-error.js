@@ -1,0 +1,1 @@
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("a_common").factory("MyError",function(){return{alert:function(a){a&&a.data&&a.data.message?(alert(a.data.message),console.log(a.data.message)):console.log(a)},log:function(a){a&&a.data&&a.data.message?console.log(a.data.message):console.log(a)}}})}();

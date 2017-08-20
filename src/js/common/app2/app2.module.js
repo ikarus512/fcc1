@@ -18,13 +18,13 @@
     /**
      * @namespace app2
      * @desc app2 angular module
-     * @requires clients.Modules._common
-     * @requires clients.Modules._components
+     * @requires clients.Modules.a_common
+     * @requires clients.Modules.a_components
      * @memberOf clients.Modules
      */
     angular.module('app2', [
-        '_common',
-        '_components'
+        'a_common',
+        'a_components'
     ]);
 
 }());

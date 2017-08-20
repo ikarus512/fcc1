@@ -1,4 +1,4 @@
-/* file: _common.module.js */
+/* file: a_common.module.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -8,11 +8,11 @@
     'use strict';
 
     /**
-     * @namespace _common
-     * @desc _common angular module
+     * @namespace a_common
+     * @desc a_common angular module
      * @memberOf clients.Modules
      */
-    angular.module('_common', [
+    angular.module('a_common', [
     ]);
 
 }());

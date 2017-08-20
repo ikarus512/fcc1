@@ -1,1 +1,1 @@
-/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("_common").service("User",function(){this.type="",this.name="",this.uid="",this.loginLocal=function(i,n){}})}();
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("a_common").service("User",function(){this.type="",this.name="",this.uid="",this.loginLocal=function(i,n){}})}();

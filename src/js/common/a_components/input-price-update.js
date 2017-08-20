@@ -7,13 +7,13 @@
 /**
  * @namespace Components
  * @desc common components
- * @memberOf clients.Modules._components
+ * @memberOf clients.Modules.a_components
  */
 (function() {
     'use strict';
 
     angular
-    .module('_components')
+    .module('a_components')
     .directive('inputPriceUpdate', inputPriceUpdate);
 
     inputPriceUpdate.$inject = [
@@ -25,7 +25,7 @@
      * @class
      * @param {Object} $timeout
      * @param {Object} MyConst
-     * @memberOf clients.Modules._components.Components
+     * @memberOf clients.Modules.a_components.Components
      *
      * @example {@lang xml}
      * <input-price-update
@@ -44,7 +44,7 @@
 
         /**
          * @member {Object}
-         * @memberOf clients.Modules._components.Components.inputPriceUpdate
+         * @memberOf clients.Modules.a_components.Components.inputPriceUpdate
          * @type {Object}
          *
          * @property {String} restrict Restricted to elements
@@ -74,7 +74,7 @@
                 sortIndex: '@'
             },
 
-            templateUrl: MyConst.urlPref + 'js/common/_components/input-price-update.html',
+            templateUrl: MyConst.urlPref + 'js/common/a_components/input-price-update.html',
 
             link: linkFunction
         };
@@ -90,7 +90,7 @@
          * @param {Object} scope
          * @param {Object} element
          * @param {Object} attrs
-         * @memberOf clients.Modules._components.Components.inputPriceUpdate
+         * @memberOf clients.Modules.a_components.Components.inputPriceUpdate
          */
         function linkFunction(scope, element, attrs) {
 

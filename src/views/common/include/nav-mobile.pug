@@ -50,4 +50,4 @@
       li(class=title=='Login'    ?'active':''):   a(href='#!/login')      Log In
       hr
 
-      li: a(href='#' onclick='if (confirm("Exit?")) navigator.app.exitApp();') Exit
+      li: a(href='#' ng-click='appExit()') Exit

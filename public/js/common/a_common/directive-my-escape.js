@@ -1,0 +1,1 @@
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("a_common").directive("myEscape",function(){var n=27;return function(e,u,o){u.bind("keyup",function(u){u.keyCode===n&&e.$apply(o.myEscape)}),e.$on("$destroy",function(){u.unbind("keyup")})}})}();

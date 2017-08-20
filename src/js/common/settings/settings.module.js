@@ -10,13 +10,13 @@
     /**
      * @namespace settings
      * @desc settings angular module
-     * @requires clients.Modules._common
-     * @requires clients.Modules._components
+     * @requires clients.Modules.a_common
+     * @requires clients.Modules.a_components
      * @memberOf clients.Modules
      */
     angular.module('settings', [
-        '_common',
-        '_components'
+        'a_common',
+        'a_components'
     ]);
 
 }());

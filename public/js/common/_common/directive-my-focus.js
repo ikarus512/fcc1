@@ -1,1 +1,0 @@
-/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";function n(n){return function(c,t,u){c.$watch(u.myFocus,function(c){c&&n(function(){t[0].focus()},0,!1)})}}angular.module("_common").directive("myFocus",n),n.$inject=["$timeout"]}();

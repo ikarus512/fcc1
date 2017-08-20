@@ -7,13 +7,13 @@
 /**
  * @namespace Directives
  * @desc common directives
- * @memberOf clients.Modules._common
+ * @memberOf clients.Modules.a_common
  */
 (function() {
     'use strict';
 
     angular
-    .module('_common')
+    .module('a_common')
     .directive('keepFocus', keepFocus);
 
     keepFocus.$inject = [
@@ -24,7 +24,7 @@
      * @classdesc keepFocus directive (keep focus after ng-repeat sorting)
      * @class
      * @param {Object} $timeout
-     * @memberOf clients.Modules._common.Directives
+     * @memberOf clients.Modules.a_common.Directives
      *
      * @example {@lang xml}
      * <textarea
@@ -38,7 +38,7 @@
 
         /**
          * @member {Object}
-         * @memberOf clients.Modules._common.Directives.keepFocus
+         * @memberOf clients.Modules.a_common.Directives.keepFocus
          * @type {Object}
          *
          * @property {String} restrict Restricted to attributes
@@ -67,7 +67,7 @@
          * @param {Object} scope
          * @param {Object} element
          * @param {Object} attrs
-         * @memberOf clients.Modules._common.Directives.keepFocus
+         * @memberOf clients.Modules.a_common.Directives.keepFocus
          */
         function linkFunction(scope, element, attrs) {
             scope.$watch('keepFocusIndex', function(newVal, prevVal) {

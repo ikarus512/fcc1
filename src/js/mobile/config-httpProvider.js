@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 
-    angular.module('_common')
+    angular.module('a_common')
 
     .config(['$httpProvider', function appConfigHttp($httpProvider) {
 

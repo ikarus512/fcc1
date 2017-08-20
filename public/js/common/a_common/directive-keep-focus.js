@@ -1,0 +1,1 @@
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";function e(e){return{restrict:"A",scope:{keepFocusVar:"@",keepFocusIndex:"@"},link:function(c,n,o){c.$watch("keepFocusIndex",function(o,u){c.keepFocusVar&&e(function(){n[0].focus()})})}}}angular.module("a_common").directive("keepFocus",e),e.$inject=["$timeout"]}();

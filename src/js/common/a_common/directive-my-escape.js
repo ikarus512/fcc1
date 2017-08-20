@@ -7,19 +7,19 @@
 /**
  * @namespace Directives
  * @desc common directives
- * @memberOf clients.Modules._common
+ * @memberOf clients.Modules.a_common
  */
 (function() {
     'use strict';
 
     angular
-    .module('_common')
+    .module('a_common')
     .directive('myEscape', myEscape);
 
     /**
      * @classdesc attribute directive to call function on press <ESCAPE> key
      * @class
-     * @memberOf clients.Modules._common.Directives
+     * @memberOf clients.Modules.a_common.Directives
      *
      * @example {@lang xml}
      * <input my-escape='onPressEscape()'>
@@ -40,7 +40,7 @@
          * @param {Object} scope
          * @param {Object} elem
          * @param {Object} attrs
-         * @memberOf clients.Modules._common.Directives.myEscape
+         * @memberOf clients.Modules.a_common.Directives.myEscape
          */
         function linkFunction(scope, elem, attrs) {
             elem.bind('keyup', function (event) {

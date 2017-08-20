@@ -18,21 +18,23 @@
             // Init params from backend
             if (MyConst.webApp) {
                 $scope.logintype =
-                  (backendParams.logintype && backendParams.logintype !== 'undefined') ?
-                  backendParams.logintype : '';
+                    (backendParams.logintype && backendParams.logintype !== 'undefined') ?
+                    backendParams.logintype : '';
                 $scope.username =
-                  (backendParams.username && backendParams.username !== 'undefined') ?
-                  backendParams.username : '';
+                    (backendParams.username && backendParams.username !== 'undefined') ?
+                    backendParams.username : '';
+                wsSubscribe($scope.logintype);
             } else {
                 User.check()
                 .then(function() {
                     $scope.logintype = User.type;
                     $scope.username  = User.name;
+                    wsSubscribe($scope.logintype);
                 });
             }
 
             var APP3_STOCK_PORTION_LENGTH = 5,
-              APP3_STOCK_MAX_LENGTH = 4 * APP3_STOCK_PORTION_LENGTH;
+                APP3_STOCK_MAX_LENGTH = 4 * APP3_STOCK_PORTION_LENGTH;
 
             $scope.chart1Data = {
                 title: 'Title',
@@ -47,12 +49,6 @@
 
             $scope.addStockName = addStockName;
             $scope.removeStockName = removeStockName;
-
-            if ($scope.logintype) {
-                $scope.ajaxLoadingSpinner++;
-                App3WebSocketService.subscribe(onWsMessage)
-                .finally(function() {$scope.ajaxLoadingSpinner--;});
-            }
 
             ////////////////////////////////////////
 
@@ -134,6 +130,14 @@
                 // Refresh scope
                 $scope.$apply();
             } // function onWsMessage(...)
+
+            function wsSubscribe(loggedIn) {
+                if (loggedIn) {
+                    $scope.ajaxLoadingSpinner++;
+                    App3WebSocketService.subscribe(onWsMessage)
+                    .finally(function() {$scope.ajaxLoadingSpinner--;});
+                }
+            } // function wsSubscribe(...)
 
         } // function myApp3ControllerMain(...)
 

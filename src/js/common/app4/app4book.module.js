@@ -10,8 +10,8 @@
     /**
      * @namespace app4book
      * @desc app4book angular module
-     * @requires clients.Modules._common
-     * @requires clients.Modules._components
+     * @requires clients.Modules.a_common
+     * @requires clients.Modules.a_components
      * @requires clients.Modules.app4filters
      * @memberOf clients.Modules
      */
@@ -21,8 +21,8 @@
         'ngMessages',
         'ngFileUpload',
 
-        '_common',
-        '_components',
+        'a_common',
+        'a_components',
         'app4filters'
     ]);
 

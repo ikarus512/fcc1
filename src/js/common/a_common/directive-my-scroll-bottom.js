@@ -7,13 +7,13 @@
 /**
  * @namespace Directives
  * @desc common directives
- * @memberOf clients.Modules._common
+ * @memberOf clients.Modules.a_common
  */
 (function() {
     'use strict';
 
     angular
-    .module('_common')
+    .module('a_common')
     .directive('myScrollBottom', myScrollBottom);
 
     myScrollBottom.$inject = [
@@ -24,7 +24,7 @@
      * @classdesc attribute directive to scroll ng-repeat array to bottom
      * @class
      * @param {Object} $timeout
-     * @memberOf clients.Modules._common.Directives
+     * @memberOf clients.Modules.a_common.Directives
      *
      * @example {@lang xml}
      * <div my-scroll-bottom='msgs'>
@@ -37,7 +37,7 @@
 
         /**
          * @member {Object}
-         * @memberOf clients.Modules._common.Directives.myScrollBottom
+         * @memberOf clients.Modules.a_common.Directives.myScrollBottom
          * @type {Object}
          *
          * @property {String} restrict Restricted to attributes
@@ -63,7 +63,7 @@
          * @static
          * @param {Object} $scope
          * @param {Object} $element
-         * @memberOf clients.Modules._common.Directives.myScrollBottom
+         * @memberOf clients.Modules.a_common.Directives.myScrollBottom
          */
         function linkFunction($scope, $element) {
             $scope.$watchCollection('myScrollBottom', function (newValue) {

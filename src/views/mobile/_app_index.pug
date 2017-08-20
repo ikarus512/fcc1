@@ -45,7 +45,7 @@ html(lang='en')
   //- //////////////////////////////////////////////////////////
   //- //  body
   //- //////////////////////////////////////////////////////////
-  body(ng-app='mobileApp')
+  body(ng-app='mobileApp' ng-controller='mobileCommonCtrl')
 
 
 
@@ -70,8 +70,10 @@ html(lang='en')
     script(src=urlPref+'js/mobile/cordova-event-handlers.js')
 
     script(src=urlPref+'js/mobile/mobileApp.module.js')
-    script(src=urlPref+'js/common/_components/_components.module.js')
-    script(src=urlPref+'js/common/_common/_common.module.js')
+    script(src=urlPref+'js/common/a_components/a_components.module.js')
+    script(src=urlPref+'js/common/a_common/a_common.module.js')
+
+    script(src=urlPref+'js/mobile/controller-common.js')
 
     script(src=urlPref+'js/mobile/config-httpProvider.js')
     script(src=urlPref+'js/mobile/config-routes.js')
@@ -82,13 +84,13 @@ html(lang='en')
     script(src=urlPref+'js/mobile/factory-login.js')
     script(src=urlPref+'js/mobile/service-user.js')
 
-    script(src=urlPref+'js/common/_components/ajax-loading-spinner.js')
-    script(src=urlPref+'js/common/_common/directive-keep-focus.js')
-    script(src=urlPref+'js/common/_common/directive-my-enter.js')
-    script(src=urlPref+'js/common/_common/directive-my-escape.js')
-    script(src=urlPref+'js/common/_common/directive-my-focus.js')
-    script(src=urlPref+'js/common/_common/factory-my-error.js')
-    script(src=urlPref+'js/common/_common/directive-my-scroll-bottom.js')
+    script(src=urlPref+'js/common/a_components/ajax-loading-spinner.js')
+    script(src=urlPref+'js/common/a_common/directive-keep-focus.js')
+    script(src=urlPref+'js/common/a_common/directive-my-enter.js')
+    script(src=urlPref+'js/common/a_common/directive-my-escape.js')
+    script(src=urlPref+'js/common/a_common/directive-my-focus.js')
+    script(src=urlPref+'js/common/a_common/factory-my-error.js')
+    script(src=urlPref+'js/common/a_common/directive-my-scroll-bottom.js')
 
     //- app1 polls
     script(src=urlPref+'js/common/app1/app1polls.module.js')
@@ -128,7 +130,7 @@ html(lang='en')
     script(src=urlPref+'js/common/app4/factory-websocket.js')
     script(src=urlPref+'js/common/app4/filter-msgtime.js')
     script(src=urlPref+'js/common/app4/filter-photo.js')
-    script(src=urlPref+'js/common/_components/input-price-update.js')
+    script(src=urlPref+'js/common/a_components/input-price-update.js')
     //- app4 book
     script(src=urlPref+'js/common/app4/controller-book.js')
     script(src=urlPref+'js/common/app4/factory-book-storage.js')

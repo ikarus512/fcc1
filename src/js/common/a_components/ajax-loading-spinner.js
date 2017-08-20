@@ -7,13 +7,13 @@
 /**
  * @namespace Components
  * @desc common components
- * @memberOf clients.Modules._components
+ * @memberOf clients.Modules.a_components
  */
 (function() {
     'use strict';
 
     angular
-    .module('_components')
+    .module('a_components')
     .directive('ajaxLoadingSpinner', ajaxLoadingSpinner);
 
     ajaxLoadingSpinner.$inject = [
@@ -25,7 +25,7 @@
      * @class
      * @param {Object} $timeout
      * @param {Object} MyConst
-     * @memberOf clients.Modules._components.Components
+     * @memberOf clients.Modules.a_components.Components
      *
      * @example {@lang xml}
      * <ajax-loading-spinner
@@ -43,7 +43,7 @@
 
         /**
          * @member {Object}
-         * @memberOf clients.Modules._components.Components.ajaxLoadingSpinner
+         * @memberOf clients.Modules.a_components.Components.ajaxLoadingSpinner
          * @type {Object}
          *
          * @property {String} restrict Restricted to elements
@@ -55,7 +55,7 @@
          */
         var component = {
             restrict: 'E',
-            templateUrl: MyConst.urlPref + 'js/common/_components/ajax-loading-spinner.html',
+            templateUrl: MyConst.urlPref + 'js/common/a_components/ajax-loading-spinner.html',
             scope: {
                 ajaxLoadingVar: '@',
                 addClass: '='
@@ -74,7 +74,7 @@
          * @param {Object} scope
          * @param {Object} element
          * @param {Object} attrs
-         * @memberOf clients.Modules._components.Components.ajaxLoadingSpinner
+         * @memberOf clients.Modules.a_components.Components.ajaxLoadingSpinner
          */
         function linkFunction(scope, element, attrs) {
             scope.urlPref = MyConst.urlPref;

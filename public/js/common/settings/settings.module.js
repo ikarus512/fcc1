@@ -1,1 +1,1 @@
-/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("settings",["_common","_components"])}();
+/*! (C) 2017 https://github.com/ikarus512 */!function(){"use strict";angular.module("settings",["a_common","a_components"])}();

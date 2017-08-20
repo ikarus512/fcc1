@@ -1,4 +1,4 @@
-/* file: _components.module.js */
+/* file: a_components.module.js */
 /*!
  * Copyright 2017 ikarus512
  * https://github.com/ikarus512/fcc1.git
@@ -8,11 +8,11 @@
     'use strict';
 
     /**
-     * @namespace _components
-     * @desc _components angular module
+     * @namespace a_components
+     * @desc a_components angular module
      * @memberOf clients.Modules
      */
-    angular.module('_components', [
+    angular.module('a_components', [
     ]);
 
 }());
