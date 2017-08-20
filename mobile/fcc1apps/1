@@ -19,8 +19,12 @@ The application was created by running:
   cordova platform rm browser android && cordova platform add browser android  ### needed after removing plugin
 
   debug:
-  cordova plugin add cordova-plugin-crosswalk-webview   ### needed only for debug (chrome://inspect)
+  cordova plugin add cordova-plugin-crosswalk-webview   ### needed for debug (chrome://inspect), and html5 features like webSocket, etc (but size is ~71MB)
   cordova plugin rm  cordova-plugin-crosswalk-webview --save
+
+  webSocket:
+  cordova plugin add cordova-plugin-websocket ### android only, size ~0.5MB
+  cordova plugin rm  cordova-plugin-websocket
 
   sign:
   keytool -genkey -v -keystore <keystoreName>.keystore -alias <Keystore AliasName> -keyalg <Key algorithm> -keysize <Key size> -validity <Key Validity in Days>
