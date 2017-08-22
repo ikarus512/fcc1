@@ -1,0 +1,102 @@
+#!/usr/bin/env node
+
+/* file: jsdoc_add_menu_apis */
+/*!
+ * Copyright 2017 ikarus512
+ * https://github.com/ikarus512/tripSave.git
+ *
+ * DESCRIPTION: Add APIs Menu (from Part of Tutorials Menu)
+ * AUTHOR: ikarus512
+ * CREATED: 2017/08/21
+ *
+ * MODIFICATION HISTORY
+ *  2017/08/21, ikarus512. Initial version.
+ *
+ */
+
+var
+    fs = require('fs'),
+    docDir = 'public/doc/';
+
+// For all doc files:
+fs.readdir(docDir, function(err, files) {
+    files.forEach(function(file) {
+        if (file.match(/\.html$/)) {
+            console.log('doc-fix: ', docDir+file);
+            fs.rename(docDir+file, docDir+file, function(err) {
+                fs.readFile(docDir+file, 'utf8', function(err, data) {
+                    fs.writeFile(docDir+file, fixDocFile(data), function(err) {
+                    });
+                });
+            });
+        }
+    });
+});
+
+function fixDocFile(data) {
+    var inData = String(data).replace(/\t/g, '    ').replace(/\r|\n/g, '\t');
+    var outData = inData;
+
+    var re = new RegExp(''
+        + /(<li class="dropdown">\s*)/.source
+        // 1-------------------------
+        +     /(<a href="tutorials.list.html"((?!<\/a>).)*<\/a>\s*)/.source
+        //     2-----------------------------3===========----------
+        +     /(<ul class="dropdown-menu[^>]*>)(((?!<\/ul>).)*)(<\/ul>\s*)/.source
+        //     4-------------------------------56==============7----------
+        + /(<\/li>)/.source
+        // 8-------
+        // ,'s' // dotAll currently not supported (dot matches \r|\n)
+    );
+    var block = inData.match(re);
+    if (block) {
+        // console.log(block[0]);
+        outData = inData.replace(re,
+            block[1] + menuApis(     block[2], block[4], block[5]) + block[7] + block[8] + '\n\n' +
+            '            ' +
+            block[1] + menuTutorials(block[2], block[4], block[5]) + block[7] + block[8]
+        );
+    }
+
+    return outData.replace(/\t/g, '\r');
+}
+
+// APIs menu: leave only API topics here, and rename Tutorials to APIs
+function menuApis(heading, unchanged, items) {
+    var headingNew = '<a href="apis.list.html" class="dropdown-toggle" data-toggle="dropdown">APIs<b class="caret"></b></a>';
+
+    var itemsMatch = items.match(/<li>((?!<\/li>).)*<\/li>\s*/g);
+    var itemsNew = items;
+    if (itemsMatch) {
+        itemsNew = '';
+        itemsMatch.forEach(function(item) {
+            if (item.match(/REST_API/)) {
+                itemsNew += '                    ' + item + '\n';
+                // console.log('apis: ',item);
+            }
+        });
+    }
+
+    return headingNew + '\n' + '                '
+        + unchanged + '\n'
+        + itemsNew + '                ';
+}
+
+// tutorials menu: remove API topics from here
+function menuTutorials(heading, unchanged, items) {
+    var itemsMatch = items.match(/<li>((?!<\/li>).)*<\/li>\s*/g);
+    var itemsNew = items;
+    if (itemsMatch) {
+        itemsNew = '';
+        itemsMatch.forEach(function(item) {
+            if (!item.match(/REST_API/)) {
+                itemsNew += '                    ' + item + '\n';
+                // console.log('tutorials: ',item);
+            }
+        });
+    }
+
+    return heading + '\n' + '                '
+        + unchanged + '\n'
+        + itemsNew + '                ';
+}
