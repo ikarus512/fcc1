@@ -14,6 +14,7 @@
 
 /*jshint node: true*/
 /*global describe, it, before, beforeEach, after, afterEach */
+/*global by, browser, element */
 'use strict';
 
 // process.env.NODE_ENV = 'test';

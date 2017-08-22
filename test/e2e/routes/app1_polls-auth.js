@@ -42,7 +42,7 @@ describe('app1_polls-auth: app1 auth user', function() {
 
     it('should view polls', function() {
         // Go to app1 page
-        browser.driver.get(appUrl + (mobileApp?'/app1/polls':'/app1'));
+        browser.driver.get(appUrl + (mobileApp ? '/app1/polls' : '/app1'));
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/app1/polls');
 
         // Save initially visible polls
@@ -55,7 +55,7 @@ describe('app1_polls-auth: app1 auth user', function() {
 
     it('should add polls', function() {
         // Go to app1 page
-        browser.driver.get(appUrl + (mobileApp?'/app1/polls':'/app1'));
+        browser.driver.get(appUrl + (mobileApp ? '/app1/polls' : '/app1'));
 
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/app1/polls');
 

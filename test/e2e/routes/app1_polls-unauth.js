@@ -37,7 +37,7 @@ describe('app1_polls-unauth: app1 unauth user', function() {
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/');
 
         // Go to app1 page
-        browser.driver.get(appUrl + (mobileApp?'/app1/polls':'/app1'));
+        browser.driver.get(appUrl + (mobileApp ? '/app1/polls' : '/app1'));
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/app1/polls');
 
         // Save initially visible polls
