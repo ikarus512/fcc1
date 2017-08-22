@@ -31,6 +31,21 @@ after(function(done) {
     server.shutdown(done);
 });
 
+afterEach(function() {
+    var
+        chai = require('chai').use(require('chai-as-promised')),
+        expect = chai.expect;
+
+    // Browser console should not have errors
+    browser.manage().logs().get('browser').then(function(browserLog) {
+        if (!process.env.MOBILE_APP_TEST) {
+            // // Uncomment to actually see the log:
+            // console.log('log: ' + require('util').inspect(browserLog));
+            expect(browserLog.length).to.equal(0);
+        }
+    });
+});
+
 if (process.env.MOBILE_APP_TEST) {
     before(function(done) {
         var opts = {

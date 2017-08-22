@@ -32,7 +32,7 @@ exports.config = {
 
     // getPageTimeout: 10000,
     // allScriptsTimeout: 10000,
-    rootElement: '.ng-app', // element where ng-app directive used
+//    rootElement: '.ng-app', // element where ng-app directive used, if not body
 
     framework: 'mocha',
     mochaOpts: {

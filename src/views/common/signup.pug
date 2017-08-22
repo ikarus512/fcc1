@@ -19,7 +19,15 @@ block vars
   - var title = 'Signup';
   - var background = 'background-color: #444; background-image: url('+urlPref+'img/pixabay_com_crowd.png);';
 
+block scriptBeforeBody
+  if webApp
+    //- Here if webApp
+    script(src='/lib/angular.min.js')
+    script(src='/js/common/dummy.module.js')
+
 block content
+
+  div(ng-app=webApp?'dummyApp':false class=webApp?'ng-app':false)
 
   .row
     .col-sm-6

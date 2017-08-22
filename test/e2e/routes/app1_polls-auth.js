@@ -22,42 +22,27 @@ require('./../test-utils.js');
 var
     chai = require('chai').use(require('chai-as-promised')),
     expect = chai.expect,
-    // appUrl = require('./../../../server/config/app-url.js');
-    appUrl = browser.baseUrl;
+    appUrl = browser.baseUrl,
+    mobileApp = process.env.MOBILE_APP_TEST;
 
 describe('app1_polls-auth: app1 auth user', function() {
 
     beforeEach(function() {
         // Log In
-        browser.ignoreSynchronization = true; // Do not wait for Angular on this page
         browser.driver.get(appUrl + '/logout');
-        browser.driver.sleep(100);
         browser.driver.get(appUrl + '/login');
-        browser.driver.sleep(100);
 
-        // element(by.id('loginUsername')).sendKeys('a');
         browser.driver.findElement(by.id('loginUsername')).sendKeys('a');
-        // element(by.id('loginPassword')).sendKeys('a');
         browser.driver.findElement(by.id('loginPassword')).sendKeys('a');
-        // element(by.id('loginButton')).click();
         browser.driver.findElement(by.id('loginButton')).click();
-
-        // Wait for new page load after last .click()
-        browser.driver.sleep(100);
         browser.waitForAngular();
 
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/');
-
-        browser.driver.sleep(100);
     });
 
     it('should view polls', function() {
-        browser.ignoreSynchronization = false;
-
         // Go to app1 page
-        if (process.env.MOBILE_APP_TEST) { browser.driver.get(appUrl + '/app1/polls'); }
-        else { browser.driver.get(appUrl + '/app1'); }
-
+        browser.driver.get(appUrl + (mobileApp?'/app1/polls':'/app1'));
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/app1/polls');
 
         // Save initially visible polls
@@ -69,23 +54,18 @@ describe('app1_polls-auth: app1 auth user', function() {
     });
 
     it('should add polls', function() {
-        browser.ignoreSynchronization = false;
-
         // Go to app1 page
-        if (process.env.MOBILE_APP_TEST) { browser.driver.get(appUrl + '/app1/polls'); }
-        else { browser.driver.get(appUrl + '/app1'); }
+        browser.driver.get(appUrl + (mobileApp?'/app1/polls':'/app1'));
+
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/app1/polls');
 
         // Press createNewPollButton, enter new poll title, press 'create'
-        var createNewPollButton = element(by.id('createNewPollButton'));
+        var createNewPollButton = browser.driver.findElement(by.id('createNewPollButton'));
         expect(createNewPollButton.isDisplayed()).to.eventually.equal(true);
         createNewPollButton.click();
+        //browser.driver.findElement(by.model('newPollTitle')).sendKeys('Poll 3');
         element(by.model('newPollTitle')).sendKeys('Poll 3');
-        element(by.id('newPollCreate')).click();
-
-        // Wait for new page load after last .click()
-        browser.driver.sleep(100);
-        // browser.waitForAngular();
+        browser.driver.findElement(by.id('newPollCreate')).click();
 
         var polls = element.all(by.repeater('poll in polls'));
         expect(polls.count()).to.eventually.be.above(2);
