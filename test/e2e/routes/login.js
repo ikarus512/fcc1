@@ -58,10 +58,8 @@ describe('login', function() {
         browser.driver.findElement(by.id('loginButton')).click();
         browser.waitForAngular();
 
-        if (!process.env.MOBILE_APP_TEST) {
-            browser.driver.get(appUrl + '/logout');
-            expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/');
-        }
+        browser.driver.get(appUrl + '/logout');
+        expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/');
     });
 
 });

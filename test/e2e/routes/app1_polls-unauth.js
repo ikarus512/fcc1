@@ -32,6 +32,8 @@ describe('app1_polls-unauth: app1 unauth user', function() {
     beforeEach(function() {
         // Log Out if any
         browser.driver.manage().deleteAllCookies();
+        browser.restart();
+
         browser.driver.get(appUrl + '/logout');
         browser.driver.get(appUrl + '/');
         expect(browser.driver.getCurrentUrl()).to.eventually.equal(appUrl + '/');
@@ -51,14 +53,22 @@ describe('app1_polls-unauth: app1 unauth user', function() {
     });
 
     it('should not add polls', function() {
-        browser.driver.manage().deleteAllCookies();
         browser.driver.get(appUrl + '/app1/polls');
-        browser.driver.manage().deleteAllCookies();
 
-        if (!process.env.MOBILE_APP_TEST) {
-            var createNewPollButton = browser.driver.findElement(by.id('createNewPollButton'));
-            expect(createNewPollButton.isDisplayed()).to.eventually.equal(false);
-        }
+        // browser.takeScreenshot().then((png) => {
+        //     writeScreenShot(png, 'foo.png');
+        //     function writeScreenShot(data, filename) {
+        //         var fs = require('fs');
+        //         var stream = fs.createWriteStream(filename);
+        //         stream.write(new Buffer(data, 'base64'));
+        //         stream.end();
+        //     }
+        // });
+
+        var createNewPollButton = element(by.id('createNewPollButton'));
+        expect(createNewPollButton.isDisplayed()).to.eventually.equal(false);
+        // var createNewPollButton = browser.driver.findElement(by.id('createNewPollButton'));
+        // expect(browser.isElementPresent(createNewPollButton)).to.eventually.equal(false);
 
         // initialPolls.get(0).click();
     });
